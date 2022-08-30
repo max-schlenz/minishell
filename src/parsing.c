@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 14:59:35 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/08/30 15:16:35 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/08/30 15:37:26 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ char	*chk_escvar(const char *s)
 			return ((char *)s + i);
 		i++;
 	}
-	if (s[i] == '\'' || s[i] == '$' || s[i] == '\"')
-		return ((char *)s + i);
+	/*if (s[i] == '\'' || s[i] == '$' || s[i] == '\"')
+		return ((char *)s + i);*/
 	return (0);
 }
 
