@@ -1,0 +1,22 @@
+# Tasks
+- search + parse envp
+- handle ' and "
+- handle < > << >>
+- pipes
+- handle envp
+- $?
+- ctrl-c ctrl-d ctrl-\
+- echo -n "hello" -> hello (no new line)
+- cd src
+- cd ~/Desktop
+- cd /Users/$(USER)/Desktop
+- pwd
+- export VAR=test
+- export VAR="test"
+- export "VAR"="test"
+- export var=test
+- export
+- VAR=test enter export
+- unset VAR
+- env
+- exit
