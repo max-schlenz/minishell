@@ -1,11 +1,11 @@
-# Starting Point
-- Parsing Input
-- Parsing all env -> list
-- Parsing PATH -> list
-- handle special char
-- signal handler -- eigtl fertig
-- write built ins
-- exec
-- redirections
-- pipes
+### Starting Point
+- [ ] Parsing Input
+- [ ] Parsing all env -> list
+- [ ] Parsing PATH -> list
+- [ ] handle special char
+- [x] signal handler -- eigtl fertig
+- [ ] write built ins
+- [ ] exec
+- [ ] redirections
+- [ ] pipes
 - 
