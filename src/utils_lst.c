@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 11:46:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/08/07 09:50:12 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/08/31 16:03:30 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,8 @@ void	ft_mslstadd_back(t_msenv **lst, t_msenv *new)
 
 void	ft_mslstadd_front(t_msenv **lst, t_msenv *new)
 {
-	if (lst && new)
-	{	
-		new->next = *lst;
-		*lst = new;
-	}
+	if (!new)
+		return ;
+	new->next = *lst;
+	*lst = new;
 }
