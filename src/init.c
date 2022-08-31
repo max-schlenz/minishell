@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/08/30 15:34:28 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/08/31 17:00:13 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@ t_msdata	*allocate_mem(void)
 
 	data = ft_calloc(1, sizeof(t_msdata));
 	if (!data)
-		exit (EXIT_FAILURE);
+		ft_exit(1);
 	data->args = ft_calloc(1, sizeof(char));
 	if (!data->args)
-		exit (EXIT_FAILURE);
-	else
-		return (data);
+		ft_exit(1);
+	return (data);
 }
