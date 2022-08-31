@@ -62,6 +62,8 @@ typedef enum s_status {
 	E_FORK,
 }	t_status;
 
+typedef	struct
+
 //	init.c
 void			init(t_data *data);
 t_data		*allocate_mem(void);
@@ -72,18 +74,18 @@ void			parse_path(t_data *data);
 
 //	utils.c
 void			cleanup(t_data *data, int flag);
-void			ft_exit(int flag);
+void			ft_exit(t_status flag);
 
 //	utils_lst.c
-void			ft_lstdelone(t_env *lst);
-void			ft_lstclear(t_data *data);
-t_env			*ft_lstlast(t_env *lst);
-void			ft_lstadd_back(t_env **lst, t_env *new);
-void			ft_lstadd_front(t_env **lst, t_env *new);
+void			ft_mslstdelone(t_env *lst);
+void			ft_mslstclear(t_data *data);
+t_env			*ft_mslstlast(t_env *lst);
+void			ft_mslstadd_back(t_env **lst, t_env *new);
+void			ft_mslstadd_front(t_env **lst, t_env *new);
 
 //	utils_lst2.c
-size_t			ft_lstsize(t_env *lst);
-t_env			*ft_lstnew(t_data *data, char *var, char *content);
+size_t			ft_mslstsize(t_env *lst);
+t_env			*ft_mslstnew(t_data *data, char *var, char *content);
 
 // this shouldn't even be in here but has to be for some reason
 void			rl_replace_line(const char *text, int clear_undo);

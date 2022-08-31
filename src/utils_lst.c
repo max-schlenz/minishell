@@ -6,20 +6,20 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 11:46:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/08/31 17:36:31 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/08/31 18:04:21 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	ft_lstdelone(t_env *lst)
+void	ft_mslstdelone(t_env *lst)
 {
 	if (!lst)
 		return ;
 	free (lst);
 }
 
-void	ft_lstclear(t_data *data)
+void	ft_mslstclear(t_data *data)
 {
 	t_env	*buf_list;
 
@@ -28,12 +28,12 @@ void	ft_lstclear(t_data *data)
 	while (data->env)
 	{
 		buf_list = data->env->next;
-		ft_lstdelone(data->env);
+		ft_mslstdelone(data->env);
 		data->env = buf_list;
 	}
 }
 
-t_env	*ft_lstlast(t_env *lst)
+t_env	*ft_mslstlast(t_env *lst)
 {
 	if (!lst)
 		return (0);
@@ -42,7 +42,7 @@ t_env	*ft_lstlast(t_env *lst)
 	return (lst);
 }
 
-void	ft_lstadd_back(t_env **lst, t_env *new)
+void	ft_mslstadd_back(t_env **lst, t_env *new)
 {
 	t_env	*list;
 
@@ -61,7 +61,7 @@ void	ft_lstadd_back(t_env **lst, t_env *new)
 	(*lst)->last = new;
 }
 
-void	ft_lstadd_front(t_env **lst, t_env *new)
+void	ft_mslstadd_front(t_env **lst, t_env *new)
 {
 	if (!new)
 		return ;

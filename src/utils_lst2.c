@@ -6,13 +6,13 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 18:06:11 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/08/31 17:36:31 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/08/31 18:04:12 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-size_t	ft_lstsize(t_env *lst)
+size_t	ft_mslstsize(t_env *lst)
 {
 	int	i;
 
@@ -27,7 +27,7 @@ size_t	ft_lstsize(t_env *lst)
 	return (i + 1);
 }
 
-t_env	*ft_lstnew(t_data *data, char *var, char *content)
+t_env	*ft_mslstnew(t_data *data, char *var, char *content)
 {
 	t_env	*list;
 
