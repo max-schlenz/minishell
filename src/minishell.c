@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/08/31 17:14:33 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/08/31 17:36:31 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	clear_buffers(t_msdata *data)
+static void	clear_buffers(t_data *data)
 {
 	data->path = NULL;
 	data->cmd = NULL;
@@ -31,7 +31,7 @@ static void	signal_handler(int signal)
 	}
 }
 
-static void	prompt(t_msdata *data, char **envp)
+static void	prompt(t_data *data, char **envp)
 {
 	while (1)
 	{
@@ -46,7 +46,7 @@ static void	prompt(t_msdata *data, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_msdata	*data;
+	t_data	*data;
 	int i = 0;
 
 	data = allocate_mem();

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_envp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/08/31 17:17:06 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/08/31 17:36:31 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	parse_path(t_msdata *data)
+void	parse_path(t_data *data)
 {
 	int		i;
 	char	**paths;
@@ -25,14 +25,14 @@ void	parse_path(t_msdata *data)
 		printf("%s\n", *paths++);
 }
 
-void	parse_envp(t_msdata *data, char **envp)
+void	parse_envp(t_data *data, char **envp)
 {
 	char	**elem_envv;
 
 	while (envp[data->counter_envv])
 	{
 		elem_envv = ft_split(envp[data->counter_envv++], '=');
-		ft_mslstadd_back(&data->env, ft_mslstnew(data, elem_envv[0], elem_envv[1]));
+		ft_lstadd_back(&data->env, ft_lstnew(data, elem_envv[0], elem_envv[1]));
 		free(elem_envv);
 	}
 	data->env->last->next = data->env;

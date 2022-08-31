@@ -6,34 +6,34 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 11:46:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/08/31 16:03:30 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/08/31 17:36:31 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	ft_mslstdelone(t_msenv *lst)
+void	ft_lstdelone(t_env *lst)
 {
 	if (!lst)
 		return ;
 	free (lst);
 }
 
-void	ft_mslstclear(t_msdata *data)
+void	ft_lstclear(t_data *data)
 {
-	t_msenv	*buf_list;
+	t_env	*buf_list;
 
 	if (!data)
 		return ;
 	while (data->env)
 	{
 		buf_list = data->env->next;
-		ft_mslstdelone(data->env);
+		ft_lstdelone(data->env);
 		data->env = buf_list;
 	}
 }
 
-t_msenv	*ft_mslstlast(t_msenv *lst)
+t_env	*ft_lstlast(t_env *lst)
 {
 	if (!lst)
 		return (0);
@@ -42,9 +42,9 @@ t_msenv	*ft_mslstlast(t_msenv *lst)
 	return (lst);
 }
 
-void	ft_mslstadd_back(t_msenv **lst, t_msenv *new)
+void	ft_lstadd_back(t_env **lst, t_env *new)
 {
-	t_msenv	*list;
+	t_env	*list;
 
 	list = NULL;
 	if (!lst || !new)
@@ -61,7 +61,7 @@ void	ft_mslstadd_back(t_msenv **lst, t_msenv *new)
 	(*lst)->last = new;
 }
 
-void	ft_mslstadd_front(t_msenv **lst, t_msenv *new)
+void	ft_lstadd_front(t_env **lst, t_env *new)
 {
 	if (!new)
 		return ;

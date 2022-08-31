@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/08/31 17:08:28 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/08/31 17:36:31 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_msdata	*allocate_mem(void)
+t_data	*allocate_mem(void)
 {
-	t_msdata	*data;
+	t_data	*data;
 
-	data = ft_calloc(1, sizeof(t_msdata));
+	data = ft_calloc(1, sizeof(t_data));
 	if (!data)
 		ft_exit(1);
 	data->args = ft_calloc(1, sizeof(char));

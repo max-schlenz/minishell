@@ -30,8 +30,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# define E_MEM_MSG	"Failed to allocate memory."
-# define E_FORK_MSG	"Failed to create Forks."
+# define E_MEM	"Failed to allocate memory."
+# define E_FORK	"Failed to create Forks."
 
 typedef struct s_env
 {
@@ -39,6 +39,7 @@ typedef struct s_env
 	char			*content;
 	struct s_env	*next;
 	struct s_env	*last;
+	
 }					t_env;
 
 typedef struct s_data
@@ -48,7 +49,7 @@ typedef struct s_data
 	char	*cmd;
 	char	**args;
 	t_env	*env;
-	int		counter_envv;
+	int		c_env_vars;
 	char	*argv1;
 	// int	file1;
 	// int	file2;
@@ -56,23 +57,12 @@ typedef struct s_data
 	// char	*path2;
 }					t_data;
 
-typedef enum s_status {
-	SUCCESS,
-	E_MEM,
-	E_FORK,
-}	t_status;
-
 //	init.c
 void			init(t_data *data);
 t_data		*allocate_mem(void);
 
-//	parse_envp.c
-void			parse_envp(t_data *data, char **envp);
-void			parse_path(t_data *data);
-
 //	utils.c
 void			cleanup(t_data *data, int flag);
-void			ft_exit(int flag);
 
 //	utils_lst.c
 void			ft_lstdelone(t_env *lst);

@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/08/30 15:20:00 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/08/31 17:37:14 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	ft_exit(int flag)
+void	ft_exit(t_status flag)
 {
 	// system("leaks minishell");
-	if (flag == 0)
+	if (flag == SUCCESS)
 		exit(EXIT_SUCCESS);
-	else if (flag == 1)
-		printf("%s", E_MEM);
-	else if (flag == 2)
-		printf("%s", E_FORK);
+	else if (flag == E_MEM)
+		printf("%s", E_MEM_MSG);
+	else if (flag == E_FORK)
+		printf("%s", E_FORK_MSG);
 	exit (EXIT_FAILURE);
 }
 
-void	cleanup(t_msdata *data, int flag)
+void	cleanup(t_data *data, int flag)
 {
 	// if (data->env)
-	// 	ft_mslstclear(data);
+	// 	ft_lstclear(data);
 	if (data->args)
 		free(data->args);
 	if (data->path)

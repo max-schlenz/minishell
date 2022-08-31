@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils_lst2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 18:06:11 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/08/07 10:14:47 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/08/31 17:36:31 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-size_t	ft_mslstsize(t_msenv *lst)
+size_t	ft_lstsize(t_env *lst)
 {
 	int	i;
 
@@ -27,11 +27,11 @@ size_t	ft_mslstsize(t_msenv *lst)
 	return (i + 1);
 }
 
-t_msenv	*ft_mslstnew(t_msdata *data, char *var, char *content)
+t_env	*ft_lstnew(t_data *data, char *var, char *content)
 {
-	t_msenv	*list;
+	t_env	*list;
 
-	list = malloc(sizeof(t_msenv));
+	list = malloc(sizeof(t_env));
 	if (!list)
 		return (NULL);
 	list->var = var;
