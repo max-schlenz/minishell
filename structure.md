@@ -3,8 +3,11 @@
 - [ ] Parsing all env -> list
 - [ ] Parsing PATH -> list
 - [ ] handle special char
-- [x] signal handler -- eigtl fertig
+- [ ] signal handlers
+   >  [x] prompt
+   >  [ ] child processes
 - [ ] write built ins
+   >  [x] echo & echo -n
 - [ ] exec
 - [ ] redirections
 - [ ] pipes
