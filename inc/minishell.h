@@ -44,7 +44,7 @@ typedef struct s_env
 typedef struct s_data
 {
 	char	**envp;
-	char	*path;
+	char	**path;
 	char	*cmd;
 	char	**args;
 	t_env	*env;
@@ -62,11 +62,9 @@ typedef enum s_status {
 	E_FORK,
 }	t_status;
 
-typedef	struct
-
 //	init.c
 void			init(t_data *data);
-t_data		*allocate_mem(void);
+t_data			*allocate_mem(void);
 
 //	parse_envp.c
 void			parse_envp(t_data *data, char **envp);

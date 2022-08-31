@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_envp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/08/31 18:04:38 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/08/31 18:47:06 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,16 @@
 void	parse_path(t_data *data)
 {
 	int		i;
-	char	**paths;
 
 	i = 0;
+	if (data->path)
+	{
+		while (*data->path)
+			free (*data->path++);
+	}
 	while (ft_strncmp(data->env->var, "PATH", 5) && ++i <= data->counter_envv)
 		data->env = data->env->next;
-	paths = ft_split(data->env->content, ':');
-	while (*paths)
-		printf("%s\n", *paths++);
+	data->path = ft_split(data->env->content, ':');
 }
 
 void	parse_envp(t_data *data, char **envp)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/08/31 18:13:34 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/08/31 18:46:36 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	main(int argc, char **argv, char **envp)
 	//signal(SIGINT, signal_handler);
 	parse_envp(data, envp);
 	parse_path(data);
+		parse_path(data);
+
 	// signal(SIGQUIT, SIG_IGN);
 	prompt(data);
 }
