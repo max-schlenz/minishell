@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/08/31 16:59:39 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/08/31 17:14:33 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,12 @@ static void	prompt(t_msdata *data, char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	t_msdata	*data;
+	int i = 0;
 
 	data = allocate_mem();
 	signal(SIGINT, signal_handler);
+	parse_envp(data, envp);
+	parse_path(data);
 	// signal(SIGQUIT, SIG_IGN);
 	prompt(data, envp);
 }

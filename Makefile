@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/08/30 17:07:35 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/08/31 17:10:43 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,10 @@ INC_DIR			=	inc
 
 SRC				= 	${NAME}		\
 					init		\
-					utils		
+					utils		\
+					parse_envp	\
+					utils_lst	\
+					utils_lst2
 
 INC				=	libft		\
 					${NAME}
