@@ -4,7 +4,8 @@
 - [ ] Parsing PATH -> list
 - [ ] handle special char
 - [ ] signal handlers
-   >  [x] prompt
+   >  [x] prompt 
+
    >  [ ] child processes
 - [ ] write built ins
    >  [x] echo & echo -n
