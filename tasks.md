@@ -7,6 +7,8 @@
 - $?
 - ctrl-c ctrl-d ctrl-\
 - echo -n "hello" -> hello (no new line)
+- echo -nnn "hello"
+- echo -n -n "hello"
 - cd src
 - cd ~/Desktop
 - cd /Users/$(USER)/Desktop
@@ -19,4 +21,7 @@
 - VAR=test enter export
 - unset VAR
 - env
-- exit
+- exit 5
+- exit 347627846327643
+- VAR="*..
+- export "'#
