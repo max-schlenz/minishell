@@ -81,6 +81,8 @@ void			ft_mslstclear(t_data *data);
 t_env			*ft_mslstlast(t_env *lst);
 void			ft_mslstadd_back(t_env **lst, t_env *new);
 void			ft_mslstadd_front(t_env **lst, t_env *new);
+t_btree			*ft_mslstnew2(char *content);
+void			ft_mslstadd_back2(t_btree **lst, t_btree *new);
 
 //	utils_lst2.c
 size_t			ft_mslstsize(t_env *lst);
@@ -88,5 +90,6 @@ t_env			*ft_mslstnew(t_data *data, char *var, char *content);
 
 // this shouldn't even be in here but has to be for some reason
 void			rl_replace_line(const char *text, int clear_undo);
+
 
 #endif
