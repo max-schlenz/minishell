@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/01 17:34:41 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/01 17:42:13 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	set_btree_value(char *s, char *set, t_btree **btree)
 		//printf("1 in here len %d\n", len);
 		if (ft_strncmp(s + len, set, 2) == 0)
 		{
-			if (!*btree)
-				(*btree) = ft_mslstnew2(set);
+			//if (!*btree)
+			(*btree) = ft_mslstnew2(set);
 			node_right = ft_mslstnew2(ft_substr(s, len + 2, ft_strlen(s) - len - 2));
 			printf("%c %c %zu\n", *(s + len), *(s + len + 3), ft_strlen(s) - len - 2);
 			ft_mslstadd_right(btree, node_right);
@@ -73,12 +73,12 @@ void	prioritization(t_data *data)
 
 	set_btree_value("1 || 2 || 3 || 4 || 5 || 6 || 7", "||", btree);
 	printf("VAL:    %s\nLEFT:   %s\nRIGHT: %s\n", (*btree)->value, (*btree)->left->value, (*btree)->right->value);
-	//(*btree) = (*btree)->left;
-	while ((*btree)->left && ft_strstr2((*btree)->left->value, "||"))
+	(*btree) = (*btree)->left;
+	while ((*btree) && ft_strstr2((*btree)->value, "||"))
 	{
 		//printf("VAL:    %s\nLEFT:   %s\nRIGHT: %s\n", (*btree)->value, (*btree)->left->value, (*btree)->right->value);
 		
-		set_btree_value((*btree)->left->value, "||", btree);
+		set_btree_value((*btree)->value, "||", btree);
 		printf("VAL:    %s\nLEFT:   %s\nRIGHT: %s\n", (*btree)->value, (*btree)->left->value, (*btree)->right->value);
 		(*btree) = (*btree)->left;
 		
