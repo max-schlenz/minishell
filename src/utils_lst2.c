@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 18:06:11 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/01 13:10:21 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/01 13:32:19 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ t_btree	*ft_mslstnew(char *content)
 	list->value = content;
 	list->left = NULL;
 	list->right = NULL;
+	list->next = NULL;
 	return (list);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 11:46:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/01 13:24:44 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/01 13:34:05 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_btree	*ft_lstlast2(t_btree *lst)
 	return (lst);
 }
 
-void	ft_mslstadd_back2(t_btree **lst, t_btree *new)
+void	ft_mslstadd_right(t_btree **lst, t_btree *new)
 {
 	t_btree	*list;
 
@@ -92,4 +92,20 @@ void	ft_mslstadd_back2(t_btree **lst, t_btree *new)
 	list = ft_lstlast2(*lst);
 	if (list)
 		list->right = new;
+}
+
+void	ft_mslstadd_left(t_btree **lst, t_btree *new)
+{
+	t_btree	*list;
+
+	if (!lst || !new)
+		return ;
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	list = ft_lstlast2(*lst);
+	if (list)
+		list->left = new;
 }
