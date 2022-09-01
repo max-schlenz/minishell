@@ -54,6 +54,7 @@ typedef struct s_btree
 	char			*value;
 	struct s_btree	*left;
 	struct s_btree	*right;
+	struct s_btree	*next;
 }	t_btree;
 
 typedef enum s_status 
@@ -91,5 +92,8 @@ t_env			*ft_mslstnew(t_data *data, char *var, char *content);
 // this shouldn't even be in here but has to be for some reason
 void			rl_replace_line(const char *text, int clear_undo);
 
-
+void	ft_mslstadd_left(t_btree **lst, t_btree *new);
+void	ft_mslstadd_right(t_btree **lst, t_btree *new);
+t_btree	*ft_mslstnew2(char *content);
+void	prioritization(t_data *data);
 #endif

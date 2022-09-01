@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 11:46:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/01 13:34:05 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/01 13:50:37 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ t_btree	*ft_lstlast2(t_btree *lst)
 {
 	if (!lst)
 		return (0);
-	while (lst->right)
-		lst = lst->right;
+	while (lst->next)
+		lst = lst->next;
 	return (lst);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_lst2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 18:06:11 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/01 13:32:19 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/01 13:40:02 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_env	*ft_mslstnew(t_data *data, char *var, char *content)
 	return (list);
 }
 
-t_btree	*ft_mslstnew(char *content)
+t_btree	*ft_mslstnew2(char *content)
 {
 	t_btree	*list;
 
