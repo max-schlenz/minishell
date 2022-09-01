@@ -39,24 +39,25 @@ typedef struct s_env
 	char			*content;
 	struct s_env	*next;
 	struct s_env	*last;
-}					t_env;
+}	t_env;
 
 typedef struct s_data
 {
-	char	**envp;
 	char	**path;
 	char	*cmd;
-	char	**args;
 	t_env	*env;
 	int		counter_envv;
-	char	*argv1;
-	// int	file1;
-	// int	file2;
-	// char	**args2;
-	// char	*path2;
-}					t_data;
+}	t_data;
 
-typedef enum s_status {
+typedef struct s_btree
+{
+	char			*value;
+	struct s_btree	*left;
+	struct s_btree	*right;
+}	t_btree;
+
+typedef enum s_status 
+{
 	SUCCESS,
 	E_MEM,
 	E_FORK,
