@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/01 14:24:00 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/01 15:07:21 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char	*ft_strstr(const char *s, char *set)
+bool	ft_strstr2(const char *s, char *set)
 {
 	int	i;
 	char	*left;
@@ -20,12 +20,34 @@ char	*ft_strstr(const char *s, char *set)
 	t_btree *node1;
 	t_btree *node2;
 	t_btree *btree = NULL;// ft_calloc(1, sizeof(t_btree));
+	int		index;
 
 
 	i = 0;
 	while (s[i] != '\0')
 	{
-		if (s[i] == set[0] && s[i + 1] && s[i + 1] == set[1])
+		if (ft_strncmp(s + i, set, 2) == 0)
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
+char	*ft_strstr(char *s, char *set)
+{
+	int	i;
+	char	*left;
+	char	*right;
+	t_btree *node1;
+	t_btree *node2;
+	t_btree *btree = NULL;
+	int		index;
+
+
+	i = 0;
+	while (s[i] != '\0')
+	{
+		if (ft_strncmp(s + i, set, 2) == 0)
 		{
 			if (!btree)
 				btree = ft_mslstnew2(set);
@@ -37,12 +59,16 @@ char	*ft_strstr(const char *s, char *set)
 	}
 	node2 = ft_mslstnew2(ft_substr(s, 0, i));
 	ft_mslstadd_left(&btree, node2);
+	printf("STR:    %s\nVAL:    %s\nLEFT:   %s\nRIGHT: %s\n",s , set, btree->left->value, node1->value);
 	return (0);
 }
 
 void	prioritization(t_data *data)
 {
-		ft_strstr("ls | grep || bla", "||");
+	// char 	*blub = ft_strdup("ls && grep && top && bla");
+	ft_strstr("ls | grep || bla", "||");
+	// while (ft_strstr2(btree->right->value, "&&"))
+	// 	ft_strstr(btree->right->value, "&&", btree);
 }
 
 void	ft_exit(t_status flag)

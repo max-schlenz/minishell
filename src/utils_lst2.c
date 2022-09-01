@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_lst2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 18:06:11 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/01 13:40:02 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/01 14:45:36 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_btree	*ft_mslstnew2(char *content)
 {
 	t_btree	*list;
 
-	list = malloc(sizeof(t_btree));
+	list = ft_calloc(1, sizeof(t_btree));
 	if (!list)
 		return (NULL);
 	list->value = content;
