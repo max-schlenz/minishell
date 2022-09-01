@@ -95,5 +95,6 @@ void			rl_replace_line(const char *text, int clear_undo);
 void	ft_mslstadd_left(t_btree **lst, t_btree *new);
 void	ft_mslstadd_right(t_btree **lst, t_btree *new);
 t_btree	*ft_mslstnew2(char *content);
-void	prioritization(t_data *data);
+void	prioritization(t_data *data, t_btree **btree);
+void	lol(t_data *data);
 #endif
