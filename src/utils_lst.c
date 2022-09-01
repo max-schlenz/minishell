@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 11:46:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/01 13:50:37 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/01 17:05:30 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,24 @@ t_btree	*ft_lstlast2(t_btree *lst)
 	return (lst);
 }
 
+t_btree	*ft_lstlast_left(t_btree *lst)
+{
+	if (!lst)
+		return (0);
+	while (lst->left)
+		lst = lst->left;
+	return (lst);
+}
+
+t_btree	*ft_lstlast_right(t_btree *lst)
+{
+	if (!lst)
+		return (0);
+	while (lst->right)
+		lst = lst->right;
+	return (lst);
+}
+
 void	ft_mslstadd_right(t_btree **lst, t_btree *new)
 {
 	t_btree	*list;
@@ -89,7 +107,7 @@ void	ft_mslstadd_right(t_btree **lst, t_btree *new)
 		*lst = new;
 		return ;
 	}
-	list = ft_lstlast2(*lst);
+	list = ft_lstlast_right(*lst);
 	if (list)
 		list->right = new;
 }
@@ -105,7 +123,7 @@ void	ft_mslstadd_left(t_btree **lst, t_btree *new)
 		*lst = new;
 		return ;
 	}
-	list = ft_lstlast2(*lst);
+	list = ft_lstlast_left(*lst);
 	if (list)
 		list->left = new;
 }

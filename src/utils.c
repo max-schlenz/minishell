@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/01 16:41:59 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/01 17:34:41 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,35 +48,41 @@ void	set_btree_value(char *s, char *set, t_btree **btree)
 	len = ft_strlen(s);
 	while (len--)
 	{
+		//printf("1 in here len %d\n", len);
 		if (ft_strncmp(s + len, set, 2) == 0)
 		{
 			if (!*btree)
 				(*btree) = ft_mslstnew2(set);
-			node_right = ft_mslstnew2(ft_substr(s, len + 2, ft_strlen(s - len)));
+			node_right = ft_mslstnew2(ft_substr(s, len + 2, ft_strlen(s) - len - 2));
+			printf("%c %c %zu\n", *(s + len), *(s + len + 3), ft_strlen(s) - len - 2);
 			ft_mslstadd_right(btree, node_right);
 			break;
 		}
 	}
+	//printf("in here len %d\n", len);
 	node_left = ft_mslstnew2(ft_substr(s, 0, len));
 	ft_mslstadd_left(btree, node_left);
-	//printf("STR:    %s\nVAL:    %s\nLEFT:   %s\nRIGHT: %s\n",s , set, (*btree)->left->value, (*btree)->right->value);
+	//printf("wtf %d\n", len);
+	//printf("VAL:    %s\nLEFT:   %s\nRIGHT: %s\n",(*btree)->value, (*btree)->left->value, (*btree)->right->value);
 }
 
 void	prioritization(t_data *data)
 {
 	// char 	*blub = ft_strdup("ls && grep && top && bla");
-	t_btree	*btree = NULL;
+	t_btree	**btree = ft_calloc(1, sizeof(t_btree));
 
-	set_btree_value("ls | grep || bla || lol || more", "||", &btree);
-	printf("VAL:    %s\nLEFT:   %s\nRIGHT: %s\n", btree->value, btree->left->value, btree->right->value);
-	while (btree->left && ft_strstr2(btree->left->value, "||"))
+	set_btree_value("1 || 2 || 3 || 4 || 5 || 6 || 7", "||", btree);
+	printf("VAL:    %s\nLEFT:   %s\nRIGHT: %s\n", (*btree)->value, (*btree)->left->value, (*btree)->right->value);
+	//(*btree) = (*btree)->left;
+	while ((*btree)->left && ft_strstr2((*btree)->left->value, "||"))
 	{
-		set_btree_value(btree->left->value, "||", &btree);
-		printf("VAL:    %s\nLEFT:   %s\nRIGHT: %s\n", btree->value, btree->left->value, btree->right->value);
-		btree = btree->left;
+		//printf("VAL:    %s\nLEFT:   %s\nRIGHT: %s\n", (*btree)->value, (*btree)->left->value, (*btree)->right->value);
+		
+		set_btree_value((*btree)->left->value, "||", btree);
+		printf("VAL:    %s\nLEFT:   %s\nRIGHT: %s\n", (*btree)->value, (*btree)->left->value, (*btree)->right->value);
+		(*btree) = (*btree)->left;
+		
 	}
-	// while (ft_strstr2(btree->right->value, "&&"))
-	// 	ft_strstr(btree->right->value, "&&", btree);
 }
 
 void	ft_exit(t_status flag)
