@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/01 18:52:16 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/01 18:54:57 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,9 @@ void	lol(t_data *data)
 	t_btree	**btree = ft_calloc(1, sizeof(t_btree));
 	prioritization(data, btree);
 	printf("------------------\n");
-	while (*btree)
+	while (*btree && (*btree)->right)
 	{
-		printf("VAL:    %s\n", (*btree)->value);
+		printf("VAL:    %s RIGHT: %s\n", (*btree)->value, (*btree)->right->value);
 		(*btree) = (*btree)->left;
 	}
 }
