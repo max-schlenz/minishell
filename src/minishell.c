@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/01 18:23:37 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/02 19:16:01 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,28 @@ t_data	*data;
 
 static void	clear_buffers(t_data *data)
 {
-	data->path = NULL;
 	data->cmd = NULL;
 }
 
-static void	prompt(t_data *data)
+static void	prompt(t_data *data, char **envp)
 {
 	while (1)
 	{
+		parse_path(data);
 		data->cmd = readline("minishell >$ ");
 		if (!data->cmd)									// << handles CTRL+D (EoT character)
 			data->cmd = ft_strdup("exit");
 		if (data->cmd && data->cmd[0] != '\0')
+		{
 			add_history(data->cmd);
+			parse_args(data);
+			if (!builtins(data))
+				exec_program(data, envp);
+		}
 		clear_buffers(data);
 	}
 }
 
-// https://stackoverflow.com/questions/71685072/return-readline-to-its-original-state-when-recieving-sigint
 static void	signal_handler(int sig, siginfo_t *info, void *context)
 {
 	if (sig == SIGINT)
@@ -45,8 +49,6 @@ static void	signal_handler(int sig, siginfo_t *info, void *context)
 	}
 }
 
-
-
 int	main(int argc, char **argv, char **envp)
 {
 	int i = 0;
@@ -56,15 +58,7 @@ int	main(int argc, char **argv, char **envp)
 	sa.sa_sigaction = signal_handler;
 	sa.sa_flags = SA_SIGINFO;
 	sigaction(SIGINT, &sa, NULL);
-	//sigaction(SIGUSR2, &sa, NULL);
-
 	data = allocate_mem();
-	lol(data);
-	//signal(SIGINT, signal_handler);
 	parse_envp(data, envp);
-	parse_path(data);
-		parse_path(data);
-
-	// signal(SIGQUIT, SIG_IGN);
-	prompt(data);
+	prompt(data, envp);
 }

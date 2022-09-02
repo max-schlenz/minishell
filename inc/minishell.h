@@ -27,6 +27,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <signal.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -44,6 +45,7 @@ typedef struct s_env
 typedef struct s_data
 {
 	char	**path;
+	char	**args;
 	char	*cmd;
 	t_env	*env;
 	int		counter_envv;
@@ -97,4 +99,10 @@ void	ft_mslstadd_right(t_btree **lst, t_btree *new);
 t_btree	*ft_mslstnew2(char *content);
 void	prioritization(t_data *data, t_btree **btree);
 void	lol(t_data *data);
+void	exec_program(t_data *data, char **envp);
+char	*chk_escvar(const char *s);
+size_t	strlen_path(const char *c);
+bool	builtins(t_data *data);
+void	parse_args(t_data *data);
+
 #endif

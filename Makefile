@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/08/31 17:10:43 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/09/02 15:37:00 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,8 @@ SRC				= 	${NAME}		\
 					utils		\
 					parse_envp	\
 					utils_lst	\
-					utils_lst2
+					utils_lst2	\
+					exec
 
 INC				=	libft		\
 					${NAME}

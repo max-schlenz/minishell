@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 11:46:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/01 17:05:30 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/02 19:15:19 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,18 @@ void	ft_mslstdelone(t_env *lst)
 void	ft_mslstclear(t_data *data)
 {
 	t_env	*buf_list;
+	int		i = 0;
 
 	if (!data)
 		return ;
-	while (data->env)
+	while (i++ < data->counter_envv)
 	{
 		buf_list = data->env->next;
 		ft_mslstdelone(data->env);
 		data->env = buf_list;
 	}
+	data->counter_envv = 0;
+	data->env = NULL;
 }
 
 t_env	*ft_mslstlast(t_env *lst)
