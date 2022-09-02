@@ -97,12 +97,17 @@ void			rl_replace_line(const char *text, int clear_undo);
 void	ft_mslstadd_left(t_btree **lst, t_btree *new);
 void	ft_mslstadd_right(t_btree **lst, t_btree *new);
 t_btree	*ft_mslstnew2(char *content);
-void	prioritization(t_data *data, t_btree **btree);
-void	lol(t_data *data);
 void	exec_program(t_data *data, char **envp);
 char	*chk_escvar(const char *s);
 size_t	strlen_path(const char *c);
 bool	builtins(t_data *data);
 void	parse_args(t_data *data);
+
+//parsing
+void	prioritization(char *data, char *delim, t_btree **btree);
+void	lol(t_data *data);
+
+//visualize btree
+void	visualize(t_btree *head);
 
 #endif
