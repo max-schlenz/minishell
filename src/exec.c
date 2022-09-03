@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 15:36:53 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/02 19:15:52 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/03 13:14:32 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	parse_args(t_data *data)
 			}
 		}
 		data->args[i] = ft_strtrim(data->args[i], "\"");
+		data->args[i] = ft_strtrim(data->args[i], "\'");
 		data->args[i] = ft_strjoin(data->args[i], " ");
 		i++;
 	}
