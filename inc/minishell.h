@@ -51,6 +51,14 @@ typedef struct s_btree
 	struct s_btree	*next;
 }	t_btree;
 
+typedef struct s_pipes
+{
+	int		pipefd[2];
+	char	*rdbuf;
+	char	*out1;
+	pid_t	pid[2];
+}					t_pipes;
+
 typedef struct s_data
 {
 	char	**path;
@@ -60,8 +68,11 @@ typedef struct s_data
 	t_env	*env;
 	t_btree **btree;
 	int		counter_btree;
-	bool	*flag_pipe;
+	bool	flag_pipe;
+	t_pipes	pipes;
+	int		r_pipe;
 }	t_data;
+
 
 typedef enum s_status
 {

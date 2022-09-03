@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 15:36:53 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/03 15:42:31 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/03 17:16:27 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	parse_args(t_data *data)
 		}
 		data->args[i] = ft_strtrim(data->args[i], "\"");
 		data->args[i] = ft_strtrim(data->args[i], "\'");
-		// data->args[i] = ft_strjoin(data->args[i], " ");
+		data->args[i] = ft_strjoin(data->args[i], " ");
 		i++;
 	}
 }
@@ -200,7 +200,10 @@ void	exec_program(t_data *data, char **envp)
 	{
 		pid = fork();
 		if (pid == 0)
+		{
+			// dup2(data->pipes.pipefd[1], 1);
 			execve(abs_path, data->args, envp);
+		}
 		waitpid(pid, NULL, 0);
 		exit_code = WEXITSTATUS(pid);
 	}

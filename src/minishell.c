@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/03 17:02:07 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/03 17:16:36 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ static void	clear_buffers(t_data *data)
 
 static void	prompt(t_data *data, char **envp)
 {
+	int		r_pipe;
+
+	// data->pipes.rdbuf = ft_calloc(4096, sizeof(char));
+	// data->r_pipe = pipe(data->pipes.pipefd);
 	while (1)
 	{
 		parse_path(data);
@@ -65,6 +69,8 @@ static void	prompt(t_data *data, char **envp)
 				{
 					data->cmd = (*data->btree)->left->value;
 					parse_args(data);
+					if (!ft_strncmp((*data->btree)->value, "|", 2))
+						data->flag_pipe = true;
 					if (!builtins(data))
 						exec_program(data, envp);
 				}
@@ -105,6 +111,8 @@ int	main(int argc, char **argv, char **envp)
 	sa.sa_flags = SA_SIGINFO;
 	sigaction(SIGINT, &sa, NULL);
 	data = allocate_mem();
+	// close(data->pipes.pipefd[0]);
+	// close(data->pipes.pipefd[1]);
 	parse_envp(data, envp);
 	prompt(data, envp);
 }
