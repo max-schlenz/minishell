@@ -3,29 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/03 17:16:36 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/03 18:58:49 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	clear_btree(t_data *data)
-{
-	t_btree	*buf_list;
 
-	if (!data->btree)
-		return ;
-	while (*data->btree)
-	{
-		buf_list = (*data->btree)->left;
-		free (*data->btree);
-		(*data->btree) = buf_list;
-	}
-	data->counter_btree = 0;
-}
 
 static void	clear_buffers(t_data *data)
 {
@@ -45,6 +32,8 @@ static void	clear_buffers(t_data *data)
 // 		i++;
 // 	}
 // }
+
+
 
 static void	prompt(t_data *data, char **envp)
 {

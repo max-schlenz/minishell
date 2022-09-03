@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   p_utils.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/03 14:41:09 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/03 16:51:55 by mschlenz         ###   ########.fr       */
+/*   Created: 2022/09/03 18:12:51 by tdehne            #+#    #+#             */
+/*   Updated: 2022/09/03 18:14:31 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char	*chk_escvar(const char *s)
+char	*check_esc_var_quo(const char *s)
 {
 	int	i;
 
@@ -37,8 +37,6 @@ size_t	strlen_path(const char *c)
 		i++;
 	return (i);
 }
-
-
 
 void	set_btree_value(char *s, char *set, t_btree **head)
 {
@@ -110,39 +108,4 @@ char	*get_next_special_char(char *str)
 		i++;
 	}
 	return (tmp);
-}
-
-void	prioritization(t_data *data)
-{
-	t_btree	*tmp;
-	char	*next_delim;
-
-	next_delim = get_next_special_char(data->cmd);
-	if (!(*data->btree))
-	{
-		set_btree_value(data->cmd, next_delim, data->btree);
-		tmp = (*data->btree);
-		tmp = tmp->left;	
-	}
-	while (tmp && next_delim)
-	{
-		next_delim = get_next_special_char(tmp->value);
-		set_btree_value(tmp->value, next_delim, &tmp);
-		tmp = tmp->left;
-	}
-}
-
-void	lol(t_data *data)
-{
-	t_btree *tmp;
-	
-	prioritization(data);
-	tmp = (*data->btree);
-	while (tmp)
-	{
-		data->counter_btree++;
-		tmp = tmp->left;
-	}
-	data->counter_btree--;
-	// visualize(*data->btree);
 }

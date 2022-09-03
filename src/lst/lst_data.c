@@ -1,31 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_lst2.c                                       :+:      :+:    :+:   */
+/*   lst_data.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/28 18:06:11 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/01 17:17:36 by tdehne           ###   ########.fr       */
+/*   Created: 2022/09/03 18:56:25 by tdehne            #+#    #+#             */
+/*   Updated: 2022/09/03 18:57:19 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
-
-size_t	ft_mslstsize(t_env *lst)
-{
-	int	i;
-
-	i = 0;
-	if (!lst)
-		return (0);
-	while (lst->next)
-	{
-		i++;
-		lst = lst->next;
-	}
-	return (i + 1);
-}
+#include "minishell.h"
 
 t_env	*ft_mslstnew(t_data *data, char *var, char *content)
 {
@@ -41,15 +26,19 @@ t_env	*ft_mslstnew(t_data *data, char *var, char *content)
 	return (list);
 }
 
-t_btree	*ft_mslstnew2(char *content)
+void	ft_mslstclear(t_data *data)
 {
-	t_btree	*list;
+	t_env	*buf_list;
+	int		i = 0;
 
-	list = ft_calloc(1, sizeof(t_btree));
-	if (!list)
-		return (NULL);
-	list->value = content;
-	list->left = NULL;
-	list->right = NULL;
-	return (list);
+	if (!data)
+		return ;
+	while (i++ < data->counter_envv)
+	{
+		buf_list = data->env->next;
+		ft_mslstdelone(data->env);
+		data->env = buf_list;
+	}
+	data->counter_envv = 0;
+	data->env = NULL;
 }

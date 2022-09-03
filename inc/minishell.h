@@ -101,6 +101,7 @@ void			ft_mslstadd_back(t_env **lst, t_env *new);
 void			ft_mslstadd_front(t_env **lst, t_env *new);
 t_btree			*ft_mslstnew2(char *content);
 void			ft_mslstadd_back2(t_btree **lst, t_btree *new);
+void	ft_lst_rm_node(t_env **head, t_env *to_be_removed);
 
 //	utils_lst2.c
 size_t			ft_mslstsize(t_env *lst);
@@ -113,14 +114,28 @@ void	ft_mslstadd_left(t_btree **lst, t_btree *new);
 void	ft_mslstadd_right(t_btree **lst, t_btree *new);
 t_btree	*ft_mslstnew2(char *content);
 void	exec_program(t_data *data, char **envp);
-char	*chk_escvar(const char *s);
+
 size_t	strlen_path(const char *c);
 bool	builtins(t_data *data);
-void	parse_args(t_data *data);
 
 //parsing
 void	prioritization(t_data *data);
 void	lol(t_data *data);
+char	*check_esc_var_quo(const char *s);
+void	parse_args(t_data *data, char *cmd);
+
+//builtins
+bool	builtin_cd(t_data *data);
+bool	builtin_echo(t_data *data);
+bool	builtin_export(t_data *data);
+
+//lst btree
+void	lst_clear_btree(t_data *data);
+void	ft_lstrm_node(t_btree **head, t_btree *to_be_removed);
+void	ft_mslstadd_left(t_btree **lst, t_btree *new);
+void	mslstadd_right(t_btree **lst, t_btree *new);
+t_btree	*lstlast_right(t_btree *lst);
+t_btree	*lstlast_left(t_btree *lst);
 
 //visualize btree
 void	visualize(t_btree *head);

@@ -3,103 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 15:36:53 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/03 17:16:27 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/03 18:58:11 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-static void parse_var(t_data *data, char *var, int i)
-{
-	char	*rest;
-	int		j;
-	int		len_var;
-	
-	int g = 0;
-
-	var++;
-	len_var = strlen_path(var);
-	while (j < data->counter_envv)
-	{
-		if (!ft_strncmp(var, data->env->var, len_var))
-			break ;
-		data->env = data->env->next;
-		j++;
-	}
-	if (j >= data->counter_envv)
-		data->args[i] = ft_strdup("");
-	else
-		data->args[i] = ft_strdup(data->env->content);
-	rest = ft_substr(var, len_var, ft_strlen(var) - len_var);
-	data->args[i] = ft_strjoin(data->args[i], rest);
-}
-
-void	parse_args(t_data *data)
-{
-	int		i;
-	char	*var;
-	char	*tmp;
-
-	// printf("%d\n", data->counter_btree);
-	// data->args = ft_split((*data->btree)->left->value, ' ');
-	i = 0;
-	data->args = ft_split(data->cmd, ' ');
-	while (data->args[i])
-	{
-		if (chk_escvar(data->args[i]))
-		{
-			var = chk_escvar(data->args[i]);
-			if (var[0] == '$')
-				parse_var(data, var, i);
-			else if (var[0] == '\'')
-				data->args[i] = ft_substr(var, 1, ft_strlen(var) - 1);
-			else if (var[0] == '\"')
-			{
-				var = ft_substr(var, 1, ft_strlen(var) - 2);
-				if (var[0] == '$')
-					parse_var(data, var, i);
-			}
-		}
-		data->args[i] = ft_strtrim(data->args[i], "\"");
-		data->args[i] = ft_strtrim(data->args[i], "\'");
-		data->args[i] = ft_strjoin(data->args[i], " ");
-		i++;
-	}
-}
-
-// void	parse_args(t_data *data)
-// {
-// 	int		i;
-// 	char	*var;
-// 	char	*tmp;
-
-// 	i = 0;
-// 	data->args = ft_split(data->cmd, ' ');
-// 	while (data->args[i])
-// 	{
-// 		if (chk_escvar(data->args[i]))
-// 		{
-// 			var = chk_escvar(data->args[i]);
-// 			if (var[0] == '$')
-// 				parse_var(data, var, i);
-// 			else if (var[0] == '\'')
-// 				data->args[i] = ft_substr(var, 1, ft_strlen(var) - 1);
-// 			else if (var[0] == '\"')
-// 			{
-// 				var = ft_substr(var, 1, ft_strlen(var) - 2);
-// 				if (var[0] == '$')
-// 					parse_var(data, var, i);
-// 			}
-// 		}
-// 		data->args[i] = ft_strtrim(data->args[i], "\"");
-// 		data->args[i] = ft_strtrim(data->args[i], "\'");
-// 		data->args[i] = ft_strjoin(data->args[i], " ");
-// 		i++;
-// 	}
-// }
 
 static char *get_path(t_data *data)
 {
@@ -118,73 +29,38 @@ static char *get_path(t_data *data)
 	return (NULL);
 }
 
-static bool	builtin_cd(t_data *data)
-{
-	char *path;
-	
-	if (data->args[1])
-	{
-		path = ft_strtrim(data->args[1], " ");
-		chdir(path);
-		free (path);
-		return (true);
-	}
-	return (false);
-}
-
-
-static bool	builtin_echo(t_data *data)
-{
-	int 	i = 1;
-	bool	echo_n = false;
-
-	if (data->args[i] && !ft_strncmp(data->args[i], "-n", 2))
-		echo_n = true;
-	while (data->args[i])
-	{
-		if (data->args[i][0] != '-')
-			ft_printf("%s", data->args[i]);
-		i++;
-	}
-	if (!echo_n)
-		ft_printf("\n");
-	return (true);
-}
-
-
-static bool	builtin_export(t_data *data)
-{
-	int		len_arg;
-	char	*var;
-	char	*value;
-	t_env	*node;
-	
-	if (data->args[1])
-	{
-		len_arg = ft_strlen(data->args[1]);
-		value = ft_strchr(data->args[1], '=');
-		value++;
-		var = ft_substr(data->args[1], 0, len_arg - ft_strlen(value) - 1);
-		node = ft_mslstnew(data, var, value);
-		ft_mslstadd_front(&data->env, node);
-		data->counter_envv++;
-		return (true);
-	}
-	return (false);
-}
-
 
 bool	builtins(t_data *data)
 {
-	if (!ft_strncmp(data->cmd, "echo", 4))
+	if (!ft_strncmp(data->args[0], "echo", 4))
 		return (builtin_echo(data));
-	else if (!ft_strncmp(data->cmd, "cd", 2))
+	else if (!ft_strncmp(data->args[0], "cd", 2))
 		return (builtin_cd(data));
-	else if (!ft_strncmp(data->cmd, "export", 6))
+	else if (!ft_strncmp(data->args[0], "export", 6))
 		return (builtin_export(data));
-	if (!ft_strncmp(data->cmd, "exit", 4) || data->cmd[0] == '\0')
+	if (!ft_strncmp(data->args[0], "exit", 4) || data->args[0] == '\0')
 		cleanup(data, 0);
 	return (false);
+}
+
+static void exec_cmd(t_data *data, char **envp)
+{
+	if (!builtins(data))
+		exec_program(data, envp);
+}
+
+static void exec_cmd(t_data *data, char **envp)
+{
+	if (!(*data->btree)->left && !(*data->btree)->right)
+		return ;
+	(*data->btree) = (*data->btree)->left;
+	exec_cmd(data, envp);
+	if (!ft_strncmp((*data->btree)->value, "|", 2))
+	{
+		data->flag_pipe = true;
+		return ;	
+	}
+	parse_args(data, (*data->btree)->value);
 }
 
 void	exec_program(t_data *data, char **envp)
