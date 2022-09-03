@@ -6,37 +6,11 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/02 19:53:09 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/03 13:17:50 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-size_t	strlen_path(const char *c)
-{
-	int	i;
-
-	i = 0;
-	while (c[i] && c[i] != '/')
-		i++;
-	return (i);
-}
-
-char	*chk_escvar(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == '\'' || s[i] == '$' || s[i] == '\"')
-			return ((char *)s + i);
-		i++;
-	}
-	if (s[i] == '\'' || s[i] == '$' || s[i] == '\"')
-		return ((char *)s + i);
-	return (0);
-}
 
 bool	ft_strstr2(const char *s, char *set)
 {

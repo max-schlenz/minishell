@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/02 19:16:01 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/03 13:33:16 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void	prompt(t_data *data, char **envp)
 		{
 			add_history(data->cmd);
 			parse_args(data);
+			lol(data);
+			exit(0);
 			if (!builtins(data))
 				exec_program(data, envp);
 		}

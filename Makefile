@@ -6,34 +6,23 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/09/02 15:37:00 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/09/03 13:57:03 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# #FORMAT----------------------------------#
-# DEFCL	=	$(shell echo -e "\033[0m")
-# RED		=	$(shell echo -e "\033[0;31m")
-# GREEN	=	$(shell echo -e "\033[0;32m")
-# BGREEN	=	$(shell echo -e "\033[1;32m")
-# YELLOW	=	$(shell echo -e "\033[0;33m")
-# BLUE	=	$(shell echo -e "\033[0;34m")
-# BBLUE	=	$(shell echo -e "\033[1;34m")
-# PURPLE	=	$(shell echo -e "\033[0;35m")
-# CYAN	=	$(shell echo -e "\033[0;36m")
-# BCYAN	=	$(shell echo -e "\033[1;36m")
-# # ---------------------------------------#
+SHELL = /bin/bash
 
 #FORMAT----------------------------------#
-DEFCL	= \033[0m
-RED		= \033[0;31m
-GREEN	= \033[0;32m
-BGREEN	= \033[1;32m
-YELLOW	= \033[0;33m
-BLUE	= \033[0;34m
-BBLUE	= \033[1;34m
-PURPLE	= \033[0;35m
-CYAN	= \033[0;36m
-BCYAN	= \033[1;36m
+DEFCL	=	$(shell echo -e "\033[0m")
+RED		=	$(shell echo -e "\033[0;31m")
+GREEN	=	$(shell echo -e "\033[0;32m")
+BGREEN	=	$(shell echo -e "\033[1;32m")
+YELLOW	=	$(shell echo -e "\033[0;33m")
+BLUE	=	$(shell echo -e "\033[0;34m")
+BBLUE	=	$(shell echo -e "\033[1;34m")
+PURPLE	=	$(shell echo -e "\033[0;35m")
+CYAN	=	$(shell echo -e "\033[0;36m")
+BCYAN	=	$(shell echo -e "\033[1;36m")
 # ---------------------------------------#
 
 MAKEFLAGS 		=	--no-print-directory
@@ -52,7 +41,9 @@ SRC				= 	${NAME}		\
 					parse_envp	\
 					utils_lst	\
 					utils_lst2	\
-					exec
+					exec		\
+					parsing		\
+					visualize_btree
 
 INC				=	libft		\
 					${NAME}
@@ -105,7 +96,7 @@ clean: header
 	@echo
 	@rm -f .header
 	@make clean -C src/libft
-	@if find ${OBJ_FILES} -delete > /dev/null 2>&1; then						\
+	@if find $(OBJ_DIR) -type f -name '*.o' -delete > /dev/null 2>&1; then		\
 		echo -e "\\r		  $(NAME)   	   ✅"; 		                       	\
 	fi
 	@echo																			
@@ -124,9 +115,9 @@ header:
 		echo 	"$(BLUE) __  __ _       _     _          _ _ ";					\
 		echo 	"|  \/  (_)_ __ (_)___| |__   ___| | $(CYAN)|";					\
 		echo 	"$(BLUE)| |\/| | | '_ \| / __| '_ \ / $(CYAN)_ \ | |";			\
-		echo 	"$(BLUE)| |  | | | | | | \$(CYAN) __ \ | | |  __/ | |";			\
+		echo 	"$(BLUE)| |  | | | | | | \$(CYAN)__ \ | | |  __/ | |";			\
 		echo 	"$(BLUE)|_|  |_|$(CYAN)_|_| |_|_|___/_| |_|\___|_|_|";			\
-		echo	"$(DEFCL)";           											\
+		echo	"$(BCYAN)	    	       by Talea & Max$(DEFCL)";				\
 		touch .header;															\
 	fi
 

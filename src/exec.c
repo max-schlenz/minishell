@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 15:36:53 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/03 13:14:32 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/03 13:53:38 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,6 @@ static void parse_var(t_data *data, char *var, int i)
 	
 	int g = 0;
 
-	// while(g < data->counter_envv)
-	// {
-	// 	printf("%s = %s\n", data->env->var, data->env->content);
-	// 	data->env = data->env->next;
-	// 	g++;
-	// }
-	
 	var++;
 	len_var = strlen_path(var);
 	while (j < data->counter_envv)
@@ -133,7 +126,6 @@ static bool	builtin_export(t_data *data)
 	char	*value;
 	t_env	*node;
 	
-	// printf("%s=%s\n", data->env->last->var, data->env->last->content);
 	if (data->args[1])
 	{
 		len_arg = ft_strlen(data->args[1]);
@@ -141,11 +133,8 @@ static bool	builtin_export(t_data *data)
 		value++;
 		var = ft_substr(data->args[1], 0, len_arg - ft_strlen(value) - 1);
 		node = ft_mslstnew(data, var, value);
-		// data->env->last->next = NULL;
 		ft_mslstadd_front(&data->env, node);
-		// data->env->last->next = data->env;
 		data->counter_envv++;
-		// printf("%s=%s\n", data->env->var, data->env->content);
 		return (true);
 	}
 	return (false);

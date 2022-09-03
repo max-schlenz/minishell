@@ -6,31 +6,23 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/08/30 15:12:16 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/09/03 13:49:58 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# #FORMAT----------------------------------#
-# DEFCL	=	$(shell echo -e "\033[0m")
-# RED		=	$(shell echo -e "\033[0;31m")
-# GREEN	=	$(shell echo -e "\033[0;32m")
-# BGREEN	=	$(shell echo -e "\033[1;32m")
-# LBLUE	=	$(shell echo -e "\033[0;34m")
-# LCYAN	=	$(shell echo -e "\033[0;36m")
-# PURPLE	=	$(shell echo -e "\033[0;35m")
-# # ---------------------------------------#
+SHELL = /bin/bash
 
 #FORMAT----------------------------------#
-DEFCL	= \033[0m
-RED		= \033[0;31m
-GREEN	= \033[0;32m
-BGREEN	= \033[1;32m
-YELLOW	= \033[0;33m
-BLUE	= \033[0;34m
-BBLUE	= \033[1;34m
-PURPLE	= \033[0;35m
-CYAN	= \033[0;36m
-BCYAN	= \033[1;36m
+DEFCL	=	$(shell echo -e "\033[0m")
+RED		=	$(shell echo -e "\033[0;31m")
+GREEN	=	$(shell echo -e "\033[0;32m")
+BGREEN	=	$(shell echo -e "\033[1;32m")
+YELLOW	=	$(shell echo -e "\033[0;33m")
+BLUE	=	$(shell echo -e "\033[0;34m")
+BBLUE	=	$(shell echo -e "\033[1;34m")
+PURPLE	=	$(shell echo -e "\033[0;35m")
+CYAN	=	$(shell echo -e "\033[0;36m")
+BCYAN	=	$(shell echo -e "\033[1;36m")
 # ---------------------------------------#
 
 INC_DIR		=	../../inc/
