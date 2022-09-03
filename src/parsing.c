@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/06 14:59:35 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/03 13:30:17 by mschlenz         ###   ########.fr       */
+/*   Created: 2022/09/03 14:41:09 by mschlenz          #+#    #+#             */
+/*   Updated: 2022/09/03 16:51:55 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ char	*chk_escvar(const char *s)
 			return ((char *)s + i);
 		i++;
 	}
-	/*if (s[i] == '\'' || s[i] == '$' || s[i] == '\"')
-		return ((char *)s + i);*/
+	if (s[i] == '\'' || s[i] == '$' || s[i] == '\"')
+		return ((char *)s + i);
 	return (0);
 }
 
@@ -56,8 +56,9 @@ void	set_btree_value(char *s, char *set, t_btree **head)
 	i = 0;
 	if (!set)
 	{
-		*head = ft_mslstnew2(s);
-		//exit(0);
+		*head = ft_mslstnew2(" ");
+		node_left = ft_mslstnew2(s);	
+		ft_mslstadd_left(head, node_left);
 		return ;
 	}
 
@@ -111,19 +112,17 @@ char	*get_next_special_char(char *str)
 	return (tmp);
 }
 
-void	prioritization(char *data, t_btree **btree)
+void	prioritization(t_data *data)
 {
 	t_btree	*tmp;
 	char	*next_delim;
 
-	next_delim = get_next_special_char(data);
-	if (!*btree)
+	next_delim = get_next_special_char(data->cmd);
+	if (!(*data->btree))
 	{
-		set_btree_value(data, next_delim , btree);
-		tmp = *btree;
-		tmp = tmp->left;
-		//next_delim = get_next_special_char(tmp->value);
-		
+		set_btree_value(data->cmd, next_delim, data->btree);
+		tmp = (*data->btree);
+		tmp = tmp->left;	
 	}
 	while (tmp && next_delim)
 	{
@@ -133,12 +132,17 @@ void	prioritization(char *data, t_btree **btree)
 	}
 }
 
-
-
-
 void	lol(t_data *data)
 {
-	t_btree	**btree = ft_calloc(1, sizeof(t_btree));
-	prioritization(data->cmd, btree);
-	visualize(*btree);
+	t_btree *tmp;
+	
+	prioritization(data);
+	tmp = (*data->btree);
+	while (tmp)
+	{
+		data->counter_btree++;
+		tmp = tmp->left;
+	}
+	data->counter_btree--;
+	// visualize(*data->btree);
 }

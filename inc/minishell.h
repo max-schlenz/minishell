@@ -42,14 +42,6 @@ typedef struct s_env
 	struct s_env	*last;
 }	t_env;
 
-typedef struct s_data
-{
-	char	**path;
-	char	**args;
-	char	*cmd;
-	t_env	*env;
-	int		counter_envv;
-}	t_data;
 
 typedef struct s_btree
 {
@@ -59,7 +51,19 @@ typedef struct s_btree
 	struct s_btree	*next;
 }	t_btree;
 
-typedef enum s_status 
+typedef struct s_data
+{
+	char	**path;
+	char	**args;
+	char	*cmd;
+	int		counter_envv;
+	t_env	*env;
+	t_btree **btree;
+	int		counter_btree;
+	bool	*flag_pipe;
+}	t_data;
+
+typedef enum s_status
 {
 	SUCCESS,
 	E_MEM,
@@ -104,10 +108,11 @@ bool	builtins(t_data *data);
 void	parse_args(t_data *data);
 
 //parsing
-void	prioritization(char *data, t_btree **btree);
+void	prioritization(t_data *data);
 void	lol(t_data *data);
 
 //visualize btree
 void	visualize(t_btree *head);
+
 
 #endif

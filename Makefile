@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/09/03 13:57:03 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/09/03 16:01:38 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ BCYAN	=	$(shell echo -e "\033[1;36m")
 # ---------------------------------------#
 
 MAKEFLAGS 		=	--no-print-directory
-FLAGS			= 	#-fsanitize=address -g #-Wall -Wextra -Werror
+FLAGS			= 	-g #-fsanitize=address #-Wall -Wextra -Werror
 
 NAME			=	minishell
 

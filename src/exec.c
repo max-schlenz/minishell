@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 15:36:53 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/03 13:53:38 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/03 15:42:31 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	parse_args(t_data *data)
 	char	*var;
 	char	*tmp;
 
+	// printf("%d\n", data->counter_btree);
+	// data->args = ft_split((*data->btree)->left->value, ' ');
 	i = 0;
 	data->args = ft_split(data->cmd, ' ');
 	while (data->args[i])
@@ -63,10 +65,41 @@ void	parse_args(t_data *data)
 		}
 		data->args[i] = ft_strtrim(data->args[i], "\"");
 		data->args[i] = ft_strtrim(data->args[i], "\'");
-		data->args[i] = ft_strjoin(data->args[i], " ");
+		// data->args[i] = ft_strjoin(data->args[i], " ");
 		i++;
 	}
 }
+
+// void	parse_args(t_data *data)
+// {
+// 	int		i;
+// 	char	*var;
+// 	char	*tmp;
+
+// 	i = 0;
+// 	data->args = ft_split(data->cmd, ' ');
+// 	while (data->args[i])
+// 	{
+// 		if (chk_escvar(data->args[i]))
+// 		{
+// 			var = chk_escvar(data->args[i]);
+// 			if (var[0] == '$')
+// 				parse_var(data, var, i);
+// 			else if (var[0] == '\'')
+// 				data->args[i] = ft_substr(var, 1, ft_strlen(var) - 1);
+// 			else if (var[0] == '\"')
+// 			{
+// 				var = ft_substr(var, 1, ft_strlen(var) - 2);
+// 				if (var[0] == '$')
+// 					parse_var(data, var, i);
+// 			}
+// 		}
+// 		data->args[i] = ft_strtrim(data->args[i], "\"");
+// 		data->args[i] = ft_strtrim(data->args[i], "\'");
+// 		data->args[i] = ft_strjoin(data->args[i], " ");
+// 		i++;
+// 	}
+// }
 
 static char *get_path(t_data *data)
 {

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 16:14:06 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/03 13:33:39 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/03 14:09:08 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	visualize(t_btree *head)
 {
-	printf("-----------------\n");
 	// while (head)
 	// {
 		printf ("%s\n", head->value);
@@ -22,7 +21,6 @@ void	visualize(t_btree *head)
 			printf("%s\n", head->left->value);
 		if (head->right)
 		printf("%s\n", head->right->value);
-		printf("-----------------\n");
 		// head = head->left;
 	// }
 }
