@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_btree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:51:04 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/03 19:02:16 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/03 19:17:11 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	mslstadd_right(t_btree **lst, t_btree *new)
 		*lst = new;
 		return ;
 	}
-	list = ft_lstlast_right(*lst);
+	list = lstlast_right(*lst);
 	if (list)
 		list->right = new;
 }
@@ -71,7 +71,7 @@ void	ft_mslstadd_left(t_btree **lst, t_btree *new)
 		*lst = new;
 		return ;
 	}
-	list = ft_lstlast_left(*lst);
+	list = lstlast_left(*lst);
 	if (list)
 		list->left = new;
 }

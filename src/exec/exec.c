@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 15:36:53 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/03 18:58:11 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/03 19:19:06 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ bool	builtins(t_data *data)
 		return (builtin_cd(data));
 	else if (!ft_strncmp(data->args[0], "export", 6))
 		return (builtin_export(data));
-	if (!ft_strncmp(data->args[0], "exit", 4) || data->args[0] == '\0')
+	if (!ft_strncmp(data->args[0], "exit", 4) || data->args[0])
 		cleanup(data, 0);
 	return (false);
 }
 
-static void exec_cmd(t_data *data, char **envp)
+static void exec_cmd2(t_data *data, char **envp)
 {
 	if (!builtins(data))
 		exec_program(data, envp);
@@ -54,7 +54,7 @@ static void exec_cmd(t_data *data, char **envp)
 	if (!(*data->btree)->left && !(*data->btree)->right)
 		return ;
 	(*data->btree) = (*data->btree)->left;
-	exec_cmd(data, envp);
+	exec_cmd2(data, envp);
 	if (!ft_strncmp((*data->btree)->value, "|", 2))
 	{
 		data->flag_pipe = true;

@@ -124,6 +124,12 @@ void	lol(t_data *data);
 char	*check_esc_var_quo(const char *s);
 void	parse_args(t_data *data, char *cmd);
 
+//parse/p_utils.c
+void	set_btree_value(char *s, char *set, t_btree **head);
+char	*get_next_special_char(char *str);
+size_t	strlen_path(const char *c);
+char	*check_esc_var_quo(const char *s);
+
 //builtins
 bool	builtin_cd(t_data *data);
 bool	builtin_echo(t_data *data);
@@ -136,6 +142,7 @@ void	ft_mslstadd_left(t_btree **lst, t_btree *new);
 void	mslstadd_right(t_btree **lst, t_btree *new);
 t_btree	*lstlast_right(t_btree *lst);
 t_btree	*lstlast_left(t_btree *lst);
+t_btree	*btree_lstnew(char *content);
 
 //visualize btree
 void	visualize(t_btree *head);

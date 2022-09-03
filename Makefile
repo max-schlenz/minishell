@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/09/03 16:01:38 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/09/03 19:22:36 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,17 +35,19 @@ OBJ_DIR			=	obj
 LIB_DIR			=	lib
 INC_DIR			=	inc
 
-SRC				= 	${NAME}		\
-					init		\
-					utils		\
-					parse_envp	\
-					utils_lst	\
-					utils_lst2	\
-					exec		\
-					parsing		\
-					visualize_btree
+SRC				= 	${NAME}				\
+					parse/p_cmd			\
+					parse/p_envp		\
+					parse/p_utils		\
+					lst/lst_btree		\
+					lst/lst_data		\
+					lst/lst_env			\
+					exec/builtins		\
+					exec/exec			\
+					init				\
+					utils
 
-INC				=	libft		\
+INC				=	libft				\
 					${NAME}
 
 LIB				=	libft 

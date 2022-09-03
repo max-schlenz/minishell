@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_cmd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:41:09 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/03 18:49:21 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/03 19:23:16 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,6 @@ void	parse_args(t_data *data, char *cmd)
 		data->args[i] = ft_strjoin(data->args[i], " ");
 		i++;
 	}
-	i = 0;
-	while (data->args[i])
-	{
-		printf("%s\n", data->args[i++]);
-	}
 }
 
 void	parse_cmd(t_data *data)
@@ -99,7 +94,7 @@ void	lol(t_data *data)
 {
 	t_btree *tmp;
 	
-	prioritization(data);
+	parse_cmd(data);
 	tmp = (*data->btree);
 	while (tmp)
 	{

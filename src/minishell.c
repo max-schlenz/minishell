@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/03 18:58:49 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/03 19:12:34 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 static void	clear_buffers(t_data *data)
 {
 	data->cmd = NULL;
-	clear_btree(data);
+	lst_clear_btree(data);
 }
 
 // static int	count_modifiers(t_data *data)
@@ -57,7 +57,7 @@ static void	prompt(t_data *data, char **envp)
 				if ((*data->btree)->left)
 				{
 					data->cmd = (*data->btree)->left->value;
-					parse_args(data);
+					parse_args(data, data->cmd);
 					if (!ft_strncmp((*data->btree)->value, "|", 2))
 						data->flag_pipe = true;
 					if (!builtins(data))
@@ -66,7 +66,7 @@ static void	prompt(t_data *data, char **envp)
 				if ((*data->btree)->right)
 				{
 					data->cmd = ft_strtrim((*data->btree)->right->value, " ");
-					parse_args(data);
+					parse_args(data, data->cmd);
 					if (!builtins(data))
 						exec_program(data, envp);
 				}
