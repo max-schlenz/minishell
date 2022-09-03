@@ -104,7 +104,7 @@ bool	builtins(t_data *data);
 void	parse_args(t_data *data);
 
 //parsing
-void	prioritization(char *data, char *delim, t_btree **btree);
+void	prioritization(char *data, t_btree **btree);
 void	lol(t_data *data);
 
 //visualize btree

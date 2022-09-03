@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 14:59:35 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/02 19:43:16 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/03 12:58:56 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,26 +38,7 @@ size_t	strlen_path(const char *c)
 	return (i);
 }
 
-bool	ft_strstr2(const char *s, char *set)
-{
-	int	i;
-	char	*left;
-	char	*right;
-	t_btree *node1;
-	t_btree *node2;
-	t_btree *btree = NULL;// ft_calloc(1, sizeof(t_btree));
-	int		index;
 
-
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (ft_strncmp(s + i, set, 2) == 0)
-			return (true);
-		i++;
-	}
-	return (false);
-}
 
 void	set_btree_value(char *s, char *set, t_btree **head)
 {
@@ -116,7 +97,7 @@ char	*get_next_special_char(char *str)
 	return (tmp);
 }
 
-void	prioritization(char *data, char *delim, t_btree **btree)
+void	prioritization(char *data, t_btree **btree)
 {
 	// char 	*blub = ft_strdup("ls && grep && top && bla");
 	t_btree	*tmp;// = ft_calloc(1, sizeof(t_btree));
@@ -151,51 +132,13 @@ void	prioritization(char *data, char *delim, t_btree **btree)
 	}
 }
 
-/*int	index_last_delim(char *str, char *delim)
-{
-	int	delim_len;
-	int	index;
-	int	i;
 
-	delim_len = ft_strlen(delim);
-	index = 0;
-	i = 0;
-	while (str[i])
-	{
-		if (ft_strncmp(str + i, delim, delim) == 0)
-			index = i;	
-		i++;
-	}
-	return (index);
-}
-
-
-
-char	*cut_str(char *str, char *delim)
-{
-	char	*new_str;
-	int		len;
-	int		i;
-
-	len = index_last_delim(str, delim) + 1;
-	new_str = ft_calloc(len + 1, sizeof(char));
-	i = 0;
-	while (i < len)
-	{
-		new_str[i] = str[i];
-		i++;
-	}
-	new_str[i] = '\0';
-	free(str);
-	str = NULL;
-	return (new_str);
-}*/
 
 
 void	lol(t_data *data)
 {
 	t_btree	**btree = ft_calloc(1, sizeof(t_btree));
-	prioritization("lol | grep x >> cat lol", ">>" , btree);
+	prioritization("lol | grep x >> cat lol", btree);
 	//prioritization("grep x >> cat lol", ">>" , btree);
 	visualize(*btree);
 	/*while (*btree && (*btree)->right && (*btree)->left)
