@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 14:59:35 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/03 12:58:56 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/03 13:09:25 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,21 +77,30 @@ void	set_btree_value(char *s, char *set, t_btree **head)
 char	*get_next_special_char(char *str)
 {
 	char	*tmp;
+	int		i;
 
 	tmp = NULL;
+	i = 0;
 	while (*str)
 	{
 		if (ft_strncmp(str, ">>", 2) == 0)
 			tmp = ft_strdup(">>");
 		else if (ft_strncmp(str, "<<", 2) == 0)
 			tmp = ft_strdup("<<");
-		else if (*str == '|')
+		else if (ft_strncmp(str, "||", 2) == 0)
+			tmp = ft_strdup("||");
+		else if (ft_strncmp(str, "&&", 2) == 0)
+			tmp = ft_strdup("&&");
+		else if (*str == '&' && (!i || *(str - 1) != '&'))
+			tmp = ft_strdup("&");
+		else if (*str == '|' && (!i || *(str - 1) != '|'))
 			tmp = ft_strdup("|");
-		else if (*str == '>' && *(str - 1) != '>')
+		else if (*str == '>' && (!i || *(str - 1) != '>'))
 			tmp = ft_strdup(">");
-		else if (*str == '<' && *(str - 1) != '<')
+		else if (*str == '<' && (!i || *(str - 1) != '<'))
 			tmp = ft_strdup("<");
 		str++;
+		i++;
 	}
 	//printf("%s\n", tmp);
 	return (tmp);
@@ -138,7 +147,7 @@ void	prioritization(char *data, t_btree **btree)
 void	lol(t_data *data)
 {
 	t_btree	**btree = ft_calloc(1, sizeof(t_btree));
-	prioritization("lol | grep x >> cat lol", btree);
+	prioritization("& lol | grep x >> cat || lol >> ", btree);
 	//prioritization("grep x >> cat lol", ">>" , btree);
 	visualize(*btree);
 	/*while (*btree && (*btree)->right && (*btree)->left)
