@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_cmd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:41:09 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/04 13:14:56 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/04 13:31:35 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,39 +68,4 @@ void	parse_args(t_data *data, char *cmd)
 		data->args[i] = ft_strjoin(data->args[i], " ");
 		i++;
 	}
-}
-
-void	parse_cmd(t_data *data)
-{
-	t_btree	*tmp;
-	char	*next_delim;
-
-	next_delim = get_next_special_char(data->cmd);
-	if (!(*data->btree))
-	{
-		set_btree_value(data->cmd, next_delim, data->btree);
-		tmp = (*data->btree);
-		tmp = tmp->left;	
-	}
-	while (tmp && next_delim)
-	{
-		next_delim = get_next_special_char(tmp->value);
-		set_btree_value(tmp->value, next_delim, &tmp);
-		tmp = tmp->left;
-	}
-}
-
-void	make_btree(t_data *data)
-{
-	t_btree *tmp;
-	
-	parse_cmd(data);
-	tmp = (*data->btree);
-	while (tmp)
-	{
-		data->counter_btree++;
-		tmp = tmp->left;
-	}
-	data->counter_btree--;
-	// visualize(*data->btree);
 }

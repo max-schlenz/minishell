@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
+#    By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/09/04 13:04:41 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/09/04 13:34:48 by tdehne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,9 +39,6 @@ SRC				= 	${NAME}				\
 					parse/p_cmd			\
 					parse/p_envp		\
 					parse/p_utils		\
-					lst/lst_btree		\
-					lst/lst_data		\
-					lst/lst_env			\
 					exec/builtins		\
 					exec/exec			\
 					utils/init			\

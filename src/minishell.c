@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/04 13:14:43 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/04 13:33:58 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void	clear_buffers(t_data *data)
 {
 	data->cmd = NULL;
-	lst_clear_btree(data);
 }
 
 static void	prompt(t_data *data)
@@ -28,28 +27,7 @@ static void	prompt(t_data *data)
 			data->cmd = ft_strdup("exit");
 		if (data->cmd && data->cmd[0] != '\0')
 		{
-			add_history(data->cmd);
-			make_btree(data);
-			while (data->counter_btree > 0)
-			{
-				if ((*data->btree)->left)
-				{
-					parse_args(data, (*data->btree)->left->value);
-					if (!ft_strncmp((*data->btree)->value, "|", 2))
-						data->flag_pipe = true;
-					if (!builtins(data))
-						exec_program(data);
-				}
-				if ((*data->btree)->right)
-				{
-					parse_args(data, ft_strtrim((*data->btree)->right->value, " "));
-					if (!builtins(data))
-						exec_program(data);
-				}
-				data->counter_btree--;
-				if ((*data->btree)->left)
-					(*data->btree) = (*data->btree)->left;
-			}
+			add_history(data->cmd);	
 		}
 		clear_buffers(data);
 	}

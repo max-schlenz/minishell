@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 15:36:53 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/04 13:17:55 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/04 13:32:39 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,6 @@ bool	builtins(t_data *data)
 	if (!ft_strncmp(data->args[0], "exit", 4)) // || data->args[0] == '\0')
 		cleanup(data, 0);
 	return (false);
-}
-
-static void exec_cmd2(t_data *data, char **envp)
-{
-	if (!builtins(data))
-		exec_program(data);
-}
-
-static void exec_cmd(t_data *data, char **envp)
-{
-	if (!(*data->btree)->left && !(*data->btree)->right)
-		return ;
-	(*data->btree) = (*data->btree)->left;
-	exec_cmd2(data, envp);
-	if (!ft_strncmp((*data->btree)->value, "|", 2))
-	{
-		data->flag_pipe = true;
-		// return ;	
-	}
-	parse_args(data, (*data->btree)->value);
 }
 
 void	exec_program(t_data *data)

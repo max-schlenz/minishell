@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:53:59 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/03 18:56:08 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/03 19:11:00 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,11 @@ void	ft_mslstdelone(t_env *lst)
 	if (!lst)
 		return ;
 	free (lst);
+}
+
+void	env_lstrm(t_env **head, t_env *to_be_removed)
+{
+	if (!head || !*head || to_be_removed)
+		return ;
+
 }
