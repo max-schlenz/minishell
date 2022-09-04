@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/04 13:33:58 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/04 14:16:48 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ static void	prompt(t_data *data)
 			data->cmd = ft_strdup("exit");
 		if (data->cmd && data->cmd[0] != '\0')
 		{
-			add_history(data->cmd);	
+			add_history(data->cmd);
+			parse_args(data, data->cmd);
+			if (!builtins(data))
+				exec_program(data);
 		}
 		clear_buffers(data);
 	}

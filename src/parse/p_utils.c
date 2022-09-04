@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:12:51 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/04 13:32:01 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/04 16:03:14 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,39 @@ size_t	strlen_path(const char *c)
 	int	i;
 
 	i = 0;
-	while (c[i] && c[i] != '/')
+	while (c[i] && ft_isalnum(c[i]))
 		i++;
 	return (i);
+}
+
+size_t	strlen_var(const char *c)
+{
+	int	i;
+
+	i = 0;
+	while (c[i] && c[i] != '=')
+		i++;
+	return (i);
+}
+
+void	realloc_envp(t_data *data, int flag)
+{
+	char	**new;
+	int		i;
+
+	if (flag)
+		data->counter_env++;
+	else
+		data->counter_env--;
+	new = ft_calloc(data->counter_env + 1, sizeof(char *));
+	i = 0;
+	while (data->envp[i])
+	{
+			new[i] = ft_strdup(data->envp[i]);
+			free(data->envp[i]);
+			i++;
+	}
+	new[i] = ft_strdup(data->args[1]);
+	new[i + 1] = NULL;
+	data->envp = new;
 }

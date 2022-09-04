@@ -6,35 +6,33 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:41:09 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/04 13:31:35 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/04 16:00:20 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void parse_var(t_data *data, char *var, int i)
+static void parse_var(t_data *data, char *arg, int index_arg)
 {
 	char	*rest;
-	int		j;
 	int		len_var;
-	
-	int g = 0;
+	int		i;
 
-	var++;
-	len_var = strlen_path(var);
-	while (j < data->counter_envv)
+	arg++;
+	len_var = strlen_path(arg);
+	i = 0;
+	while (data->envp[i])
 	{
-		if (!ft_strncmp(var, data->env->var, len_var))
+		if (!ft_strncmp(arg, data->envp[i], len_var + 1))
 			break ;
-		data->env = data->env->next;
-		j++;
+		i++;
 	}
-	if (j >= data->counter_envv)
-		data->args[i] = ft_strdup("");
+	if (data->envp[i])
+		data->args[index_arg] = ft_strdup(data->envp[i] + len_var + 1);
 	else
-		data->args[i] = ft_strdup(data->env->content);
-	rest = ft_substr(var, len_var, ft_strlen(var) - len_var);
-	data->args[i] = ft_strjoin(data->args[i], rest);
+		data->args[index_arg] = "";
+	rest = ft_substr(arg, len_var, ft_strlen(arg) - len_var);
+	data->args[index_arg] = ft_strjoin(data->args[index_arg], rest);
 }
 
 void	parse_args(t_data *data, char *cmd)

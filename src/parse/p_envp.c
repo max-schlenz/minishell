@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/04 13:58:59 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/04 15:34:16 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,22 @@ void	parse_path(t_data *data)
 		while (*data->path)
 			free (*data->path++);
 	}
-	while (data->envp[i] && ft_strncmp(data->envp[i], "PATH", 5))
+	while (data->envp[i] && ft_strncmp(data->envp[i], "PATH=", 5))
 		i++;
 	data->path = ft_split(data->envp[i], ':');
 }
 
 void	parse_envp(t_data *data, char **envp)
 {
-	int		i;
+	int	i;
 
-	while (envp[i])
-		i++;
-	data->envp = ft_calloc(i + 1, sizeof(char *));
+	while (envp[data->counter_env])
+		data->counter_env++;
+	data->envp = ft_calloc(data->counter_env + 1, sizeof(char *));
 	i = 0;
-	data->envp = envp;
+	while (envp[i])
+	{
+		data->envp[i] = ft_strdup(envp[i]);
+		i++;
+	}
 }

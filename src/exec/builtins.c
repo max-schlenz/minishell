@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/04 12:47:21 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/04 15:57:12 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,26 @@ bool	builtin_export(t_data *data)
 	int		len_arg;
 	char	*var;
 	char	*value;
-	t_env	*node;
-	
-	if (data->args[1])
+	int		i;
+	int		len;
+
+	i = 0;
+	if (data->args[1] && ft_isalnum(data->args[1][0]))
 	{
-		len_arg = ft_strlen(data->args[1]);
-		value = ft_strchr(data->args[1], '=');
-		value++;
-		var = ft_substr(data->args[1], 0, len_arg - ft_strlen(value) - 1);
-		node = ft_mslstnew(data, var, value);
-		ft_mslstadd_front(&data->env, node);
-		data->counter_envv++;
+		len = strlen_var(data->args[1]);
+		while (data->envp[i])
+		{
+			if (ft_strncmp(data->envp[i], data->args[1], len) == 0)
+			{
+				free(data->envp[i]);
+				data->envp[i] = ft_strdup(data->args[1]);
+			}
+			i++;
+		}
+		if (!data->envp[i])
+			realloc_envp(data, 1);
 		return (true);
 	}
+	printf("error\n");
 	return (false);
 }

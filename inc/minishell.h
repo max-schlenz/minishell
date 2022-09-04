@@ -48,8 +48,7 @@ typedef struct s_data
 	char	**args;
 	char	**envp;
 	char	*cmd;
-	int		counter_envv;
-	int		counter_btree;
+	int		counter_env;
 	int		flag_pipe;
 	t_pipes	*pipes;
 	int		r_pipe;
@@ -75,14 +74,10 @@ void			parse_path(t_data *data);
 void			cleanup(t_data *data, int flag);
 void			ft_exit(t_status flag);
 
-//	utils_lst2.c
-size_t			ft_mslstsize(t_env *lst);
-t_env			*ft_mslstnew(t_data *data, char *var, char *content);
 
 // this shouldn't even be in here but has to be for some reason
 void			rl_replace_line(const char *text, int clear_undo);
 
-t_btree			*ft_mslstnew2(char *content);
 void			exec_program(t_data *data);
 
 size_t			strlen_path(const char *c);
@@ -95,10 +90,11 @@ char			*check_esc_var_quo(const char *s);
 void			parse_args(t_data *data, char *cmd);
 
 //parse/p_utils.c
-void			set_btree_value(char *s, char *set, t_btree **head);
 char			*get_next_special_char(char *str);
 size_t			strlen_path(const char *c);
 char			*check_esc_var_quo(const char *s);
+void			realloc_envp(t_data *data, int flag);
+size_t			strlen_var(const char *c);
 
 //builtins
 bool			builtin_cd(t_data *data);
@@ -108,9 +104,5 @@ bool			builtin_export(t_data *data);
 
 //utils/signal.c
 void			signal_handler(int sig, siginfo_t *info, void *context);
-
-//visualize btree
-void			visualize(t_btree *head);
-
 
 #endif

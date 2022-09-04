@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/03 17:11:25 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/04 14:54:35 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,7 @@ t_data	*allocate_mem(void)
 	data = ft_calloc(1, sizeof(t_data));
 	if (!data)
 		ft_exit(1);
-	data->btree = ft_calloc(1, sizeof(t_btree));
-	if (!data->btree)
-		ft_exit(1);
-	data->counter_envv = 0;
-	data->counter_btree = 0;
 	data->flag_pipe = false;
+	data->counter_env = 0;
 	return (data);
 }
