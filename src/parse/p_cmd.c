@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:41:09 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/04 16:00:20 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/04 16:06:32 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,33 +37,31 @@ static void parse_var(t_data *data, char *arg, int index_arg)
 
 void	parse_args(t_data *data, char *cmd)
 {
-	int		i;
+	int		index_args;
 	char	*var;
 	char	*tmp;
 
-	// printf("%d\n", data->counter_btree);
-	// data->args = ft_split((*data->btree)->left->value, ' ');
-	i = 0;
+	index_args = 0;
 	data->args = ft_split(cmd, ' ');
-	while (data->args[i])
+	while (data->args[index_args])
 	{
-		if (check_esc_var_quo(data->args[i]))
+		if (check_esc_var_quo(data->args[index_args]))
 		{
-			var = check_esc_var_quo(data->args[i]);
+			var = check_esc_var_quo(data->args[index_args]);
 			if (var[0] == '$')
-				parse_var(data, var, i);
+				parse_var(data, var, index_args);
 			else if (var[0] == '\'')
-				data->args[i] = ft_substr(var, 1, ft_strlen(var) - 1);
+				data->args[index_args] = ft_substr(var, 1, ft_strlen(var) - 1);
 			else if (var[0] == '\"')
 			{
 				var = ft_substr(var, 1, ft_strlen(var) - 2);
 				if (var[0] == '$')
-					parse_var(data, var, i);
+					parse_var(data, var, index_args);
 			}
 		}
-		data->args[i] = ft_strtrim(data->args[i], "\"");
-		data->args[i] = ft_strtrim(data->args[i], "\'");
-		data->args[i] = ft_strjoin(data->args[i], " ");
-		i++;
+		data->args[index_args] = ft_strtrim(data->args[index_args], "\"");
+		data->args[index_args] = ft_strtrim(data->args[index_args], "\'");
+		data->args[index_args] = ft_strjoin(data->args[index_args], " ");
+		index_args++;
 	}
 }
