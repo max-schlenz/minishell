@@ -47,6 +47,7 @@ typedef struct s_data
 	char	**path;
 	char	**args;
 	char	**envp;
+	char	**cmd_split;
 	char	*cmd;
 	int		counter_env;
 	int		flag_pipe;
@@ -73,6 +74,7 @@ void			parse_path(t_data *data);
 //	utils.c
 void			cleanup(t_data *data, int flag);
 void			ft_exit(t_status flag);
+char			**str_split(char const *s, char *c);
 
 
 // this shouldn't even be in here but has to be for some reason
@@ -104,5 +106,6 @@ bool			builtin_export(t_data *data);
 
 //utils/signal.c
 void			signal_handler(int sig, siginfo_t *info, void *context);
+
 
 #endif

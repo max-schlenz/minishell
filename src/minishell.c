@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/04 14:16:48 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/04 17:27:00 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ static void	prompt(t_data *data)
 		if (data->cmd && data->cmd[0] != '\0')
 		{
 			add_history(data->cmd);
+			data->cmd_split = str_split(data->cmd, "|><");
+			int i = 0;
+			while(data->cmd_split[i])
+			{
+				printf("%s\n", data->cmd_split[i]);
+				i++;
+			}
 			parse_args(data, data->cmd);
 			if (!builtins(data))
 				exec_program(data);

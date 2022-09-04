@@ -6,7 +6,7 @@
 #    By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/09/04 13:34:48 by tdehne           ###   ########.fr        #
+#    Updated: 2022/09/04 17:18:49 by tdehne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,8 @@ SRC				= 	${NAME}				\
 					exec/exec			\
 					utils/init			\
 					utils/exit			\
-					utils/signal
+					utils/signal		\
+					utils/str_split
 					
 INC				=	libft				\
 					${NAME}
