@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 15:36:53 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/03 19:19:06 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/04 13:17:55 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ bool	builtins(t_data *data)
 		return (builtin_cd(data));
 	else if (!ft_strncmp(data->args[0], "export", 6))
 		return (builtin_export(data));
-	if (!ft_strncmp(data->args[0], "exit", 4) || data->args[0])
+	if (!ft_strncmp(data->args[0], "exit", 4)) // || data->args[0] == '\0')
 		cleanup(data, 0);
 	return (false);
 }
@@ -46,7 +46,7 @@ bool	builtins(t_data *data)
 static void exec_cmd2(t_data *data, char **envp)
 {
 	if (!builtins(data))
-		exec_program(data, envp);
+		exec_program(data);
 }
 
 static void exec_cmd(t_data *data, char **envp)
@@ -58,29 +58,23 @@ static void exec_cmd(t_data *data, char **envp)
 	if (!ft_strncmp((*data->btree)->value, "|", 2))
 	{
 		data->flag_pipe = true;
-		return ;	
+		// return ;	
 	}
 	parse_args(data, (*data->btree)->value);
 }
 
-void	exec_program(t_data *data, char **envp)
+void	exec_program(t_data *data)
 {
 	pid_t		pid;
 	int			exit_code;
 	char		*abs_path;
-	
+
 	abs_path = get_path(data);
 	if (!abs_path)
 		abs_path = ft_strdup(data->cmd);
-	if (!access(abs_path, F_OK))
-	{
-		pid = fork();
-		if (pid == 0)
-		{
-			// dup2(data->pipes.pipefd[1], 1);
-			execve(abs_path, data->args, envp);
-		}
-		waitpid(pid, NULL, 0);
-		exit_code = WEXITSTATUS(pid);
-	}
+	pid = fork();
+	if (pid == 0)
+		execve(abs_path, data->args, data->envp);
+	waitpid(pid, NULL, 0);
+	exit_code = WEXITSTATUS(pid);
 }

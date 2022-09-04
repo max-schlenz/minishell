@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:41:09 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/03 19:23:16 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/04 13:14:56 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	parse_cmd(t_data *data)
 	}
 }
 
-void	lol(t_data *data)
+void	make_btree(t_data *data)
 {
 	t_btree *tmp;
 	

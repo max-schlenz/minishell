@@ -6,13 +6,13 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:51:04 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/03 19:17:11 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/04 13:15:58 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_btree	*btree_lstnew(char *content)
+t_btree	*lstnew_btree(char *content)
 {
 	t_btree	*list;
 
@@ -44,7 +44,7 @@ t_btree	*lstlast_right(t_btree *lst)
 }
 
 
-void	mslstadd_right(t_btree **lst, t_btree *new)
+void	lstadd_right(t_btree **lst, t_btree *new)
 {
 	t_btree	*list;
 
@@ -60,7 +60,7 @@ void	mslstadd_right(t_btree **lst, t_btree *new)
 		list->right = new;
 }
 
-void	ft_mslstadd_left(t_btree **lst, t_btree *new)
+void	lstadd_left(t_btree **lst, t_btree *new)
 {
 	t_btree	*list;
 
@@ -76,7 +76,7 @@ void	ft_mslstadd_left(t_btree **lst, t_btree *new)
 		list->left = new;
 }
 
-void	ft_lstrm_node(t_btree **head, t_btree *to_be_removed)
+void	lstrm_node(t_btree **head, t_btree *to_be_removed)
 {
 	t_btree	*tmp;
 	t_btree	*tmp_left_left;

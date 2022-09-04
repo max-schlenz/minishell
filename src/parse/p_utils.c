@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:12:51 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/03 19:22:09 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/04 13:17:35 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ void	set_btree_value(char *s, char *set, t_btree **head)
 	i = 0;
 	if (!set)
 	{
-		*head = btree_lstnew(" ");
-		node_left = btree_lstnew(s);	
-		ft_mslstadd_left(head, node_left);
+		*head = lstnew_btree(" ");
+		node_left = lstnew_btree(s);	
+		lstadd_left(head, node_left);
 		return ;
 	}
 
@@ -68,15 +68,15 @@ void	set_btree_value(char *s, char *set, t_btree **head)
 		{
 			
 			if (!*head)
-				*head = btree_lstnew(set);
+				*head = lstnew_btree(set);
 			(*head)->value = set;
-			node_right = btree_lstnew(ft_substr(s, len + len_delim, ft_strlen(s) - len - len_delim));
-			mslstadd_right(head, node_right);
+			node_right = lstnew_btree(ft_substr(s, len + len_delim, ft_strlen(s) - len - len_delim));
+			lstadd_right(head, node_right);
 			break;
 		}
 	}
-	node_left = btree_lstnew(ft_substr(s, 0, len));
-	ft_mslstadd_left(head, node_left);
+	node_left = lstnew_btree(ft_substr(s, 0, len));
+	lstadd_left(head, node_left);
 }
 
 char	*get_next_special_char(char *str)
