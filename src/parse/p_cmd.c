@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:41:09 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/04 16:06:32 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/04 17:57:56 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,13 @@ static void parse_var(t_data *data, char *arg, int index_arg)
 	data->args[index_arg] = ft_strjoin(data->args[index_arg], rest);
 }
 
-void	parse_args(t_data *data, char *cmd)
+void	parse_args(t_data *data, int cmd_index)
 {
 	int		index_args;
 	char	*var;
-	char	*tmp;
 
 	index_args = 0;
-	data->args = ft_split(cmd, ' ');
+	data->args = ft_split(data->cmd_split[cmd_index], ' ');
 	while (data->args[index_args])
 	{
 		if (check_esc_var_quo(data->args[index_args]))
@@ -64,4 +63,5 @@ void	parse_args(t_data *data, char *cmd)
 		data->args[index_args] = ft_strjoin(data->args[index_args], " ");
 		index_args++;
 	}
+	data->args[index_args] = NULL;
 }

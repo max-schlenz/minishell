@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 15:36:53 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/04 15:11:14 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/04 17:56:57 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,16 @@ void	exec_program(t_data *data)
 	int			exit_code;
 	char		*abs_path;
 
+	exit_code = 0;
 	abs_path = get_path(data);
 	if (!abs_path)
 		abs_path = ft_strdup(data->cmd);
 	pid = fork();
 	if (pid == 0)
 		execve(abs_path, data->args, data->envp);
-	waitpid(pid, NULL, 0);
-	exit_code = WEXITSTATUS(pid);
+	waitpid(pid, &exit_code, 0);
+	printf("%s\n", data->args[1]);
+	//printf("exit code before %d pid %d\n", WEXITSTATUS, pid);
+	//exit_code = WEXITSTATUS(pid) >> 7;
+	printf("exit code %d pid %d\n", exit_code, pid);
 }

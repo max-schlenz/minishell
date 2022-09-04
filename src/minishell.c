@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/04 17:27:00 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/04 17:36:24 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,16 @@ static void	prompt(t_data *data)
 		if (data->cmd && data->cmd[0] != '\0')
 		{
 			add_history(data->cmd);
-			data->cmd_split = str_split(data->cmd, "|><");
+			data->cmd_split = str_split(data->cmd, "|>");
 			int i = 0;
 			while(data->cmd_split[i])
 			{
-				printf("%s\n", data->cmd_split[i]);
+				//printf("%s\n", data->cmd_split[i]);
+				parse_args(data, i);
+				if (!builtins(data))
+					exec_program(data);
 				i++;
 			}
-			parse_args(data, data->cmd);
-			if (!builtins(data))
-				exec_program(data);
 		}
 		clear_buffers(data);
 	}

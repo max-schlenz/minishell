@@ -89,7 +89,7 @@ bool			builtins(t_data *data);
 void			prioritization(t_data *data);
 void			make_btree(t_data *data);
 char			*check_esc_var_quo(const char *s);
-void			parse_args(t_data *data, char *cmd);
+void			parse_args(t_data *data, int cmd_index);
 
 //parse/p_utils.c
 char			*get_next_special_char(char *str);

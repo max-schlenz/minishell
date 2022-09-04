@@ -25,3 +25,4 @@
 - exit 347627846327643
 - VAR="*..
 - export "'#
+- rm x (when x doesnt exist doesnt error)
