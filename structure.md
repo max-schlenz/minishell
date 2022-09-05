@@ -13,3 +13,6 @@
 - [ ] redirections
 - [ ] pipes
 - 
+
+
+red/blue exit

@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/09/03 13:50:06 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/09/05 12:06:12 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ BCYAN	=	$(shell echo -e "\033[1;36m")
 
 NAME 		= 	libft.a
 
+INC_DIR		=	../../inc/
 SRC_DIR		=	src/
 OBJ_DIR		=	obj/
 LIB_DIR		=	../../lib/
@@ -42,7 +43,7 @@ SRC_PATH	=	$(addsuffix .c, $(addprefix $(SRC_DIR), $(SRC)))
 OBJ_PATH	=	$(addsuffix .o, $(addprefix $(OBJ_DIR), $(SRC)))
 
 FLAGS		=	-Wall -Wextra -Werror
-INCLUDES	=	-I inc
+INCLUDES	=	-I $(INC_DIR)
 
 all: create_dirs $(OBJ_PATH) $(NAME)
 

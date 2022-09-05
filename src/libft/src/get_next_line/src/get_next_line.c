@@ -6,11 +6,10 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 21:00:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/07/29 14:43:00 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/05 12:06:41 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <get_next_line.h>
 #include <libft.h>
 
 static void	create_line(char **line, char **stat_buf, int fd, int rcheck)

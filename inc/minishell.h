@@ -33,6 +33,7 @@
 
 # define E_MEM_MSG	"Failed to allocate memory."
 # define E_FORK_MSG	"Failed to create Forks."
+# define E_NC_QUOTE "Error: unclosed quotes!"
 
 typedef struct s_pipes
 {
@@ -47,6 +48,7 @@ typedef struct s_data
 	char	**path;
 	char	**args;
 	char	**envp;
+	char	**argv;
 	char	**cmd_split;
 	char	*cmd;
 	int		counter_env;
@@ -98,14 +100,15 @@ char			*check_esc_var_quo(const char *s);
 void			realloc_envp(t_data *data, int flag);
 size_t			strlen_var(const char *c);
 
+//parse/split_quotes.c
+bool			split_quotes(t_data *data, char *cmd);
+
 //builtins
 bool			builtin_cd(t_data *data);
 bool			builtin_echo(t_data *data);
 bool			builtin_export(t_data *data);
 
-
 //utils/signal.c
 void			signal_handler(int sig, siginfo_t *info, void *context);
-
 
 #endif

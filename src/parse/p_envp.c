@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_envp.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/04 15:34:16 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/05 14:33:12 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,5 @@ void	parse_envp(t_data *data, char **envp)
 		data->envp[i] = ft_strdup(envp[i]);
 		i++;
 	}
+	data->envp[i] = NULL;
 }

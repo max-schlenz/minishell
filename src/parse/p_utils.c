@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_utils.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:12:51 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/04 16:03:14 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/05 14:27:14 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ size_t	strlen_path(const char *c)
 	int	i;
 
 	i = 0;
-	while (c[i] && ft_isalnum(c[i]))
+	while (c[i] && (ft_isalnum(c[i]) || c[i] == '$'))
 		i++;
 	return (i);
 }

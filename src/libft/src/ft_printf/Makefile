@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/09/03 13:49:48 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/09/05 12:07:33 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ BCYAN	=	$(shell echo -e "\033[1;36m")
 
 NAME 	=	libft.a
 
-INC_DIR		=	../../inc/
+INC_DIR		=	../../../../inc/
 SRC_DIR		=	src/
 OBJ_DIR		=	obj/
 LIB_DIR		=	../../../../lib/
