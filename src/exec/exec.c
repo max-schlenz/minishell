@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 15:36:53 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/05 13:43:24 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/05 18:47:09 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool	builtins(t_data *data)
 {
 	if (!ft_strncmp(data->argv[0], "echo", 4))
 		return (builtin_echo(data));
-	else if (!ft_strncmp(data->argv[0], "cd", 2))
+	if (!ft_strncmp(data->argv[0], "cd", 2))
 		return (builtin_cd(data));
 	else if (!ft_strncmp(data->argv[0], "export", 6))
 		return (builtin_export(data));

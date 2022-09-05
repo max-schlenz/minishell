@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/05 15:46:41 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/05 18:52:31 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ static bool	alloc_mem_array(t_data *data, char *cmd)
 	bool	f_dquote;
 	bool	f_squote;
 
-	wc = 0;
+	wc = 1;
 	i = 0;
 	f_dquote = false;
 	f_squote = false;
-	while (cmd[i] && cmd[i] != '|')
+	while (cmd[i])
 	{
 		if (cmd[i] == '\"' && !f_squote)
 			f_dquote = !f_dquote;
@@ -73,6 +73,28 @@ static char	*get_var_content(t_data *data, char *var)
 	return (ft_strdup(""));
 }
 
+static void remove_quotes(t_data *data, int i_arg, bool f_dquote, bool f_squote)
+{
+	char **tmp = NULL;
+	char *tmp2 = NULL;
+	char delim;
+
+	if (!f_squote && f_dquote)
+		delim = '\"';
+	if (!f_dquote && f_squote)
+		delim = '\'';
+	if (f_dquote && f_squote)
+		delim = '\'';
+	tmp = ft_split(data->argv[i_arg], delim);
+	free(data->argv[i_arg]);
+	data->argv[i_arg] = NULL;
+	while (*tmp)
+	{
+		data->argv[i_arg] = ft_strjoin_dup(data->argv[i_arg], *tmp);
+		free(*tmp++);
+	}
+}
+
 void	expand_vars(t_data *data)
 {
 	int i_arg;
@@ -82,33 +104,50 @@ void	expand_vars(t_data *data)
 	char *vname;
 	char *vcontent;
 	char *str_before_vplus_vcontent;
+	char *str_after_v;
+	char *argv_out;
 	int	len_s_b_vp_vc = 0;
+	bool f_dquote;
+	bool f_squote;
 
+	char *pre;
+	char *post;
+
+	int i_sqote;
+
+	i_sqote = 0;
 	i_arg = 0;
 	i_char = 0;
 	while (data->argv[i_arg])
 	{
+		f_dquote = false;
+		f_squote = false;
 		while (data->argv[i_arg][i_char])
 		{
-			if (data->argv[i_arg][i_char] == '$')
+			if (data->argv[i_arg][i_char] == '\"')
+				f_dquote = true;
+			if (data->argv[i_arg][i_char] == '\'' && !f_dquote)
+				f_squote = true;
+			if (data->argv[i_arg][i_char] == '$' && !f_squote)
 			{
 				str_before_v = ft_substr(data->argv[i_arg], 0, i_char);
-				vname = ft_substr(data->argv[i_arg], i_char, strlen_path(data->argv[i_arg]));
+				str_before_v = ft_strtrim(str_before_v, "\"");
+				vname = ft_substr(data->argv[i_arg], i_char, strlen_path(data->argv[i_arg] + i_char));
 				vcontent = get_var_content(data, vname);
 				str_before_vplus_vcontent = ft_strjoin(str_before_v, vcontent);
-				free (data->argv[i_arg]);
-				data->argv[i_arg] = str_before_vplus_vcontent;
-				// len_s_b_vp_vc = ft_strlen(str_before_vplus_vcontent);
+				len_s_b_vp_vc = ft_strlen(str_before_vplus_vcontent);
+				str_after_v = ft_substr(data->argv[i_arg], i_char + ft_strlen(vname), ft_strlen(data->argv[i_arg]) - i_char + ft_strlen(vname));
+				str_after_v = ft_strtrim(str_after_v, "\"");
 				free (vname);
 				free (vcontent);
+				free (data->argv[i_arg]);
+				data->argv[i_arg] = ft_strjoin(str_before_vplus_vcontent, str_after_v);
+				free (str_before_vplus_vcontent);
+				free (str_after_v);
 			}
 			i_char++;
 		}
-		// if (!len_s_b_vp_vc)
-		// {
-			
-		// }
-		printf("%s\n", data->argv[i_arg]);
+		remove_quotes(data, i_arg, f_dquote, f_squote);
 		i_char = 0;
 		i_arg++;
 	}
@@ -149,7 +188,7 @@ char	*split_quotes(t_data *data, char *cmd)
 		parse_string(data, cmd, array_index, i, j);
 		array_index++;
 		data->argv[array_index] = NULL;
-		//expand_vars(data);
+		expand_vars(data);
 		return (cmd + i);
 	}
 	data->flag_error = true;

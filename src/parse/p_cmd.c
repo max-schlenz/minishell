@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_cmd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:41:09 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/05 15:56:34 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/05 16:06:12 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	parse_args(t_data *data, int cmd_index)
 					parse_var(data, var, index_args);
 			}
 		}
-		printf("%s\n", data->argv[index_args]);
+		// printf("%s\n", data->argv[index_args]);
 		data->argv[index_args] = ft_strtrim(data->argv[index_args], "\"");
 		data->argv[index_args] = ft_strtrim(data->argv[index_args], "\'");
 		if (index_args > 0)
