@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 17:17:29 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/04 17:18:10 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/04 18:08:11 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,10 @@
 
 static int	is_in_set(char c, char const *set)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < ft_strlen(set))
-	{
-		if (c == set[i])
-			return (1);
-		i++;
-	}
+	if (ft_strncmp(&c, ">>", 2) == 0 || ft_strncmp(&c, "<<", 2) == 0)
+		return (1);
+	if (c == '|' || c == '<' || c == '>')
+		return (1);
 	return (0);
 }
 

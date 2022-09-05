@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/05 15:17:51 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/05 15:46:41 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	expand_vars(t_data *data)
 	}
 }
 
-bool	split_quotes(t_data *data, char *cmd)
+char	*split_quotes(t_data *data, char *cmd)
 {
 	int		i;
 	int		j;
@@ -130,8 +130,10 @@ bool	split_quotes(t_data *data, char *cmd)
 		i = 0;
 		j = 0;
 		array_index = 0;
-		while (cmd[i] && cmd[i] != '|')
+		while (cmd[i])
 		{
+			if ((cmd[i] == '|' || cmd[i] == '>' || cmd[i] == '<' ) && !f_dquote && !f_squote)
+				return (cmd + i);
 			if (cmd[i] == '\"' && !f_squote)
 				f_dquote = !f_dquote;
 			if (cmd[i] == '\'' && !f_dquote)
@@ -147,8 +149,9 @@ bool	split_quotes(t_data *data, char *cmd)
 		parse_string(data, cmd, array_index, i, j);
 		array_index++;
 		data->argv[array_index] = NULL;
-		expand_vars(data);
-		return (true);
+		//expand_vars(data);
+		return (cmd + i);
 	}
-	return (false);
+	data->flag_error = true;
+	return (NULL);
 }

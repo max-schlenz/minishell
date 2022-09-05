@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/05 14:33:45 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/05 15:52:28 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	prompt(t_data *data)
 	// data->r_pipe = pipe(data->pipes->pipefd);
 	while (1)
 	{
+		data->flag_error = false;
 		parse_path(data);
 		data->cmd = readline("minishell >$ ");
 		if (!data->cmd)
@@ -30,19 +31,20 @@ static void	prompt(t_data *data)
 		if (data->cmd && data->cmd[0] != '\0')
 		{
 			add_history(data->cmd);
-			if (!split_quotes(data, data->cmd))
-				continue ;
-			// parse_args(data, i);
-			// if (!builtins(data))
-			// 	exec_program(data);
-			// i = 0;
-			// data->cmd_split = str_split(data->cmd, "|><");
-			// while(data->cmd_split[i])
-			// {
-			// 	data->cmd_split[i] = ft_strtrim(data->cmd_split[i], " ");
-			// 	// printf("%s\n", data->cmd_split[i]);
-			// 	i++;
-			// }
+			data->cmd = split_quotes(data, data->cmd);
+			if (data->flag_error)
+				continue;
+			parse_args(data, i);
+			if (!builtins(data))
+				exec_program(data);
+			/*i = 0;
+			data->cmd_split = str_split(data->cmd, "|><");
+			while(data->cmd_split[i])
+			{
+				data->cmd_split[i] = ft_strtrim(data->cmd_split[i], " ");
+				// printf("%s\n", data->cmd_split[i]);
+				i++;
+			}*/
 		}
 		clear_buffers(data);
 	}

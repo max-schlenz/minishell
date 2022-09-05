@@ -53,6 +53,7 @@ typedef struct s_data
 	char	*cmd;
 	int		counter_env;
 	int		flag_pipe;
+	bool	flag_error;
 	t_pipes	*pipes;
 	int		r_pipe;
 }	t_data;
@@ -101,7 +102,7 @@ void			realloc_envp(t_data *data, int flag);
 size_t			strlen_var(const char *c);
 
 //parse/split_quotes.c
-bool			split_quotes(t_data *data, char *cmd);
+char			*split_quotes(t_data *data, char *cmd);
 
 //builtins
 bool			builtin_cd(t_data *data);
