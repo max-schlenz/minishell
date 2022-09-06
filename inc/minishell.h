@@ -35,7 +35,7 @@
 
 typedef struct s_pipes
 {
-	int		pipefd[2];
+	int		pipefd[4096][2];
 	char	rdbuf[4096];
 	char	*out1;
 	pid_t	pid[2];

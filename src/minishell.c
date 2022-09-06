@@ -30,15 +30,18 @@ static void	init_prompt(t_data *data)
 
 static void	prompt(t_data *data)
 {
-	data->r_pipe = pipe(data->pipes->pipefd);
+	int  index_array = 0;
+	
+	add_history("ls | grep l | grep m");
+	add_history("ls | grep l");
 	data->cmd = readline("minishell >$ ");
 	if (!data->cmd)
 		data->cmd = ft_strdup("exit");
 	else	
 		add_history(data->cmd);
-		add_history("ls | grep l | grep m");
 	while (data->cmd && data->cmd[0] != '\0')
 	{
+		pipe(data->pipes->pipefd[index_array]);
 		while (*data->cmd == ' ')
 			*data->cmd ++;
 		data->cmd = split_quotes(data, data->cmd);
@@ -50,6 +53,7 @@ static void	prompt(t_data *data)
 			continue;
 		if (!builtins(data))
 			exec_program(data);
+		index_array++;
 	}
 }
 
