@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/06 12:32:45 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/06 14:15:31 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,14 @@ static void	prompt(t_data *data)
 		data->cmd = ft_strdup("exit");
 	else	
 		add_history(data->cmd);
+		add_history("ls | grep l | grep m");
 	while (data->cmd && data->cmd[0] != '\0')
 	{
 		while (*data->cmd == ' ')
 			*data->cmd ++;
 		data->cmd = split_quotes(data, data->cmd);
-		if (*data->cmd == '|' && data->flag_pipe == 0)
-			data->flag_pipe = 1;
+		// if (*data->cmd == '|') //&& data->flag_pipe == -1)
+		// 	data->flag_pipe = 0;
 		if (*data->cmd == '|' || *data->cmd == ';')
 			*data->cmd++;
 		if (data->flag_error || !data->argv[0])
