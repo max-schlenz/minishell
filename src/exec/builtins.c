@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/05 13:49:08 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/06 10:48:58 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ bool	builtin_cd(t_data *data)
 bool	builtin_echo(t_data *data)
 {
 	int 	i = 1;
+	char	*cmd_trim;
 	bool	echo_n = false;
 
 	if (data->argv[i] && !ft_strncmp(data->argv[i], "-n", 2))
@@ -36,7 +37,10 @@ bool	builtin_echo(t_data *data)
 	while (data->argv[i])
 	{
 		if (data->argv[i][0] != '-')
-			ft_printf("%s", data->argv[i]);
+		{
+			cmd_trim = ft_strtrim(data->argv[i], " ");
+			ft_printf("%s ", cmd_trim);
+		}
 		i++;
 	}
 	if (!echo_n)
@@ -67,6 +71,7 @@ bool	builtin_export(t_data *data)
 		}
 		if (!data->envp[i])
 			realloc_envp(data, 1);
+		parse_path(data);
 		return (true);
 	}
 	printf("error\n");

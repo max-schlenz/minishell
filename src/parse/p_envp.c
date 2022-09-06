@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/05 14:33:12 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/06 10:48:44 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,5 @@ void	parse_envp(t_data *data, char **envp)
 		i++;
 	}
 	data->envp[i] = NULL;
+	parse_path(data);
 }

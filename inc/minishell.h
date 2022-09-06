@@ -1,5 +1,3 @@
-
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -8,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 18:55:52 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/08/30 14:14:30 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/06 11:50:44 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +56,6 @@ typedef struct s_data
 	int		r_pipe;
 }	t_data;
 
-
 typedef enum s_status
 {
 	SUCCESS,
@@ -67,8 +64,8 @@ typedef enum s_status
 }	t_status;
 
 //	init.c
-void			init(t_data *data);
-t_data			*allocate_mem(void);
+void			init_vars(t_data *data);
+t_data			*allocate_mem();
 
 //	parse_envp.c
 void			parse_envp(t_data *data, char **envp);
