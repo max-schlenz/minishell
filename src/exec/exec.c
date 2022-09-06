@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 15:36:53 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/05 18:47:09 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/06 12:33:27 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,31 +48,33 @@ void	exec_program(t_data *data)
 	pid_t		pid;
 	int			exit_code;
 	char		*abs_path;
-	char		*blub[3];
 
-	blub[0] = "/usr/bin/grep";
-	blub[1] = "l";
-	blub[2] = NULL;
 	abs_path = get_path(data);
 	if (!abs_path)
 		abs_path = ft_strdup(data->cmd);
 	pid = fork();
 	if (pid == 0)
 	{
+		if (data->flag_pipe == 1)
+		{
+			dup2(data->pipes->pipefd[1], 1);
+			close(data->pipes->pipefd[0]);
+		}
+		if (data->flag_pipe == 2)
+		{
+			dup2(data->pipes->pipefd[0], 0);
+			close(data->pipes->pipefd[1]);
+		}
 		execve(abs_path, data->argv, data->envp);
-		// if (!data->flag_pipe)
-		// {
-		// 	dup2(data->pipes->pipefd[1], 1);
-		// 	close(data->pipes->pipefd[0]);
-		// 	data->flag_pipe = true;
-		// 	execve(abs_path, data->args, data->envp);
-		// }
-		// else
-		// {
-		//  	dup2(data->pipes->pipefd[0], 0);
-		//  	close(data->pipes->pipefd[1]);
-		// }
 	}
+	close(data->pipes->pipefd[1]);
 	waitpid(pid, &exit_code, 0);
+	if (data->flag_pipe == 1)
+		data->flag_pipe++;
+	else
+		data->flag_pipe = 0;
+
+	// while (read(data->pipes->pipefd[0], data->pipes->rdbuf, 1))
+	// 	write(1, data->pipes->rdbuf, 1);
 	// exit_code = WEXITSTATUS(pid);
 }
