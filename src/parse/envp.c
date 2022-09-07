@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/07 13:10:16 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/07 15:30:46 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ void	sort_array(t_data *data)
 		{
 			if (strcmp_alnum(data->envp[i], data->envp[i + 1]) > 0)
 			{
-				tmp = data->envp[i];
-				data->envp[i] = data->envp[i + 1];
-				data->envp[i + 1] = tmp;
+				tmp = ft_strdup(data->envp[i]);
+				data->envp[i] = ft_strdup(data->envp[i + 1]);
+				data->envp[i + 1] = ft_strdup(tmp);
 				break;
 			}
 			i++;
