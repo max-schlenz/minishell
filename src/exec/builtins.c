@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/07 14:12:18 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/07 14:14:35 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,9 +152,9 @@ bool	builtin_color(t_data *data)
 	if (data->argv[1])
 	{
 		if (!ft_strncmp(data->argv[1], "white", 6) || !ft_strncmp(data->argv[1], "w", 2))
-			data->prompt = "\033[34;1mmini\033[36;1mshell\033[0m >$ ";
-		else if (!ft_strncmp(data->argv[1], "default", 8) || !ft_strncmp(data->argv[1], "d", 2))
 			data->prompt = "minishell >$ ";
+		else if (!ft_strncmp(data->argv[1], "default", 8) || !ft_strncmp(data->argv[1], "d", 2))
+			data->prompt = "\033[34;1mmini\033[36;1mshell\033[0m >$ ";
 		else if (!ft_strncmp(data->argv[1], "red", 4) || !ft_strncmp(data->argv[1], "r", 2))
 			data->prompt = "\033[0;31mminishell\033[0m >$ ";
 		else if (!ft_strncmp(data->argv[1], "green", 6) || !ft_strncmp(data->argv[1], "g", 2))
