@@ -67,19 +67,23 @@ static void remove_quotes(t_data *data, int i_arg, bool f_dquote, bool f_squote)
 	char **tmp = NULL;
 	char delim;
 
+	delim = 0;
 	if (!f_squote && f_dquote)
 		delim = '\"';
 	if (!f_dquote && f_squote)
 		delim = '\'';
 	if (f_dquote && f_squote)
 		delim = '\'';
-	tmp = ft_split(data->argv[i_arg], delim);
-	free(data->argv[i_arg]);
-	data->argv[i_arg] = NULL;
-	while (*tmp)
+	if (delim)
 	{
-		data->argv[i_arg] = ft_strjoin_dup(data->argv[i_arg], *tmp);
-		free(*tmp++);
+		tmp = ft_split(data->argv[i_arg], delim);
+		free(data->argv[i_arg]);
+		data->argv[i_arg] = NULL;
+		while (*tmp)
+		{
+			data->argv[i_arg] = ft_strjoin_dup(data->argv[i_arg], *tmp);
+			free(*tmp++);
+		}
 	}
 }
 

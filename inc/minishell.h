@@ -36,6 +36,7 @@
 typedef struct s_pipes
 {
 	int		pipefd[4096][2];
+	int		fd_i;
 	char	rdbuf[4096];
 	char	*out1;
 	pid_t	pid[2];
@@ -50,6 +51,7 @@ typedef struct s_data
 	char	**cmd_split;
 	char	*cmd;
 	int		counter_env;
+	int		counter_pipes;
 	int		flag_pipe;
 	bool	flag_error;
 	t_pipes	*pipes;

@@ -14,34 +14,65 @@
 
 static void	clear_buffers(t_data *data)
 {
+	int i;
+
+	i = 0;
 	data->cmd = NULL;
 	if (data->argv)
 	{
 		while (*data->argv)
 			free(*data->argv++);
 	}
+	close(data->pipes->pipefd[0][0]);
+	close(data->pipes->pipefd[0][1]);
+	close(data->pipes->pipefd[1][0]);
+	close(data->pipes->pipefd[1][1]);
+	close(data->pipes->pipefd[2][0]);
+	close(data->pipes->pipefd[2][1]);
+	close(data->pipes->pipefd[3][0]);
+	close(data->pipes->pipefd[3][1]);
+	data->flag_pipe = 0;
 }
 
 static void	init_prompt(t_data *data)
 {
 	data->flag_error = false;
 	data->flag_pipe = 0;
+	data->counter_pipes = 0;
+	pipe(data->pipes->pipefd[0]);
+	pipe(data->pipes->pipefd[1]);
+	pipe(data->pipes->pipefd[2]);
+	pipe(data->pipes->pipefd[3]);
+}
+
+static void count_pipes(t_data *data)
+{
+	int i;
+
+	i = 0;
+	while (data->cmd[i])
+	{
+		if (data->cmd[i] == '|')
+			data->counter_pipes++;
+		i++;
+	}
 }
 
 static void	prompt(t_data *data)
 {
-	int  index_array = 0;
-	
-	add_history("ls | grep l | grep m");
 	add_history("ls | grep l");
+	add_history("ls | grep l | grep m");
+	add_history("ls | grep l | grep m | grep t | wc -c");
 	data->cmd = readline("minishell >$ ");
 	if (!data->cmd)
 		data->cmd = ft_strdup("exit");
-	else	
+	else
+	{
 		add_history(data->cmd);
+		count_pipes(data);
+	}
 	while (data->cmd && data->cmd[0] != '\0')
 	{
-		pipe(data->pipes->pipefd[index_array]);
 		while (*data->cmd == ' ')
 			*data->cmd ++;
 		data->cmd = split_quotes(data, data->cmd);
@@ -53,7 +84,6 @@ static void	prompt(t_data *data)
 			continue;
 		if (!builtins(data))
 			exec_program(data);
-		index_array++;
 	}
 }
 
