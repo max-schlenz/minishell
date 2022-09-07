@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/07 15:30:46 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/07 17:37:23 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,13 @@ void	sort_array(t_data *data)
 	int i = 0;
 	int j = 0;
 	
-	while (j < data->counter_env * 3)
+	while (j < data->counter_env * data->counter_env)
 	{
 		while (i < data->counter_env)
 		{
 			if (strcmp_alnum(data->envp[i], data->envp[i + 1]) > 0)
 			{
+				//printf("baaame\n");
 				tmp = ft_strdup(data->envp[i]);
 				data->envp[i] = ft_strdup(data->envp[i + 1]);
 				data->envp[i + 1] = ft_strdup(tmp);
