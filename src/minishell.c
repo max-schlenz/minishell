@@ -49,7 +49,7 @@ static bool count_pipes(t_data *data)
 
 static void	prompt(t_data *data)
 {
-	data->cmd = readline("\033[34;1mmini\033[36;1mshell\033[0m >$ ");
+	data->cmd = readline(data->prompt);
 	if (!data->cmd)
 		data->cmd = ft_strdup("exit");
 	else
@@ -88,7 +88,7 @@ int	main(int argc, char **argv, char **envp)
 
 	data = allocate_mem();
 	signals();
-	init_vars(data);
+	init_vars(data, argv);
 	parse_envp(data, envp);
 	while (1)
 	{

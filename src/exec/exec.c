@@ -44,6 +44,8 @@ bool	builtins(t_data *data)
 		return (builtin_pwd(data));
 	else if (!ft_strncmp(data->argv[0], "unset", 6))
 		return (builtin_unset(data));
+	else if (!ft_strncmp(data->argv[0], "color", 6))
+		return (builtin_color(data));
 	if (!ft_strncmp(data->argv[0], "exit", 5)) // || data->argv[0] == '\0')
 		cleanup(data, 0);
 	return (false);

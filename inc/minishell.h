@@ -51,6 +51,7 @@ typedef struct s_data
 	int		flag_pipe;
 	bool	flag_error;
 	int		fd_i;
+	char	*prompt;
 	t_pipes *pipes;
 }	t_data;
 
@@ -62,7 +63,7 @@ typedef enum s_status
 }	t_status;
 
 //	init.c
-void			init_vars(t_data *data);
+void			init_vars(t_data *data, char **argv);
 t_data			*allocate_mem();
 void			open_pipes(t_data *data);
 
@@ -110,6 +111,7 @@ bool			builtin_export(t_data *data);
 bool			builtin_env(t_data *data);
 bool			builtin_pwd(t_data *data);
 bool			builtin_unset(t_data *data);
+bool			builtin_color(t_data *data);
 
 //utils/signal.c
 void			signal_handler(int sig, siginfo_t *info, void *context);

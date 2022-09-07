@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/07 13:20:38 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/07 14:12:18 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,48 @@ bool	builtin_unset(t_data *data)
 		data->envp[i] = NULL;
 		sort_array(data);
 		return (true);
+	}
+	return (true);
+}
+
+bool	builtin_color(t_data *data)
+{
+	int		i;
+	char	*code;
+
+	i = 0;
+	if (!data->argv[1])
+	{
+		printf("change the color of your prompt!\n\n \
+		d - \033[34;1mdef\033[36;1mault\033[0m\n \
+		w - \033[0;34mwhite\033[0m\n \
+		r - \033[0;31mred\033[0m\n \
+		g - \033[0;32mgreen\033[0m\n \
+		y - \033[0;33myellow\033[0m\n \
+		b - \033[0;34mblue\033[0m\n \
+		m - \033[0;35mmagenta\033[0m\n \
+		c - \033[0;36mcyan\033[0m\n\n");
+		
+		data->argv[1] = readline("color code: ");
+	}
+	if (data->argv[1])
+	{
+		if (!ft_strncmp(data->argv[1], "white", 6) || !ft_strncmp(data->argv[1], "w", 2))
+			data->prompt = "\033[34;1mmini\033[36;1mshell\033[0m >$ ";
+		else if (!ft_strncmp(data->argv[1], "default", 8) || !ft_strncmp(data->argv[1], "d", 2))
+			data->prompt = "minishell >$ ";
+		else if (!ft_strncmp(data->argv[1], "red", 4) || !ft_strncmp(data->argv[1], "r", 2))
+			data->prompt = "\033[0;31mminishell\033[0m >$ ";
+		else if (!ft_strncmp(data->argv[1], "green", 6) || !ft_strncmp(data->argv[1], "g", 2))
+			data->prompt = "\033[0;32mminishell\033[0m >$ ";
+		else if (!ft_strncmp(data->argv[1], "yellow", 7) || !ft_strncmp(data->argv[1], "y", 2))
+			data->prompt = "\033[0;33mminishell\033[0m >$ ";
+		else if (!ft_strncmp(data->argv[1], "blue", 5) || !ft_strncmp(data->argv[1], "b", 2))
+			data->prompt = "\033[0;34mminishell\033[0m >$ ";
+		else if (!ft_strncmp(data->argv[1], "magenta", 8) || !ft_strncmp(data->argv[1], "m", 2))
+			data->prompt = "\033[0;35mminishell\033[0m >$ ";
+		else if (!ft_strncmp(data->argv[1], "cyan", 5) || !ft_strncmp(data->argv[1], "c", 2))
+			data->prompt = "\033[0;36mminishell\033[0m >$ ";
 	}
 	return (true);
 }
