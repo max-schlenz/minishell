@@ -48,55 +48,43 @@ void	exec_program(t_data *data)
 	pid_t		pid;
 	int			exit_code;
 	char		*abs_path;
+	static int i = 0;
 
-	static int kk = 0;
 	abs_path = get_path(data);
 	if (!abs_path)
 		abs_path = ft_strdup(data->cmd);
 	pid = fork();
 	if (pid == 0)
 	{
-		if (kk == 0)
-		{
+		if (i == 0)
 			dup2(data->pipes->pipefd[0][1], 1);				//stdout <-> fd 0 write
-			// close(data->pipes->pipefd[0][0]);
-		}
-		else if (kk == 1)
+		else if (i == 1)
 		{
 			dup2(data->pipes->pipefd[0][0], 0);				//stdin <-> fd 0 read
 			dup2(data->pipes->pipefd[1][1], 1);				//stdout <-> fd 1 write
-			// close(data->pipes->pipefd[0][1]);
-			// close(data->pipes->pipefd[1][0]);
 		}
-		else if (kk == 2)
+		else if (i == 2)
 		{	
 			dup2(data->pipes->pipefd[1][0], 0);				//stdin <-> fd 1 read
 			dup2(data->pipes->pipefd[2][1], 1);				//stdout <-> fd 2 write
-			// close(data->pipes->pipefd[2][0]);
-			// close(data->pipes->pipefd[1][1]);
 		}
-		else if (kk == 3)
+		else if (i == 3)
 		{	
 			dup2(data->pipes->pipefd[2][0], 0);				//stdin <-> fd 2 read
 			dup2(data->pipes->pipefd[3][1], 1);				//stdout <-> fd 3 write
-			// close(data->pipes->pipefd[2][0]);
-			// close(data->pipes->pipefd[1][1]);
 		}
-		else if (kk == 4)
-		{
+		else if (i == 4)
 			dup2(data->pipes->pipefd[3][0], 0);				//stdin <-> fd 3 read
-			// close(data->pipes->pipefd[2][1]);
-		}
 		execve(abs_path, data->argv, data->envp);
 	}
 	waitpid(pid, &exit_code, 0);
-	if (kk != 4)
-	close(data->pipes->pipefd[kk][1]);						//still the only close that matters lol
+	if (i != 4)
+	close(data->pipes->pipefd[i][1]);						//still the only close that matters lol
 	data->flag_pipe = !data->flag_pipe;
-	if (kk == data->counter_pipes)
+	if (i == data->counter_pipes)
 	{
-		kk = 0;
+		i = 0;
 		return ;
 	}
-	kk++;
+	i++;
 }
