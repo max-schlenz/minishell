@@ -49,7 +49,7 @@ static bool count_pipes(t_data *data)
 
 static void	prompt(t_data *data)
 {
-	data->cmd = readline("minishell >$ ");
+	data->cmd = readline("\033[34;1mmini\033[36;1mshell\033[0m >$ ");
 	if (!data->cmd)
 		data->cmd = ft_strdup("exit");
 	else
