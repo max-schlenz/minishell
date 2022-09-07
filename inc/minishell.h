@@ -33,6 +33,11 @@
 # define E_FORK_MSG	"Failed to create Forks."
 # define E_NC_QUOTE "Error: unclosed quotes!"
 
+typedef struct s_pipes
+{
+	int		pipefd[4096][2];
+}	t_pipes;
+
 typedef struct s_data
 {
 	char	**path;
@@ -45,8 +50,8 @@ typedef struct s_data
 	int		counter_pipes;
 	int		flag_pipe;
 	bool	flag_error;
-	int		pipefd[4096][2];
 	int		fd_i;
+	t_pipes *pipes;
 }	t_data;
 
 typedef enum s_status

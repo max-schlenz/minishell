@@ -63,29 +63,29 @@ void	exec_program(t_data *data)
 		if (pid == 0)
 		{
 			if (i == 0)
-				dup2(data->pipefd[0][1], 1);				//stdout <-> fd 0 write
+				dup2(data->pipes->pipefd[0][1], 1);				//stdout <-> fd 0 write
 			else if (i == 1)
 			{
-				dup2(data->pipefd[0][0], 0);				//stdin <-> fd 0 read
-				dup2(data->pipefd[1][1], 1);				//stdout <-> fd 1 write
+				dup2(data->pipes->pipefd[0][0], 0);				//stdin <-> fd 0 read
+				dup2(data->pipes->pipefd[1][1], 1);				//stdout <-> fd 1 write
 			}
 			else if (i == 2)
 			{	
-				dup2(data->pipefd[1][0], 0);				//stdin <-> fd 1 read
-				dup2(data->pipefd[2][1], 1);				//stdout <-> fd 2 write
+				dup2(data->pipes->pipefd[1][0], 0);				//stdin <-> fd 1 read
+				dup2(data->pipes->pipefd[2][1], 1);				//stdout <-> fd 2 write
 			}
 			else if (i == 3)
 			{	
-				dup2(data->pipefd[2][0], 0);				//stdin <-> fd 2 read
-				dup2(data->pipefd[3][1], 1);				//stdout <-> fd 3 write
+				dup2(data->pipes->pipefd[2][0], 0);				//stdin <-> fd 2 read
+				dup2(data->pipes->pipefd[3][1], 1);				//stdout <-> fd 3 write
 			}
 			else if (i == 4)
-				dup2(data->pipefd[3][0], 0);				//stdin <-> fd 3 read
+				dup2(data->pipes->pipefd[3][0], 0);				//stdin <-> fd 3 read
 			execve(abs_path, data->argv, data->envp);
 		}
 		waitpid(pid, &exit_code, 0);
 		if (i != 4)
-		close(data->pipefd[i][1]);						//still the only close that matters lol
+		close(data->pipes->pipefd[i][1]);						//still the only close that matters lol
 		data->flag_pipe = !data->flag_pipe;
 		if (i == data->counter_pipes)
 		{
