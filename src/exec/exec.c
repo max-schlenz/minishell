@@ -40,6 +40,8 @@ bool	builtins(t_data *data)
 		return (builtin_export(data));
 	else if (!ft_strncmp(data->argv[0], "env", 4))
 		return (builtin_env(data));
+	else if (!ft_strncmp(data->argv[0], "pwd", 4))
+		return (builtin_pwd(data));
 	if (!ft_strncmp(data->argv[0], "exit", 5)) // || data->argv[0] == '\0')
 		cleanup(data, 0);
 	return (false);

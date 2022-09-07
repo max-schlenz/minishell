@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/07 11:24:16 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/07 11:26:30 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ bool	builtin_pwd(t_data *data)
 	int	i;
 
 	i = 0;
-	while (data->envp[i] && data->envp[i], "PWD", 3)
+	while (data->envp[i] && ft_strncmp(data->envp[i], "PWD", 3))
 		i++;
-	printf("%s\n", data->envp[i]);
+	printf("%s\n", data->envp[i] + 4);
 	return (true);
 }

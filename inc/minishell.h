@@ -101,6 +101,7 @@ bool			builtin_cd(t_data *data);
 bool			builtin_echo(t_data *data);
 bool			builtin_export(t_data *data);
 bool			builtin_env(t_data *data);
+bool			builtin_pwd(t_data *data);
 
 //utils/signal.c
 void			signal_handler(int sig, siginfo_t *info, void *context);
