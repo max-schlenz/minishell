@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/06 10:48:58 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/07 11:24:16 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ bool	builtin_echo(t_data *data)
 		{
 			cmd_trim = ft_strtrim(data->argv[i], " ");
 			ft_printf("%s ", cmd_trim);
+			free(cmd_trim);
 		}
 		i++;
 	}
@@ -71,9 +72,33 @@ bool	builtin_export(t_data *data)
 		}
 		if (!data->envp[i])
 			realloc_envp(data, 1);
+		sort_array(data);
 		parse_path(data);
 		return (true);
 	}
-	printf("error\n");
-	return (false);
+	i = 0;
+	while (data->envp[i])
+		printf("declare -x %s\n", data->envp[i++]);
+	return (true);
+}
+
+bool	builtin_env(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->envp[i])
+		printf("%s\n", data->envp[i++]);
+	return (true);
+}
+
+bool	builtin_pwd(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->envp[i] && data->envp[i], "PWD", 3)
+		i++;
+	printf("%s\n", data->envp[i]);
+	return (true);
 }

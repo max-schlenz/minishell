@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/03 18:49:54 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/07 10:04:44 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,23 @@ void	ft_exit(t_status flag)
 	exit (EXIT_FAILURE);
 }
 
+void free_array(char **array)
+{
+	int	i;
+	
+	if (!array)
+		return ;
+	i = 0;
+	while (array[i])
+		free(array[i++]);
+	free(array);
+}
+
 void	cleanup(t_data *data, int flag)
 {
-	// if (data->env)
-	// 	ft_lstclear(data);
-	// if (data->args)
-	// 	free(data->args);
-	// if (data->path)
-	// 	free (data->path);
-	// if (data->cmd)
-	// 	free(data->cmd);
-	// ft_mslstclear(data);
+	free_array(data->envp);
+	free_array(data->path);
+	free_array(data->argv);
 	if (data)
 		free(data);
 	ft_exit(0);

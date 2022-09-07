@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_quotes.c                                     :+:      :+:    :+:   */
+/*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/06 12:08:43 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/07 10:11:50 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static char	*get_var_content(t_data *data, char *var)
 static void remove_quotes(t_data *data, int i_arg, bool f_dquote, bool f_squote)
 {
 	char **tmp = NULL;
+	int i = 0;
 	char delim;
 
 	delim = 0;
@@ -79,10 +80,10 @@ static void remove_quotes(t_data *data, int i_arg, bool f_dquote, bool f_squote)
 		tmp = ft_split(data->argv[i_arg], delim);
 		free(data->argv[i_arg]);
 		data->argv[i_arg] = NULL;
-		while (*tmp)
+		while (tmp[i])
 		{
-			data->argv[i_arg] = ft_strjoin_dup(data->argv[i_arg], *tmp);
-			free(*tmp++);
+			data->argv[i_arg] = ft_strjoin_dup(data->argv[i_arg], tmp[i]);
+			free(tmp[i++]);
 		}
 	}
 }
@@ -144,6 +145,8 @@ static void	parse_string(t_data *data, char *cmd, int array_index, int i, int j)
 	char *tmp_str;
 	
 	tmp_str = ft_substr(cmd, j, i - j);
+	if (data->argv[array_index])
+		free(data->argv[array_index]);
 	data->argv[array_index] = ft_strdup(tmp_str);
 	free(tmp_str);
 	return ;

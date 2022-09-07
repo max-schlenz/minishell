@@ -33,15 +33,6 @@
 # define E_FORK_MSG	"Failed to create Forks."
 # define E_NC_QUOTE "Error: unclosed quotes!"
 
-typedef struct s_pipes
-{
-	int		pipefd[4096][2];
-	int		fd_i;
-	char	rdbuf[4096];
-	char	*out1;
-	pid_t	pid[2];
-}					t_pipes;
-
 typedef struct s_data
 {
 	char	**path;
@@ -54,8 +45,8 @@ typedef struct s_data
 	int		counter_pipes;
 	int		flag_pipe;
 	bool	flag_error;
-	t_pipes	*pipes;
-	int		r_pipe;
+	int		pipefd[4096][2];
+	int		fd_i;
 }	t_data;
 
 typedef enum s_status
@@ -69,14 +60,16 @@ typedef enum s_status
 void			init_vars(t_data *data);
 t_data			*allocate_mem();
 
-//	parse_envp.c
+//parse/envp.c
 void			parse_envp(t_data *data, char **envp);
 void			parse_path(t_data *data);
+void			sort_array(t_data *data);
 
-//	utils.c
+
+//utils/exit.c
 void			cleanup(t_data *data, int flag);
 void			ft_exit(t_status flag);
-char			**str_split(char const *s, char *c);
+void			free_array(char **array);
 
 
 // this shouldn't even be in here but has to be for some reason
@@ -93,7 +86,7 @@ void			make_btree(t_data *data);
 char			*check_esc_var_quo(const char *s);
 void			parse_args(t_data *data, int cmd_index);
 
-//parse/p_utils.c
+//parse/utils.c
 char			*get_next_special_char(char *str);
 size_t			strlen_path(const char *c);
 char			*check_esc_var_quo(const char *s);
@@ -103,10 +96,11 @@ size_t			strlen_var(const char *c);
 //parse/split_quotes.c
 char			*split_quotes(t_data *data, char *cmd);
 
-//builtins
+//exec/builtins.c
 bool			builtin_cd(t_data *data);
 bool			builtin_echo(t_data *data);
 bool			builtin_export(t_data *data);
+bool			builtin_env(t_data *data);
 
 //utils/signal.c
 void			signal_handler(int sig, siginfo_t *info, void *context);

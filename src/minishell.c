@@ -16,21 +16,16 @@ static void	clear_buffers(t_data *data)
 {
 	int i;
 
-	i = 0;
 	data->cmd = NULL;
-	if (data->argv)
-	{
-		while (*data->argv)
-			free(*data->argv++);
-	}
-	close(data->pipes->pipefd[0][0]);
-	close(data->pipes->pipefd[0][1]);
-	close(data->pipes->pipefd[1][0]);
-	close(data->pipes->pipefd[1][1]);
-	close(data->pipes->pipefd[2][0]);
-	close(data->pipes->pipefd[2][1]);
-	close(data->pipes->pipefd[3][0]);
-	close(data->pipes->pipefd[3][1]);
+	free_array(data->argv);
+	close(data->pipefd[0][0]);
+	close(data->pipefd[0][1]);
+	close(data->pipefd[1][0]);
+	close(data->pipefd[1][1]);
+	close(data->pipefd[2][0]);
+	close(data->pipefd[2][1]);
+	close(data->pipefd[3][0]);
+	close(data->pipefd[3][1]);
 	data->flag_pipe = 0;
 }
 
@@ -39,10 +34,10 @@ static void	init_prompt(t_data *data)
 	data->flag_error = false;
 	data->flag_pipe = 0;
 	data->counter_pipes = 0;
-	pipe(data->pipes->pipefd[0]);
-	pipe(data->pipes->pipefd[1]);
-	pipe(data->pipes->pipefd[2]);
-	pipe(data->pipes->pipefd[3]);
+	pipe(data->pipefd[0]);
+	pipe(data->pipefd[1]);
+	pipe(data->pipefd[2]);
+	pipe(data->pipefd[3]);
 }
 
 static void count_pipes(t_data *data)
@@ -84,6 +79,7 @@ static void	prompt(t_data *data)
 			continue;
 		if (!builtins(data))
 			exec_program(data);
+		clear_buffers(data);
 	}
 }
 
@@ -109,6 +105,5 @@ int	main(int argc, char **argv, char **envp)
 	{
 		init_prompt(data);
 		prompt(data);
-		clear_buffers(data);
 	}
 }

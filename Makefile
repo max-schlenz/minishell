@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/09/06 11:29:22 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/09/07 09:51:57 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,15 +36,14 @@ LIB_DIR			=	lib
 INC_DIR			=	inc
 
 SRC				= 	${NAME}				\
-					parse/p_cmd			\
-					parse/p_envp		\
-					parse/p_utils		\
+					parse/argv			\
+					parse/envp			\
+					parse/utils			\
 					exec/builtins		\
 					exec/exec			\
 					utils/init			\
 					utils/exit			\
 					utils/signal		\
-					utils/str_split		\
 					parse/split_quotes
 					
 INC				=	libft				\
