@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/07 11:26:30 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/07 13:20:38 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,31 @@ bool	builtin_pwd(t_data *data)
 	while (data->envp[i] && ft_strncmp(data->envp[i], "PWD", 3))
 		i++;
 	printf("%s\n", data->envp[i] + 4);
+	return (true);
+}
+
+bool	builtin_unset(t_data *data)
+{
+	int i;
+
+	i = 0;
+	if (data->argv[1])
+	{
+		while (data->envp[i])
+		{
+			if (!ft_strncmp(data->envp[i], data->argv[1], ft_strlen(data->argv[1])))
+				break;
+			i++;
+		}
+		while (i < data->counter_env)
+		{
+			data->envp[i] = data->envp[i + 1];
+			i++;
+		}
+		free(data->envp[i]);
+		data->envp[i] = NULL;
+		sort_array(data);
+		return (true);
+	}
 	return (true);
 }

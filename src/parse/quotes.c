@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/07 10:11:50 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/07 13:31:25 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,39 @@ static void remove_quotes(t_data *data, int i_arg, bool f_dquote, bool f_squote)
 	}
 }
 
+static void	remove_backslash(t_data *data, int i_arg)
+{
+	int		i;
+
+	i = 0;
+	while (data->argv[i_arg][i])
+	{
+		if (data->argv[i_arg][i] == '\\')
+			data->argv[i_arg][i] = ' ';
+		i++;
+	}
+}
+
+// static void	remove_backslash(t_data *data, int i_arg)
+// {
+// 	char	**tmp;
+// 	char	*space;
+// 	int		i;
+
+// 	i = 0;
+// 	space = ft_strdup("ZZZ");
+// 	tmp = ft_split(data->argv[i_arg], '\\');
+// 	free(data->argv[i_arg]);
+// 	data->argv[i_arg] = NULL;
+// 	while (tmp[i])
+// 	{
+// 		if (!i)
+// 			data->argv[i_arg] = ft_strjoin_dup(tmp[i], space);
+// 		data->argv[i_arg] = ft_strjoin_dup(data->argv[i_arg], tmp[i]);
+// 		free(tmp[i++]);
+// 	}
+// }
+
 void	expand_vars(t_data *data)
 {
 	int i_arg;
@@ -100,6 +133,7 @@ void	expand_vars(t_data *data)
 	char *str_after_v;
 	bool f_dquote;
 	bool f_squote;
+	bool f_backslash;
 
 	i_arg = 0;
 	i_char = 0;
@@ -107,12 +141,15 @@ void	expand_vars(t_data *data)
 	{
 		f_dquote = false;
 		f_squote = false;
+		f_backslash = false;
 		while (data->argv[i_arg][i_char])
 		{
 			if (data->argv[i_arg][i_char] == '\"')
 				f_dquote = true;
 			if (data->argv[i_arg][i_char] == '\'' && !f_dquote)
 				f_squote = true;
+			if (data->argv[i_arg][i_char] == '\\')
+				f_backslash = true;
 			if (data->argv[i_arg][i_char] == '$' && !f_squote)
 			{
 				str_before_v = ft_substr(data->argv[i_arg], 0, i_char);
@@ -133,6 +170,8 @@ void	expand_vars(t_data *data)
 		}
 		if (ft_strlen(data->argv[i_arg]) > 2)
 			remove_quotes(data, i_arg, f_dquote, f_squote);
+		if (f_backslash)
+			remove_backslash(data, i_arg);
 		else if (data->argv[i_arg][0] == '\'' || data->argv[i_arg][0] == '\"')
 			data->argv[i_arg] = ft_strdup(" ");
 		i_char = 0;

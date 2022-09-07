@@ -42,17 +42,31 @@ bool	builtins(t_data *data)
 		return (builtin_env(data));
 	else if (!ft_strncmp(data->argv[0], "pwd", 4))
 		return (builtin_pwd(data));
+	else if (!ft_strncmp(data->argv[0], "unset", 6))
+		return (builtin_unset(data));
 	if (!ft_strncmp(data->argv[0], "exit", 5)) // || data->argv[0] == '\0')
 		cleanup(data, 0);
 	return (false);
 }
 
-void	exec_program(t_data *data)
+static void	pipes(t_data *data)
+{
+	if (data->fd_i == 0)
+		dup2(data->pipes->pipefd[0][1], 1);								//stdout <-> fd 0 write
+	else if (data->fd_i < data->counter_pipes)
+	{
+		dup2(data->pipes->pipefd[data->fd_i - 1][0], 0);				//stdin <-> fd 0 read
+		dup2(data->pipes->pipefd[data->fd_i][1], 1);			 		//stdout <-> fd 1 write
+	}
+	else
+		dup2(data->pipes->pipefd[data->fd_i - 1][0], 0);				//stdin <-> fd 3 read
+}
+
+bool	exec_program(t_data *data)
 {
 	pid_t		pid;
 	int			exit_code;
 	char		*abs_path;
-	static int i = 0;
 
 	abs_path = get_path(data);
 	if (!abs_path)
@@ -60,30 +74,20 @@ void	exec_program(t_data *data)
 	if (!access(abs_path, F_OK))
 	{
 		pid = fork();
+		if (pid == -1)
+			ft_exit(2);
 		if (pid == 0)
-		{
-			if (i == 0)
-				dup2(data->pipes->pipefd[0][1], 1);			//stdout <-> fd 0 write
-			else if (i < data->counter_pipes)
-			{
-				dup2(data->pipes->pipefd[i-1][0], 0);				//stdin <-> fd 0 read
-				dup2(data->pipes->pipefd[i][1], 1);			 //stdout <-> fd 1 write
-			}
-			else
-				dup2(data->pipes->pipefd[i-1][0], 0);				//stdin <-> fd 3 read
+		{	
+			if (data->counter_pipes > 0)
+				pipes(data);
 			execve(abs_path, data->argv, data->envp);
 		}
 		waitpid(pid, &exit_code, 0);
-		if (i != data->counter_pipes)
-			close(data->pipes->pipefd[i][1]);						//still the only close that matters lol
-		data->flag_pipe = !data->flag_pipe;
-		if (i == data->counter_pipes)
-		{
-			i = 0;
-			return ;
-		}
-		i++;
-		return ;
+		if (data->counter_pipes > 0 && data->fd_i != data->counter_pipes)
+			close(data->pipes->pipefd[data->fd_i][1]);								//still the only close that matters lol
+		data->fd_i++;
+		return (true);
 	}
 	printf("command %s not found\n", data->argv[0]);
+	return (false);
 }

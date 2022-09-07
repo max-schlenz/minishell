@@ -28,6 +28,7 @@ static void	init_prompt(t_data *data)
 	data->flag_error = false;
 	data->flag_pipe = 0;
 	data->counter_pipes = 0;
+	data->fd_i = 0;
 }
 
 static bool count_pipes(t_data *data)
@@ -48,9 +49,6 @@ static bool count_pipes(t_data *data)
 
 static void	prompt(t_data *data)
 {
-	add_history("ls | grep l");
-	add_history("ls | grep l | grep m");
-	add_history("ls | grep l | grep m | grep t | wc -c");
 	data->cmd = readline("minishell >$ ");
 	if (!data->cmd)
 		data->cmd = ft_strdup("exit");
@@ -65,8 +63,6 @@ static void	prompt(t_data *data)
 		while (*data->cmd == ' ')
 			*data->cmd ++;
 		data->cmd = split_quotes(data, data->cmd);
-		// if (*data->cmd == '|') //&& data->flag_pipe == -1)
-		// 	data->flag_pipe = 0;
 		if (*data->cmd == '|' || *data->cmd == ';')
 			*data->cmd++;
 		if (data->flag_error || !data->argv[0])

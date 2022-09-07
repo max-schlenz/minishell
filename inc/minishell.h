@@ -64,23 +64,25 @@ typedef enum s_status
 //	init.c
 void			init_vars(t_data *data);
 t_data			*allocate_mem();
+void			open_pipes(t_data *data);
 
 //parse/envp.c
 void			parse_envp(t_data *data, char **envp);
 void			parse_path(t_data *data);
 void			sort_array(t_data *data);
+int				strcmp_alnum(const char *s1, const char *s2);
 
 
-//utils/exit.c
+//utils/cleanup.c
 void			cleanup(t_data *data, int flag);
 void			ft_exit(t_status flag);
 void			free_array(char **array);
-
+void			close_pipes(t_data *data);
 
 // this shouldn't even be in here but has to be for some reason
 void			rl_replace_line(const char *text, int clear_undo);
 
-void			exec_program(t_data *data);
+bool			exec_program(t_data *data);
 
 size_t			strlen_path(const char *c);
 bool			builtins(t_data *data);
@@ -107,6 +109,7 @@ bool			builtin_echo(t_data *data);
 bool			builtin_export(t_data *data);
 bool			builtin_env(t_data *data);
 bool			builtin_pwd(t_data *data);
+bool			builtin_unset(t_data *data);
 
 //utils/signal.c
 void			signal_handler(int sig, siginfo_t *info, void *context);

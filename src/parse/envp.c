@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/07 11:13:09 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/07 13:10:16 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	parse_path(t_data *data)
 	data->path = ft_split(data->envp[i], ':');
 }
 
-static int	strcmp_alnum(const char *s1, const char *s2)
+int		strcmp_alnum(const char *s1, const char *s2)
 {
 	size_t	i;
 
