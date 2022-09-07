@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
+#    By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/09/07 09:51:57 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/09/07 14:36:19 by tdehne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,9 +42,9 @@ SRC				= 	${NAME}				\
 					exec/builtins		\
 					exec/exec			\
 					utils/init			\
-					utils/exit			\
+					utils/cleanup		\
 					utils/signal		\
-					parse/split_quotes
+					parse/quotes
 					
 INC				=	libft				\
 					${NAME}

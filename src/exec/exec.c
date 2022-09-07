@@ -74,8 +74,8 @@ void	exec_program(t_data *data)
 			execve(abs_path, data->argv, data->envp);
 		}
 		waitpid(pid, &exit_code, 0);
-		if (i != 4)
-		close(data->pipes->pipefd[i][1]);						//still the only close that matters lol
+		if (i != data->counter_pipes)
+			close(data->pipes->pipefd[i][1]);						//still the only close that matters lol
 		data->flag_pipe = !data->flag_pipe;
 		if (i == data->counter_pipes)
 		{

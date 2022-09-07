@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/07 12:24:49 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/07 14:32:42 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,15 @@ void	init_vars(t_data *data)
 	data->flag_pipe = false;
 	data->flag_error = false;
 	data->counter_env = 0;
+}
+
+void	open_pipes(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->counter_pipes)
+		pipe(data->pipes->pipefd[i++]);
 }
 
 t_data	*allocate_mem()

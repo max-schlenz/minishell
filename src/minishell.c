@@ -17,15 +17,9 @@ static void	clear_buffers(t_data *data)
 	int i;
 
 	data->cmd = NULL;
-	free_array(data->argv);
-	close(data->pipes->pipefd[0][0]);
-	close(data->pipes->pipefd[0][1]);
-	close(data->pipes->pipefd[1][0]);
-	close(data->pipes->pipefd[1][1]);
-	close(data->pipes->pipefd[2][0]);
-	close(data->pipes->pipefd[2][1]);
-	close(data->pipes->pipefd[3][0]);
-	close(data->pipes->pipefd[3][1]);
+	if (data->argv)
+		free_array(data->argv);
+	close_pipes(data);
 	data->flag_pipe = 0;
 }
 
@@ -34,13 +28,9 @@ static void	init_prompt(t_data *data)
 	data->flag_error = false;
 	data->flag_pipe = 0;
 	data->counter_pipes = 0;
-	pipe(data->pipes->pipefd[0]);
-	pipe(data->pipes->pipefd[1]);
-	pipe(data->pipes->pipefd[2]);
-	pipe(data->pipes->pipefd[3]);
 }
 
-static void count_pipes(t_data *data)
+static bool count_pipes(t_data *data)
 {
 	int i;
 
@@ -51,6 +41,9 @@ static void count_pipes(t_data *data)
 			data->counter_pipes++;
 		i++;
 	}
+	if (i)
+		return (true);
+	return (false);
 }
 
 static void	prompt(t_data *data)
@@ -64,7 +57,8 @@ static void	prompt(t_data *data)
 	else
 	{
 		add_history(data->cmd);
-		count_pipes(data);
+		if (count_pipes(data))
+			open_pipes(data);
 	}
 	while (data->cmd && data->cmd[0] != '\0')
 	{

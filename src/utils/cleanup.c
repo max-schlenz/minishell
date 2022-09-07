@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/07 10:04:44 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/07 14:46:56 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,24 @@ void free_array(char **array)
 {
 	int	i;
 	
-	if (!array)
+	if (!array || !*array)
 		return ;
 	i = 0;
 	while (array[i])
 		free(array[i++]);
 	free(array);
+}
+
+void	close_pipes(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->counter_pipes)
+	{
+		close(data->pipes->pipefd[i][0]);
+		close(data->pipes->pipefd[i++][1]);	
+	}
 }
 
 void	cleanup(t_data *data, int flag)
