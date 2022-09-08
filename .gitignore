@@ -1,6 +1,7 @@
 minishell
 # Prerequisites
 *.d
+*.txt
 
 # Object files
 *.o
