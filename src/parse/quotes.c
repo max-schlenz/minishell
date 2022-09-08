@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/08 14:12:20 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/08 14:34:05 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,7 +289,7 @@ char	*split_quotes(t_data *data, char *cmd)
 				i++;
 				skip_spaces(cmd, &i);
 				set_filename(data, &i, cmd);
-				data->flag_file = 1;
+				data->flags.redir = true;
 				data->argv[array_index] = NULL;
 				return (cmd + i);
 			}
@@ -316,6 +316,6 @@ char	*split_quotes(t_data *data, char *cmd)
 		expand_vars(data);
 		return (cmd + i);
 	}
-	data->flag_error = true;
+	data->flags.error = true;
 	return (NULL);
 }

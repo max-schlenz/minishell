@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/07 14:17:59 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/08 14:31:02 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	init_vars(t_data *data, char **argv)
 	}
 	else
 		data->prompt = "\033[34;1mmini\033[36;1mshell\033[0m > ";
-	data->flag_pipe = false;
-	data->flag_error = false;
+	data->flags.pipe = false;
+	data->flags.error = false;
 	data->counter_env = 0;
 }
 

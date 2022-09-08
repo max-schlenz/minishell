@@ -38,6 +38,12 @@ typedef struct s_pipes
 	int		pipefd[4096][2];
 }	t_pipes;
 
+typedef struct s_flags {
+	bool	error;
+	bool	redir;
+	int		pipe;
+}	t_flags;
+
 typedef struct s_data
 {
 	char	**path;
@@ -48,13 +54,11 @@ typedef struct s_data
 	char	*cmd;
 	int		counter_env;
 	int		counter_pipes;
-	int		flag_pipe;
-	bool	flag_error;
 	int		fd_i;
 	char	*prompt;
-	bool	flag_file;
 	char	*file_name;
 	bool	exit;
+	t_flags flags;
 	t_pipes *pipes;
 }	t_data;
 

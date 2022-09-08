@@ -17,14 +17,14 @@ static void	clear_buffers(t_data *data)
 	// free_array(data->argv);
 	// free(data->argv);
 	close_pipes(data);
-	data->flag_pipe = 0;
+	data->flags.pipe = 0;
 }
 
 static void	init_prompt(t_data *data)
 {
-	data->flag_error = false;
-	data->flag_pipe = false;
-	data->flag_file = false;
+	data->flags.error = false;
+	data->flags.pipe = false;
+	data->flags.redir = false;
 	data->counter_pipes = 0;
 	data->fd_i = 0;
 }
@@ -64,7 +64,7 @@ static void	prompt(t_data *data)
 		data->cmd = split_quotes(data, data->cmd);
 		if (*data->cmd == '|' || *data->cmd == ';')
 			*data->cmd++;
-		if (data->flag_error || !data->argv[0])
+		if (data->flags.error || !data->argv[0])
 			continue;
 		if (!builtins(data))
 			exec_program(data);
