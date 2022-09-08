@@ -89,14 +89,13 @@ bool	exec_program(t_data *data)
 		{	
 			if (data->counter_pipes > 0)
 				pipes(data);
-			
 			if (data->flags->redir)
 			{
 				fd = open(data->file_name, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 				dup2(fd, STDOUT_FILENO);
 				close(fd);
 			}
-			printf("abs_path %s%s%s", abs_path, data->argv[0], data->argv[1]);
+			// printf("abs_path %s%s%s", abs_path, data->argv[0], data->argv[1]);
 			execve(abs_path, data->argv, data->envp);
 		}
 		waitpid(pid, &exit_code, 0);

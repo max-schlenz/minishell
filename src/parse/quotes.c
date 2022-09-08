@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/08 13:23:23 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/08 13:30:12 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,7 +258,6 @@ void	set_filename(t_data *data, int *i, char *cmd)
 		(*i)++;
 	}
 	data->file_name = ft_substr(cmd, start, *i - start);
-	printf("%s\n", data->file_name);
 }
 
 void	skip_spaces(char *cmd, int *i)
