@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/07 14:19:35 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/08 11:53:06 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,20 +133,17 @@ bool	builtin_color(t_data *data)
 {
 	char	*code;
 
-	if (!data->argv[1])
-	{
-		printf("change the color of your prompt!\n\n \
-		d - \033[34;1mdef\033[36;1mault\033[0m\n \
-		w - \033[0;34mwhite\033[0m\n \
-		r - \033[0;31mred\033[0m\n \
-		g - \033[0;32mgreen\033[0m\n \
-		y - \033[0;33myellow\033[0m\n \
-		b - \033[0;34mblue\033[0m\n \
-		m - \033[0;35mmagenta\033[0m\n \
-		c - \033[0;36mcyan\033[0m\n\n");
-		data->argv[1] = readline("enter color code: ");
-	}
-	if (data->argv[1])
+	printf("change the color of your prompt!\n\n \
+	d - \033[34;1mdef\033[36;1mault\033[0m\n \
+	w - \033[0;34mwhite\033[0m\n \
+	r - \033[0;31mred\033[0m\n \
+	g - \033[0;32mgreen\033[0m\n \
+	y - \033[0;33myellow\033[0m\n \
+	b - \033[0;34mblue\033[0m\n \
+	m - \033[0;35mmagenta\033[0m\n \
+	c - \033[0;36mcyan\033[0m\n\n");
+	code = readline("enter color code: ");
+	if (code)
 	{
 		if (!ft_strncmp(data->argv[1], "white", 6) || !ft_strncmp(data->argv[1], "w", 2))
 			data->prompt = "minishell > ";

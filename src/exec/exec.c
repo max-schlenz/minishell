@@ -15,15 +15,18 @@
 static char *get_path(t_data *data)
 {
 	int		i;
-	char	*abs_path_tmp;
+	char	*abs_path_bs;
 	char	*abs_path;
+	char	*cmd_trim;
 
 	i = 0;
 	while (data->path[i])
 	{
-		abs_path_tmp = ft_strjoin(data->path[i], "/");
-		abs_path = ft_strjoin(abs_path_tmp, data->argv[0]);
-		free (abs_path_tmp);
+		abs_path_bs = ft_strjoin(data->path[i], "/");
+		cmd_trim = ft_strtrim(data->argv[0], " ");
+		abs_path = ft_strjoin(abs_path_bs, cmd_trim);
+		free (abs_path_bs);
+		free (cmd_trim);
 		if (!access(abs_path, F_OK))
 			return (abs_path);
 		free (abs_path);
@@ -89,7 +92,7 @@ bool	exec_program(t_data *data)
 			
 			if (data->file_flag)
 			{
-				fd = open("x.txt", O_CREAT | O_TRUNC | O_WRONLY, 0644);
+				fd = open(data->file_name, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 				dup2(fd, STDOUT_FILENO);
 				close(fd);
 			}
