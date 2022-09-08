@@ -88,7 +88,7 @@ bool	exec_program(t_data *data)
 			ft_exit(2);
 		if (pid == 0)
 		{
-			if (!data->flags->redir_out && data->counter_pipes > 0)
+			if (!data->flags->redir_out && !data->flags->redir_in &&  data->counter_pipes > 0)
 				pipes(data);
 			else if (data->flags->redir_out)
 			{
@@ -111,6 +111,8 @@ bool	exec_program(t_data *data)
 		free (abs_path);
 		if (data->flags->redir_out)
 			data->flags->redir_out = false;
+		if (data->flags->redir_in)
+			data->flags->redir_in = false;
 		return (true);
 	}
 	printf("command %s not found\n", data->argv[0]);

@@ -25,6 +25,7 @@ static void	init_prompt(t_data *data)
 	data->flags->error = false;
 	data->flags->pipe = false;
 	data->flags->redir_out = false;
+	data->flags->redir_in = false;
 	data->counter_pipes = 0;
 	data->fd_i = 0;
 }
@@ -48,7 +49,7 @@ static bool count_pipes(t_data *data)
 static void	prompt(t_data *data)
 {
 	char *tmp;
-	add_history("ls > x.txt | echo lol | ls | grep t");
+	//add_history("ls > x.txt | echo lol | ls | grep t");
 	data->cmd = readline(data->prompt);
 	if (!data->cmd)
 		data->cmd = "exit";
