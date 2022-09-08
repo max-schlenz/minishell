@@ -17,14 +17,14 @@ static void	clear_buffers(t_data *data)
 	// free_array(data->argv);
 	// free(data->argv);
 	close_pipes(data);
-	data->flags.pipe = 0;
+	data->flags->pipe = 0;
 }
 
 static void	init_prompt(t_data *data)
 {
-	data->flags.error = false;
-	data->flags.pipe = false;
-	data->flags.redir = false;
+	data->flags->error = false;
+	data->flags->pipe = false;
+	data->flags->redir = false;
 	data->counter_pipes = 0;
 	data->fd_i = 0;
 }
@@ -60,11 +60,11 @@ static void	prompt(t_data *data)
 	while (data->cmd && data->cmd[0] != '\0')
 	{
 		while (*data->cmd == ' ')
-			*data->cmd ++;
+			*data->cmd++;
 		data->cmd = split_quotes(data, data->cmd);
 		if (*data->cmd == '|' || *data->cmd == ';')
 			*data->cmd++;
-		if (data->flags.error || !data->argv[0])
+		if (data->flags->error || !data->argv[0])
 			continue;
 		if (!builtins(data))
 			exec_program(data);

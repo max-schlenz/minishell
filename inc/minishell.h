@@ -58,7 +58,7 @@ typedef struct s_data
 	char	*prompt;
 	char	*file_name;
 	bool	exit;
-	t_flags flags;
+	t_flags *flags;
 	t_pipes *pipes;
 }	t_data;
 

@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/08 14:31:02 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/08 14:40:44 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	init_vars(t_data *data, char **argv)
 	}
 	else
 		data->prompt = "\033[34;1mmini\033[36;1mshell\033[0m > ";
-	data->flags.pipe = false;
-	data->flags.error = false;
+	data->flags->pipe = false;
+	data->flags->error = false;
 	data->counter_env = 0;
 }
 
@@ -55,6 +55,7 @@ t_data	*allocate_mem()
 	if (!data)
 		ft_exit(1);
 	data->pipes = ft_calloc(1, sizeof(t_pipes));
+	data->flags = ft_calloc(1, sizeof(t_flags));
 	if (!data)
 		ft_exit(1);
 	return (data);

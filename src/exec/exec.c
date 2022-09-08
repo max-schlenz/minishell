@@ -79,7 +79,7 @@ bool	exec_program(t_data *data)
 
 	abs_path = get_path(data);
 	if (!abs_path)
-		abs_path = ft_strdup(data->cmd);
+		abs_path = ft_strdup(data->argv[0]);
 	if (!access(abs_path, F_OK))
 	{
 		pid = fork();
@@ -90,12 +90,13 @@ bool	exec_program(t_data *data)
 			if (data->counter_pipes > 0)
 				pipes(data);
 			
-			if (data->flags.redir)
+			if (data->flags->redir)
 			{
 				fd = open(data->file_name, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 				dup2(fd, STDOUT_FILENO);
 				close(fd);
 			}
+			printf("abs_path %s%s%s", abs_path, data->argv[0], data->argv[1]);
 			execve(abs_path, data->argv, data->envp);
 		}
 		waitpid(pid, &exit_code, 0);
@@ -105,8 +106,8 @@ bool	exec_program(t_data *data)
 		free (abs_path);
 		return (true);
 	}
-	if (data->flags.redir)
-		data->flags.redir = false;
+	if (data->flags->redir)
+		data->flags->redir = false;
 	printf("command %s not found\n", data->argv[0]);
 	return (false);
 }
