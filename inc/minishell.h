@@ -40,7 +40,8 @@ typedef struct s_pipes
 
 typedef struct s_flags {
 	bool	error;
-	bool	redir;
+	bool	redir_out;
+	bool	redir_in;
 	int		pipe;
 }	t_flags;
 

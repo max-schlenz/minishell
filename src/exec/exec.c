@@ -76,6 +76,7 @@ bool	exec_program(t_data *data)
 	int			exit_code;
 	char		*abs_path;
 	int			fd;
+	static int blub = 0;
 
 	abs_path = get_path(data);
 	if (!abs_path)
@@ -86,16 +87,21 @@ bool	exec_program(t_data *data)
 		if (pid == -1)
 			ft_exit(2);
 		if (pid == 0)
-		{	
-			if (data->counter_pipes > 0)
+		{
+			if (!data->flags->redir_out && data->counter_pipes > 0)
 				pipes(data);
-			if (data->flags->redir)
+			else if (data->flags->redir_out)
 			{
 				fd = open(data->file_name, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 				dup2(fd, STDOUT_FILENO);
 				close(fd);
 			}
-			// printf("abs_path %s%s%s", abs_path, data->argv[0], data->argv[1]);
+			else if (data->flags->redir_in)
+			{
+				fd = open(data->file_name, O_RDONLY);
+				dup2(fd, STDIN_FILENO);
+				close(fd);
+			}
 			execve(abs_path, data->argv, data->envp);
 		}
 		waitpid(pid, &exit_code, 0);
@@ -103,10 +109,10 @@ bool	exec_program(t_data *data)
 			close(data->pipes->pipefd[data->fd_i][1]);								//still the only close that matters lol
 		data->fd_i++;
 		free (abs_path);
+		if (data->flags->redir_out)
+			data->flags->redir_out = false;
 		return (true);
 	}
-	if (data->flags->redir)
-		data->flags->redir = false;
 	printf("command %s not found\n", data->argv[0]);
 	return (false);
 }
