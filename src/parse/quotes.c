@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/07 15:22:43 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/08 10:37:24 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,55 +121,58 @@ static void	remove_backslash(t_data *data, int i_arg)
 // 	}
 // }
 
-// static char	*wildcard(t_data *data, int i_arg)
-// {
-// 	char **tmp;
-// 	int i = 0;
-// 	int pre_wc = 0;
-// 	int post_wc = 0;
-// 	int len_arg = 0;
-// 	int k = 0;
+static char	*wildcard(t_data *data, int i_arg)
+{
+	char 	**tmp;
+	pid_t	pid;
+	int 	i = 0;
+	int 	pre_wc = 0;
+	int		post_wc = 0;
+	int 	len_arg = 0;
+	int 	k = 0;
 	
-// 	open(data->pipes->pipefd[0])
-// 	len_arg = ft_strlen(data->argv[i_arg]);
-// 	while (data->argv[i_arg][pre_wc])
-// 	{
-// 		if (data->argv[i_arg][pre_wc] == '*')
-// 			break;
-// 		pre_wc++;
-// 	}
-// 	post_wc = pre_wc;
-// 	while (data->argv[i_arg][post_wc])
-// 		post_wc++;
-	
-// 	// tmp = ft_split(data->argv[i_arg], '*');
-// 	// while (tmp[k])
-// 	// 	printf("%s\n", tmp[k++]);
-// 	exit(0);
-// }
+	// open(data->pipes->pipefd[0][0]);
+	len_arg = ft_strlen(data->argv[i_arg]);
+	while (data->argv[i_arg][pre_wc])
+	{
+		if (data->argv[i_arg][pre_wc] == '*')
+			break;
+		pre_wc++;
+	}
+	post_wc = pre_wc;
+	while (data->argv[i_arg][post_wc])
+		post_wc++;
+	pid = fork();
+	{
+		dup2(data->pipes->pipefd[0][1], 1);
+	}
+	// while (tmp[k])
+	// 	printf("%s\n", tmp[k++]);
+	exit(0);
+}
 
-// static void	find_wc(t_data *data)
-// {
-// 	int	i_arg;
-// 	int	i_char;
+static void	find_wc(t_data *data)
+{
+	int	i_arg;
+	int	i_char;
 
-// 	i_arg = 0;
-// 	i_char = 0;
-// 	while (data->argv[i_arg])
-// 	{
-// 		while (data->argv[i_arg][i_char])
-// 		{
-// 			if (data->argv[i_arg][i_char] == '*')
-// 			{
-// 				data->argv[i_arg] = wildcard(data, i_arg);
-// 				break;
-// 			}	
-// 			i_char++;
-// 		}
-// 		i_char = 0;
-// 		i_arg++;
-// 	}
-// }
+	i_arg = 0;
+	i_char = 0;
+	while (data->argv[i_arg])
+	{
+		while (data->argv[i_arg][i_char])
+		{
+			if (data->argv[i_arg][i_char] == '*')
+			{
+				data->argv[i_arg] = wildcard(data, i_arg);
+				break;
+			}	
+			i_char++;
+		}
+		i_char = 0;
+		i_arg++;
+	}
+}
 
 void	expand_vars(t_data *data)
 {

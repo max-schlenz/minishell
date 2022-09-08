@@ -52,6 +52,7 @@ typedef struct s_data
 	bool	flag_error;
 	int		fd_i;
 	char	*prompt;
+	bool	exit;
 	t_pipes *pipes;
 }	t_data;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/07 17:37:23 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/08 10:46:31 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	parse_path(t_data *data)
 	i = 0;
 	if (data->path)
 	{
-		while (*data->path)
-			free (*data->path++);
+		free_array(data->path);
+		free (data->path);
 	}
 	while (data->envp[i] && ft_strncmp(data->envp[i], "PATH=", 5))
 		i++;
@@ -49,16 +49,15 @@ void	sort_array(t_data *data)
 	int i = 0;
 	int j = 0;
 	
-	while (j < data->counter_env * data->counter_env)
+	while (j < data->counter_env * 3)
 	{
 		while (i < data->counter_env)
 		{
 			if (strcmp_alnum(data->envp[i], data->envp[i + 1]) > 0)
 			{
-				//printf("baaame\n");
-				tmp = ft_strdup(data->envp[i]);
-				data->envp[i] = ft_strdup(data->envp[i + 1]);
-				data->envp[i + 1] = ft_strdup(tmp);
+				tmp = data->envp[i];
+				data->envp[i] = data->envp[i + 1];
+				data->envp[i + 1]= tmp;
 				break;
 			}
 			i++;

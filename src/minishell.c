@@ -14,11 +14,8 @@
 
 static void	clear_buffers(t_data *data)
 {
-	int i;
-
-	data->cmd = NULL;
-	if (data->argv)
-		free_array(data->argv);
+	// free_array(data->argv);
+	// free(data->argv);
 	close_pipes(data);
 	data->flag_pipe = 0;
 }
@@ -49,9 +46,10 @@ static bool count_pipes(t_data *data)
 
 static void	prompt(t_data *data)
 {
+	char *tmp;
 	data->cmd = readline(data->prompt);
 	if (!data->cmd)
-		data->cmd = ft_strdup("exit");
+		data->cmd = "exit";
 	else
 	{
 		add_history(data->cmd);
@@ -69,6 +67,8 @@ static void	prompt(t_data *data)
 			continue;
 		if (!builtins(data))
 			exec_program(data);
+		free_array(data->argv);
+		free(data->argv);
 	}
 }
 

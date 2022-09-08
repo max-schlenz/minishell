@@ -15,15 +15,18 @@
 static char *get_path(t_data *data)
 {
 	int		i;
+	char	*abs_path_tmp;
 	char	*abs_path;
 
 	i = 0;
 	while (data->path[i])
 	{
-		abs_path = ft_strjoin(data->path[i], "/");
-		abs_path = ft_strjoin(abs_path, data->argv[0]);
+		abs_path_tmp = ft_strjoin(data->path[i], "/");
+		abs_path = ft_strjoin(abs_path_tmp, data->argv[0]);
+		free (abs_path_tmp);
 		if (!access(abs_path, F_OK))
 			return (abs_path);
+		free (abs_path);
 		i++;
 	}
 	return (NULL);
@@ -88,6 +91,7 @@ bool	exec_program(t_data *data)
 		if (data->counter_pipes > 0 && data->fd_i != data->counter_pipes)
 			close(data->pipes->pipefd[data->fd_i][1]);								//still the only close that matters lol
 		data->fd_i++;
+		free (abs_path);
 		return (true);
 	}
 	printf("command %s not found\n", data->argv[0]);

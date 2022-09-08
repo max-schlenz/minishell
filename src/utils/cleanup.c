@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/07 12:56:11 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/08 10:34:27 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_exit(t_status flag)
 {
-	// system("leaks minishell");
+	system("leaks minishell");
 	if (flag == SUCCESS)
 		exit(EXIT_SUCCESS);
 	else if (flag == E_MEM)
@@ -50,8 +50,13 @@ void	close_pipes(t_data *data)
 void	cleanup(t_data *data, int flag)
 {
 	free_array(data->envp);
+	free (data->envp);
 	free_array(data->path);
+	free (data->path);
 	free_array(data->argv);
+	free (data->argv);
+	if (data->pipes)
+		free(data->pipes);
 	if (data)
 		free(data);
 	ft_exit(0);
