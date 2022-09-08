@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quotes.c                                           :+:      :+:    :+:   */
+/*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/08 14:06:30 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/08 15:08:22 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,7 +288,7 @@ char	*split_quotes(t_data *data, char *cmd)
 				i++;
 				skip_spaces(cmd, &i);
 				set_filename(data, &i, cmd);
-				data->flags->redir = true;
+				data->flags->redir_out = true;
 				data->argv[array_index] = NULL;
 				skip_spaces(cmd, &i);
 				return (cmd + i);
