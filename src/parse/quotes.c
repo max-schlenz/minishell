@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/08 15:01:19 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/08 13:23:23 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,8 +312,11 @@ char	*split_quotes(t_data *data, char *cmd)
 			i++;
 		}
 		parse_string(data, cmd, array_index, i, j);
-		array_index++;
-		data->argv[array_index] = NULL;
+		j = 0;
+		while (data->argv[array_index][j] && data->argv[array_index][j] != ' ')
+		 	j++;
+		data->argv[array_index] = ft_substr(data->argv[array_index], 0, j);
+		data->argv[++array_index] = NULL;
 		expand_vars(data);
 		return (cmd + i);
 	}

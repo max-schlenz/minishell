@@ -1,0 +1,8 @@
+ll.txt
+lol.txt
+structure.md
+t.txt
+tasks.md
+tasks_talea.md
+test.c
+txt.txt
