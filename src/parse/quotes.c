@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/08 10:37:24 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/08 14:12:20 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,25 @@ static void	parse_string(t_data *data, char *cmd, int array_index, int i, int j)
 	return ;
 }
 
+void	set_filename(t_data *data, int *i, char *cmd)
+{
+	int	start;
+
+	start = *i;
+	while (cmd[*i] && cmd[*i] != ' ')
+	{
+		(*i)++;
+	}
+	data->file_name = ft_substr(cmd, start, *i - start);
+	printf("%s\n", data->file_name);
+}
+
+void	skip_spaces(char *cmd, int *i)
+{
+	while (cmd[*i] == ' ')
+		(*i)++;
+}
+
 char	*split_quotes(t_data *data, char *cmd)
 {
 	int		i;
@@ -265,8 +284,20 @@ char	*split_quotes(t_data *data, char *cmd)
 		array_index = 0;
 		while (cmd[i])
 		{
-			if ((cmd[i] == ';' || cmd[i] == '|' || cmd[i] == '>' || cmd[i] == '<' ) && !f_dquote && !f_squote)
+			if (cmd[i] == '>' || cmd[i] == '<')
+			{
+				i++;
+				skip_spaces(cmd, &i);
+				set_filename(data, &i, cmd);
+				data->flag_file = 1;
+				data->argv[array_index] = NULL;
 				return (cmd + i);
+			}
+			if ((cmd[i] == ';' || cmd[i] == '|') && !f_dquote && !f_squote)
+			{
+				skip_spaces(cmd, &i);
+				return (cmd + i);
+			}
 			if (cmd[i] == '\"' && !f_squote)
 				f_dquote = !f_dquote;
 			if (cmd[i] == '\'' && !f_dquote)

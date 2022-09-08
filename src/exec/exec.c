@@ -90,7 +90,7 @@ bool	exec_program(t_data *data)
 			if (data->counter_pipes > 0)
 				pipes(data);
 			
-			if (data->file_flag)
+			if (data->flag_file)
 			{
 				fd = open(data->file_name, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 				dup2(fd, STDOUT_FILENO);
@@ -105,6 +105,8 @@ bool	exec_program(t_data *data)
 		free (abs_path);
 		return (true);
 	}
+	if (data->flag_file)
+		data->flag_file = false;
 	printf("command %s not found\n", data->argv[0]);
 	return (false);
 }

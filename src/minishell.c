@@ -23,7 +23,8 @@ static void	clear_buffers(t_data *data)
 static void	init_prompt(t_data *data)
 {
 	data->flag_error = false;
-	data->flag_pipe = 0;
+	data->flag_pipe = false;
+	data->flag_file = false;
 	data->counter_pipes = 0;
 	data->fd_i = 0;
 }
