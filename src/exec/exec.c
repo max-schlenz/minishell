@@ -72,6 +72,7 @@ bool	exec_program(t_data *data)
 	pid_t		pid;
 	int			exit_code;
 	char		*abs_path;
+	int			fd;
 
 	abs_path = get_path(data);
 	if (!abs_path)
@@ -85,6 +86,13 @@ bool	exec_program(t_data *data)
 		{	
 			if (data->counter_pipes > 0)
 				pipes(data);
+			
+			if (data->file_flag)
+			{
+				fd = open("x.txt", O_CREAT | O_TRUNC | O_WRONLY, 0644);
+				dup2(fd, STDOUT_FILENO);
+				close(fd);
+			}
 			execve(abs_path, data->argv, data->envp);
 		}
 		waitpid(pid, &exit_code, 0);
