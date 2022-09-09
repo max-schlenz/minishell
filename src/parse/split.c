@@ -287,7 +287,7 @@ char	*split_quotes(t_data *data, char *cmd)
 		array_index = 0;
 		while (cmd[i])
 		{
-			if (!ft_strncmp(cmd + i, "&&", 2) && !f_dquote && !f_squote)
+			if (!ft_strncmp(cmd + i, "&&", 3) && !f_dquote && !f_squote)
 			{
 				if (i != 0)
 					return (cmd + i);
@@ -298,7 +298,7 @@ char	*split_quotes(t_data *data, char *cmd)
 				skip_spaces(cmd, &i);
 				return (cmd + i);
 			}
-			if (!ft_strncmp(cmd + i, "||", 2) && !f_dquote && !f_squote)
+			if (!ft_strncmp(cmd + i, "||", 3) && !f_dquote && !f_squote)
 			{
 				// printf("cmd: %s, %d\n", cmd, i);
 				if (i != 0)
@@ -317,6 +317,11 @@ char	*split_quotes(t_data *data, char *cmd)
 				{
 					i++;
 					data->flags->redir_out_append = true;
+				}
+				else if (!ft_strncmp(cmd + i, "<<", 2))
+				{
+					i++;
+					data->flags->redir_in_delim = true;
 				}
 				else if (cmd[i] == '>')
 					data->flags->redir_out = true;
@@ -347,7 +352,6 @@ char	*split_quotes(t_data *data, char *cmd)
 			}
 			i++;
 		}
-
 		parse_string(data, cmd, array_index, i, j);
 		j = 0;
 		while (data->argv[array_index][j] && data->argv[array_index][j] != ' ')

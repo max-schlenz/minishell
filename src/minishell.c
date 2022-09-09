@@ -27,6 +27,7 @@ static void	init_prompt(t_data *data)
 	data->flags->redir_out = false;
 	data->flags->redir_out_append = false;
 	data->flags->redir_in = false;
+	data->flags->redir_in_delim = false;
 	data->flags->and = false;
 	data->flags->or = false;
 	data->counter_pipes = 0;
@@ -56,30 +57,37 @@ static void	prompt(t_data *data)
 	bool	left;
 
 	left = true;
-	data->cmd = readline(data->prompt);
+	// data->cmd = readline(data->prompt);
+	// write(1, data->prompt, ft_strlen(data->prompt));
+	data->cmd = get_next_line(0);
+	data->cmd = ft_strtrim(data->cmd, "\n");
 	if (!data->cmd)
 		data->cmd = "exit";
-	else
+	else if (data->cmd[0] && data->cmd[0] != '\n')
 	{
 		add_history(data->cmd);
 		if (count_pipes(data))
 			open_pipes(data);
 	}
-	while (data->cmd && data->cmd[0] != '\0')
+	while (data->cmd && data->cmd[0] != '\0' && data->cmd[0] != '\n')
 	{
 		while (*data->cmd == ' ')
 			*data->cmd++;
 		data->cmd = split_quotes(data, data->cmd);
-		if (*data->cmd == ';')
+		// printf("%s\n", data->cmd);
+		if ((*data->cmd == ';')) // || (*data->cmd == '|'))
 			*data->cmd++;
 		if (data->flags->error || !data->argv[0])
 			continue;
+		// int k = 0;
+		// while (data->argv[k])
+		// 	printf("%s\n", data->argv[k++]);
 		if ((left)
 		||	(!data->flags->and && !data->flags->or) 
 		||	(data->flags->and && !data->exit_status) 
 		||	(data->flags->or && data->exit_status))
 		{
-			if (!builtins(data))
+			if (!builtin_environment(data))
 				exec_program(data);
 		}
 		free_array(data->argv);
@@ -88,7 +96,6 @@ static void	prompt(t_data *data)
 	}
 	data->flags->and = false;
 	data->flags->or = false;
-	// data->cmd = NULL;
 }
 
 static void	signals()

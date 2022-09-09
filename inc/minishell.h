@@ -42,6 +42,7 @@ typedef struct s_flags {
 	bool	error;
 	bool	redir_out;
 	bool	redir_in;
+	bool	redir_in_delim;
 	bool	redir_out_append;
 	bool	and;
 	bool	or;
@@ -62,6 +63,7 @@ typedef struct s_data
 	char	*prompt;
 	char	*file_name;
 	int		exit_status;
+	bool	exit;
 	t_flags *flags;
 	t_pipes *pipes;
 }	t_data;
@@ -116,6 +118,8 @@ size_t			strlen_var(const char *c);
 char			*split_quotes(t_data *data, char *cmd);
 
 //exec/builtins.c
+bool			builtin_environment(t_data *data);
+bool			builtin_print(t_data *data);
 bool			builtin_cd(t_data *data);
 bool			builtin_echo(t_data *data);
 bool			builtin_export(t_data *data);
@@ -123,6 +127,9 @@ bool			builtin_env(t_data *data);
 bool			builtin_pwd(t_data *data);
 bool			builtin_unset(t_data *data);
 bool			builtin_color(t_data *data);
+
+//exec/exec.c
+void			pipes(t_data *data);
 
 //utils/signal.c
 void			signal_handler(int sig, siginfo_t *info, void *context);

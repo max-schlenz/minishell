@@ -14,7 +14,7 @@
 
 void	ft_exit(t_status flag)
 {
-	system("leaks minishell");
+	// system("leaks minishell");
 	if (flag == SUCCESS)
 		exit(EXIT_SUCCESS);
 	else if (flag == E_MEM)

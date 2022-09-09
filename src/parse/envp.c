@@ -46,14 +46,22 @@ int		strcmp_alnum(const char *s1, const char *s2)
 void	sort_array(t_data *data)
 {
 	char	*tmp;
+	int		len;
 	int i = 0;
 	int j = 0;
-	
-	while (j < data->counter_env * 3)
+	// char	**envp_sorted;
+
+	// envp_sorted = ft_calloc(data->counter_env, sizeof(char *))
+	// while (data->envp[i])
+	// 	envp_sorted[i] = ft_strdup(data->envp[i++]);
+	while (j < data->counter_env * data->counter_env)
 	{
 		while (i < data->counter_env)
 		{
-			if (strcmp_alnum(data->envp[i], data->envp[i + 1]) > 0)
+			len = ft_strlen(data->envp[i]);
+			if (len > ft_strlen(data->envp[i + 1]))
+				len = ft_strlen(data->envp[i + 1]);
+			if (ft_strncmp(data->envp[i], data->envp[i + 1], len) > 0)
 			{
 				tmp = data->envp[i];
 				data->envp[i] = data->envp[i + 1];

@@ -35,29 +35,33 @@ static char *get_path(t_data *data)
 	return (NULL);
 }
 
-
-bool	builtins(t_data *data)
+bool	builtin_print(t_data *data)
 {
 	if (!ft_strncmp(data->argv[0], "echo", 5))
 		return (builtin_echo(data));
-	if (!ft_strncmp(data->argv[0], "cd", 3))
-		return (builtin_cd(data));
-	else if (!ft_strncmp(data->argv[0], "export", 7))
-		return (builtin_export(data));
 	else if (!ft_strncmp(data->argv[0], "env", 4))
 		return (builtin_env(data));
 	else if (!ft_strncmp(data->argv[0], "pwd", 4))
 		return (builtin_pwd(data));
+	return (false);
+}
+
+bool	builtin_environment(t_data *data)
+{
+	if (!ft_strncmp(data->argv[0], "exit", 5)) // || data->argv[0] == '\0')
+			cleanup(data, 0);
+	else if (!ft_strncmp(data->argv[0], "cd", 3))
+		return (builtin_cd(data));
+	else if (!ft_strncmp(data->argv[0], "export", 7))
+		return (builtin_export(data));
 	else if (!ft_strncmp(data->argv[0], "unset", 6))
 		return (builtin_unset(data));
 	else if (!ft_strncmp(data->argv[0], "color", 6))
 		return (builtin_color(data));
-	if (!ft_strncmp(data->argv[0], "exit", 5)) // || data->argv[0] == '\0')
-		cleanup(data, 0);
 	return (false);
 }
 
-static void	pipes(t_data *data)
+void	pipes(t_data *data)
 {
 	if (data->fd_i == 0)
 		dup2(data->pipes->pipefd[0][1], 1);								//stdout <-> fd 0 write
@@ -76,54 +80,73 @@ bool	exec_program(t_data *data)
 	int			exit_code;
 	char		*abs_path;
 	int			fd;
-	static int blub = 0;
+	
+	int			redir_delim_fd[2];
+	char		*redir_delim_tmp;
+	char		rdbuf[4096];
 
 	exit_code = 0;
 	abs_path = get_path(data);
 	if (!abs_path)
 		abs_path = ft_strdup(data->argv[0]);
-	if (!access(abs_path, F_OK))
+	pid = fork();
+	if (pid == -1)
+		ft_exit(2);
+	if (pid == 0)
 	{
-		pid = fork();
-		if (pid == -1)
-			ft_exit(2);
-		if (pid == 0)
-		{
-			if (data->flags->redir_out)
-			{
-				fd = open(data->file_name, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-				dup2(fd, STDOUT_FILENO);
-				close(fd);
-			}
-			else if (data->flags->redir_out_append)
-			{
-				fd = open(data->file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
-				dup2(fd, STDOUT_FILENO);
-				close(fd);
-			}
-			else if (data->flags->redir_in)
-			{
-				fd = open(data->file_name, O_RDONLY);
-				dup2(fd, STDIN_FILENO);
-				close(fd);
-			}
-			if (data->counter_pipes > 0)
-				pipes(data);
-			execve(abs_path, data->argv, data->envp);
-		}
-		waitpid(pid, &exit_code, 0);
-		if (data->counter_pipes > 0 && data->fd_i != data->counter_pipes)
-			close(data->pipes->pipefd[data->fd_i][1]);								//still the only close that matters lol
-		data->fd_i++;
-		free (abs_path);
 		if (data->flags->redir_out)
-			data->flags->redir_out = false;
-		if (data->flags->redir_in)
-			data->flags->redir_in = false;
-		data->exit_status = WEXITSTATUS(exit_code);
-		return (true);
+		{
+			fd = open(data->file_name, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+		else if (data->flags->redir_in_delim)
+		{
+			pipe(redir_delim_fd);
+			redir_delim_tmp = ft_strdup("42");
+			while (ft_strncmp(redir_delim_tmp, data->file_name, ft_strlen(data->file_name)))
+			{
+				free(redir_delim_tmp);
+				redir_delim_tmp = get_next_line(0);
+				redir_delim_tmp[ft_strlen(redir_delim_tmp)] = '\0';
+				write(redir_delim_fd[1], redir_delim_tmp, ft_strlen(redir_delim_tmp));
+			}
+			free(redir_delim_tmp);
+			close(redir_delim_fd[1]);
+			dup2(redir_delim_fd[0], STDIN_FILENO);
+			close(redir_delim_fd[0]);
+		}
+		else if (data->flags->redir_out_append)
+		{
+			fd = open(data->file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+		else if (data->flags->redir_in)
+		{
+			fd = open(data->file_name, O_RDONLY);
+			dup2(fd, STDIN_FILENO);
+			close(fd);
+		}
+		if (data->counter_pipes > 0)
+			pipes(data);
+		if (!builtin_print(data))
+		{
+			if (!access(abs_path, F_OK))
+				execve(abs_path, data->argv, data->envp);
+		}
+		exit(0);
 	}
-	data->exit_status = 127;
-	printf("command %s not found\n", data->argv[0]);
-	return (false);
+	waitpid(pid, &exit_code, 0);
+	if (data->counter_pipes > 0 && data->fd_i != data->counter_pipes)
+		close(data->pipes->pipefd[data->fd_i][1]);
+	data->fd_i++;
+	free (abs_path);
+	if (data->flags->redir_out)
+		data->flags->redir_out = false;
+	if (data->flags->redir_in)
+		data->flags->redir_in = false;
+	data->exit_status = WEXITSTATUS(exit_code);
+	return (true);
+	// printf("command %s not found\n", data->argv[0]);
 }
