@@ -39,7 +39,9 @@ static bool count_pipes(t_data *data)
 	i = 0;
 	while (data->cmd[i])
 	{
-		if (data->cmd[i] == '|')
+		if (!ft_strncmp(data->cmd + i, "||", 2))
+			i += 2;
+		if (data->cmd[i] && data->cmd[i] == '|')
 			data->counter_pipes++;
 		i++;
 	}
@@ -67,7 +69,7 @@ static void	prompt(t_data *data)
 		while (*data->cmd == ' ')
 			*data->cmd++;
 		data->cmd = split_quotes(data, data->cmd);
-		if (*data->cmd == ';' || *data->cmd == '>')
+		if (*data->cmd == ';')
 			*data->cmd++;
 		if (data->flags->error || !data->argv[0])
 			continue;
@@ -83,9 +85,9 @@ static void	prompt(t_data *data)
 		free(data->argv);
 		left = !left;
 	}
-	// data->flags->and = false;
-	// data->flags->or = false;
-	data->cmd = NULL;
+	data->flags->and = false;
+	data->flags->or = false;
+	// data->cmd = NULL;
 }
 
 static void	signals()

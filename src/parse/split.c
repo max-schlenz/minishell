@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/09 14:05:38 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/09 15:37:32 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,7 +257,7 @@ void	set_filename(t_data *data, int *i, char *cmd)
 	int	start;
 
 	start = *i;
-	while (cmd[*i] && cmd[*i] != ' ')
+	while (cmd[*i] && cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<')
 	{
 		(*i)++;
 	}
@@ -292,6 +292,7 @@ char	*split_quotes(t_data *data, char *cmd)
 				if (i != 0)
 					return (cmd + i);
 				i += 2;
+				data->fd_i = 0;
 				data->flags->and = true;
 				data->flags->or = false;
 				skip_spaces(cmd, &i);
@@ -299,9 +300,11 @@ char	*split_quotes(t_data *data, char *cmd)
 			}
 			if (!ft_strncmp(cmd + i, "||", 2) && !f_dquote && !f_squote)
 			{
+				// printf("cmd: %s, %d\n", cmd, i);
 				if (i != 0)
 					return (cmd + i);
 				i += 2;
+				data->fd_i = 0;
 				data->flags->and = false;
 				data->flags->or = true;
 				skip_spaces(cmd, &i);
@@ -309,6 +312,7 @@ char	*split_quotes(t_data *data, char *cmd)
 			}
 			if (cmd[i] == '>' || cmd[i] == '<')
 			{
+				// printf("here\n");
 				if (cmd[i] == '>')
 					data->flags->redir_out = true;
 				if (cmd[i] == '<')

@@ -105,7 +105,6 @@ bool	exec_program(t_data *data)
 				pipes(data);
 			execve(abs_path, data->argv, data->envp);
 		}
-		// wait(&exit_code);
 		waitpid(pid, &exit_code, 0);
 		if (data->counter_pipes > 0 && data->fd_i != data->counter_pipes)
 			close(data->pipes->pipefd[data->fd_i][1]);								//still the only close that matters lol
