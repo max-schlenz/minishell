@@ -50,10 +50,9 @@ static bool count_pipes(t_data *data)
 
 static void	prompt(t_data *data)
 {
-	bool	right;
+	bool	left;
 
-	right = false;
-	//add_history("ls > x.txt | echo lol | ls | grep t");
+	left = true;
 	data->cmd = readline(data->prompt);
 	if (!data->cmd)
 		data->cmd = "exit";
@@ -68,28 +67,24 @@ static void	prompt(t_data *data)
 		while (*data->cmd == ' ')
 			*data->cmd++;
 		data->cmd = split_quotes(data, data->cmd);
-		if (*data->cmd == '|' || *data->cmd == ';' || *data->cmd == '>')
+		if (*data->cmd == ';' || *data->cmd == '>')
 			*data->cmd++;
 		if (data->flags->error || !data->argv[0])
 			continue;
-		if ((!data->flags->and && !data->flags->or) 
-		||	(!right)
+		if ((left)
+		||	(!data->flags->and && !data->flags->or) 
 		||	(data->flags->and && !data->exit_status) 
 		||	(data->flags->or && data->exit_status))
 		{
 			if (!builtins(data))
 				exec_program(data);
 		}
-		if (right)
-		{
-			data->flags->and = false;
-			data->flags->or = false;
-		}
-		// else
-			right = !right;
 		free_array(data->argv);
 		free(data->argv);
+		left = !left;
 	}
+	// data->flags->and = false;
+	// data->flags->or = false;
 	data->cmd = NULL;
 }
 
