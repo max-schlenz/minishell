@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/08 17:13:01 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/09 11:46:54 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,7 @@ static char	*get_var_content(t_data *data, char *var)
 	while (data->envp[i])
 	{
 		if (!ft_strncmp(data->envp[i], var, len_var))
-		{
 			return (ft_substr(data->envp[i], len_var + 1, ft_strlen(data->envp[i])));
-		}
 		i++;
 	}
 	return (ft_strdup(""));
@@ -208,7 +206,13 @@ void	expand_vars(t_data *data)
 				str_before_v = ft_substr(data->argv[i_arg], 0, i_char);
 				str_before_v = ft_strtrim(str_before_v, "\"");
 				vname = ft_substr(data->argv[i_arg], i_char, strlen_path(data->argv[i_arg] + i_char));
-				vcontent = get_var_content(data, vname);
+				if (!ft_strncmp(data->argv[i_arg + i_char], "$?", 2))
+				{
+					i_char++;
+					vcontent = ft_strdup(ft_itoa(data->exit_status));
+				}
+				else
+					vcontent = get_var_content(data, vname);
 				str_before_vplus_vcontent = ft_strjoin(str_before_v, vcontent);
 				str_after_v = ft_substr(data->argv[i_arg], i_char + ft_strlen(vname), ft_strlen(data->argv[i_arg]) - i_char + ft_strlen(vname));
 				str_after_v = ft_strtrim(str_after_v, "\"");
@@ -293,6 +297,20 @@ char	*split_quotes(t_data *data, char *cmd)
 				skip_spaces(cmd, &i);
 				set_filename(data, &i, cmd);
 				data->argv[array_index] = NULL;
+				skip_spaces(cmd, &i);
+				return (cmd + i);
+			}
+			if (!ft_strncmp(cmd + i, "&&", 2) && !f_dquote && !f_squote)
+			{
+				data->flags->and = true;
+				i += 2;
+				skip_spaces(cmd, &i);
+				return (cmd + i);
+			}
+			if (!ft_strncmp(cmd + i, "||", 2) && !f_dquote && !f_squote)
+			{
+				data->flags->or = true;
+				i += 2;
 				skip_spaces(cmd, &i);
 				return (cmd + i);
 			}

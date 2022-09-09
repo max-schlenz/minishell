@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/08 11:53:06 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/09 11:59:40 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ bool	builtin_cd(t_data *data)
 		path = ft_strtrim(data->argv[1], " ");
 		chdir(path);
 		free (path);
+		data->exit_status = 0;
 		return (true);
 	}
+	data->exit_status = 1;
 	return (false);
 }
 
@@ -46,6 +48,7 @@ bool	builtin_echo(t_data *data)
 	}
 	if (!echo_n)
 		ft_printf("\n");
+	data->exit_status = 0;
 	return (true);
 }
 
@@ -79,6 +82,7 @@ bool	builtin_export(t_data *data)
 	i = 0;
 	while (data->envp[i])
 		printf("declare -x %s\n", data->envp[i++]);
+	data->exit_status = 0;
 	return (true);
 }
 
@@ -89,6 +93,7 @@ bool	builtin_env(t_data *data)
 	i = 0;
 	while (data->envp[i])
 		printf("%s\n", data->envp[i++]);
+	data->exit_status = 0;
 	return (true);
 }
 
@@ -100,6 +105,7 @@ bool	builtin_pwd(t_data *data)
 	while (data->envp[i] && ft_strncmp(data->envp[i], "PWD", 3))
 		i++;
 	printf("%s\n", data->envp[i] + 4);
+	data->exit_status = 0;
 	return (true);
 }
 
@@ -124,8 +130,10 @@ bool	builtin_unset(t_data *data)
 		free(data->envp[i]);
 		data->envp[i] = NULL;
 		sort_array(data);
+		data->exit_status = 0;
 		return (true);
 	}
+	data->exit_status = 0;
 	return (true);
 }
 
@@ -162,5 +170,6 @@ bool	builtin_color(t_data *data)
 		else if (!ft_strncmp(data->argv[1], "cyan", 5) || !ft_strncmp(data->argv[1], "c", 2))
 			data->prompt = "\033[0;36mminishell\033[0m > ";
 	}
+	data->exit_status = 0;
 	return (true);
 }

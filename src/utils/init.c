@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/08 14:40:44 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/09 12:04:55 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	init_vars(t_data *data, char **argv)
 	data->flags->pipe = false;
 	data->flags->error = false;
 	data->counter_env = 0;
+	data->exit_status = 0;
 }
 
 void	open_pipes(t_data *data)

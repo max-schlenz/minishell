@@ -42,6 +42,8 @@ typedef struct s_flags {
 	bool	error;
 	bool	redir_out;
 	bool	redir_in;
+	bool	and;
+	bool	or;
 	int		pipe;
 }	t_flags;
 
@@ -58,7 +60,7 @@ typedef struct s_data
 	int		fd_i;
 	char	*prompt;
 	char	*file_name;
-	bool	exit;
+	int		exit_status;
 	t_flags *flags;
 	t_pipes *pipes;
 }	t_data;

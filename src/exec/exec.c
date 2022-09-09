@@ -78,6 +78,7 @@ bool	exec_program(t_data *data)
 	int			fd;
 	static int blub = 0;
 
+	exit_code = 0;
 	abs_path = get_path(data);
 	if (!abs_path)
 		abs_path = ft_strdup(data->argv[0]);
@@ -88,9 +89,7 @@ bool	exec_program(t_data *data)
 			ft_exit(2);
 		if (pid == 0)
 		{
-			if (!data->flags->redir_out && !data->flags->redir_in &&  data->counter_pipes > 0)
-				pipes(data);
-			else if (data->flags->redir_out)
+			if (data->flags->redir_out)
 			{
 				fd = open(data->file_name, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 				dup2(fd, STDOUT_FILENO);
@@ -102,8 +101,11 @@ bool	exec_program(t_data *data)
 				dup2(fd, STDIN_FILENO);
 				close(fd);
 			}
+			if (data->counter_pipes > 0)
+				pipes(data);
 			execve(abs_path, data->argv, data->envp);
 		}
+		// wait(&exit_code);
 		waitpid(pid, &exit_code, 0);
 		if (data->counter_pipes > 0 && data->fd_i != data->counter_pipes)
 			close(data->pipes->pipefd[data->fd_i][1]);								//still the only close that matters lol
@@ -113,8 +115,10 @@ bool	exec_program(t_data *data)
 			data->flags->redir_out = false;
 		if (data->flags->redir_in)
 			data->flags->redir_in = false;
+		data->exit_status = WEXITSTATUS(exit_code);
 		return (true);
 	}
+	data->exit_status = 127;
 	printf("command %s not found\n", data->argv[0]);
 	return (false);
 }
