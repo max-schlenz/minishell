@@ -42,6 +42,7 @@ typedef struct s_flags {
 	bool	error;
 	bool	redir_out;
 	bool	redir_in;
+	bool	redir_out_append;
 	bool	and;
 	bool	or;
 	int		pipe;

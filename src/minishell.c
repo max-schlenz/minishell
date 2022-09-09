@@ -25,6 +25,7 @@ static void	init_prompt(t_data *data)
 	data->flags->error = false;
 	data->flags->pipe = false;
 	data->flags->redir_out = false;
+	data->flags->redir_out_append = false;
 	data->flags->redir_in = false;
 	data->flags->and = false;
 	data->flags->or = false;

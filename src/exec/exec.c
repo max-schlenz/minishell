@@ -95,6 +95,12 @@ bool	exec_program(t_data *data)
 				dup2(fd, STDOUT_FILENO);
 				close(fd);
 			}
+			else if (data->flags->redir_out_append)
+			{
+				fd = open(data->file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
+				dup2(fd, STDOUT_FILENO);
+				close(fd);
+			}
 			else if (data->flags->redir_in)
 			{
 				fd = open(data->file_name, O_RDONLY);
