@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/10 11:19:40 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/10 11:37:03 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,7 +272,7 @@ bool	builtin_color(t_data *data, char *cfg)
 		j = 2;
 		i++;
 	}
-	fd = open(".mscfg", O_CREAT | O_TRUNC | O_RDWR, 0644);
+	fd = open(".mscfg", O_RDWR, 0644);
 	cfg_str_pf = ft_strdup("COLOR=");
 	cfg_str_cl = ft_strjoin(cfg_str_pf, code[0]);
 	cfg_str = ft_strjoin(cfg_str_cl, code[1]);

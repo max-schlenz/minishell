@@ -66,13 +66,16 @@ static void	prompt(t_data *data)
 		if (count_pipes(data))
 			open_pipes(data);
 	}
-	while (data->cmd && data->cmd[0] != '\0' && data->cmd[0] != '\n')
+	while (data->cmd && data->cmd[0] != '\0')// && data->cmd[0] != '\n')
 	{
-		// while (*data->cmd == ' ')
-		// 	*data->cmd++;
+		while (*data->cmd == ' ')
+			data->cmd++;
 		data->cmd = split_quotes(data, data->cmd);
-		// if (*data->cmd == ';') // || (*data->cmd == '|'))
-		// 	*data->cmd++;
+		int k = 0;
+		while (data->argv[k])
+			printf("%s\n", data->argv[k++]);
+		if (*data->cmd == ';') // || (*data->cmd == '|'))
+			data->cmd++;
 		if (data->flags->error || !data->argv[0])
 			continue;
 		if ((left)
@@ -104,20 +107,22 @@ static void	signals()
 static void	read_config(t_data *data)
 {
 	char *read_buf;
-	int	fd;
 
 	if (!access(".mscfg", F_OK))
 	{
-		fd = open(".mscfg", O_RDONLY);
+		data->fd = open(".mscfg", O_RDONLY);
 		read_buf = ft_strdup("42");
-		while (read_buf)
+		while (read_buf != NULL)
 		{
 			free(read_buf);
-			read_buf = get_next_line(fd);
-			if (!strcmp_alnum(read_buf, "COLOR"))
+			read_buf = get_next_line(data->fd);
+			// printf("%d\n", ft_strlen(read_buf));
+			if (read_buf && !strcmp_alnum(read_buf, "COLOR"))
 				builtin_color(data, read_buf + strlen_var(read_buf) + 1);
-			return ;
+			// if (read_buf && !strcmp_alnum(read_buf, "HISTORY"))
+			// 	add_history(read_buf + 8);
 		}
+		return ;
 	}
 }
 

@@ -74,6 +74,7 @@ typedef struct s_data
 	char	*file_name;
 	int		exit_status;
 	bool	exit;
+	int		fd;
 	t_flags *flags;
 	t_pipes *pipes;
 }	t_data;
