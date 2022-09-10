@@ -35,16 +35,19 @@ OBJ_DIR			=	obj
 LIB_DIR			=	lib
 INC_DIR			=	inc
 
-SRC				= 	${NAME}				\
-					parse/argv			\
-					parse/envp			\
-					parse/utils			\
-					exec/builtins		\
-					exec/exec			\
-					utils/init			\
-					utils/cleanup		\
-					utils/signal		\
-					parse/split
+SRC				= 	${NAME}						\
+					parse/argv					\
+					parse/envp					\
+					parse/utils					\
+					exec/builtins				\
+					exec/exec					\
+					utils/init					\
+					utils/cleanup				\
+					utils/signal				\
+					parse/split					\
+					parse/split_single			\
+					parse/split_double_pipes	\
+					parse/split_double_and
 					
 INC				=	libft				\
 					${NAME}

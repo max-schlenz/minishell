@@ -52,9 +52,154 @@ static bool count_pipes(t_data *data)
 	return (false);
 }
 
+static char	*cleanup_str_single(char *cmd)
+{
+	char **tmp;
+	char *tmp_trim;
+	char *tmp_trim_space_s;
+	char *tmp_trim_space_e;
+	char *tmp_trim_op;
+	char **tmp_trim_arr;
+
+	char *tmp_join;
+	char *ret;
+	tmp = split_single(cmd, '|');
+	int arr_size = 0;
+	while (tmp[arr_size])
+		arr_size++;
+	
+	// int ll = 0;
+
+	// while (tmp[ll])
+	// 	printf("%s\n", tmp[ll++]);
+
+	// exit(0);
+	// printf("%d\n", arr_size);
+	tmp_trim_arr = ft_calloc(arr_size + 1, sizeof(char *));
+
+	// tmp_trim_op = ft_strjoin(tmp[0], "|");
+	// tmp_trim_arr[0] = ft_strdup(tmp_trim_op);
+	int i = 0;
+	while (tmp[i])
+	{
+		tmp_trim = ft_strtrim(tmp[i], " ");
+		tmp_trim_space_s = ft_strjoin(" ", tmp_trim);
+		if (!tmp[i + 1])
+			tmp_trim_arr[i++] = ft_strdup(tmp_trim_space_s);
+		else
+		{
+			tmp_trim_space_e = ft_strjoin(tmp_trim_space_s, " |");
+			tmp_trim_arr[i++] = ft_strdup(tmp_trim_space_e);
+		}
+	}
+
+	int k = 0;
+	tmp_join = NULL;
+	while (tmp_trim_arr[k])
+	{
+		tmp_join = ft_strjoin_dup(tmp_join, tmp_trim_arr[k]);
+		free (tmp_trim_arr[k++]);
+	}
+	free (tmp_trim_arr);
+	ret = ft_strtrim(tmp_join, "| ");
+	return ret;
+}
+
+static char	*cleanup_str_double_pipes(char *cmd)
+{
+	char **tmp;
+	char *tmp_trim;
+	char *tmp_trim_space_s;
+	char *tmp_trim_space_e;
+	char *tmp_trim_op;
+	char **tmp_trim_arr;
+
+	char *tmp_join;
+	char *ret;
+	tmp = split_double_pipes(cmd, '|');
+	int arr_size = 0;
+	while (tmp[arr_size])
+		arr_size++;
+	// printf("%d\n", arr_size);
+	tmp_trim_arr = ft_calloc(arr_size + 1, sizeof(char *));
+
+	// tmp_trim_op = ft_strjoin(tmp[0], "|");
+	// tmp_trim_arr[0] = ft_strdup(tmp_trim_op);
+	int i = 0;
+	while (tmp[i])
+	{
+		tmp_trim = ft_strtrim(tmp[i], " ");
+		tmp_trim_space_s = ft_strjoin(" ", tmp_trim);
+		if (!tmp[i + 1])
+			tmp_trim_arr[i++] = ft_strdup(tmp_trim_space_s);
+		else
+		{
+			tmp_trim_space_e = ft_strjoin(tmp_trim_space_s, " ||");
+			tmp_trim_arr[i++] = ft_strdup(tmp_trim_space_e);
+		}
+	}
+	int k = 0;
+	tmp_join = NULL;
+	while (tmp_trim_arr[k])
+	{
+		tmp_join = ft_strjoin_dup(tmp_join, tmp_trim_arr[k]);
+		free (tmp_trim_arr[k++]);
+	}
+	free (tmp_trim_arr);
+	ret = ft_strtrim(tmp_join, "| ");
+	return ret;
+}
+
+static char	*cleanup_str_double_and(char *cmd)
+{
+	char **tmp;
+	char *tmp_trim;
+	char *tmp_trim_space_s;
+	char *tmp_trim_space_e;
+	char *tmp_trim_op;
+	char **tmp_trim_arr;
+
+	char *tmp_join;
+	char *ret;
+	tmp = split_double_and(cmd, '&');
+	int arr_size = 0;
+	while (tmp[arr_size])
+		arr_size++;
+	// printf("%d\n", arr_size);
+	tmp_trim_arr = ft_calloc(arr_size + 1, sizeof(char *));
+
+	// tmp_trim_op = ft_strjoin(tmp[0], "|");
+	// tmp_trim_arr[0] = ft_strdup(tmp_trim_op);
+	int i = 0;
+	while (tmp[i])
+	{
+		tmp_trim = ft_strtrim(tmp[i], " ");
+		tmp_trim_space_s = ft_strjoin(" ", tmp_trim);
+		if (!tmp[i + 1])
+			tmp_trim_arr[i++] = ft_strdup(tmp_trim_space_s);
+		else
+		{
+			tmp_trim_space_e = ft_strjoin(tmp_trim_space_s, " &&");
+			tmp_trim_arr[i++] = ft_strdup(tmp_trim_space_e);
+		}
+	}
+
+	int k = 0;
+	tmp_join = NULL;
+	while (tmp_trim_arr[k])
+	{
+		tmp_join = ft_strjoin_dup(tmp_join, tmp_trim_arr[k]);
+		free (tmp_trim_arr[k++]);
+	}
+	free (tmp_trim_arr);
+	ret = ft_strtrim(tmp_join, "& ");
+	return ret;
+}
+
 static void	prompt(t_data *data)
 {
 	bool	left;
+	char	*cmd;
 
 	left = true;
 	data->cmd = readline(data->prompt);
@@ -65,16 +210,16 @@ static void	prompt(t_data *data)
 		add_history(data->cmd);
 		if (count_pipes(data))
 			open_pipes(data);
+		data->cmd = cleanup_str_double_pipes(data->cmd);
+		data->cmd = cleanup_str_double_and(data->cmd);
+		data->cmd = cleanup_str_single(data->cmd);
 	}
-	while (data->cmd && data->cmd[0] != '\0')// && data->cmd[0] != '\n')
+	while (data->cmd && data->cmd[0] != '\0')
 	{
 		while (*data->cmd == ' ')
 			data->cmd++;
 		data->cmd = split_quotes(data, data->cmd);
-		int k = 0;
-		while (data->argv[k])
-			printf("%s\n", data->argv[k++]);
-		if (*data->cmd == ';') // || (*data->cmd == '|'))
+		if (*data->cmd == ';')
 			data->cmd++;
 		if (data->flags->error || !data->argv[0])
 			continue;
