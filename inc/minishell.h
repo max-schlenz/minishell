@@ -136,8 +136,7 @@ bool			builtin_export(t_data *data);
 bool			builtin_env(t_data *data);
 bool			builtin_pwd(t_data *data);
 bool			builtin_unset(t_data *data);
-bool			builtin_color(t_data *data);
-
+bool			builtin_color(t_data *data, char *cfg);
 //exec/exec.c
 void			pipes(t_data *data);
 

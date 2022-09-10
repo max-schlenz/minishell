@@ -57,7 +57,7 @@ bool	builtin_environment(t_data *data)
 	else if (!ft_strncmp(data->argv[0], "unset", 6))
 		return (builtin_unset(data));
 	else if (!ft_strncmp(data->argv[0], "color", 6))
-		return (builtin_color(data));
+		return (builtin_color(data, NULL));
 	return (false);
 }
 

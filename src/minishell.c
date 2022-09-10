@@ -68,11 +68,11 @@ static void	prompt(t_data *data)
 	}
 	while (data->cmd && data->cmd[0] != '\0' && data->cmd[0] != '\n')
 	{
-		while (*data->cmd == ' ')
-			*data->cmd++;
+		// while (*data->cmd == ' ')
+		// 	*data->cmd++;
 		data->cmd = split_quotes(data, data->cmd);
-		if ((*data->cmd == ';')) // || (*data->cmd == '|'))
-			*data->cmd++;
+		// if (*data->cmd == ';') // || (*data->cmd == '|'))
+		// 	*data->cmd++;
 		if (data->flags->error || !data->argv[0])
 			continue;
 		if ((left)
@@ -101,6 +101,26 @@ static void	signals()
 	// signal(SIGQUIT, SIG_IGN);
 }
 
+static void	read_config(t_data *data)
+{
+	char *read_buf;
+	int	fd;
+
+	if (!access(".mscfg", F_OK))
+	{
+		fd = open(".mscfg", O_RDONLY);
+		read_buf = ft_strdup("42");
+		while (read_buf)
+		{
+			free(read_buf);
+			read_buf = get_next_line(fd);
+			if (!strcmp_alnum(read_buf, "COLOR"))
+				builtin_color(data, read_buf + strlen_var(read_buf) + 1);
+			return ;
+		}
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
@@ -108,6 +128,7 @@ int	main(int argc, char **argv, char **envp)
 	data = allocate_mem();
 	signals();
 	init_vars(data, argv);
+	read_config(data);
 	parse_envp(data, envp);
 	while (1)
 	{
