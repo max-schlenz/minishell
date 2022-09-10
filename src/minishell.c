@@ -57,10 +57,7 @@ static void	prompt(t_data *data)
 	bool	left;
 
 	left = true;
-	// data->cmd = readline(data->prompt);
-	// write(1, data->prompt, ft_strlen(data->prompt));
-	data->cmd = get_next_line(0);
-	data->cmd = ft_strtrim(data->cmd, "\n");
+	data->cmd = readline(data->prompt);
 	if (!data->cmd)
 		data->cmd = "exit";
 	else if (data->cmd[0] && data->cmd[0] != '\n')
@@ -74,14 +71,10 @@ static void	prompt(t_data *data)
 		while (*data->cmd == ' ')
 			*data->cmd++;
 		data->cmd = split_quotes(data, data->cmd);
-		// printf("%s\n", data->cmd);
 		if ((*data->cmd == ';')) // || (*data->cmd == '|'))
 			*data->cmd++;
 		if (data->flags->error || !data->argv[0])
 			continue;
-		// int k = 0;
-		// while (data->argv[k])
-		// 	printf("%s\n", data->argv[k++]);
 		if ((left)
 		||	(!data->flags->and && !data->flags->or) 
 		||	(data->flags->and && !data->exit_status) 

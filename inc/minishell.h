@@ -33,6 +33,14 @@
 # define E_FORK_MSG	"Failed to create Forks."
 # define E_NC_QUOTE "Error: unclosed quotes!"
 
+# define WHITE "\033[0m"
+# define RED "\033[31;1m"
+# define GREEN "\033[32;1m"
+# define YELLOW "\033[33;1m"
+# define BLUE "\033[34;1m"
+# define MAGENTA "\033[35;1m"
+# define CYAN "\033[36;1m"
+
 typedef struct s_pipes
 {
 	int		pipefd[4096][2];
@@ -61,6 +69,8 @@ typedef struct s_data
 	int		counter_pipes;
 	int		fd_i;
 	char	*prompt;
+	char	*prompt_cl1;
+	char	*prompt_cl2;
 	char	*file_name;
 	int		exit_status;
 	bool	exit;

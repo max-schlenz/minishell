@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/09 11:59:40 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/10 10:45:25 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,21 +120,24 @@ bool	builtin_export(t_data *data)
 	if (data->argv[1] && ft_isalnum(data->argv[1][0]))
 	{
 		len = strlen_var(data->argv[1]);
-		if (len > ft_strlen(data->argv[1]) - 1)
+		if (data->argv[1][len] == '=')
 		{
-			while (data->envp[i])
+			if (len > ft_strlen(data->argv[1]) - 1)
 			{
-				if (ft_strncmp(data->envp[i], data->argv[1], len) == 0)
+				while (data->envp[i])
 				{
-					free(data->envp[i]);
-					data->envp[i] = ft_strdup(data->argv[1]);
+					if (ft_strncmp(data->envp[i], data->argv[1], len) == 0)
+					{
+						free(data->envp[i]);
+						data->envp[i] = ft_strdup(data->argv[1]);
+					}
+					i++;
 				}
-				i++;
+				if (!data->envp[i])
+					realloc_envp(data, 1);
+				sort_array(data);
+				parse_path(data);
 			}
-			if (!data->envp[i])
-				realloc_envp(data, 1);
-			sort_array(data);
-			parse_path(data);
 		}
 		return (true);
 	}
@@ -210,37 +213,58 @@ bool	builtin_unset(t_data *data)
 
 bool	builtin_color(t_data *data)
 {
-	char	*code;
-
+	char	*prompt[4];
+	char	*prompt_tmp;
+	char	*prompt_tmp2;
+	char	*code[2];
+	int		i;
+	int		j;
+	
+	i = 0;
+	j = 0;
 	printf("change the color of your prompt!\n\n \
-	d - \033[34;1mdef\033[36;1mault\033[0m\n \
-	w - \033[0;34mwhite\033[0m\n \
-	r - \033[0;31mred\033[0m\n \
-	g - \033[0;32mgreen\033[0m\n \
-	y - \033[0;33myellow\033[0m\n \
-	b - \033[0;34mblue\033[0m\n \
-	m - \033[0;35mmagenta\033[0m\n \
-	c - \033[0;36mcyan\033[0m\n\n");
-	code = readline("enter color code: ");
-	if (code)
+	w - \033[0mwhite\033[0m\n \
+	r - \033[31;1mred\033[0m\n \
+	g - \033[32;1mgreen\033[0m\n \
+	y - \033[33;1myellow\033[0m\n \
+	b - \033[34;1mblue\033[0m\n \
+	m - \033[35;1mmagenta\033[0m\n \
+	c - \033[36;1mcyan\033[0m\n\n");
+	prompt[1] = ft_strdup("mini");
+	prompt[3] = ft_strdup("shell\033[0;1m #\033[0m  ");
+	while (i < 2)
 	{
-		if (!ft_strncmp(data->argv[1], "white", 6) || !ft_strncmp(data->argv[1], "w", 2))
-			data->prompt = "minishell > ";
-		else if (!ft_strncmp(data->argv[1], "default", 8) || !ft_strncmp(data->argv[1], "d", 2))
-			data->prompt = "\033[34;1mmini\033[36;1mshell\033[0m > ";
-		else if (!ft_strncmp(data->argv[1], "red", 4) || !ft_strncmp(data->argv[1], "r", 2))
-			data->prompt = "\033[0;31mminishell\033[0m > ";
-		else if (!ft_strncmp(data->argv[1], "green", 6) || !ft_strncmp(data->argv[1], "g", 2))
-			data->prompt = "\033[0;32mminishell\033[0m > ";
-		else if (!ft_strncmp(data->argv[1], "yellow", 7) || !ft_strncmp(data->argv[1], "y", 2))
-			data->prompt = "\033[0;33mminishell\033[0m > ";
-		else if (!ft_strncmp(data->argv[1], "blue", 5) || !ft_strncmp(data->argv[1], "b", 2))
-			data->prompt = "\033[0;34mminishell\033[0m > ";
-		else if (!ft_strncmp(data->argv[1], "magenta", 8) || !ft_strncmp(data->argv[1], "m", 2))
-			data->prompt = "\033[0;35mminishell\033[0m > ";
-		else if (!ft_strncmp(data->argv[1], "cyan", 5) || !ft_strncmp(data->argv[1], "c", 2))
-			data->prompt = "\033[0;36mminishell\033[0m > ";
+		if (!i)
+			code[i] = readline("enter color code 1: ");
+		else
+			code[i] = readline("enter color code 2: ");
+		if (code[i])
+		{
+			if (!ft_strncmp(code[i], "white", 6) || !ft_strncmp(code[i], "w", 2))
+				prompt[j] = ft_strdup(WHITE);
+			else if (!ft_strncmp(code[i], "red", 4) || !ft_strncmp(code[i], "r", 2))
+				prompt[j] = ft_strdup(RED);
+			else if (!ft_strncmp(code[i], "green", 6) || !ft_strncmp(code[i], "g", 2))
+				prompt[j] = ft_strdup(GREEN);
+			else if (!ft_strncmp(code[i], "yellow", 7) || !ft_strncmp(code[i], "y", 2))
+				prompt[j] = ft_strdup(YELLOW);
+			else if (!ft_strncmp(code[i], "blue", 5) || !ft_strncmp(code[i], "b", 2))
+				prompt[j] = ft_strdup(BLUE);
+			else if (!ft_strncmp(code[i], "magenta", 8) || !ft_strncmp(code[i], "m", 2))
+				prompt[j] = ft_strdup(MAGENTA);
+			else if (!ft_strncmp(code[i], "cyan", 5) || !ft_strncmp(code[i], "c", 2))
+				prompt[j] = ft_strdup(CYAN);
+			else
+				continue;
+		}
+		j = 2;
+		i++;
 	}
+	prompt_tmp = ft_strjoin(prompt[0], prompt[1]);
+	prompt_tmp2 = ft_strjoin(prompt[2], prompt[3]);
+	data->prompt = ft_strjoin(prompt_tmp, prompt_tmp2);
+	free (prompt_tmp);
+	free (prompt_tmp2);
 	data->exit_status = 0;
 	return (true);
 }

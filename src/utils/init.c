@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/09 12:04:55 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/10 10:42:54 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,7 @@
 
 void	init_vars(t_data *data, char **argv)
 {
-	if (argv[1])
-	{
-		if (!ft_strncmp(argv[1], "white", 6) || !ft_strncmp(argv[1], "w", 2))
-			data->prompt = ft_strdup("minishell > ");
-		else if (!ft_strncmp(argv[1], "red", 4) || !ft_strncmp(argv[1], "r", 2))
-			data->prompt = ft_strdup("\033[0;31mminishell\033[0m > ");
-		else if (!ft_strncmp(argv[1], "green", 6) || !ft_strncmp(argv[1], "g", 2))
-			data->prompt = ft_strdup("\033[0;32mminishell\033[0m > ");
-		else if (!ft_strncmp(argv[1], "yellow", 7) || !ft_strncmp(argv[1], "y", 2))
-			data->prompt = ft_strdup("\033[0;33mminishell\033[0m > ");
-		else if (!ft_strncmp(argv[1], "blue", 5) || !ft_strncmp(argv[1], "b", 2))
-			data->prompt = ft_strdup("\033[0;34mminishell\033[0m > ");
-		else if (!ft_strncmp(argv[1], "magenta", 8) || !ft_strncmp(argv[1], "m", 2))
-			data->prompt = ft_strdup("\033[0;35mminishell\033[0m > ");
-		else if (!ft_strncmp(argv[1], "cyan", 5) || !ft_strncmp(argv[1], "c", 2))
-			data->prompt = ft_strdup("\033[0;36mminishell\033[0m > ");
-	}
-	else
-		data->prompt = ft_strdup("\033[34;1mmini\033[36;1mshell\033[0m > ");
+	data->prompt = ft_strdup("\033[34;1mmini\033[36;1mshell\033[0;1m # \033[0m");
 	data->flags->pipe = false;
 	data->flags->error = false;
 	data->counter_env = 0;

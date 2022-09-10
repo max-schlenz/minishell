@@ -148,5 +148,4 @@ bool	exec_program(t_data *data)
 		data->flags->redir_in = false;
 	data->exit_status = WEXITSTATUS(exit_code);
 	return (true);
-	// printf("command %s not found\n", data->argv[0]);
 }

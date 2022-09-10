@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/09 18:03:58 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/10 10:03:21 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,7 +300,6 @@ char	*split_quotes(t_data *data, char *cmd)
 			}
 			if (!ft_strncmp(cmd + i, "||", 3) && !f_dquote && !f_squote)
 			{
-				// printf("cmd: %s, %d\n", cmd, i);
 				if (i != 0)
 					return (cmd + i);
 				i += 2;
@@ -312,7 +311,6 @@ char	*split_quotes(t_data *data, char *cmd)
 			}
 			if (cmd[i] == '>' || cmd[i] == '<')
 			{
-				// printf("here\n");
 				if (!ft_strncmp(cmd + i, ">>", 2))
 				{
 					i++;
