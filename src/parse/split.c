@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/10 10:03:21 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/10 17:08:31 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,7 +287,21 @@ char	*split_quotes(t_data *data, char *cmd)
 		array_index = 0;
 		while (cmd[i])
 		{
-			if (!ft_strncmp(cmd + i, "&&", 3) && !f_dquote && !f_squote)
+			if ((cmd[i] != ' ' && cmd[i+1] == '|' && ft_strncmp(cmd + i, "||", 2)))
+			{
+				i++;
+				parse_string(data, cmd, array_index, i, j);
+				array_index++;
+				j = i + 1;
+			}
+			else if ((cmd[i] == ' ' && cmd[i + 1] && cmd[i + 1] != ' ' && !f_dquote && !f_squote))
+			{
+				printf("hello\n");
+				parse_string(data, cmd, array_index, i, j);
+				array_index++;
+				j = i + 1;
+			}
+			if (!ft_strncmp(cmd + i, "&&", 2) && !f_dquote && !f_squote)
 			{
 				if (i != 0)
 					return (cmd + i);
@@ -298,7 +312,7 @@ char	*split_quotes(t_data *data, char *cmd)
 				skip_spaces(cmd, &i);
 				return (cmd + i);
 			}
-			if (!ft_strncmp(cmd + i, "||", 3) && !f_dquote && !f_squote)
+			if (!ft_strncmp(cmd + i, "||", 2) && !f_dquote && !f_squote)
 			{
 				if (i != 0)
 					return (cmd + i);
@@ -342,12 +356,6 @@ char	*split_quotes(t_data *data, char *cmd)
 				f_dquote = !f_dquote;
 			if (cmd[i] == '\'' && !f_dquote)
 				f_squote = !f_squote;
-			if (cmd[i] == ' ' && cmd[i + 1] && cmd[i + 1] != ' ' && !f_dquote && !f_squote)
-			{
-				parse_string(data, cmd, array_index, i, j);
-				array_index++;
-				j = i + 1;
-			}
 			i++;
 		}
 		parse_string(data, cmd, array_index, i, j);

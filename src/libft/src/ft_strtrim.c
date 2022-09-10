@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 18:23:01 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/05/27 15:14:09 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/10 17:08:57 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-static size_t	is_in_set(char c, char const *set)
+size_t	is_in_set(char c, char const *set)
 {
 	size_t	i;
 
