@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/09/08 14:07:38 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/09/11 11:24:54 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,12 +44,13 @@ SRC				= 	${NAME}						\
 					utils/init					\
 					utils/cleanup				\
 					utils/signal				\
+					utils/utils					\
 					parse/split					\
 					parse/split_single			\
 					parse/split_double_pipes	\
 					parse/split_double_and
 					
-INC				=	libft				\
+INC				=	libft						\
 					${NAME}
 
 LIB				=	libft 

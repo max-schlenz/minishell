@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/11 11:05:59 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/11 11:29:02 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	init_vars(t_data *data, char **argv)
 	data->flags->error = false;
 	data->counter_env = 0;
 	data->exit_status = 0;
+	data->last_cmd = "";
 }
 
 void	open_pipes(t_data *data)

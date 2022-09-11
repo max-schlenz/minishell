@@ -131,6 +131,7 @@ size_t			strlen_path(const char *c);
 char			*check_esc_var_quo(const char *s);
 void			realloc_envp(t_data *data, int flag);
 size_t			strlen_var(const char *c);
+int				strdiff(const char *s1, const char *s2);
 
 //parse/split_quotes.c
 char			*split_quotes(t_data *data, char *cmd);
@@ -145,7 +146,7 @@ bool			builtin_env(t_data *data);
 bool			builtin_pwd(t_data *data);
 bool			builtin_unset(t_data *data);
 bool			builtin_color(t_data *data, char *cfg);
-bool			builtin_clear_history(t_data *data);
+bool			builtin_history(t_data *data);
 
 //exec/exec.c
 void			pipes(t_data *data);

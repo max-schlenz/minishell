@@ -198,10 +198,13 @@ static char	*cleanup_str_double_and(char *cmd)
 
 static void	history(t_data *data)
 {
-	add_history(data->cmd);
-	write(data->mscfg, "HISTORY=", 8);
-	write(data->mscfg, data->cmd, ft_strlen(data->cmd));
-	write(data->mscfg, "\n", 1);
+	if (strdiff(data->cmd, data->last_cmd))
+	{
+		add_history(data->cmd);
+		write(data->mscfg, "HISTORY=", 8);
+		write(data->mscfg, data->cmd, ft_strlen(data->cmd));
+		write(data->mscfg, "\n", 1);
+	}
 	data->last_cmd = ft_strdup(data->cmd);
 }
 
@@ -228,8 +231,8 @@ static void	prompt(t_data *data)
 		while (*data->cmd == ' ')
 			data->cmd++;
 		data->cmd = split_quotes(data, data->cmd);
-		if (*data->cmd == ';')
-			data->cmd++;
+		// if (*data->cmd == ';')
+		// 	data->cmd++;
 		if (data->flags->error || !data->argv[0])
 			continue;
 		if ((left)
@@ -288,6 +291,7 @@ static void	read_config(t_data *data)
 			{
 				history = ft_strtrim(read_buf + 8, "\n");
 				add_history(history);
+				data->last_cmd = ft_strdup(history);
 			}
 		}
 		return ;
