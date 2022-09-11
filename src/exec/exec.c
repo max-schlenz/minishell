@@ -58,6 +58,8 @@ bool	builtin_environment(t_data *data)
 		return (builtin_unset(data));
 	else if (!ft_strncmp(data->argv[0], "color", 6))
 		return (builtin_color(data, NULL));
+	else if (!ft_strncmp(data->argv[0], "clh", 4))
+		return (builtin_clear_history(data));
 	return (false);
 }
 

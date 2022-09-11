@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/10 11:37:03 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/11 11:19:13 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,5 +283,22 @@ bool	builtin_color(t_data *data, char *cfg)
 	free (prompt_tmp);
 	free (prompt_tmp2);
 	data->exit_status = 0;
+	return (true);
+}
+
+bool	builtin_clear_history(t_data *data)
+{
+	char	tmp_cl[9];
+	int		fd;
+
+	usleep(1000);
+	fd = open(CFG, O_RDONLY);
+	read(fd, tmp_cl, 8);
+	tmp_cl[8] = '\0';
+	close (fd);
+	fd = open(CFG, O_RDWR | O_TRUNC);
+	write(fd, tmp_cl, 8);
+	write(fd, "\n", 1);
+	close (fd);
 	return (true);
 }

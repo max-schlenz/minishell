@@ -41,6 +41,8 @@
 # define MAGENTA "\033[35;1m"
 # define CYAN "\033[36;1m"
 
+# define CFG ".mscfg"
+
 typedef struct s_pipes
 {
 	int		pipefd[4096][2];
@@ -72,9 +74,11 @@ typedef struct s_data
 	char	*prompt_cl1;
 	char	*prompt_cl2;
 	char	*file_name;
+	char	*last_cmd;
 	int		exit_status;
 	bool	exit;
 	int		fd;
+	int		mscfg;
 	t_flags *flags;
 	t_pipes *pipes;
 }	t_data;
@@ -141,6 +145,8 @@ bool			builtin_env(t_data *data);
 bool			builtin_pwd(t_data *data);
 bool			builtin_unset(t_data *data);
 bool			builtin_color(t_data *data, char *cfg);
+bool			builtin_clear_history(t_data *data);
+
 //exec/exec.c
 void			pipes(t_data *data);
 

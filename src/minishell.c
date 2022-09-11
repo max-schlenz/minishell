@@ -196,6 +196,15 @@ static char	*cleanup_str_double_and(char *cmd)
 	return ret;
 }
 
+static void	history(t_data *data)
+{
+	add_history(data->cmd);
+	write(data->mscfg, "HISTORY=", 8);
+	write(data->mscfg, data->cmd, ft_strlen(data->cmd));
+	write(data->mscfg, "\n", 1);
+	data->last_cmd = ft_strdup(data->cmd);
+}
+
 static void	prompt(t_data *data)
 {
 	bool	left;
@@ -207,7 +216,7 @@ static void	prompt(t_data *data)
 		data->cmd = "exit";
 	else if (data->cmd[0] && data->cmd[0] != '\n')
 	{
-		add_history(data->cmd);
+		history(data);
 		if (count_pipes(data))
 			open_pipes(data);
 		data->cmd = cleanup_str_double_pipes(data->cmd);
@@ -249,23 +258,37 @@ static void	signals()
 	// signal(SIGQUIT, SIG_IGN);
 }
 
+static void create_config(t_data *data)
+{
+	int fd;
+
+	fd = open(".mscfg", O_CREAT | O_RDWR, 0644);
+	write(fd, "COLOR=bc\n", 9);
+	close (fd);
+}
+
 static void	read_config(t_data *data)
 {
 	char *read_buf;
+	char *history;
 
+	if (access(".mscfg", F_OK))
+		create_config(data);
 	if (!access(".mscfg", F_OK))
 	{
-		data->fd = open(".mscfg", O_RDONLY);
+		data->mscfg = open(".mscfg", O_RDWR | O_APPEND, 0644);
 		read_buf = ft_strdup("42");
 		while (read_buf != NULL)
 		{
 			free(read_buf);
-			read_buf = get_next_line(data->fd);
-			// printf("%d\n", ft_strlen(read_buf));
+			read_buf = get_next_line(data->mscfg);
 			if (read_buf && !strcmp_alnum(read_buf, "COLOR"))
 				builtin_color(data, read_buf + strlen_var(read_buf) + 1);
-			// if (read_buf && !strcmp_alnum(read_buf, "HISTORY"))
-			// 	add_history(read_buf + 8);
+			if (read_buf && !strcmp_alnum(read_buf, "HISTORY"))
+			{
+				history = ft_strtrim(read_buf + 8, "\n");
+				add_history(history);
+			}
 		}
 		return ;
 	}

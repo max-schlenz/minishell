@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/10 10:42:54 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/11 11:05:59 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ t_data	*allocate_mem()
 	if (!data)
 		ft_exit(1);
 	data->pipes = ft_calloc(1, sizeof(t_pipes));
+	if (!data->pipes)
+		ft_exit(1);
 	data->flags = ft_calloc(1, sizeof(t_flags));
-	if (!data)
+	if (!data->flags)
 		ft_exit(1);
 	return (data);
 }
