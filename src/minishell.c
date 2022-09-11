@@ -105,63 +105,65 @@ static char	*cleanup_str_single(char *cmd)
 	return ret;
 }
 
-static char	*cleanup_str_double_pipes(char *cmd)
-{
-	char **tmp;
-	char *tmp_trim;
-	char *tmp_trim_space_s;
-	char *tmp_trim_space_e;
-	char *tmp_trim_op;
-	char **tmp_trim_arr;
+// static char	*cleanup_str_double_pipes(char *cmd)
+// {
+// 	char **tmp;
+// 	char *tmp_trim;
+// 	char *tmp_trim_space_s;
+// 	char *tmp_trim_space_e;
+// 	char *tmp_trim_op;
+// 	char **tmp_trim_arr;
 
-	char *tmp_join;
-	char *ret;
+// 	char *tmp_join;
+// 	char *ret;
 
-	char *ops;
-	ops = ft_strdup("|&");
-	while (*ops)
-	{
-		int arr_size = 0;
-		int i = 0;
-		int k = 0;
-		if (*ops == '|')
-			tmp = split_double_pipes(cmd, '|');
-		else
-			tmp = split_double_and(cmd, '&');
-		while (tmp[arr_size])
-			arr_size++;
-		// printf("%d\n", arr_size);
-		tmp_trim_arr = ft_calloc(arr_size + 1, sizeof(char *));
+// 	char *ops;
+// 	ops = ft_strdup("|&");
+// 	while (*ops)
+// 	{
+// 		int arr_size = 0;
+// 		int i = 0;
+// 		int k = 0;
+// 		if (*ops == '|')
+// 			tmp = split_double_pipes(cmd, '|');
+// 		else
+// 			tmp = split_double_and(cmd, '&');
+// 		while (tmp[arr_size])
+// 			arr_size++;
+// 		// printf("%d\n", arr_size);
+// 		tmp_trim_arr = ft_calloc(arr_size + 1, sizeof(char *));
 
-		// tmp_trim_op = ft_strjoin(tmp[0], "|");
-		// tmp_trim_arr[0] = ft_strdup(tmp_trim_op);
-		while (tmp[i])
-		{
-			tmp_trim = ft_strtrim(tmp[i], " ");
-			tmp_trim_space_s = ft_strjoin(" ", tmp_trim);
-			if (!tmp[i + 1])
-				tmp_trim_arr[i++] = ft_strdup(tmp_trim_space_s);
-			else
-			{
-				if (*ops == '|')
-					tmp_trim_space_e = ft_strjoin(tmp_trim_space_s, " ||");
-				else
-					tmp_trim_space_e = ft_strjoin(tmp_trim_space_s, " &&");
-				tmp_trim_arr[i++] = ft_strdup(tmp_trim_space_e);
-			}
-		}
-		tmp_join = NULL;
-		while (tmp_trim_arr[k])
-		{
-			tmp_join = ft_strjoin_dup(tmp_join, tmp_trim_arr[k]);
-			free (tmp_trim_arr[k++]);
-		}
-		free (tmp_trim_arr);
-		ret = ft_strtrim(tmp_join, "| ");
-		ops++;
-	}
-	return ret;
-}
+// 		// tmp_trim_op = ft_strjoin(tmp[0], "|");
+// 		// tmp_trim_arr[0] = ft_strdup(tmp_trim_op);
+// 		while (tmp[i])
+// 		{
+// 			tmp_trim = ft_strtrim(tmp[i], " ");
+// 			tmp_trim_space_s = ft_strjoin(" ", tmp_trim);
+// 			if (!tmp[i + 1])
+// 				tmp_trim_arr[i++] = ft_strdup(tmp_trim_space_s);
+// 			else
+// 			{
+// 				if (*ops == '|')
+// 					tmp_trim_space_e = ft_strjoin(tmp_trim_space_s, " ||");
+// 				else
+// 					tmp_trim_space_e = ft_strjoin(tmp_trim_space_s, " &&");
+// 				tmp_trim_arr[i++] = ft_strdup(tmp_trim_space_e);
+// 			}
+// 		}
+// 		tmp_join = NULL;
+// 		while (tmp_trim_arr[k])
+// 		{
+// 			tmp_join = ft_strjoin_dup(tmp_join, tmp_trim_arr[k]);
+// 			free (tmp_trim_arr[k++]);
+// 		}
+// 		free (tmp_trim_arr);
+// 		ret = ft_strtrim(tmp_join, "| ");
+// 		ops++;
+// 	}
+// 	return ret;
+// }
+
+
 
 static char	*cleanup_str_double_and(char *cmd)
 {
@@ -209,6 +211,60 @@ static char	*cleanup_str_double_and(char *cmd)
 	return ret;
 }
 
+static char *add_space(char *cmd, int index)
+{
+	size_t	len;
+	char	*ret;
+	int		i;
+	int		j;
+
+	len = ft_strlen(cmd) + 1;
+	ret = (char *)malloc(sizeof(char) * len + 1);
+	i = 0;
+	j = 0;
+	while (cmd[i])
+	{
+		if (i == index)
+		{
+			j++;
+			ret[j] = ' ';
+		}
+		ret[j] = cmd[i];
+		i++;
+		j++;
+	}
+	return (ret);
+}
+
+static char *add_spaces(char *cmd)
+{
+	int	i;
+	char *ops;
+
+ 	ops = ft_strdup("|&><");
+	i = 0;
+	while (*ops)
+	{
+		i = 0;
+		while (cmd[i])
+		{
+			if (cmd[i + 1] && cmd[i] != ' ' && cmd[i + 1] == *ops)
+			{
+				cmd = add_space(cmd, i);
+			}
+				
+			if (cmd[i + 1] && cmd[i + 1] != ' ' && cmd[i + 1] != *ops && cmd[i] == *ops)
+			{
+				cmd = add_space(cmd, i + 1);
+			}
+			printf("in here %s\n", cmd);
+			i++;
+		}
+		ops++;
+	}
+	return (cmd);
+}
+
 static void	history(t_data *data)
 {
 	if (strdiff(data->cmd, data->last_cmd))
@@ -220,7 +276,6 @@ static void	history(t_data *data)
 	}
 	data->last_cmd = ft_strdup(data->cmd);
 }
-
 static bool	check_syntax(t_data *data)
 {
 	int		i;
@@ -304,7 +359,8 @@ static void	prompt(t_data *data)
 			return ;
 		// data->cmd = cleanup_str_double_pipes(data->cmd);
 		// data->cmd = cleanup_str_double_and(data->cmd);
-		data->cmd = cleanup_str_single(data->cmd);
+		//data->cmd = cleanup_str_single(data->cmd);
+		data->cmd = add_spaces(data->cmd);
 	}
 	while (data->cmd && data->cmd[0] != '\0')
 	{
