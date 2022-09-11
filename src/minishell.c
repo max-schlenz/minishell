@@ -116,37 +116,50 @@ static char	*cleanup_str_double_pipes(char *cmd)
 
 	char *tmp_join;
 	char *ret;
-	tmp = split_double_pipes(cmd, '|');
-	int arr_size = 0;
-	while (tmp[arr_size])
-		arr_size++;
-	// printf("%d\n", arr_size);
-	tmp_trim_arr = ft_calloc(arr_size + 1, sizeof(char *));
 
-	// tmp_trim_op = ft_strjoin(tmp[0], "|");
-	// tmp_trim_arr[0] = ft_strdup(tmp_trim_op);
-	int i = 0;
-	while (tmp[i])
+	char *ops;
+	ops = ft_strdup("|&");
+	while (*ops)
 	{
-		tmp_trim = ft_strtrim(tmp[i], " ");
-		tmp_trim_space_s = ft_strjoin(" ", tmp_trim);
-		if (!tmp[i + 1])
-			tmp_trim_arr[i++] = ft_strdup(tmp_trim_space_s);
+		int arr_size = 0;
+		int i = 0;
+		int k = 0;
+		if (*ops == '|')
+			tmp = split_double_pipes(cmd, '|');
 		else
+			tmp = split_double_and(cmd, '&');
+		while (tmp[arr_size])
+			arr_size++;
+		// printf("%d\n", arr_size);
+		tmp_trim_arr = ft_calloc(arr_size + 1, sizeof(char *));
+
+		// tmp_trim_op = ft_strjoin(tmp[0], "|");
+		// tmp_trim_arr[0] = ft_strdup(tmp_trim_op);
+		while (tmp[i])
 		{
-			tmp_trim_space_e = ft_strjoin(tmp_trim_space_s, " ||");
-			tmp_trim_arr[i++] = ft_strdup(tmp_trim_space_e);
+			tmp_trim = ft_strtrim(tmp[i], " ");
+			tmp_trim_space_s = ft_strjoin(" ", tmp_trim);
+			if (!tmp[i + 1])
+				tmp_trim_arr[i++] = ft_strdup(tmp_trim_space_s);
+			else
+			{
+				if (*ops == '|')
+					tmp_trim_space_e = ft_strjoin(tmp_trim_space_s, " ||");
+				else
+					tmp_trim_space_e = ft_strjoin(tmp_trim_space_s, " &&");
+				tmp_trim_arr[i++] = ft_strdup(tmp_trim_space_e);
+			}
 		}
+		tmp_join = NULL;
+		while (tmp_trim_arr[k])
+		{
+			tmp_join = ft_strjoin_dup(tmp_join, tmp_trim_arr[k]);
+			free (tmp_trim_arr[k++]);
+		}
+		free (tmp_trim_arr);
+		ret = ft_strtrim(tmp_join, "| ");
+		ops++;
 	}
-	int k = 0;
-	tmp_join = NULL;
-	while (tmp_trim_arr[k])
-	{
-		tmp_join = ft_strjoin_dup(tmp_join, tmp_trim_arr[k]);
-		free (tmp_trim_arr[k++]);
-	}
-	free (tmp_trim_arr);
-	ret = ft_strtrim(tmp_join, "| ");
 	return ret;
 }
 
@@ -208,6 +221,71 @@ static void	history(t_data *data)
 	data->last_cmd = ft_strdup(data->cmd);
 }
 
+static bool	check_syntax(t_data *data)
+{
+	int		i;
+	char	*ops_supported;
+	char	*ops_unsupported;
+	bool	quote;
+
+	ops_supported = ft_strdup("|&><");
+	ops_unsupported = ft_strdup("{");
+	while (*ops_supported)
+	{
+		i = 0;
+		while (data->cmd[i])
+		{
+			if (data->cmd[i] == '\'' || data->cmd[i] == '\"')
+			{
+				i++;
+				while (data->cmd[i + 2])
+				{
+					if (data->cmd[i] == '\'' || data->cmd[i++] == '\"')
+						break ;
+					i++;
+				}
+			}
+			if	(data->cmd[i]
+			&&	data->cmd[i + 1]
+			&&	data->cmd[i + 2]
+			&&	data->cmd[i] == *ops_supported
+			&&	data->cmd[i + 1] == *ops_supported
+			&&	data->cmd[i + 2] == *ops_supported)
+			{
+				printf("Syntax error: '%c' [%d]\n", *ops_supported, i + 3);
+				return (false);
+			}
+			i++;
+		}
+		ops_supported++;
+	}
+	while (*ops_unsupported)
+	{
+		i = 0;
+		while (data->cmd[i])
+		{
+			if (data->cmd[i] == '\'' || data->cmd[i] == '\"')
+			{
+				i++;
+				while (data->cmd[i])
+				{
+					if (data->cmd[i] == '\'' || data->cmd[i++] == '\"')
+						break ;
+					i++;
+				}
+			}
+			if	(data->cmd[i] == *ops_unsupported)
+			{
+				printf("Syntax error: '%c' [%d] unsupported operation\n", *ops_unsupported, i + 3);
+				return (false);
+			}
+			i++;
+		}
+		ops_unsupported++;
+	}
+	return (true);
+}
+
 static void	prompt(t_data *data)
 {
 	bool	left;
@@ -222,14 +300,18 @@ static void	prompt(t_data *data)
 		history(data);
 		if (count_pipes(data))
 			open_pipes(data);
-		data->cmd = cleanup_str_double_pipes(data->cmd);
-		data->cmd = cleanup_str_double_and(data->cmd);
+		if (!check_syntax(data))
+			return ;
+		// data->cmd = cleanup_str_double_pipes(data->cmd);
+		// data->cmd = cleanup_str_double_and(data->cmd);
 		data->cmd = cleanup_str_single(data->cmd);
 	}
 	while (data->cmd && data->cmd[0] != '\0')
 	{
 		while (*data->cmd == ' ')
 			data->cmd++;
+		printf("%s\n", data->cmd);
+		exit(0);
 		data->cmd = split_quotes(data, data->cmd);
 		// if (*data->cmd == ';')
 		// 	data->cmd++;
