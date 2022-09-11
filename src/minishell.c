@@ -219,20 +219,22 @@ static char *add_space(char *cmd, int index)
 	int		j;
 
 	len = ft_strlen(cmd) + 1;
-	ret = (char *)malloc(sizeof(char) * len + 1);
+	ret = (char *)ft_calloc(sizeof(char), len + 1);
 	i = 0;
 	j = 0;
+	printf("i %d\n", index);
 	while (cmd[i])
 	{
+		ret[j] = cmd[i];
 		if (i == index)
 		{
 			j++;
 			ret[j] = ' ';
 		}
-		ret[j] = cmd[i];
 		i++;
 		j++;
 	}
+
 	return (ret);
 }
 
@@ -248,16 +250,15 @@ static char *add_spaces(char *cmd)
 		i = 0;
 		while (cmd[i])
 		{
-			if (cmd[i + 1] && cmd[i] != ' ' && cmd[i + 1] == *ops)
+			if (cmd[i + 1] && cmd[i] != ' ' && cmd[i] != *ops && cmd[i + 1] == *ops)
 			{
 				cmd = add_space(cmd, i);
 			}
 				
-			if (cmd[i + 1] && cmd[i + 1] != ' ' && cmd[i + 1] != *ops && cmd[i] == *ops)
+			else if (cmd[i + 1] && cmd[i + 1] != ' ' && cmd[i + 1] != *ops && cmd[i] == *ops)
 			{
-				cmd = add_space(cmd, i + 1);
+				cmd = add_space(cmd, i);
 			}
-			printf("in here %s\n", cmd);
 			i++;
 		}
 		ops++;
