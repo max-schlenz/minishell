@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/12 13:31:47 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/12 16:30:29 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,51 +214,6 @@ void	skip_spaces(char *cmd, int *i)
 		(*i)++;
 }
 
-char *insert_space(char *cmd, int index)
-{
-	size_t	len;
-	char	*ret;
-	int		i;
-	int		j;
-
-	len = ft_strlen(cmd) + 1;
-	ret = (char *)ft_calloc(sizeof(char), len + 1);
-	i = 0;
-	j = 0;
-	while (cmd[i])
-	{
-		ret[j] = cmd[i];
-		if (i == index)
-			ret[++j] = ' ';
-		i++;
-		j++;
-	}
-	return (ret);
-}
-
-char *pre_parse(char *cmd)
-{
-	int	i;
-	char *ops;
-
- 	ops = ft_strdup("|&><");
-	i = 0;
-	while (*ops)
-	{
-		i = 0;
-		while (cmd[i])
-		{
-			if (cmd[i + 1] && cmd[i] != ' ' && cmd[i] != *ops && cmd[i + 1] == *ops)
-				cmd = insert_space(cmd, i);
-			else if (cmd[i + 1] && cmd[i + 1] != ' ' && cmd[i + 1] != *ops && cmd[i] == *ops)
-				cmd = insert_space(cmd, i);
-			i++;
-		}
-		ops++;
-	}
-	return (cmd);
-}
-
 static void	parse_string(t_data *data, char *cmd, int array_index, int i, int j)
 {
 	char	*tmp_str;
@@ -292,36 +247,32 @@ char	*split_quotes(t_data *data, char *cmd)
 			{
 				if (i != 0)
 					return (cmd + i);
-				i += 2;
+				i += 3;
 				data->fd_i = 0;
 				data->flags->and = true;
 				data->flags->or = false;
-				skip_spaces(cmd, &i);
 				return (cmd + i);
 			}
 			if (!ft_strncmp(cmd + i, "||", 2) && !f_dquote && !f_squote)
 			{
 				if (i != 0)
 					return (cmd + i);
-				i += 2;
+				i += 3;
 				data->fd_i = 0;
 				data->flags->and = false;
 				data->flags->or = true;
-				skip_spaces(cmd, &i);
 				return (cmd + i);
 			}
 			if (!ft_strncmp(cmd + i, "<<", 2) && !f_dquote && !f_squote)
 			{
-				i += 2;
-				j = i + 1;
+				i += 3;
+				j = i;
 				data->flags->redir_in_delim = true;
-				skip_spaces(cmd, &i);
 				heredoc_delim(data, &i, cmd);
 				j += ft_strlen(data->heredoc_delim);
 				data->argv[array_index] = NULL;
-				skip_spaces(cmd, &i);
+				i++;
 			}
-
 			if (cmd[i] == '>' || cmd[i] == '<' && !f_dquote && !f_squote)
 			{
 				if (!ft_strncmp(cmd + i, ">>", 2) && !f_dquote && !f_squote)
@@ -333,17 +284,15 @@ char	*split_quotes(t_data *data, char *cmd)
 					data->flags->redir_out = true;
 				else if (cmd[i] == '<')
 					data->flags->redir_in = true;
-				i++;
-				skip_spaces(cmd, &i);
+				i += 2;
 				set_filename(data, &i, cmd);
 				data->argv[array_index] = NULL;
-				skip_spaces(cmd, &i);
+				i++;
 				return (cmd + i);
 			}
 			if ((cmd[i] == ';' || cmd[i] == '|') && !f_dquote && !f_squote)
 			{
-				i++;
-				skip_spaces(cmd, &i);
+				i += 2;
 				return (cmd + i);
 			}
 			if (cmd[i] == '\"' && !f_squote)

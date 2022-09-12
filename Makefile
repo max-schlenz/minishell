@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
+#    By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/09/12 11:03:07 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/09/12 15:35:51 by tdehne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,8 @@ SRC				= 	${NAME}						\
 					utils/utils					\
 					utils/config				\
 					parse/split					\
-					parse/syntax				
+					parse/syntax				\
+					parse/pre_parse
 					
 INC				=	libft						\
 					${NAME}

@@ -170,6 +170,10 @@ void			read_config(t_data *data);
 //parse/wildcard.c
 char			*find_wc(t_data *data, char *cmd);
 
+//parse/pre parse
 
+char			*insert_space(char *cmd, int index);
+char			*pre_parse(char *cmd);
+void			skip_spaces(char *cmd, int *i);
 
 #endif
