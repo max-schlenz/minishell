@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/12 11:26:11 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/12 13:31:47 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ void	expand_vars(t_data *data)
 				str_before_v = ft_substr(data->argv[i_arg], 0, i_char);
 				str_before_v = ft_strtrim(str_before_v, "\"");
 				vname = ft_substr(data->argv[i_arg], i_char, strlen_path(data->argv[i_arg] + i_char));
-				if (!ft_strncmp(data->argv[i_arg + i_char], "$?", 2))
+				if (data->argv[i_arg + i_char] && !ft_strncmp(data->argv[i_arg + i_char], "$?", 2))
 				{
 					i_char++;
 					vcontent = ft_strdup(ft_itoa(data->exit_status));
@@ -290,7 +290,6 @@ char	*split_quotes(t_data *data, char *cmd)
 		{
 			if (!ft_strncmp(cmd + i, "&&", 2) && !f_dquote && !f_squote)
 			{
-				expand_vars(data);
 				if (i != 0)
 					return (cmd + i);
 				i += 2;
@@ -302,7 +301,6 @@ char	*split_quotes(t_data *data, char *cmd)
 			}
 			if (!ft_strncmp(cmd + i, "||", 2) && !f_dquote && !f_squote)
 			{
-				expand_vars(data);
 				if (i != 0)
 					return (cmd + i);
 				i += 2;
@@ -363,7 +361,7 @@ char	*split_quotes(t_data *data, char *cmd)
 		if (cmd[i] || !data->flags->redir_in_delim)
 		{
 			parse_string(data, cmd, array_index, i, j);
-			j = 0;\
+			j = 0;
 			while (data->argv[array_index][j] && data->argv[array_index][j] != ' ')
 				j++;
 			data->argv[array_index] = ft_substr(data->argv[array_index], 0, j);
@@ -371,7 +369,6 @@ char	*split_quotes(t_data *data, char *cmd)
 		}
 		else
 			data->argv[array_index] = NULL;
-		expand_vars(data);
 		return (cmd + i);
 	}
 	data->flags->error = true;

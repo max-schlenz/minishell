@@ -78,6 +78,7 @@ static void	prompt(t_data *data)
 		// printf("%s\n", data->cmd);
 		// exit(0);
 		data->cmd = split_quotes(data, data->cmd);
+		expand_vars(data);
 		// int k = 0;
 		// while (data->argv[k])
 		// 	printf("%s\n", data->argv[k++]);

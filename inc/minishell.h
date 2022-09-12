@@ -139,6 +139,7 @@ int				strdiff(const char *s1, const char *s2);
 char			*split_quotes(t_data *data, char *cmd);
 char			*insert_space(char *cmd, int index);
 char			*pre_parse(char *cmd);
+void			expand_vars(t_data *data);
 
 //parse/syntax.c
 bool			check_syntax(t_data *data);
