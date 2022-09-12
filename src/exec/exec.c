@@ -102,16 +102,17 @@ bool	exec_program(t_data *data)
 			dup2(fd, STDOUT_FILENO);
 			close(fd);
 		}
-		else if (data->flags->redir_in_delim)
+		if (data->flags->redir_in_delim)
 		{
 			pipe(redir_delim_fd);
 			redir_delim_tmp = ft_strdup("42");
-			while (ft_strncmp(redir_delim_tmp, data->file_name, ft_strlen(data->file_name)))
+			while (ft_strncmp(redir_delim_tmp, data->heredoc_delim, ft_strlen(data->heredoc_delim)))
 			{
 				free(redir_delim_tmp);
 				redir_delim_tmp = get_next_line(0);
 				redir_delim_tmp[ft_strlen(redir_delim_tmp)] = '\0';
-				write(redir_delim_fd[1], redir_delim_tmp, ft_strlen(redir_delim_tmp));
+				if (ft_strncmp(data->heredoc_delim, redir_delim_tmp, ft_strlen(redir_delim_tmp)))
+					write(redir_delim_fd[1], redir_delim_tmp, ft_strlen(redir_delim_tmp));
 			}
 			free(redir_delim_tmp);
 			close(redir_delim_fd[1]);

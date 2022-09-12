@@ -25,7 +25,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <signal.h>
-# include <sys/wait.h>
+# include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -74,7 +74,9 @@ typedef struct s_data
 	char	*prompt_cl1;
 	char	*prompt_cl2;
 	char	*file_name;
+	char	*heredoc_delim;
 	char	*last_cmd;
+	char	**wc_dir_content;
 	int		exit_status;
 	bool	exit;
 	int		fd;
@@ -108,6 +110,9 @@ void			ft_exit(t_status flag);
 void			free_array(char **array);
 void			close_pipes(t_data *data);
 
+//utils/utils.c
+void			history(t_data *data);
+
 // this shouldn't even be in here but has to be for some reason
 void			rl_replace_line(const char *text, int clear_undo);
 
@@ -121,9 +126,6 @@ void			prioritization(t_data *data);
 void			make_btree(t_data *data);
 char			*check_esc_var_quo(const char *s);
 void			parse_args(t_data *data, int cmd_index);
-char			**split_single(char *s, char c);
-char			**split_double_pipes(char const *s, char c);
-char			**split_double_and(char *s, char c);
 
 //parse/utils.c
 char			*get_next_special_char(char *str);
@@ -133,8 +135,13 @@ void			realloc_envp(t_data *data, int flag);
 size_t			strlen_var(const char *c);
 int				strdiff(const char *s1, const char *s2);
 
-//parse/split_quotes.c
+//parse/split.c
 char			*split_quotes(t_data *data, char *cmd);
+char			*insert_space(char *cmd, int index);
+char			*pre_parse(char *cmd);
+
+//parse/syntax.c
+bool			check_syntax(t_data *data);
 
 //exec/builtins.c
 bool			builtin_environment(t_data *data);
@@ -153,5 +160,15 @@ void			pipes(t_data *data);
 
 //utils/signal.c
 void			signal_handler(int sig, siginfo_t *info, void *context);
+void			signals();
+
+//utils/config.c
+void			create_config(t_data *data);
+void			read_config(t_data *data);
+
+//parse/wildcard.c
+char			*find_wc(t_data *data, char *cmd);
+
+
 
 #endif

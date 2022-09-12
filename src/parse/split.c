@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/10 10:03:21 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/12 11:26:11 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,59 +119,6 @@ static void	remove_backslash(t_data *data, int i_arg)
 // 	}
 // }
 
-static char	*wildcard(t_data *data, int i_arg)
-{
-	char 	**tmp;
-	pid_t	pid;
-	int 	i = 0;
-	int 	pre_wc = 0;
-	int		post_wc = 0;
-	int 	len_arg = 0;
-	int 	k = 0;
-	
-	// open(data->pipes->pipefd[0][0]);
-	len_arg = ft_strlen(data->argv[i_arg]);
-	while (data->argv[i_arg][pre_wc])
-	{
-		if (data->argv[i_arg][pre_wc] == '*')
-			break;
-		pre_wc++;
-	}
-	post_wc = pre_wc;
-	while (data->argv[i_arg][post_wc])
-		post_wc++;
-	pid = fork();
-	{
-		dup2(data->pipes->pipefd[0][1], 1);
-	}
-	// while (tmp[k])
-	// 	printf("%s\n", tmp[k++]);
-	exit(0);
-}
-
-static void	find_wc(t_data *data)
-{
-	int	i_arg;
-	int	i_char;
-
-	i_arg = 0;
-	i_char = 0;
-	while (data->argv[i_arg])
-	{
-		while (data->argv[i_arg][i_char])
-		{
-			if (data->argv[i_arg][i_char] == '*')
-			{
-				data->argv[i_arg] = wildcard(data, i_arg);
-				break;
-			}	
-			i_char++;
-		}
-		i_char = 0;
-		i_arg++;
-	}
-}
-
 void	expand_vars(t_data *data)
 {
 	int i_arg;
@@ -227,29 +174,16 @@ void	expand_vars(t_data *data)
 		}
 		if (ft_strlen(data->argv[i_arg]) > 2)
 			remove_quotes(data, i_arg, f_dquote, f_squote);
-		if (f_backslash)
-			remove_backslash(data, i_arg);
+		// if (f_backslash)
+		// 	remove_backslash(data, i_arg);
 		else if (data->argv[i_arg][0] == '\'' || data->argv[i_arg][0] == '\"')
 			data->argv[i_arg] = ft_strdup(" ");
 		i_char = 0;
 		i_arg++;
 	}
-	// find_wc(data);
 	// while (data->argv[k])
 	// 	printf("%s\n", data->argv[k++]);
 	// exit(0);
-}
-
-static void	parse_string(t_data *data, char *cmd, int array_index, int i, int j)
-{
-	char *tmp_str;
-	
-	tmp_str = ft_substr(cmd, j, i - j);
-	if (data->argv[array_index])
-		free(data->argv[array_index]);
-	data->argv[array_index] = ft_strdup(tmp_str);
-	free(tmp_str);
-	return ;
 }
 
 void	set_filename(t_data *data, int *i, char *cmd)
@@ -264,10 +198,77 @@ void	set_filename(t_data *data, int *i, char *cmd)
 	data->file_name = ft_substr(cmd, start, *i - start);
 }
 
+void	heredoc_delim(t_data *data, int *i, char *cmd)
+{
+	int	start;
+
+	start = *i;
+	while (cmd[*i] && cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<')
+		(*i)++;
+	data->heredoc_delim = ft_substr(cmd, start, *i - start);
+}
+
 void	skip_spaces(char *cmd, int *i)
 {
 	while (cmd[*i] == ' ')
 		(*i)++;
+}
+
+char *insert_space(char *cmd, int index)
+{
+	size_t	len;
+	char	*ret;
+	int		i;
+	int		j;
+
+	len = ft_strlen(cmd) + 1;
+	ret = (char *)ft_calloc(sizeof(char), len + 1);
+	i = 0;
+	j = 0;
+	while (cmd[i])
+	{
+		ret[j] = cmd[i];
+		if (i == index)
+			ret[++j] = ' ';
+		i++;
+		j++;
+	}
+	return (ret);
+}
+
+char *pre_parse(char *cmd)
+{
+	int	i;
+	char *ops;
+
+ 	ops = ft_strdup("|&><");
+	i = 0;
+	while (*ops)
+	{
+		i = 0;
+		while (cmd[i])
+		{
+			if (cmd[i + 1] && cmd[i] != ' ' && cmd[i] != *ops && cmd[i + 1] == *ops)
+				cmd = insert_space(cmd, i);
+			else if (cmd[i + 1] && cmd[i + 1] != ' ' && cmd[i + 1] != *ops && cmd[i] == *ops)
+				cmd = insert_space(cmd, i);
+			i++;
+		}
+		ops++;
+	}
+	return (cmd);
+}
+
+static void	parse_string(t_data *data, char *cmd, int array_index, int i, int j)
+{
+	char	*tmp_str;
+	
+	tmp_str = ft_substr(cmd, j, i - j);
+	if (data->argv[array_index])
+		free(data->argv[array_index]);
+	data->argv[array_index] = ft_strdup(tmp_str);
+	free(tmp_str);
+	return ;
 }
 
 char	*split_quotes(t_data *data, char *cmd)
@@ -289,6 +290,7 @@ char	*split_quotes(t_data *data, char *cmd)
 		{
 			if (!ft_strncmp(cmd + i, "&&", 2) && !f_dquote && !f_squote)
 			{
+				expand_vars(data);
 				if (i != 0)
 					return (cmd + i);
 				i += 2;
@@ -300,6 +302,7 @@ char	*split_quotes(t_data *data, char *cmd)
 			}
 			if (!ft_strncmp(cmd + i, "||", 2) && !f_dquote && !f_squote)
 			{
+				expand_vars(data);
 				if (i != 0)
 					return (cmd + i);
 				i += 2;
@@ -309,17 +312,24 @@ char	*split_quotes(t_data *data, char *cmd)
 				skip_spaces(cmd, &i);
 				return (cmd + i);
 			}
-			if (cmd[i] == '>' || cmd[i] == '<')
+			if (!ft_strncmp(cmd + i, "<<", 2) && !f_dquote && !f_squote)
 			{
-				if (!ft_strncmp(cmd + i, ">>", 2))
+				i += 2;
+				j = i + 1;
+				data->flags->redir_in_delim = true;
+				skip_spaces(cmd, &i);
+				heredoc_delim(data, &i, cmd);
+				j += ft_strlen(data->heredoc_delim);
+				data->argv[array_index] = NULL;
+				skip_spaces(cmd, &i);
+			}
+
+			if (cmd[i] == '>' || cmd[i] == '<' && !f_dquote && !f_squote)
+			{
+				if (!ft_strncmp(cmd + i, ">>", 2) && !f_dquote && !f_squote)
 				{
 					i++;
 					data->flags->redir_out_append = true;
-				}
-				else if (!ft_strncmp(cmd + i, "<<", 2))
-				{
-					i++;
-					data->flags->redir_in_delim = true;
 				}
 				else if (cmd[i] == '>')
 					data->flags->redir_out = true;
@@ -350,12 +360,17 @@ char	*split_quotes(t_data *data, char *cmd)
 			}
 			i++;
 		}
-		parse_string(data, cmd, array_index, i, j);
-		j = 0;
-		while (data->argv[array_index][j] && data->argv[array_index][j] != ' ')
-		 	j++;
-		data->argv[array_index] = ft_substr(data->argv[array_index], 0, j);
-		data->argv[++array_index] = NULL;
+		if (cmd[i] || !data->flags->redir_in_delim)
+		{
+			parse_string(data, cmd, array_index, i, j);
+			j = 0;\
+			while (data->argv[array_index][j] && data->argv[array_index][j] != ' ')
+				j++;
+			data->argv[array_index] = ft_substr(data->argv[array_index], 0, j);
+			data->argv[++array_index] = NULL;
+		}
+		else
+			data->argv[array_index] = NULL;
 		expand_vars(data);
 		return (cmd + i);
 	}

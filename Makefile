@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/09/11 11:24:54 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/09/12 11:03:07 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,16 +39,16 @@ SRC				= 	${NAME}						\
 					parse/argv					\
 					parse/envp					\
 					parse/utils					\
+					parse/wildcard				\
 					exec/builtins				\
 					exec/exec					\
 					utils/init					\
 					utils/cleanup				\
 					utils/signal				\
 					utils/utils					\
+					utils/config				\
 					parse/split					\
-					parse/split_single			\
-					parse/split_double_pipes	\
-					parse/split_double_and
+					parse/syntax				
 					
 INC				=	libft						\
 					${NAME}
@@ -74,6 +74,9 @@ $(LIB_FILES): header
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)/exec
+	@mkdir -p $(OBJ_DIR)/parse
+	@mkdir -p $(OBJ_DIR)/utils
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES)
 	@gcc $(FLAGS) $(INCLUDES) -c $< -o $@
