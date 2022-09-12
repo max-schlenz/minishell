@@ -56,7 +56,7 @@ typedef struct s_flags {
 	bool	redir_out_append;
 	bool	and;
 	bool	or;
-	int		pipe;
+	bool	pipe;
 }	t_flags;
 
 typedef struct s_data

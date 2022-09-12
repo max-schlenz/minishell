@@ -16,6 +16,7 @@ static void	clear_buffers(t_data *data)
 {
 	// free_array(data->argv);
 	// free(data->argv);
+	// data->cmd = NULL;
 	close_pipes(data);
 	data->flags->pipe = 0;
 }
@@ -30,6 +31,7 @@ static void	init_prompt(t_data *data)
 	data->flags->redir_in_delim = false;
 	data->flags->and = false;
 	data->flags->or = false;
+	data->flags->pipe = false;
 	data->counter_pipes = 0;
 	data->fd_i = 0;
 }

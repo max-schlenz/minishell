@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/12 16:30:29 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/12 17:32:48 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,6 +292,7 @@ char	*split_quotes(t_data *data, char *cmd)
 			}
 			if ((cmd[i] == ';' || cmd[i] == '|') && !f_dquote && !f_squote)
 			{
+				data->flags->pipe = true;
 				i += 2;
 				return (cmd + i);
 			}

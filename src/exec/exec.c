@@ -91,6 +91,7 @@ bool	exec_program(t_data *data)
 	abs_path = get_path(data);
 	if (!abs_path)
 		abs_path = ft_strdup(data->argv[0]);
+	
 	pid = fork();
 	if (pid == -1)
 		ft_exit(2);
@@ -131,7 +132,7 @@ bool	exec_program(t_data *data)
 			dup2(fd, STDIN_FILENO);
 			close(fd);
 		}
-		if (data->counter_pipes > 0)
+		if (data->counter_pipes > 0 && data->flags->pipe)
 			pipes(data);
 		if (!builtin_print(data))
 		{
@@ -143,12 +144,20 @@ bool	exec_program(t_data *data)
 	waitpid(pid, &exit_code, 0);
 	if (data->counter_pipes > 0 && data->fd_i != data->counter_pipes)
 		close(data->pipes->pipefd[data->fd_i][1]);
-	data->fd_i++;
+	// if (!data->flags->redir_out)
+		data->fd_i++;
 	free (abs_path);
+	if (data->flags->pipe && (data->flags->redir_out || data->flags->redir_in))
+		data->flags->pipe = false;
 	if (data->flags->redir_out)
 		data->flags->redir_out = false;
 	if (data->flags->redir_in)
 		data->flags->redir_in = false;
+	if (data->flags->redir_out_append)
+		data->flags->redir_out_append = false;
+	if (data->flags->redir_in_delim)
+		data->flags->redir_in_delim = false;
 	data->exit_status = WEXITSTATUS(exit_code);
 	return (true);
 }
+
