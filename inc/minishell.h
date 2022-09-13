@@ -52,11 +52,12 @@ typedef struct s_flags {
 	bool	error;
 	bool	redir_out;
 	bool	redir_in;
-	bool	redir_in_delim;
-	bool	redir_out_append;
+	bool	heredoc;
+	bool	redir_append;
 	bool	and;
 	bool	or;
 	bool	pipe;
+	bool	debug;
 }	t_flags;
 
 typedef struct s_data
@@ -81,6 +82,7 @@ typedef struct s_data
 	bool	exit;
 	int		fd;
 	int		mscfg;
+	FILE	*debug;
 	t_flags *flags;
 	t_pipes *pipes;
 }	t_data;

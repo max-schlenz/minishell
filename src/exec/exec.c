@@ -66,14 +66,46 @@ bool	builtin_environment(t_data *data)
 void	pipes(t_data *data)
 {
 	if (data->fd_i == 0)
+	{
+		fprintf(data->debug, "pipe fd 0 write <-> stdout\n");
 		dup2(data->pipes->pipefd[0][1], 1);								//stdout <-> fd 0 write
+	}
 	else if (data->fd_i < data->counter_pipes)
 	{
+		fprintf(data->debug, "pipe fd %d read <-> stdin\n", data->fd_i - 1);
 		dup2(data->pipes->pipefd[data->fd_i - 1][0], 0);				//stdin <-> fd 0 read
+		fprintf(data->debug, "pipe fd %d write <-> stdout\n", data->fd_i);
 		dup2(data->pipes->pipefd[data->fd_i][1], 1);			 		//stdout <-> fd 1 write
 	}
 	else
+	{
+		fprintf(data->debug, "pipe fd %d read <-> stdin\n", data->fd_i - 1);
 		dup2(data->pipes->pipefd[data->fd_i - 1][0], 0);				//stdin <-> fd 3 read
+	}
+}
+
+static void	dbg(t_data *data)
+{
+	int i;
+	
+	i = 0;
+	fprintf(data->debug, "\n\n------------------\n\n");
+	while (data->argv[i])
+	{
+		fprintf(data->debug, "argv[%d] = %s\n", i, data->argv[i]);
+		i++;
+	}
+	fprintf(data->debug, "\ndata->cmd = %s\n", data->cmd);
+	fprintf(data->debug, "------------------\n");
+	fprintf(data->debug, "FLAGS:\n");
+	fprintf(data->debug, "redir_out    : %d\n", data->flags->redir_out);
+	fprintf(data->debug, "redir_in     : %d\n", data->flags->redir_in);
+	fprintf(data->debug, "heredoc      : %d\n", data->flags->heredoc);
+	fprintf(data->debug, "redir_append : %d\n", data->flags->redir_append);
+	fprintf(data->debug, "pipe         : %d\n\n", data->flags->pipe);
+	fprintf(data->debug, "VARS:\n");
+	fprintf(data->debug, "data->fd_i   : %d\n", data->fd_i);
+	fprintf(data->debug, "------------------\n");
 }
 
 bool	exec_program(t_data *data)
@@ -83,44 +115,50 @@ bool	exec_program(t_data *data)
 	char		*abs_path;
 	int			fd;
 	
-	int			redir_delim_fd[2];
-	char		*redir_delim_tmp;
+	int			heredoc_fd[2];
+	char		*heredoc_tmp;
 	char		rdbuf[4096];
 
 	exit_code = 0;
 	abs_path = get_path(data);
 	if (!abs_path)
 		abs_path = ft_strdup(data->argv[0]);
-	
+	// if (data->flags->redir_out)
+	// 	data->flags->pipe = false;
 	pid = fork();
 	if (pid == -1)
 		ft_exit(2);
 	if (pid == 0)
 	{
+		data->debug = fopen("debug", "a+");
+		if (data->flags->debug)
+			dbg(data);
+		if (data->counter_pipes > 0 && data->flags->pipe)
+			pipes(data);
 		if (data->flags->redir_out)
 		{
 			fd = open(data->file_name, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 			dup2(fd, STDOUT_FILENO);
 			close(fd);
 		}
-		if (data->flags->redir_in_delim)
+		if (data->flags->heredoc)
 		{
-			pipe(redir_delim_fd);
-			redir_delim_tmp = ft_strdup("42");
-			while (ft_strncmp(redir_delim_tmp, data->heredoc_delim, ft_strlen(data->heredoc_delim)))
+			pipe(heredoc_fd);
+			heredoc_tmp = ft_strdup("42");
+			while (ft_strncmp(heredoc_tmp, data->heredoc_delim, ft_strlen(data->heredoc_delim)))
 			{
-				free(redir_delim_tmp);
-				redir_delim_tmp = get_next_line(0);
-				redir_delim_tmp[ft_strlen(redir_delim_tmp)] = '\0';
-				if (ft_strncmp(data->heredoc_delim, redir_delim_tmp, ft_strlen(redir_delim_tmp)))
-					write(redir_delim_fd[1], redir_delim_tmp, ft_strlen(redir_delim_tmp));
+				free(heredoc_tmp);
+				heredoc_tmp = get_next_line(0);
+				heredoc_tmp[ft_strlen(heredoc_tmp)] = '\0';
+				if (ft_strncmp(data->heredoc_delim, heredoc_tmp, ft_strlen(heredoc_tmp)))
+					write(heredoc_fd[1], heredoc_tmp, ft_strlen(heredoc_tmp));
 			}
-			free(redir_delim_tmp);
-			close(redir_delim_fd[1]);
-			dup2(redir_delim_fd[0], STDIN_FILENO);
-			close(redir_delim_fd[0]);
+			free(heredoc_tmp);
+			close(heredoc_fd[1]);
+			dup2(heredoc_fd[0], STDIN_FILENO);
+			close(heredoc_fd[0]);
 		}
-		else if (data->flags->redir_out_append)
+		else if (data->flags->redir_append)
 		{
 			fd = open(data->file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
 			dup2(fd, STDOUT_FILENO);
@@ -132,8 +170,7 @@ bool	exec_program(t_data *data)
 			dup2(fd, STDIN_FILENO);
 			close(fd);
 		}
-		if (data->counter_pipes > 0 && data->flags->pipe)
-			pipes(data);
+		fclose(data->debug);
 		if (!builtin_print(data))
 		{
 			if (!access(abs_path, F_OK))
@@ -153,10 +190,10 @@ bool	exec_program(t_data *data)
 		data->flags->redir_out = false;
 	if (data->flags->redir_in)
 		data->flags->redir_in = false;
-	if (data->flags->redir_out_append)
-		data->flags->redir_out_append = false;
-	if (data->flags->redir_in_delim)
-		data->flags->redir_in_delim = false;
+	if (data->flags->redir_append)
+		data->flags->redir_append = false;
+	if (data->flags->heredoc)
+		data->flags->heredoc = false;
 	data->exit_status = WEXITSTATUS(exit_code);
 	return (true);
 }

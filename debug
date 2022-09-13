@@ -1,0 +1,759 @@
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = grep t > out | grep m
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+------------------
+pipe fd 0 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = t
+
+data->cmd = | grep m
+------------------
+FLAGS:
+redir_out    : 1
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 1
+------------------
+pipe fd 0 read <-> stdin
+pipe fd 1 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = m
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 2
+------------------
+pipe fd 1 read <-> stdin
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = grep t > out | grep m
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+------------------
+pipe fd 0 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = t
+
+data->cmd = | grep m
+------------------
+FLAGS:
+redir_out    : 1
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+VARS:
+data->fd_i   : 1
+------------------
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = grep t > out | grep m
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+------------------
+pipe fd 0 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = t
+
+data->cmd = | grep m
+------------------
+FLAGS:
+redir_out    : 1
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 1
+------------------
+pipe fd 0 read <-> stdin
+pipe fd 1 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = m
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 2
+------------------
+pipe fd 1 read <-> stdin
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = grep t > out
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+------------------
+pipe fd 0 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = t
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 1
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 1
+------------------
+pipe fd 0 read <-> stdin
+
+
+------------------
+
+argv[0] = out
+
+data->cmd = grep m
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+------------------
+pipe fd 0 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = m
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 1
+------------------
+pipe fd 0 read <-> stdin
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = grep t > out
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+------------------
+pipe fd 0 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = t
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 1
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 1
+------------------
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = grep t > out | grep m
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+------------------
+pipe fd 0 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = t
+
+data->cmd = | grep m
+------------------
+FLAGS:
+redir_out    : 1
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 1
+------------------
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = grep t > out | grep m
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+------------------
+pipe fd 0 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = t
+
+data->cmd = | grep m
+------------------
+FLAGS:
+redir_out    : 1
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 1
+------------------
+pipe fd 0 read <-> stdin
+pipe fd 1 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = m
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 2
+------------------
+pipe fd 1 read <-> stdin
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = grep t
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+------------------
+pipe fd 0 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = t
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 1
+------------------
+pipe fd 0 read <-> stdin
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = grep t | grep m
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+------------------
+pipe fd 0 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = t
+
+data->cmd = grep m
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 1
+------------------
+pipe fd 0 read <-> stdin
+pipe fd 1 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = m
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 2
+------------------
+pipe fd 1 read <-> stdin
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = grep t | grep m > out
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+------------------
+pipe fd 0 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = t
+
+data->cmd = grep m > out
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 1
+------------------
+pipe fd 0 read <-> stdin
+pipe fd 1 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = m
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 1
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 2
+------------------
+pipe fd 1 read <-> stdin
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = | grep t | grep m 
+------------------
+FLAGS:
+redir_out    : 1
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+VARS:
+data->fd_i   : 0
+------------------
+
+
+------------------
+
+argv[0] = grep
+argv[1] = t
+
+data->cmd = grep m 
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 1
+------------------
+pipe fd 0 read <-> stdin
+pipe fd 1 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = m
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 2
+------------------
+pipe fd 1 read <-> stdin
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = grep t | grep m > out && ls
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+------------------
+pipe fd 0 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = t
+
+data->cmd = grep m > out && ls
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 1
+------------------
+pipe fd 0 read <-> stdin
+pipe fd 1 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = m
+
+data->cmd = && ls
+------------------
+FLAGS:
+redir_out    : 1
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 2
+------------------
+pipe fd 1 read <-> stdin
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+VARS:
+data->fd_i   : 0
+------------------
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = grep t | grep m >> out && ls
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+------------------
+pipe fd 0 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = t
+
+data->cmd = grep m >> out && ls
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 1
+------------------
+pipe fd 0 read <-> stdin
+pipe fd 1 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = m
+
+data->cmd = && ls
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 1
+pipe         : 1
+
+VARS:
+data->fd_i   : 2
+------------------
+pipe fd 1 read <-> stdin
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+------------------
+pipe fd 0 write <-> stdout
+Makefile
+debug
+ignore
+inc
+lib
+minishell
+obj
+out
+src
+structure.md
+tasks.md
+tasks_talea.md

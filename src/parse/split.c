@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/12 17:32:48 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/13 10:57:05 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,7 +267,7 @@ char	*split_quotes(t_data *data, char *cmd)
 			{
 				i += 3;
 				j = i;
-				data->flags->redir_in_delim = true;
+				data->flags->heredoc = true;
 				heredoc_delim(data, &i, cmd);
 				j += ft_strlen(data->heredoc_delim);
 				data->argv[array_index] = NULL;
@@ -278,7 +278,7 @@ char	*split_quotes(t_data *data, char *cmd)
 				if (!ft_strncmp(cmd + i, ">>", 2) && !f_dquote && !f_squote)
 				{
 					i++;
-					data->flags->redir_out_append = true;
+					data->flags->redir_append = true;
 				}
 				else if (cmd[i] == '>')
 					data->flags->redir_out = true;
@@ -308,7 +308,7 @@ char	*split_quotes(t_data *data, char *cmd)
 			}
 			i++;
 		}
-		if (cmd[i] || !data->flags->redir_in_delim)
+		if (cmd[i] || !data->flags->heredoc)
 		{
 			parse_string(data, cmd, array_index, i, j);
 			j = 0;

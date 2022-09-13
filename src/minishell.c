@@ -23,12 +23,13 @@ static void	clear_buffers(t_data *data)
 
 static void	init_prompt(t_data *data)
 {
+	data->flags->debug = true;
 	data->flags->error = false;
 	data->flags->pipe = false;
 	data->flags->redir_out = false;
-	data->flags->redir_out_append = false;
+	data->flags->redir_append = false;
 	data->flags->redir_in = false;
-	data->flags->redir_in_delim = false;
+	data->flags->heredoc = false;
 	data->flags->and = false;
 	data->flags->or = false;
 	data->flags->pipe = false;
