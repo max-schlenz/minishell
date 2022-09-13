@@ -179,4 +179,7 @@ char			*insert_space(char *cmd, int index);
 char			*pre_parse(char *cmd);
 void			skip_spaces(char *cmd, int *i);
 
+
+void	set_filename2(t_data *data, int *i, char *cmd);
+
 #endif

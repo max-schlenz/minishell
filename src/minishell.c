@@ -74,14 +74,20 @@ static void	prompt(t_data *data)
 		data->cmd = pre_parse(data->cmd);
 		data->cmd = find_wc(data, data->cmd);
 	}
+	int i = 0;
 	while (data->cmd && data->cmd[0] != '\0')
 	{
-		while (*data->cmd == ' ')
+		if (*data->cmd == ' ')
 			data->cmd++;
 		// printf("%s\n", data->cmd);
 		// exit(0);
 		data->cmd = split_quotes(data, data->cmd);
 		expand_vars(data);
+		if (data->cmd[0] == '>')
+		{
+			data->flags->redir_out = true;
+			set_filename2(data, &i, data->cmd + 2);
+		}
 		// int k = 0;
 		// while (data->argv[k])
 		// exit(0);
