@@ -83,11 +83,6 @@ static void	prompt(t_data *data)
 		// exit(0);
 		data->cmd = split_quotes(data, data->cmd);
 		expand_vars(data);
-		if (data->cmd[0] == '>')
-		{
-			data->flags->redir_out = true;
-			set_filename2(data, &i, data->cmd + 2);
-		}
 		// int k = 0;
 		// while (data->argv[k])
 		// exit(0);

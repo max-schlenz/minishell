@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/13 13:15:25 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/13 13:21:03 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,6 +303,11 @@ char	*split_quotes(t_data *data, char *cmd)
 					set_filename2(data, &i, cmd);
 				data->argv[array_index] = NULL;
 				i++;
+				if (data->cmd[i] == '>')
+				{
+					data->flags->redir_out = true;
+					set_filename2(data, &i, data->cmd + 2);
+				}		
 				return (cmd + i);
 			}
 			if ((cmd[i] == ';' || cmd[i] == '|') && !f_dquote && !f_squote)
