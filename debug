@@ -1,0 +1,401 @@
+
+
+------------------
+
+argv[0] = echo
+argv[1] = lol
+
+data->cmd = && echo as
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+VARS:
+data->fd_i   : 0
+data->file_name  : (null)
+data->file_name2 : (null)
+------------------
+
+
+------------------
+
+argv[0] = echo
+argv[1] = as
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+VARS:
+data->fd_i   : 0
+data->file_name  : (null)
+data->file_name2 : (null)
+------------------
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = cat -e && echo lol
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+data->file_name  : (null)
+data->file_name2 : (null)
+------------------
+pipe fd 0 write <-> stdout
+
+
+------------------
+
+argv[0] = cat
+argv[1] = -e
+
+data->cmd = && echo lol
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 1
+data->file_name  : (null)
+data->file_name2 : (null)
+------------------
+pipe fd 0 read <-> stdin
+
+
+------------------
+
+argv[0] = echo
+argv[1] = lol
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+data->file_name  : (null)
+data->file_name2 : (null)
+------------------
+pipe fd 0 write <-> stdout
+lol
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = cat -e && echo lol
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+data->file_name  : (null)
+data->file_name2 : (null)
+------------------
+pipe fd 0 write <-> stdout
+
+
+------------------
+
+argv[0] = cat
+argv[1] = -e
+
+data->cmd = && echo lol
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 1
+data->file_name  : (null)
+data->file_name2 : (null)
+------------------
+pipe fd 0 read <-> stdin
+
+
+------------------
+
+argv[0] = echo
+argv[1] = lol
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+VARS:
+data->fd_i   : 0
+data->file_name  : (null)
+data->file_name2 : (null)
+------------------
+
+
+------------------
+
+argv[0] = cat
+
+data->cmd = l2
+------------------
+FLAGS:
+redir_out    : 1
+redir_in     : 1
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+VARS:
+data->fd_i   : 0
+data->file_name  : lol
+data->file_name2 : lol2
+------------------
+
+
+------------------
+
+argv[0] = l2
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+VARS:
+data->fd_i   : 1
+data->file_name  : lol
+data->file_name2 : lol2
+------------------
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = cat -e && echo lol
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+data->file_name  : lol
+data->file_name2 : lol2
+------------------
+pipe fd 0 write <-> stdout
+
+
+------------------
+
+argv[0] = cat
+argv[1] = -e
+
+data->cmd = && echo lol
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 1
+data->file_name  : lol
+data->file_name2 : lol2
+------------------
+pipe fd 0 read <-> stdin
+
+
+------------------
+
+argv[0] = echo
+argv[1] = lol
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+VARS:
+data->fd_i   : 0
+data->file_name  : lol
+data->file_name2 : lol2
+------------------
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = cat -e
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+data->file_name  : lol
+data->file_name2 : lol2
+------------------
+pipe fd 0 write <-> stdout
+
+
+------------------
+
+argv[0] = cat
+argv[1] = -e
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 1
+data->file_name  : lol
+data->file_name2 : lol2
+------------------
+pipe fd 0 read <-> stdin
+
+
+------------------
+
+argv[0] = grep
+argv[1] = t
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 1
+redir_in     : 1
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+VARS:
+data->fd_i   : 0
+data->file_name  : out
+data->file_name2 : lol2
+------------------
+
+
+------------------
+
+argv[0] = grep
+argv[1] = ,
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 1
+redir_in     : 1
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+VARS:
+data->fd_i   : 0
+data->file_name  : out
+data->file_name2 : lol2
+------------------
+
+
+------------------
+
+argv[0] = cat
+
+data->cmd = l2
+------------------
+FLAGS:
+redir_out    : 1
+redir_in     : 1
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+VARS:
+data->fd_i   : 0
+data->file_name  : lol
+data->file_name2 : lol2
+------------------
+
+
+------------------
+
+argv[0] = l2
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+VARS:
+data->fd_i   : 1
+data->file_name  : lol
+data->file_name2 : lol2
+------------------
