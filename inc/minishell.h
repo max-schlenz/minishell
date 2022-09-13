@@ -75,6 +75,7 @@ typedef struct s_data
 	char	*prompt_cl1;
 	char	*prompt_cl2;
 	char	*file_name;
+	char	*file_name2;
 	char	*heredoc_delim;
 	char	*last_cmd;
 	char	**wc_dir_content;

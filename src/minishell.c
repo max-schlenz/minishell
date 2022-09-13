@@ -84,7 +84,6 @@ static void	prompt(t_data *data)
 		expand_vars(data);
 		// int k = 0;
 		// while (data->argv[k])
-		// 	printf("%s\n", data->argv[k++]);
 		// exit(0);
 		// if (*data->cmd == ';')
 		// 	data->cmd++;

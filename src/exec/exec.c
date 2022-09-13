@@ -105,6 +105,8 @@ static void	dbg(t_data *data)
 	fprintf(data->debug, "pipe         : %d\n\n", data->flags->pipe);
 	fprintf(data->debug, "VARS:\n");
 	fprintf(data->debug, "data->fd_i   : %d\n", data->fd_i);
+	fprintf(data->debug, "data->file_name  : %s\n", data->file_name);
+	fprintf(data->debug, "data->file_name2 : %s\n", data->file_name2);
 	fprintf(data->debug, "------------------\n");
 }
 
@@ -135,7 +137,13 @@ bool	exec_program(t_data *data)
 			dbg(data);
 		if (data->counter_pipes > 0 && data->flags->pipe)
 			pipes(data);
-		if (data->flags->redir_out)
+		if (data->flags->redir_out && data->flags->redir_in)
+		{
+			fd = open(data->file_name2, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+		else if (data->flags->redir_out)
 		{
 			fd = open(data->file_name, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 			dup2(fd, STDOUT_FILENO);
@@ -158,13 +166,13 @@ bool	exec_program(t_data *data)
 			dup2(heredoc_fd[0], STDIN_FILENO);
 			close(heredoc_fd[0]);
 		}
-		else if (data->flags->redir_append)
+		if (data->flags->redir_append)
 		{
 			fd = open(data->file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
 			dup2(fd, STDOUT_FILENO);
 			close(fd);
 		}
-		else if (data->flags->redir_in)
+		if (data->flags->redir_in)
 		{
 			fd = open(data->file_name, O_RDONLY);
 			dup2(fd, STDIN_FILENO);

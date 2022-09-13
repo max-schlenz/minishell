@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/13 10:57:05 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/13 13:06:17 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,18 @@ void	expand_vars(t_data *data)
 	// exit(0);
 }
 
+void	set_filename2(t_data *data, int *i, char *cmd)
+{
+	int	start;
+
+	start = *i;
+	while (cmd[*i] && cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<')
+	{
+		(*i)++;
+	}
+	data->file_name2 = ft_substr(cmd, start, *i - start);
+}
+
 void	set_filename(t_data *data, int *i, char *cmd)
 {
 	int	start;
@@ -285,7 +297,10 @@ char	*split_quotes(t_data *data, char *cmd)
 				else if (cmd[i] == '<')
 					data->flags->redir_in = true;
 				i += 2;
-				set_filename(data, &i, cmd);
+				if (!data->flags->redir_out)
+					set_filename(data, &i, cmd);
+				else
+					set_filename2(data, &i, cmd);
 				data->argv[array_index] = NULL;
 				i++;
 				return (cmd + i);
