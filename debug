@@ -2,6 +2,27 @@
 
 ------------------
 
+argv[0] = ls
+
+data->cmd = grep m > lol
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+data->file_name  : (null)
+data->file_name2 : (null)
+------------------
+pipe fd 0 write <-> stdout
+
+
+------------------
+
 argv[0] = grep
 argv[1] = m
 
@@ -9,59 +30,16 @@ data->cmd =
 ------------------
 FLAGS:
 redir_out    : 1
-redir_in     : 1
+redir_in     : 0
 heredoc      : 0
 redir_append : 0
-pipe         : 0
+pipe         : 1
 
 VARS:
-data->fd_i   : 0
-data->file_name  : out
+data->fd_i   : 1
+data->file_name  : (null)
 data->file_name2 : lol
 ------------------
-
-
-------------------
-
-argv[0] = ls
-
-data->cmd = grep m > out
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 1
-
-VARS:
-data->fd_i   : 0
-data->file_name  : (null)
-data->file_name2 : (null)
-------------------
-pipe fd 0 write <-> stdout
-
-
-------------------
-
-argv[0] = grep
-argv[1] = m
-argv[2] = >
-
-data->cmd = 
-------------------
-FLAGS:
-redir_out    : 1
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 1
-
-VARS:
-data->fd_i   : 1
-data->file_name  : (null)
-data->file_name2 : out
-------------------
 pipe fd 0 read <-> stdin
 
 
@@ -69,51 +47,7 @@ pipe fd 0 read <-> stdin
 
 argv[0] = ls
 
-data->cmd = grep m > out
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 1
-
-VARS:
-data->fd_i   : 0
-data->file_name  : (null)
-data->file_name2 : (null)
-------------------
-pipe fd 0 write <-> stdout
-
-
-------------------
-
-argv[0] = grep
-argv[1] = m
-argv[2] = >
-
-data->cmd = 
-------------------
-FLAGS:
-redir_out    : 1
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 1
-
-VARS:
-data->fd_i   : 1
-data->file_name  : (null)
-data->file_name2 : out
-------------------
-pipe fd 0 read <-> stdin
-
-
-------------------
-
-argv[0] = ls
-
-data->cmd = grep m > out
+data->cmd = grep m > lol
 ------------------
 FLAGS:
 redir_out    : 0
@@ -147,93 +81,9 @@ pipe         : 1
 VARS:
 data->fd_i   : 1
 data->file_name  : (null)
-data->file_name2 : out
-------------------
-pipe fd 0 read <-> stdin
-
-
-------------------
-
-argv[0] = ls
-
-data->cmd = grep m > out
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 1
-
-VARS:
-data->fd_i   : 0
-data->file_name  : (null)
-data->file_name2 : (null)
-------------------
-pipe fd 0 write <-> stdout
-
-
-------------------
-
-argv[0] = grep
-argv[1] = m
-
-data->cmd = 
-------------------
-FLAGS:
-redir_out    : 1
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 1
-
-VARS:
-data->fd_i   : 1
-data->file_name  : (null)
-data->file_name2 : out
-------------------
-pipe fd 0 read <-> stdin
-
-
-------------------
-
-argv[0] = grep
-argv[1] = m
-
-data->cmd = 
-------------------
-FLAGS:
-redir_out    : 1
-redir_in     : 1
-heredoc      : 0
-redir_append : 0
-pipe         : 0
-
-VARS:
-data->fd_i   : 0
-data->file_name  : out
 data->file_name2 : lol
 ------------------
-
-
-------------------
-
-argv[0] = ls
-
-data->cmd = 
-------------------
-FLAGS:
-redir_out    : 1
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 0
-
-VARS:
-data->fd_i   : 0
-data->file_name  : out
-data->file_name2 : out
-------------------
+pipe fd 0 read <-> stdin
 
 
 ------------------
@@ -254,4 +104,67 @@ VARS:
 data->fd_i   : 0
 data->file_name  : out
 data->file_name2 : lol
+------------------
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = grep m > out
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 0
+data->file_name  : out
+data->file_name2 : lol
+------------------
+pipe fd 0 write <-> stdout
+
+
+------------------
+
+argv[0] = grep
+argv[1] = m
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 1
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+VARS:
+data->fd_i   : 1
+data->file_name  : out
+data->file_name2 : out
+------------------
+pipe fd 0 read <-> stdin
+
+
+------------------
+
+argv[0] = cat
+
+data->cmd = > lol2
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 1
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+VARS:
+data->fd_i   : 0
+data->file_name  : lol
+data->file_name2 : out
 ------------------

@@ -145,7 +145,7 @@ bool	exec_program(t_data *data)
 		}
 		else if (data->flags->redir_out)
 		{
-			fd = open(data->file_name, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+			fd = open(data->file_name2, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 			dup2(fd, STDOUT_FILENO);
 			close(fd);
 		}
