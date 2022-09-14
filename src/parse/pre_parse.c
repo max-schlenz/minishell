@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:32:27 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/12 16:13:01 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/13 15:48:09 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,9 @@ char *insert_space(char *cmd, int index)
 	j = 0;
 	while (cmd[i])
 	{
-		ret[j] = cmd[i];
-		if (i == index)
-			ret[++j] = ' ';
-		i++;
-		j++;
+		ret[j++] = cmd[i];
+		if (i++ == index)
+			ret[j++] = ' ';
 	}
 	return (ret);
 }
@@ -50,9 +48,7 @@ char *delete_spaces(char *cmd, int start_space, int end_space)
 	{
 		if (i == start_space)
 			i = end_space - 1;
-		ret[j] = cmd[i];
-		i++;
-		j++;
+		ret[j++] = cmd[i++];
 	}
 	ret[j] = '\0';
 	return (ret);
@@ -86,7 +82,7 @@ char *skip_s(char *cmd)
 	return (cmd);
 }
 
-char *pre_parse(char *cmd)
+char *pre_parse(t_data *data, char *cmd)
 {
 	int	i;
 	char *ops;

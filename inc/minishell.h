@@ -58,6 +58,7 @@ typedef struct s_flags {
 	bool	or;
 	bool	pipe;
 	bool	debug;
+	bool	bracket;
 }	t_flags;
 
 typedef struct s_data
@@ -141,7 +142,6 @@ int				strdiff(const char *s1, const char *s2);
 //parse/split.c
 char			*split_quotes(t_data *data, char *cmd);
 char			*insert_space(char *cmd, int index);
-char			*pre_parse(char *cmd);
 void			expand_vars(t_data *data);
 
 //parse/syntax.c
@@ -176,10 +176,10 @@ char			*find_wc(t_data *data, char *cmd);
 //parse/pre parse
 
 char			*insert_space(char *cmd, int index);
-char			*pre_parse(char *cmd);
+char			*pre_parse(t_data *data, char *cmd);
 void			skip_spaces(char *cmd, int *i);
 
-
-void	set_filename2(t_data *data, int *i, char *cmd);
+void			set_filename2(t_data *data, int *i, char *cmd);
+bool 			count_pipes(t_data *data, char *cmd);
 
 #endif

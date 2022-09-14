@@ -26,3 +26,5 @@
 - VAR="*..
 - export "'#
 - rm x (when x doesnt exist doesnt error)
+
+cd -

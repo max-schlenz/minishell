@@ -103,10 +103,14 @@ static void	dbg(t_data *data)
 	fprintf(data->debug, "heredoc      : %d\n", data->flags->heredoc);
 	fprintf(data->debug, "redir_append : %d\n", data->flags->redir_append);
 	fprintf(data->debug, "pipe         : %d\n\n", data->flags->pipe);
+	fprintf(data->debug, "and          : %d\n", data->flags->and);
+	fprintf(data->debug, "or           : %d\n", data->flags->or);
 	fprintf(data->debug, "VARS:\n");
-	fprintf(data->debug, "data->fd_i   : %d\n", data->fd_i);
-	fprintf(data->debug, "data->file_name  : %s\n", data->file_name);
-	fprintf(data->debug, "data->file_name2 : %s\n", data->file_name2);
+	fprintf(data->debug, "data->fd_i            : %d\n", data->fd_i);
+	fprintf(data->debug, "data->counter_pipes   : %d\n", data->counter_pipes);
+	fprintf(data->debug, "data->file_name       : %s\n", data->file_name);
+	fprintf(data->debug, "data->file_name2      : %s\n", data->file_name2);
+	fprintf(data->debug, "data->exit_status (p) : %d\n", data->exit_status);
 	fprintf(data->debug, "------------------\n");
 }
 
@@ -127,12 +131,12 @@ bool	exec_program(t_data *data)
 		abs_path = ft_strdup(data->argv[0]);
 	// if (data->flags->redir_out)
 	// 	data->flags->pipe = false;
+	data->debug = fopen("debug", "a+");
 	pid = fork();
 	if (pid == -1)
 		ft_exit(2);
 	if (pid == 0)
 	{
-		data->debug = fopen("debug", "a+");
 		if (data->flags->debug)
 			dbg(data);
 		if (data->counter_pipes > 0 && data->flags->pipe)
@@ -189,11 +193,8 @@ bool	exec_program(t_data *data)
 	waitpid(pid, &exit_code, 0);
 	if (data->counter_pipes > 0 && data->fd_i != data->counter_pipes)
 		close(data->pipes->pipefd[data->fd_i][1]);
-	// if (!data->flags->redir_out)
-		data->fd_i++;
+	data->fd_i++;
 	free (abs_path);
-	if (data->flags->pipe && (data->flags->redir_out || data->flags->redir_in))
-		data->flags->pipe = false;
 	if (data->flags->redir_out)
 		data->flags->redir_out = false;
 	if (data->flags->redir_in)
@@ -202,6 +203,8 @@ bool	exec_program(t_data *data)
 		data->flags->redir_append = false;
 	if (data->flags->heredoc)
 		data->flags->heredoc = false;
+	if (data->flags->pipe && (data->flags->redir_out || data->flags->redir_in))
+		data->flags->pipe = false;
 	data->exit_status = WEXITSTATUS(exit_code);
 	return (true);
 }

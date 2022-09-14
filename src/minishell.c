@@ -33,20 +33,20 @@ static void	init_prompt(t_data *data)
 	data->flags->and = false;
 	data->flags->or = false;
 	data->flags->pipe = false;
+	data->flags->bracket = false;
 	data->counter_pipes = 0;
 	data->fd_i = 0;
 }
 
-static bool count_pipes(t_data *data)
+bool count_pipes(t_data *data, char *cmd)
 {
 	int i;
 
 	i = 0;
-	while (data->cmd[i])
+	data->counter_pipes = 0;
+	while (cmd[i] && ft_strncmp(cmd + i, "&&", 2) && ft_strncmp(cmd + i, "||", 2))
 	{
-		if (!ft_strncmp(data->cmd + i, "||", 2))
-			i += 2;
-		if (data->cmd[i] && data->cmd[i] == '|')
+		if (cmd[i] && cmd[i] == '|')
 			data->counter_pipes++;
 		i++;
 	}
@@ -55,26 +55,65 @@ static bool count_pipes(t_data *data)
 	return (false);
 }
 
+static char last_char(char *str)
+{
+	int i;
+	
+	i = 0;
+	while (str[i])
+		i++;
+	return(str[i - 1]);
+}
+
+static void prio(t_data *data)
+{
+	int i;
+
+	i = 0;
+	data->flags->bracket = true;
+	if ((data->flags->and && data->exit_status) || (data->flags->or && !data->exit_status))
+	{
+		data->argv[0] = NULL;
+		while (*data->cmd && *data->cmd != ')')
+			*data->cmd++;
+	}
+	else
+	{
+		while (data->argv[i])
+		{
+			if (last_char(data->argv[i]) == ')')
+				data->flags->bracket = false;
+			data->argv[i] = ft_strtrim(data->argv[i], "()");
+			i++;
+		}
+		// *data->argv[0]++;
+
+		// printf("%s\n", data->argv[0]);
+	}
+	// exit(0);
+}
+
 static void	prompt(t_data *data)
 {
 	bool	left;
 	char	*cmd;
 
 	left = true;
+	// data->cmd = get_next_line(0);
+	// data->cmd = ft_strtrim(data->cmd, "\n");
 	data->cmd = readline(data->prompt);
 	if (!data->cmd)
 		data->cmd = "exit";
 	else if (data->cmd[0] && data->cmd[0] != '\n')
 	{
 		history(data);
-		if (count_pipes(data))
-			open_pipes(data);
 		if (!check_syntax(data))
 			return ;
-		data->cmd = pre_parse(data->cmd);
+		data->cmd = pre_parse(data, data->cmd);
+		if (count_pipes(data, data->cmd))
+			open_pipes(data);
 		data->cmd = find_wc(data, data->cmd);
 	}
-	int i = 0;
 	while (data->cmd && data->cmd[0] != '\0')
 	{
 		if (*data->cmd == ' ')
@@ -83,11 +122,12 @@ static void	prompt(t_data *data)
 		// exit(0);
 		data->cmd = split_quotes(data, data->cmd);
 		expand_vars(data);
+		// 	data->cmd++;
+		if (data->argv[0] && (data->argv[0][0] == '(' || data->flags->bracket))
+			prio(data);
 		// int k = 0;
 		// while (data->argv[k])
-		// exit(0);
-		// if (*data->cmd == ';')
-		// 	data->cmd++;
+		// 	printf("av: %s\n", data->argv[k++]);
 		if (data->flags->error || !data->argv[0])
 			continue;
 		if ((left)
@@ -100,7 +140,7 @@ static void	prompt(t_data *data)
 		}
 		free_array(data->argv);
 		free(data->argv);
-		left = !left;
+		left = false;
 	}
 	data->flags->and = false;
 	data->flags->or = false;

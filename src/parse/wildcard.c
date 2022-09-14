@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 11:02:25 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/12 17:36:47 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/14 13:20:27 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*wildcard(t_data *data, char *cmd)
 	j = 0;
 	while (data->wc_dir_content[i])
 	{
-		if (!ft_strncmp(data->wc_dir_content[i], cmd, pre_wc))
+		if (!ft_strncmp(cmd, data->wc_dir_content[i], pre_wc))
 			tmp[j++] = ft_strdup(data->wc_dir_content[i]);
 		i++;
 	}
@@ -110,26 +110,24 @@ char	*wildcard_begin(t_data *data, char *cmd)
 	
 	ret = NULL;
 	ret_tmp = NULL;
+
 	while (cmd[past_wc] && cmd[past_wc] != ' ')
 		past_wc++;
-	// printf("%d\n", past_wc);
-	// exit(0);
 	read_dir_content(data);
 	while (data->wc_dir_content[i])
 	{
 		len_tmp = ft_strlen(data->wc_dir_content[i]);
-			printf("%s\n", data->wc_dir_content[i] + past_wc);
-		if (len_tmp > len_tmp && !ft_strncmp(cmd + past_wc, data->wc_dir_content[i] + past_wc, past_wc))
+		if (len_tmp > past_wc && !ft_strncmp(cmd, data->wc_dir_content[i] + len_tmp - past_wc, past_wc))
 			j++;
 		i++;
 	}
-	exit(0);
 	tmp = ft_calloc(j, sizeof(char *));
 	i = 0;
 	j = 0;
 	while (data->wc_dir_content[i])
 	{
-		if (!ft_strncmp(data->wc_dir_content[i], cmd, past_wc))
+		len_tmp = ft_strlen(data->wc_dir_content[i]);
+		if (len_tmp > past_wc && !ft_strncmp(cmd, data->wc_dir_content[i] + len_tmp - past_wc, past_wc))
 			tmp[j++] = ft_strdup(data->wc_dir_content[i]);
 		i++;
 	}
@@ -155,28 +153,31 @@ char	*find_wc(t_data *data, char *cmd)
 	
 	while (cmd[i])
 	{
-		// if (cmd[i + 1] && cmd[i] == ' '&& cmd[i + 1] == '*')
-		// {
-		// 	str_before_wc = ft_substr(cmd, 0, i + 1);
-		// 	while (cmd[i] && (cmd[i] == ' ' || cmd[i] == '*'))
-		// 		i++;
-		// 	// printf("%s\n", str_before_wc);
-		// 	expanded_wcs = wildcard_begin(data, cmd + i);
-		// 	rest = ft_strdup(cmd + i);
-		// 	while (cmd[--i] && cmd[i] != ' ')
-		// 		i--;
-		// 	cmd_tmp = ft_strjoin(str_before_wc, expanded_wcs);
-		// 	free(str_before_wc);
-		// 	free(expanded_wcs);
-		// 	cmd = ft_strjoin(cmd_tmp, rest);
-		// 	free(cmd_tmp);
-		// }
-		if (cmd[i] == '*')
+		if (cmd[i + 1] && cmd[i] == ' ' && cmd[i + 1] == '*')
 		{
+			str_before_wc = ft_substr(cmd, 0, i + 1);
+			while (cmd[i] && (cmd[i] == ' ' || cmd[i] == '*'))
+				i++;
+			expanded_wcs = wildcard_begin(data, cmd + i);
 			while (cmd[i] && cmd[i] != ' ')
 				i++;
 			rest = ft_strdup(cmd + i);
 			while (cmd[--i] && cmd[i] != ' ')
+				i--;
+			cmd_tmp = ft_strjoin(str_before_wc, expanded_wcs);
+			free(str_before_wc);
+			free(expanded_wcs);
+			cmd = ft_strjoin(cmd_tmp, rest);
+			free(cmd_tmp);
+		}
+		// if (cmd[i] == '*' && cmd[i + 1] && cmd[i + 1] != ' ')
+		// {
+			
+		// }
+		else if (cmd[i] == '*')
+		{
+			rest = ft_strdup(cmd + i + 1);
+			while (cmd[i] && cmd[i] != ' ')
 				i--;
 			str_before_wc = ft_substr(cmd, 0, i + 1);
 			expanded_wcs = wildcard(data, cmd + i);
