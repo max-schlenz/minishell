@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/15 15:22:47 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/15 16:21:37 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char	*get_var_content(t_data *data, char *var)
 	while (data->envp[i])
 	{
 		if (!ft_strncmp(data->envp[i], var, len_var))
-			return (ft_substr(data->envp[i], len_var + 1, ft_strlen(data->envp[i])));
+			return (ft_strdup(data->envp[i] + len_var + 1));
 		i++;
 	}
 	return (ft_strdup(""));

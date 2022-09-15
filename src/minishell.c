@@ -105,6 +105,8 @@ static void	prompt(t_data *data)
 
 	left = true;
 	data->cmd = readline(data->prompt);
+	// data->cmd = get_next_line(0);
+	// data->cmd = ft_strtrim(data->cmd, "\n");
 	if (!data->cmd)
 		data->cmd = "exit";
 	else if (data->cmd[0] && data->cmd[0] != '\n')
@@ -119,7 +121,7 @@ static void	prompt(t_data *data)
 	}
 	while (data->cmd && data->cmd[0] != '\0')
 	{
-		if (*data->cmd == ' ')
+		while (*data->cmd == ' ' || *data->cmd == ';')
 			data->cmd++;
 		data->cmd = split_quotes(data, data->cmd);
 		expand_vars(data);
