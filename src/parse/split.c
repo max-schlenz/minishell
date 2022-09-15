@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/15 13:45:01 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/15 15:22:47 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,12 +265,11 @@ char	*split_quotes(t_data *data, char *cmd)
 			{
 				if (i != 0)
 					return (cmd + i);
-				i += 3;
 				data->flags->and = true;
 				data->flags->or = false;
+				i += 3;
 				data->flags->pipe = false;
 				close_pipes(data);
-				// data->counter_pipes--;
 				data->fd_i = 0;
 				if (count_pipes(data, cmd + i))
 					open_pipes(data);
@@ -280,10 +279,10 @@ char	*split_quotes(t_data *data, char *cmd)
 			{
 				if (i != 0)
 					return (cmd + i);
-				i += 3;
-				data->fd_i = 0;
 				data->flags->and = false;
 				data->flags->or = true;
+				i += 3;
+				data->fd_i = 0;
 				return (cmd + i);
 			}
 			if (!ft_strncmp(cmd + i, "<<", 2) && !f_dquote && !f_squote)

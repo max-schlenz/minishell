@@ -105,6 +105,7 @@ static void	dbg(t_data *data)
 	fprintf(data->debug, "pipe         : %d\n\n", data->flags->pipe);
 	fprintf(data->debug, "and          : %d\n", data->flags->and);
 	fprintf(data->debug, "or           : %d\n", data->flags->or);
+	fprintf(data->debug, "bracket      : %d\n", data->flags->bracket);
 	fprintf(data->debug, "VARS:\n");
 	fprintf(data->debug, "data->fd_i            : %d\n", data->fd_i);
 	fprintf(data->debug, "data->counter_pipes   : %d\n", data->counter_pipes);

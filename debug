@@ -2,20 +2,247 @@
 
 ------------------
 
-argv[0] = grep
-argv[1] = t
+argv[0] = ls
+
+data->cmd = && ls && (ls && (echo aaa || echo bbb)) && echo lol
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+and          : 0
+or           : 0
+bracket      : 0
+VARS:
+data->fd_i            : 0
+data->counter_pipes   : 0
+data->file_name       : (null)
+data->file_name2      : (null)
+data->exit_status (p) : 0
+------------------
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = && (ls && (echo aaa || echo bbb)) && echo lol
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+and          : 1
+or           : 0
+bracket      : 0
+VARS:
+data->fd_i            : 0
+data->counter_pipes   : 0
+data->file_name       : (null)
+data->file_name2      : (null)
+data->exit_status (p) : 0
+------------------
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = && (echo aaa || echo bbb)) && echo lol
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+and          : 1
+or           : 0
+bracket      : 1
+VARS:
+data->fd_i            : 0
+data->counter_pipes   : 0
+data->file_name       : (null)
+data->file_name2      : (null)
+data->exit_status (p) : 0
+------------------
+
+
+------------------
+
+argv[0] = echo
+argv[1] = aaa
+
+data->cmd = || echo bbb)) && echo lol
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+and          : 1
+or           : 0
+bracket      : 1
+VARS:
+data->fd_i            : 0
+data->counter_pipes   : 0
+data->file_name       : (null)
+data->file_name2      : (null)
+data->exit_status (p) : 0
+------------------
+
+
+------------------
+
+argv[0] = echo
+argv[1] = lol
 
 data->cmd = 
 ------------------
 FLAGS:
 redir_out    : 0
 redir_in     : 0
-heredoc      : 1
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+and          : 1
+or           : 0
+bracket      : 1
+VARS:
+data->fd_i            : 0
+data->counter_pipes   : 0
+data->file_name       : (null)
+data->file_name2      : (null)
+data->exit_status (p) : 0
+------------------
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = && ls && (ls && (ls || ls)) && ls
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
 redir_append : 0
 pipe         : 0
 
 and          : 0
 or           : 0
+bracket      : 0
+VARS:
+data->fd_i            : 0
+data->counter_pipes   : 0
+data->file_name       : (null)
+data->file_name2      : (null)
+data->exit_status (p) : 0
+------------------
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = && (ls && (ls || ls)) && ls
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+and          : 1
+or           : 0
+bracket      : 0
+VARS:
+data->fd_i            : 0
+data->counter_pipes   : 0
+data->file_name       : (null)
+data->file_name2      : (null)
+data->exit_status (p) : 0
+------------------
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = && (ls || ls)) && ls
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+and          : 1
+or           : 0
+bracket      : 1
+VARS:
+data->fd_i            : 0
+data->counter_pipes   : 0
+data->file_name       : (null)
+data->file_name2      : (null)
+data->exit_status (p) : 0
+------------------
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = || ls)) && ls
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+and          : 1
+or           : 0
+bracket      : 1
+VARS:
+data->fd_i            : 0
+data->counter_pipes   : 0
+data->file_name       : (null)
+data->file_name2      : (null)
+data->exit_status (p) : 0
+------------------
+
+
+------------------
+
+argv[0] = ls
+
+data->cmd = 
+------------------
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+and          : 1
+or           : 0
+bracket      : 1
 VARS:
 data->fd_i            : 0
 data->counter_pipes   : 0

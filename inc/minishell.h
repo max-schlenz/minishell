@@ -59,6 +59,7 @@ typedef struct s_flags {
 	bool	pipe;
 	bool	debug;
 	bool	bracket;
+	bool	bracket2;
 }	t_flags;
 
 typedef struct s_data

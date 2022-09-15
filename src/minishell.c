@@ -34,6 +34,7 @@ static void	init_prompt(t_data *data)
 	data->flags->or = false;
 	data->flags->pipe = false;
 	data->flags->bracket = false;
+	data->flags->bracket2 = false;
 	data->counter_pipes = 0;
 	data->fd_i = 0;
 }
@@ -58,10 +59,16 @@ bool count_pipes(t_data *data, char *cmd)
 static char last_char(char *str)
 {
 	int i;
+	int pos_bracket;
 	
 	i = 0;
+	pos_bracket = 0;
 	while (str[i])
+	{
+		// if (str[i] == ')')
+		// 	pos_bracket = i;
 		i++;
+	}
 	return(str[i - 1]);
 }
 
@@ -74,7 +81,9 @@ static void prio(t_data *data)
 	if ((data->flags->and && data->exit_status) || (data->flags->or && !data->exit_status))
 	{
 		data->argv[0] = NULL;
-		while (*data->cmd && *data->cmd != ')')
+		while (data->cmd[i] != ')')
+			data->cmd++;
+		while (data->cmd[i] == ')')
 			data->cmd++;
 	}
 	else
@@ -95,8 +104,6 @@ static void	prompt(t_data *data)
 	char	*cmd;
 
 	left = true;
-	// data->cmd = get_next_line(0);
-	// data->cmd = ft_strtrim(data->cmd, "\n");
 	data->cmd = readline(data->prompt);
 	if (!data->cmd)
 		data->cmd = "exit";
@@ -130,7 +137,7 @@ static void	prompt(t_data *data)
 		}
 		free_array(data->argv);
 		free(data->argv);
-		left = false;
+		left = !left;
 	}
 	data->flags->and = false;
 	data->flags->or = false;
