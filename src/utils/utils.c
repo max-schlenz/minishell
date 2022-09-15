@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 11:23:55 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/12 14:39:44 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/15 13:18:50 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	strdiff(const char *s1, const char *s2)
 			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
 	i++;
 	}
-	if ((!s1[i] && s2[i] || !s2[i] && s1[i]))
+	if ((!s1[i] && s2[i]) || (!s2[i] && s1[i]))
 		return (1);
 	return (0);
 }

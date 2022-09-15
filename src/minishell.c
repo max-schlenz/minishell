@@ -75,7 +75,7 @@ static void prio(t_data *data)
 	{
 		data->argv[0] = NULL;
 		while (*data->cmd && *data->cmd != ')')
-			*data->cmd++;
+			data->cmd++;
 	}
 	else
 	{
