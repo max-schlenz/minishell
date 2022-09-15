@@ -36,7 +36,6 @@ LIB_DIR			=	lib
 INC_DIR			=	inc
 
 SRC				= 	${NAME}						\
-					parse/argv					\
 					parse/envp					\
 					parse/utils					\
 					exec/builtins				\

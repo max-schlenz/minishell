@@ -45,7 +45,7 @@ bool count_pipes(t_data *data, char *cmd)
 
 	i = 0;
 	data->counter_pipes = 0;
-	while (cmd[i] && ft_strncmp(cmd + i, "&&", 2) && ft_strncmp(cmd + i, "||", 2))
+	while (cmd[i] && cmd[i + 1] && ft_strncmp(cmd + i, "&&", 2) && ft_strncmp(cmd + i, "||", 2))
 	{
 		if (cmd[i] && cmd[i] == '|')
 			data->counter_pipes++;
@@ -102,28 +102,35 @@ static void	prompt(t_data *data)
 {
 	bool	left;
 	char	*cmd;
+	char	*cmd_buf;
+	char	*cmd_rl;
+	char	*cmd_split;
+	int		i = 0;
 
 	left = true;
-	data->cmd = readline(data->prompt);
-	// data->cmd = get_next_line(0);
-	// data->cmd = ft_strtrim(data->cmd, "\n");
-	if (!data->cmd)
-		data->cmd = "exit";
-	else if (data->cmd[0] && data->cmd[0] != '\n')
+	cmd = NULL;
+	cmd_rl = readline(data->prompt);
+	cmd_buf = ft_strdup(cmd_rl);
+	free (cmd_rl);
+	if (!cmd_buf)
+		cmd_buf = ft_strdup("exit");
+	if (cmd_buf && cmd_buf[0] != '\n')
 	{
-		history(data);
-		if (!check_syntax(data))
+		history(data, cmd_buf);
+		if (!check_syntax(data, cmd_buf))
 			return ;
-		data->cmd = pre_parse(data, data->cmd);
-		if (count_pipes(data, data->cmd))
+		cmd = pre_parse(data, cmd_buf);
+		// printf("%s\n", cmd);
+		// exit(0);
+		// free (cmd_buf);
+		if (count_pipes(data, cmd))
 			open_pipes(data);
-		// data->cmd = find_wc(data, data->cmd);
 	}
-	while (data->cmd && data->cmd[0] != '\0')
+	while (cmd && cmd[0] != '\0')
 	{
-		while (*data->cmd == ' ' || *data->cmd == ';')
-			data->cmd++;
-		data->cmd = split_quotes(data, data->cmd);
+		while (*cmd == ' ' || *cmd == ';')
+			cmd++;
+		cmd = split_quotes(data, cmd);
 		expand_vars(data);
 		if (data->argv[0] && (data->argv[0][0] == '(' || data->flags->bracket))
 			prio(data);
@@ -141,6 +148,7 @@ static void	prompt(t_data *data)
 		free(data->argv);
 		left = !left;
 	}
+	i = 0;
 	data->flags->and = false;
 	data->flags->or = false;
 }

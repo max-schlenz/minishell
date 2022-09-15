@@ -116,7 +116,7 @@ void			free_array(char **array);
 void			close_pipes(t_data *data);
 
 //utils/utils.c
-void			history(t_data *data);
+void			history(t_data *data, char *cmd);
 
 // this shouldn't even be in here but has to be for some reason
 void			rl_replace_line(const char *text, int clear_undo);
@@ -129,13 +129,11 @@ bool			builtins(t_data *data);
 //parsing
 void			prioritization(t_data *data);
 void			make_btree(t_data *data);
-char			*check_esc_var_quo(const char *s);
 void			parse_args(t_data *data, int cmd_index);
 
 //parse/utils.c
 char			*get_next_special_char(char *str);
 size_t			strlen_path(const char *c);
-char			*check_esc_var_quo(const char *s);
 void			realloc_envp(t_data *data, int flag);
 size_t			strlen_var(const char *c);
 int				strdiff(const char *s1, const char *s2);
@@ -146,7 +144,7 @@ char			*insert_space(char *cmd, int index);
 void			expand_vars(t_data *data);
 
 //parse/syntax.c
-bool			check_syntax(t_data *data);
+bool			check_syntax(t_data *data, char *cmd);
 
 //exec/builtins.c
 bool			builtin_environment(t_data *data);
@@ -184,6 +182,6 @@ void			set_filename2(t_data *data, int *i, char *cmd);
 bool 			count_pipes(t_data *data, char *cmd);
 char 			*strrepc(char *cmd, char to_rep, char rep_with);
 
-bool			syntax_err(t_data *data);
+bool			syntax_err(t_data *data, char *cmd);
 
 #endif

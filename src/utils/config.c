@@ -42,7 +42,10 @@ void	read_config(t_data *data)
 			{
 				history = ft_strtrim(read_buf + 8, "\n");
 				add_history(history);
+				if (data->last_cmd)
+					free (data->last_cmd);
 				data->last_cmd = ft_strdup(history);
+				free (history);
 			}
 		}
 		return ;

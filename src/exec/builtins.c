@@ -15,6 +15,7 @@
 bool	builtin_cd(t_data *data)
 {
 	char	*path;
+	char	*path_tmp_bs;
 	char	*path_tmp;
 	char	*path_tmp2;
 	char	*new_pwd_tmp;
@@ -32,14 +33,18 @@ bool	builtin_cd(t_data *data)
 		path_tmp2 = ft_strtrim(data->argv[1], " ");
 		if (data->argv[1][0] != '/')
 		{
-			path_tmp = ft_substr(data->envp[i], 3, ft_strlen(data->envp[i] - 3));
-			path = ft_strjoin(path_tmp2, path_tmp);
+			path_tmp = ft_strdup(data->envp[i] + 4);
+			path_tmp_bs = ft_strjoin(path_tmp, "/");
+			path = ft_strjoin(path_tmp_bs, path_tmp2);
+			free (path_tmp_bs);
+			free (path_tmp);
 		}
 		else
 		{
 			new_pwd_tmp = ft_strjoin("PWD=", path_tmp2);
 			path = path_tmp2;
 		}
+		free (path_tmp2);
 		if (!access(path, F_OK))
 		{
 			chdir(path);
@@ -51,6 +56,7 @@ bool	builtin_cd(t_data *data)
 				else
 					path = ft_strdup(data->argv[1]);
 				new_pwd_tmp = ft_strjoin(data->envp[i], path);
+				free (path);
 			}
 			else if (!new_pwd_tmp)
 			{
@@ -280,9 +286,19 @@ bool	builtin_color(t_data *data, char *cfg)
 	write(fd, cfg_str, ft_strlen(cfg_str));
 	prompt_tmp = ft_strjoin(prompt[0], prompt[1]);
 	prompt_tmp2 = ft_strjoin(prompt[2], prompt[3]);
+	free (data->prompt);
 	data->prompt = ft_strjoin(prompt_tmp, prompt_tmp2);
+	free (prompt[0]);
+	free (prompt[1]);
+	free (prompt[2]);
+	free (prompt[3]);
+	free (code[0]);
+	free (code[1]);
 	free (prompt_tmp);
 	free (prompt_tmp2);
+	free (cfg_str_pf);
+	free (cfg_str_cl);
+	free (cfg_str);
 	data->exit_status = 0;
 	return (true);
 }

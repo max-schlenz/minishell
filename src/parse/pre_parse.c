@@ -60,6 +60,7 @@ char *skip_s(char *cmd)
 	int		j;
 	bool	f_dquote;
 	bool	f_squote;
+	char	*tmp;
 
 	i = 0;
 	j = 0;
@@ -75,7 +76,9 @@ char *skip_s(char *cmd)
 		{
 			j = i;
 			skip_spaces(cmd, &j);
-			cmd = delete_spaces(cmd, i, j);
+			tmp = delete_spaces(cmd, i, j);
+			free (cmd);
+			cmd = tmp;
 		}
 		i++;
 	}
@@ -85,23 +88,37 @@ char *skip_s(char *cmd)
 char *pre_parse(t_data *data, char *cmd)
 {
 	int	i;
+	int	j;
 	char *ops;
+	char *tmp;
+	char *tmp2;
 
  	ops = ft_strdup("|&><");
 	i = 0;
-	cmd = skip_s(cmd);
-	while (*ops)
+	j = 0;
+	tmp = skip_s(cmd);
+	tmp2 = NULL;
+	while (ops[j])
 	{
 		i = 0;
-		while (cmd[i])
+		while (tmp[i])
 		{
-			if (cmd[i + 1] && cmd[i] != ' ' && cmd[i] != *ops && cmd[i + 1] == *ops)
-				cmd = insert_space(cmd, i);
-			else if (cmd[i + 1] && cmd[i + 1] != ' ' && cmd[i + 1] != *ops && cmd[i] == *ops)
-				cmd = insert_space(cmd, i);
+			if (tmp[i + 1] && tmp[i] != ' ' && tmp[i] != ops[j] && tmp[i + 1] == ops[j])
+			{
+				tmp2 = insert_space(tmp, i);
+				free (tmp);
+			}
+			else if (tmp[i + 1] && tmp[i + 1] != ' ' && tmp[i + 1] != ops[j] && tmp[i] == ops[j])
+			{
+				tmp2 = insert_space(tmp, i);
+				free (tmp);
+			}
 			i++;
 		}
-		ops++;
+		j++;
 	}
-	return (cmd);
+	free (ops);
+	if (tmp2)
+		return (tmp2);
+	return (tmp);
 }

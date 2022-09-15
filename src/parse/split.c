@@ -125,10 +125,12 @@ void	expand_vars(t_data *data)
 	int	i_char;
 
 	char *str_before_v;
+	char *str_before_v_trim;
 	char *vname;
 	char *vcontent;
 	char *str_before_vplus_vcontent;
 	char *str_after_v;
+	char *str_after_v_trim;
 	bool f_dquote;
 	bool f_squote;
 	bool f_backslash;
@@ -154,7 +156,7 @@ void	expand_vars(t_data *data)
 			if (data->argv[i_arg][i_char] == '$' && !f_squote && !f_backslash)
 			{
 				str_before_v = ft_substr(data->argv[i_arg], 0, i_char);
-				str_before_v = ft_strtrim(str_before_v, "\"");
+				str_before_v_trim = ft_strtrim(str_before_v, "\"");
 				vname = ft_substr(data->argv[i_arg], i_char, strlen_path(data->argv[i_arg] + i_char));
 				if (data->argv[i_arg] + i_char && data->argv[i_arg] + i_char + 1 && !ft_strncmp(data->argv[i_arg] + i_char, "$?", 2))
 				{
@@ -166,13 +168,16 @@ void	expand_vars(t_data *data)
 				str_before_vplus_vcontent = ft_strjoin(str_before_v, vcontent);
 				// str_after_v = ft_substr(data->argv[i_arg], i_char + ft_strlen(vname), ft_strlen(data->argv[i_arg]) - i_char + ft_strlen(vname));
 				str_after_v = ft_strdup(data->argv[i_arg] + i_char + ft_strlen(vname));
-				str_after_v = ft_strtrim(str_after_v, "\"");
+				str_after_v_trim = ft_strtrim(str_after_v, "\"");
 				free (vname);
 				free (vcontent);
 				free (data->argv[i_arg]);
-				data->argv[i_arg] = ft_strjoin(str_before_vplus_vcontent, str_after_v);
+				data->argv[i_arg] = ft_strjoin(str_before_vplus_vcontent, str_after_v_trim);
+				free (str_before_v);
+				free (str_before_v_trim);
 				free (str_before_vplus_vcontent);
 				free (str_after_v);
+				free (str_after_v_trim);
 			}
 			i_char++;
 			f_backslash = false;
@@ -234,13 +239,9 @@ void	skip_spaces(char *cmd, int *i)
 
 static void	parse_string(t_data *data, char *cmd, int array_index, int i, int j)
 {
-	char	*tmp_str;
-	
-	tmp_str = ft_substr(cmd, j, i - j);
 	if (data->argv[array_index])
 		free(data->argv[array_index]);
-	data->argv[array_index] = ft_strdup(tmp_str);
-	free(tmp_str);
+	data->argv[array_index] = ft_substr(cmd, j, i - j);
 	return ;
 }
 

@@ -66,7 +66,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	if (str_start >= ft_strlen(s1))
 		return (ft_strdup(""));
 	str_size = (str_end - str_start + 1);
-	str = malloc(str_size + 1);
+	str = ft_calloc(str_size + 1, sizeof(char));
 	if (!str)
 		return (0);
 	while (i < str_size)

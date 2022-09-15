@@ -55,10 +55,14 @@ void	cleanup(t_data *data, int flag)
 	free (data->path);
 	free_array(data->argv);
 	free (data->argv);
+	free (data->prompt);
+	free (data->last_cmd);
+	free (data->flags);
+	rl_clear_history();
 	if (data->pipes)
 		free(data->pipes);
 	if (data)
 		free(data);
-	ft_exit(0);
+	ft_exit(flag);
 	return ;
 }

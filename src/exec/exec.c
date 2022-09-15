@@ -132,15 +132,15 @@ bool	exec_program(t_data *data)
 		abs_path = ft_strdup(data->argv[0]);
 	// if (data->flags->redir_out)
 	// 	data->flags->pipe = false;
-	data->debug = fopen("debug", "a+");
+	// data->debug = fopen("debug", "a+");
 	pid = fork();
 	if (pid == -1)
 		ft_exit(2);
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		if (data->flags->debug)
-			dbg(data);
+		// if (data->flags->debug)
+		// 	dbg(data);
 		if (data->counter_pipes > 0 && data->flags->pipe)
 			pipes(data);
 		if (data->flags->redir_out && data->flags->redir_in)
@@ -184,7 +184,7 @@ bool	exec_program(t_data *data)
 			dup2(fd, STDIN_FILENO);
 			close(fd);
 		}
-		fclose(data->debug);
+		// fclose(data->debug);
 		if (!builtin_print(data))
 		{
 			if (!access(abs_path, F_OK))
