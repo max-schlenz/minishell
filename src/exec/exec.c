@@ -158,7 +158,7 @@ bool	exec_program(t_data *data)
 		{
 			pipe(heredoc_fd);
 			heredoc_tmp = ft_strdup("42");
-			while (ft_strncmp(heredoc_tmp, data->heredoc_delim, ft_strlen(data->heredoc_delim)))
+			while (ft_strncmp(data->heredoc_delim, heredoc_tmp, ft_strlen(data->heredoc_delim)))
 			{
 				free(heredoc_tmp);
 				heredoc_tmp = get_next_line(0);

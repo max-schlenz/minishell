@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/15 13:19:21 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/15 13:45:01 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,7 @@ void	heredoc_delim(t_data *data, int *i, char *cmd)
 	while (cmd[*i] && cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<')
 		(*i)++;
 	data->heredoc_delim = ft_substr(cmd, start, *i - start);
+	data->heredoc_delim = ft_strjoin(data->heredoc_delim, "\n");
 }
 
 void	skip_spaces(char *cmd, int *i)
@@ -316,12 +317,12 @@ char	*split_quotes(t_data *data, char *cmd)
 				if (data->cmd[i] == '|')
 				{
 					data->flags->pipe = true;
-				}		
+				}
 				if (data->cmd[i] == '>')
 				{
 					data->flags->redir_out = true;
 					set_filename2(data, &i, data->cmd + 2);
-				}		
+				}	
 				return (cmd + i);
 			}
 			if ((cmd[i] == ';' || cmd[i] == '|') && !f_dquote && !f_squote)
