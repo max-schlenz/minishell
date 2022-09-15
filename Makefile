@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+         #
+#    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/09/12 15:35:51 by tdehne           ###   ########.fr        #
+#    Updated: 2022/09/15 12:29:12 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,6 @@ SRC				= 	${NAME}						\
 					parse/argv					\
 					parse/envp					\
 					parse/utils					\
-					parse/wildcard				\
 					exec/builtins				\
 					exec/exec					\
 					utils/init					\

@@ -67,19 +67,19 @@ void	pipes(t_data *data)
 {
 	if (data->fd_i == 0)
 	{
-		fprintf(data->debug, "pipe fd 0 write <-> stdout\n");
+		// fprintf(data->debug, "pipe fd 0 write <-> stdout\n");
 		dup2(data->pipes->pipefd[0][1], 1);								//stdout <-> fd 0 write
 	}
 	else if (data->fd_i < data->counter_pipes)
 	{
-		fprintf(data->debug, "pipe fd %d read <-> stdin\n", data->fd_i - 1);
+		// fprintf(data->debug, "pipe fd %d read <-> stdin\n", data->fd_i - 1);
 		dup2(data->pipes->pipefd[data->fd_i - 1][0], 0);				//stdin <-> fd 0 read
-		fprintf(data->debug, "pipe fd %d write <-> stdout\n", data->fd_i);
+		// fprintf(data->debug, "pipe fd %d write <-> stdout\n", data->fd_i);
 		dup2(data->pipes->pipefd[data->fd_i][1], 1);			 		//stdout <-> fd 1 write
 	}
 	else
 	{
-		fprintf(data->debug, "pipe fd %d read <-> stdin\n", data->fd_i - 1);
+		// fprintf(data->debug, "pipe fd %d read <-> stdin\n", data->fd_i - 1);
 		dup2(data->pipes->pipefd[data->fd_i - 1][0], 0);				//stdin <-> fd 3 read
 	}
 }
@@ -137,6 +137,7 @@ bool	exec_program(t_data *data)
 		ft_exit(2);
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		if (data->flags->debug)
 			dbg(data);
 		if (data->counter_pipes > 0 && data->flags->pipe)

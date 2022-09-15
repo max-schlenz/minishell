@@ -6,11 +6,25 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:12:51 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/08 11:40:15 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/15 10:47:32 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+char *strrepc(char *cmd, char to_rep, char rep_with)
+{
+	int	i;
+
+	i = 0;
+	while (cmd[i])
+	{
+		if (cmd[i] == to_rep)
+			cmd[i] = rep_with;
+		i++;
+	}
+	return (cmd);
+}
 
 char	*check_esc_var_quo(const char *s)
 {

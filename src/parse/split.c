@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/13 15:28:18 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/15 11:58:51 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,13 +147,16 @@ void	expand_vars(t_data *data)
 			if (data->argv[i_arg][i_char] == '\'' && !f_dquote)
 				f_squote = true;
 			if (data->argv[i_arg][i_char] == '\\')
+			{
 				f_backslash = true;
-			if (data->argv[i_arg][i_char] == '$' && !f_squote)
+				i_char++;
+			}
+			if (data->argv[i_arg][i_char] == '$' && !f_squote && !f_backslash)
 			{
 				str_before_v = ft_substr(data->argv[i_arg], 0, i_char);
 				str_before_v = ft_strtrim(str_before_v, "\"");
 				vname = ft_substr(data->argv[i_arg], i_char, strlen_path(data->argv[i_arg] + i_char));
-				if (data->argv[i_arg + i_char] && !ft_strncmp(data->argv[i_arg + i_char], "$?", 2))
+				if (data->argv[i_arg] + i_char && data->argv[i_arg] + i_char + 1 && !ft_strncmp(data->argv[i_arg] + i_char, "$?", 2))
 				{
 					i_char++;
 					vcontent = ft_strdup(ft_itoa(data->exit_status));
@@ -161,7 +164,8 @@ void	expand_vars(t_data *data)
 				else
 					vcontent = get_var_content(data, vname);
 				str_before_vplus_vcontent = ft_strjoin(str_before_v, vcontent);
-				str_after_v = ft_substr(data->argv[i_arg], i_char + ft_strlen(vname), ft_strlen(data->argv[i_arg]) - i_char + ft_strlen(vname));
+				// str_after_v = ft_substr(data->argv[i_arg], i_char + ft_strlen(vname), ft_strlen(data->argv[i_arg]) - i_char + ft_strlen(vname));
+				str_after_v = ft_strdup(data->argv[i_arg] + i_char + ft_strlen(vname));
 				str_after_v = ft_strtrim(str_after_v, "\"");
 				free (vname);
 				free (vcontent);
@@ -171,6 +175,7 @@ void	expand_vars(t_data *data)
 				free (str_after_v);
 			}
 			i_char++;
+			f_backslash = false;
 		}
 		if (ft_strlen(data->argv[i_arg]) > 2)
 			remove_quotes(data, i_arg, f_dquote, f_squote);

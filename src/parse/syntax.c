@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:51 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/12 10:11:27 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/15 11:05:48 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ bool	check_syntax(t_data *data)
 	while (*ops_supported)
 	{
 		i = 0;
-		while (data->cmd[i])
+		while (data->cmd[i] && data->cmd[i + 1] && data->cmd[i + 2])
 		{
 			if (data->cmd[i] == '\'' || data->cmd[i] == '\"')
 			{
 				i++;
-				while (data->cmd[i + 2])
+				while (data->cmd[i] && data->cmd[i + 1] && data->cmd[i + 2])
 				{
 					if (data->cmd[i] == '\'' || data->cmd[i++] == '\"')
 						break ;
@@ -60,7 +60,7 @@ bool	check_syntax(t_data *data)
 				i++;
 				while (data->cmd[i])
 				{
-					if (data->cmd[i] == '\'' || data->cmd[i++] == '\"')
+					if (data->cmd[i] == '\'' || data->cmd[i] == '\"')
 						break ;
 					i++;
 				}

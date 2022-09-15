@@ -86,11 +86,7 @@ static void prio(t_data *data)
 			data->argv[i] = ft_strtrim(data->argv[i], "()");
 			i++;
 		}
-		// *data->argv[0]++;
-
-		// printf("%s\n", data->argv[0]);
 	}
-	// exit(0);
 }
 
 static void	prompt(t_data *data)
@@ -112,22 +108,16 @@ static void	prompt(t_data *data)
 		data->cmd = pre_parse(data, data->cmd);
 		if (count_pipes(data, data->cmd))
 			open_pipes(data);
-		data->cmd = find_wc(data, data->cmd);
+		// data->cmd = find_wc(data, data->cmd);
 	}
 	while (data->cmd && data->cmd[0] != '\0')
 	{
 		if (*data->cmd == ' ')
 			data->cmd++;
-		// printf("%s\n", data->cmd);
-		// exit(0);
 		data->cmd = split_quotes(data, data->cmd);
 		expand_vars(data);
-		// 	data->cmd++;
 		if (data->argv[0] && (data->argv[0][0] == '(' || data->flags->bracket))
 			prio(data);
-		// int k = 0;
-		// while (data->argv[k])
-		// 	printf("av: %s\n", data->argv[k++]);
 		if (data->flags->error || !data->argv[0])
 			continue;
 		if ((left)

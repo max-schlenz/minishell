@@ -33,13 +33,13 @@
 # define E_FORK_MSG	"Failed to create Forks."
 # define E_NC_QUOTE "Error: unclosed quotes!"
 
-# define WHITE "\033[0m"
-# define RED "\033[31;1m"
-# define GREEN "\033[32;1m"
-# define YELLOW "\033[33;1m"
-# define BLUE "\033[34;1m"
-# define MAGENTA "\033[35;1m"
-# define CYAN "\033[36;1m"
+# define WHITE "\x01\033[0m\x02"
+# define RED "\x01\033[31;1m\x02"
+# define GREEN "\x01\033[32;1m\x02"
+# define YELLOW "\x01\033[33;1m\x02"
+# define BLUE "\x01\033[34;1m\x02"
+# define MAGENTA "\x01\033[35;1m\x02"
+# define CYAN "\x01\033[36;1m\x02"
 
 # define CFG ".mscfg"
 
@@ -181,5 +181,6 @@ void			skip_spaces(char *cmd, int *i);
 
 void			set_filename2(t_data *data, int *i, char *cmd);
 bool 			count_pipes(t_data *data, char *cmd);
+char 			*strrepc(char *cmd, char to_rep, char rep_with);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/14 10:24:55 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/15 12:16:41 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ bool	builtin_echo(t_data *data)
 		echo_n = true;
 	while (data->argv[i])
 	{
+		data->argv[i] = strrepc(data->argv[i], '\\', ' ');
 		while (!ft_strncmp(data->argv[i], "-n", 3))
 			i++;
 		if (data->argv[i][0] != '-')
@@ -227,7 +228,7 @@ bool	builtin_color(t_data *data, char *cfg)
 	i = 0;
 	j = 0;
 	prompt[1] = ft_strdup("mini");
-	prompt[3] = ft_strdup("shell\033[0;1m #\033[0m  ");
+	prompt[3] = ft_strdup("shell\x01\033[0;1m\x02 #\x01\033[0m\x02  ");
 	if (!cfg)
 	{
 		printf("change the color of your prompt!\n\n \

@@ -2,103 +2,8 @@
 
 ------------------
 
-argv[0] = ls
-
-data->cmd = && ls || ls || (ls && ls)
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 0
-
-and          : 0
-or           : 0
-VARS:
-data->fd_i            : 0
-data->counter_pipes   : 0
-data->file_name       : (null)
-data->file_name2      : (null)
-data->exit_status (p) : 0
-------------------
-
-
-------------------
-
-argv[0] = ls
-
-data->cmd = || ls || (ls && ls)
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 0
-
-and          : 1
-or           : 0
-VARS:
-data->fd_i            : 0
-data->counter_pipes   : 0
-data->file_name       : (null)
-data->file_name2      : (null)
-data->exit_status (p) : 0
-------------------
-
-
-------------------
-
-argv[0] = ls
-
-data->cmd = && ls || ls || ls && ls
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 0
-
-and          : 0
-or           : 0
-VARS:
-data->fd_i            : 0
-data->counter_pipes   : 0
-data->file_name       : (null)
-data->file_name2      : (null)
-data->exit_status (p) : 0
-------------------
-
-
-------------------
-
-argv[0] = ls
-
-data->cmd = || ls || ls && ls
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 0
-
-and          : 1
-or           : 0
-VARS:
-data->fd_i            : 0
-data->counter_pipes   : 0
-data->file_name       : (null)
-data->file_name2      : (null)
-data->exit_status (p) : 0
-------------------
-
-
-------------------
-
-argv[0] = ls
+argv[0] = echo
+argv[1] = lol
 
 data->cmd = 
 ------------------
@@ -109,7 +14,7 @@ heredoc      : 0
 redir_append : 0
 pipe         : 0
 
-and          : 1
+and          : 0
 or           : 0
 VARS:
 data->fd_i            : 0
@@ -122,9 +27,9 @@ data->exit_status (p) : 0
 
 ------------------
 
-argv[0] = ls
+argv[0] = mm
 
-data->cmd = && ls || ls || (ls && ls)
+data->cmd = 
 ------------------
 FLAGS:
 redir_out    : 0
@@ -146,33 +51,10 @@ data->exit_status (p) : 0
 
 ------------------
 
-argv[0] = ls
+argv[0] = echo
+argv[1] = lol
 
-data->cmd = || ls || (ls && ls)
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 0
-
-and          : 1
-or           : 0
-VARS:
-data->fd_i            : 0
-data->counter_pipes   : 0
-data->file_name       : (null)
-data->file_name2      : (null)
-data->exit_status (p) : 0
-------------------
-
-
-------------------
-
-argv[0] = ls
-
-data->cmd = && ls || (ls || (ls && ls))
+data->cmd = 
 ------------------
 FLAGS:
 redir_out    : 0
@@ -194,33 +76,10 @@ data->exit_status (p) : 0
 
 ------------------
 
-argv[0] = ls
+argv[0] = echo
+argv[1] = /home/user/projects/minishell
 
-data->cmd = || (ls || (ls && ls))
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 0
-
-and          : 1
-or           : 0
-VARS:
-data->fd_i            : 0
-data->counter_pipes   : 0
-data->file_name       : (null)
-data->file_name2      : (null)
-data->exit_status (p) : 0
-------------------
-
-
-------------------
-
-argv[0] = ls
-
-data->cmd = && ls && (ls || (ls && ls))
+data->cmd = 
 ------------------
 FLAGS:
 redir_out    : 0
@@ -230,270 +89,6 @@ redir_append : 0
 pipe         : 0
 
 and          : 0
-or           : 0
-VARS:
-data->fd_i            : 0
-data->counter_pipes   : 0
-data->file_name       : (null)
-data->file_name2      : (null)
-data->exit_status (p) : 0
-------------------
-
-
-------------------
-
-argv[0] = ls
-
-data->cmd = && (ls || (ls && ls))
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 0
-
-and          : 1
-or           : 0
-VARS:
-data->fd_i            : 0
-data->counter_pipes   : 0
-data->file_name       : (null)
-data->file_name2      : (null)
-data->exit_status (p) : 0
-------------------
-
-
-------------------
-
-argv[0] = ls
-
-data->cmd = || (ls && ls))
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 0
-
-and          : 1
-or           : 0
-VARS:
-data->fd_i            : 0
-data->counter_pipes   : 0
-data->file_name       : (null)
-data->file_name2      : (null)
-data->exit_status (p) : 0
-------------------
-
-
-------------------
-
-argv[0] = ls
-
-data->cmd = && ls && (ls || (ls && ls))
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 0
-
-and          : 0
-or           : 0
-VARS:
-data->fd_i            : 0
-data->counter_pipes   : 0
-data->file_name       : (null)
-data->file_name2      : (null)
-data->exit_status (p) : 0
-------------------
-
-
-------------------
-
-argv[0] = ls
-
-data->cmd = && (ls || (ls && ls))
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 0
-
-and          : 1
-or           : 0
-VARS:
-data->fd_i            : 0
-data->counter_pipes   : 0
-data->file_name       : (null)
-data->file_name2      : (null)
-data->exit_status (p) : 0
-------------------
-
-
-------------------
-
-argv[0] = ls
-
-data->cmd = || (ls && ls))
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 0
-
-and          : 1
-or           : 0
-VARS:
-data->fd_i            : 0
-data->counter_pipes   : 0
-data->file_name       : (null)
-data->file_name2      : (null)
-data->exit_status (p) : 0
-------------------
-
-
-------------------
-
-argv[0] = ls
-
-data->cmd = && ls && (ls || (ls && ls))
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 0
-
-and          : 0
-or           : 0
-VARS:
-data->fd_i            : 0
-data->counter_pipes   : 0
-data->file_name       : (null)
-data->file_name2      : (null)
-data->exit_status (p) : 0
-------------------
-
-
-------------------
-
-argv[0] = ls
-
-data->cmd = && (ls || (ls && ls))
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 0
-
-and          : 1
-or           : 0
-VARS:
-data->fd_i            : 0
-data->counter_pipes   : 0
-data->file_name       : (null)
-data->file_name2      : (null)
-data->exit_status (p) : 0
-------------------
-
-
-------------------
-
-argv[0] = ls
-
-data->cmd = || (ls && ls))
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 0
-
-and          : 1
-or           : 0
-VARS:
-data->fd_i            : 0
-data->counter_pipes   : 0
-data->file_name       : (null)
-data->file_name2      : (null)
-data->exit_status (p) : 0
-------------------
-
-
-------------------
-
-argv[0] = ls
-
-data->cmd = && ls && (ls || (ls && ls))
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 0
-
-and          : 0
-or           : 0
-VARS:
-data->fd_i            : 0
-data->counter_pipes   : 0
-data->file_name       : (null)
-data->file_name2      : (null)
-data->exit_status (p) : 0
-------------------
-
-
-------------------
-
-argv[0] = ls
-
-data->cmd = && (ls || (ls && ls))
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 0
-
-and          : 1
-or           : 0
-VARS:
-data->fd_i            : 0
-data->counter_pipes   : 0
-data->file_name       : (null)
-data->file_name2      : (null)
-data->exit_status (p) : 0
-------------------
-
-
-------------------
-
-argv[0] = ls
-
-data->cmd = || (ls && ls))
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 0
-
-and          : 1
 or           : 0
 VARS:
 data->fd_i            : 0
