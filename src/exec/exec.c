@@ -105,7 +105,6 @@ static void	dbg(t_data *data)
 	fprintf(data->debug, "pipe         : %d\n\n", data->flags->pipe);
 	fprintf(data->debug, "and          : %d\n", data->flags->and);
 	fprintf(data->debug, "or           : %d\n", data->flags->or);
-	fprintf(data->debug, "bracket      : %d\n", data->flags->bracket);
 	fprintf(data->debug, "VARS:\n");
 	fprintf(data->debug, "data->fd_i            : %d\n", data->fd_i);
 	fprintf(data->debug, "data->counter_pipes   : %d\n", data->counter_pipes);
@@ -132,15 +131,15 @@ bool	exec_program(t_data *data)
 		abs_path = ft_strdup(data->argv[0]);
 	// if (data->flags->redir_out)
 	// 	data->flags->pipe = false;
-	// data->debug = fopen("debug", "a+");
+	data->debug = fopen("debug", "a+");
 	pid = fork();
 	if (pid == -1)
 		ft_exit(2);
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		// if (data->flags->debug)
-		// 	dbg(data);
+		if (data->flags->debug)
+			dbg(data);
 		if (data->counter_pipes > 0 && data->flags->pipe)
 			pipes(data);
 		if (data->flags->redir_out && data->flags->redir_in)
@@ -184,7 +183,7 @@ bool	exec_program(t_data *data)
 			dup2(fd, STDIN_FILENO);
 			close(fd);
 		}
-		// fclose(data->debug);
+		fclose(data->debug);
 		if (!builtin_print(data))
 		{
 			if (!access(abs_path, F_OK))

@@ -28,16 +28,14 @@ int	strdiff(const char *s1, const char *s2)
 	return (0);
 }
 
-void	history(t_data *data, char *cmd)
+void	history(t_data *data)
 {
-	if (strdiff(cmd, data->last_cmd))
+	if (strdiff(data->cmd, data->last_cmd))
 	{
-		add_history(cmd);
+		add_history(data->cmd);
 		write(data->mscfg, "HISTORY=", 8);
-		write(data->mscfg, cmd, ft_strlen(cmd));
+		write(data->mscfg, data->cmd, ft_strlen(data->cmd));
 		write(data->mscfg, "\n", 1);
 	}
-	if (data->last_cmd)
-		free (data->last_cmd);
-	data->last_cmd = ft_strdup(cmd);
+	data->last_cmd = ft_strdup(data->cmd);
 }

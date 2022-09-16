@@ -34,7 +34,6 @@ static void	init_prompt(t_data *data)
 	data->flags->or = false;
 	data->flags->pipe = false;
 	data->flags->bracket = false;
-	data->flags->bracket2 = false;
 	data->counter_pipes = 0;
 	data->fd_i = 0;
 }
@@ -45,7 +44,7 @@ bool count_pipes(t_data *data, char *cmd)
 
 	i = 0;
 	data->counter_pipes = 0;
-	while (cmd[i] && cmd[i + 1] && ft_strncmp(cmd + i, "&&", 2) && ft_strncmp(cmd + i, "||", 2))
+	while (cmd[i] && ft_strncmp(cmd + i, "&&", 2) && ft_strncmp(cmd + i, "||", 2))
 	{
 		if (cmd[i] && cmd[i] == '|')
 			data->counter_pipes++;
@@ -59,16 +58,10 @@ bool count_pipes(t_data *data, char *cmd)
 static char last_char(char *str)
 {
 	int i;
-	int pos_bracket;
 	
 	i = 0;
-	pos_bracket = 0;
 	while (str[i])
-	{
-		// if (str[i] == ')')
-		// 	pos_bracket = i;
 		i++;
-	}
 	return(str[i - 1]);
 }
 
@@ -81,9 +74,7 @@ static void prio(t_data *data)
 	if ((data->flags->and && data->exit_status) || (data->flags->or && !data->exit_status))
 	{
 		data->argv[0] = NULL;
-		while (data->cmd[i] != ')')
-			data->cmd++;
-		while (data->cmd[i] == ')')
+		while (*data->cmd && *data->cmd != ')')
 			data->cmd++;
 	}
 	else
@@ -102,35 +93,28 @@ static void	prompt(t_data *data)
 {
 	bool	left;
 	char	*cmd;
-	char	*cmd_buf;
-	char	*cmd_rl;
-	char	*cmd_split;
-	int		i = 0;
 
 	left = true;
-	cmd = NULL;
-	cmd_rl = readline(data->prompt);
-	cmd_buf = ft_strdup(cmd_rl);
-	free (cmd_rl);
-	if (!cmd_buf)
-		cmd_buf = ft_strdup("exit");
-	if (cmd_buf && cmd_buf[0] != '\n')
+	// data->cmd = get_next_line(0);
+	// data->cmd = ft_strtrim(data->cmd, "\n");
+	data->cmd = readline(data->prompt);
+	if (!data->cmd)
+		data->cmd = "exit";
+	else if (data->cmd[0] && data->cmd[0] != '\n')
 	{
-		history(data, cmd_buf);
-		if (!check_syntax(data, cmd_buf))
+		history(data);
+		if (!check_syntax(data, data->cmd))
 			return ;
-		cmd = pre_parse(data, cmd_buf);
-		// printf("%s\n", cmd);
-		// exit(0);
-		// free (cmd_buf);
-		if (count_pipes(data, cmd))
+		data->cmd = pre_parse(data, data->cmd);
+		if (count_pipes(data, data->cmd))
 			open_pipes(data);
+		// data->cmd = find_wc(data, data->cmd);
 	}
-	while (cmd && cmd[0] != '\0')
+	while (data->cmd && data->cmd[0] != '\0')
 	{
-		while (*cmd == ' ' || *cmd == ';')
-			cmd++;
-		cmd = split_quotes(data, cmd);
+		if (*data->cmd == ' ')
+			data->cmd++;
+		data->cmd = split_quotes(data, data->cmd);
 		expand_vars(data);
 		if (data->argv[0] && (data->argv[0][0] == '(' || data->flags->bracket))
 			prio(data);
@@ -146,9 +130,8 @@ static void	prompt(t_data *data)
 		}
 		free_array(data->argv);
 		free(data->argv);
-		left = !left;
+		left = false;
 	}
-	i = 0;
 	data->flags->and = false;
 	data->flags->or = false;
 }
