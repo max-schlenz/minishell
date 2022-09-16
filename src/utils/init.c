@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/13 15:51:59 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/16 14:27:58 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	init_vars(t_data *data, char **argv)
 {
-	data->prompt = ft_strdup("\033[34;1mmini\033[36;1mshell\033[0;1m # \033[0m");
+	data->prompt = ft_strdup("\x01\033[34;1m\x02mini\x01\033[36;1m\x02shell\x01\033[0;1m\x02 # \x01\033[0m\x02");
 	data->flags->pipe = false;
 	data->flags->error = false;
 	data->file_name = NULL;
 	data->file_name2 = NULL;
 	data->counter_env = 0;
 	data->exit_status = 0;
-	data->last_cmd = "";
+	data->last_cmd = NULL;
 	data->debug = fopen("debug", "w");
 	fclose(data->debug);
 }

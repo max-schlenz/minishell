@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 11:23:55 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/15 13:18:50 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/16 14:28:29 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,7 @@ void	history(t_data *data)
 		write(data->mscfg, data->cmd, ft_strlen(data->cmd));
 		write(data->mscfg, "\n", 1);
 	}
+	if (data->last_cmd)
+		free (data->last_cmd);
 	data->last_cmd = ft_strdup(data->cmd);
 }
