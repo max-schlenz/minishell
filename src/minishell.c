@@ -16,21 +16,25 @@ static void	clear_buffers(t_data *data)
 {
 	// free_array(data->argv);
 	// free(data->argv);
-	free (data->cmd);
-		data->cmd = NULL;
-	if (data->file_name)
+	if (data->cmd)
+		free (data->cmd);
+	data->cmd = NULL;
+	if (data->file_name)	
 		free (data->file_name);
+	data->file_name = NULL;
 	if (data->file_name2)
 		free (data->file_name2);
+	data->file_name2 = NULL;
 	if (data->heredoc_delim)
 		free (data->heredoc_delim);
+	data->heredoc_delim = NULL;
 	close_pipes(data);
 	data->flags->pipe = 0;
 }
 
 static void	init_prompt(t_data *data)
 {
-	data->flags->debug = true;
+	data->flags->debug = false;
 	data->flags->error = false;
 	data->flags->pipe = false;
 	data->flags->redir_out = false;
@@ -41,6 +45,7 @@ static void	init_prompt(t_data *data)
 	data->flags->or = false;
 	data->flags->pipe = false;
 	data->flags->bracket = false;
+	data->flags->prio = false;
 	data->counter_pipes = 0;
 	data->fd_i = 0;
 }
@@ -74,12 +79,17 @@ static char last_char(char *str)
 
 static void prio(t_data *data, char *cmd, int *i)
 {
-	int j;
+	int 	j;
+	char	*tmp;
 
 	j = 0;
 	data->flags->bracket = true;
 	if ((data->flags->and && data->exit_status) || (data->flags->or && !data->exit_status))
 	{
+		data->flags->prio = true;
+		free_array(data->argv);
+		free(data->argv);
+		data->argv = ft_calloc(1, sizeof(char **));
 		data->argv[0] = NULL;
 		while (cmd[*i] && cmd[*i] != ')')
 			(*i)++;
@@ -90,8 +100,11 @@ static void prio(t_data *data, char *cmd, int *i)
 		{
 			if (last_char(data->argv[j]) == ')')
 				data->flags->bracket = false;
-			data->argv[j] = ft_strtrim(data->argv[j], "()");
-			i++;
+			tmp = ft_strtrim(data->argv[j], "()");
+			if (data->argv[j])
+				free (data->argv[j]);
+			data->argv[j] = tmp;
+			j++;
 		}
 	}
 }
@@ -105,13 +118,14 @@ static void	prompt(t_data *data)
 	int		i;
 
 	left = true;
-	data->cmd = get_next_line(0);
-	data->cmd = ft_strtrim(data->cmd, "\n");
-	// data->cmd = readline(data->prompt);
+	// data->cmd = get_next_line(0);
+	// data->cmd = ft_strtrim(data->cmd, "\n");
+	data->cmd = NULL;
+	data->cmd = readline(data->prompt);
 	i = 0;
 	if (!data->cmd)
-		data->cmd = "exit";
-	else if (data->cmd[0] && data->cmd[0] != '\n')
+		data->cmd = ft_strdup("exit");
+	if (data->cmd[0] && data->cmd[0] != '\n')
 	{
 		history(data);
 		if (!check_syntax(data, data->cmd))
@@ -126,9 +140,6 @@ static void	prompt(t_data *data)
 		while (tmp_cmd[i] == ' ')
 			i++;
 		i = split_quotes(data, tmp_cmd, i);
-		// int k = 0;
-		// while(data->argv[k])
-		// 	printf("%s\n", data->argv[k++]);
 		expand_vars(data);
 		if (data->argv[0] && (data->argv[0][0] == '(' || data->flags->bracket))
 			prio(data, tmp_cmd, &i);
@@ -152,6 +163,7 @@ static void	prompt(t_data *data)
 	}
 	data->flags->and = false;
 	data->flags->or = false;
+	tmp_cmd = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)

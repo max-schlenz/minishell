@@ -41,7 +41,7 @@ static bool	alloc_mem_array(t_data *data, char *cmd)
 	}
 	if (!f_dquote && !f_squote)
 	{
-		data->argv = ft_calloc(wc, (sizeof(char *)));
+		data->argv = ft_calloc(wc + 1, (sizeof(char *)));
 		return (true);
 	}
 	else
@@ -252,8 +252,7 @@ void	skip_spaces(char *cmd, int *i)
 
 static void	parse_string(t_data *data, char *cmd, int array_index, int i, int j)
 {
-	// if (data->argv[array_index])
-		free(data->argv[array_index]);
+	free(data->argv[array_index]);
 	data->argv[array_index] = ft_substr(cmd, j, i - j);
 	return ;
 }

@@ -14,17 +14,18 @@
 
 void	signals()
 {
-	struct sigaction	sa;
+	// struct sigaction	sa;
 	
-	sa.sa_sigaction = signal_handler;
-	sa.sa_flags = SA_SIGINFO;
-	sigaction(SIGINT, &sa, NULL);
+	// sa.sa_sigaction = signal_handler;
+	// sa.sa_flags = SA_SIGINFO;
+	// sigaction(SIGINT, &sa, NULL);
+	signal(SIGINT, signal_handler);
 	// signal(SIGQUIT, SIG_IGN);
 }
 
-void	signal_handler(int sig, siginfo_t *info, void *context)
+void	signal_handler(int signal)
 {
-	if (sig == SIGINT)
+	if (signal == SIGINT)
 	{
 		printf("\n");
 		rl_on_new_line();

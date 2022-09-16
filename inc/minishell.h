@@ -59,6 +59,7 @@ typedef struct s_flags {
 	bool	pipe;
 	bool	debug;
 	bool	bracket;
+	bool	prio;
 }	t_flags;
 
 typedef struct s_data
@@ -163,7 +164,7 @@ bool			builtin_history(t_data *data);
 void			pipes(t_data *data);
 
 //utils/signal.c
-void			signal_handler(int sig, siginfo_t *info, void *context);
+void			signal_handler(int signal);
 void			signals();
 
 //utils/config.c

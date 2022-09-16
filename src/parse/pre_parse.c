@@ -92,7 +92,6 @@ char *pre_parse(t_data *data, char *cmd)
  	ops = "|&><";
 	i = 0;
 	cmd = skip_s(cmd);
-	//exit(0);
 	while (*ops)
 	{
 		i = 0;
@@ -114,6 +113,5 @@ char *pre_parse(t_data *data, char *cmd)
 		}
 		ops++;
 	}
-	//exit(0);
 	return (cmd);
 }
