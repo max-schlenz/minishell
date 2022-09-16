@@ -93,11 +93,15 @@ static void	prompt(t_data *data)
 {
 	bool	left;
 	char	*cmd;
+	char	*tmp_cmd;
+	char	*tmp;
+	int		i;
 
 	left = true;
 	// data->cmd = get_next_line(0);
 	// data->cmd = ft_strtrim(data->cmd, "\n");
 	data->cmd = readline(data->prompt);
+	i = 0;
 	if (!data->cmd)
 		data->cmd = "exit";
 	else if (data->cmd[0] && data->cmd[0] != '\n')
@@ -105,16 +109,19 @@ static void	prompt(t_data *data)
 		history(data);
 		if (!check_syntax(data, data->cmd))
 			return ;
-		data->cmd = pre_parse(data, data->cmd);
-		if (count_pipes(data, data->cmd))
+		tmp_cmd = pre_parse(data, data->cmd);
+		if (count_pipes(data, tmp_cmd))
 			open_pipes(data);
 		// data->cmd = find_wc(data, data->cmd);
 	}
-	while (data->cmd && data->cmd[0] != '\0')
+	while (tmp_cmd[i] && tmp_cmd[0] != '\0')
 	{
-		if (*data->cmd == ' ')
-			data->cmd++;
-		data->cmd = split_quotes(data, data->cmd);
+		if (tmp_cmd[i] == ' ')
+			i++;
+		i = split_quotes(data, tmp_cmd, i);
+		int k = 0;
+		while(data->argv[k])
+			printf("%s\n", data->argv[k++]);
 		expand_vars(data);
 		if (data->argv[0] && (data->argv[0][0] == '(' || data->flags->bracket))
 			prio(data);
@@ -134,6 +141,7 @@ static void	prompt(t_data *data)
 	}
 	data->flags->and = false;
 	data->flags->or = false;
+	free(data->cmd);
 }
 
 int	main(int argc, char **argv, char **envp)

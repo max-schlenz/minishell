@@ -140,7 +140,7 @@ size_t			strlen_var(const char *c);
 int				strdiff(const char *s1, const char *s2);
 
 //parse/split.c
-char			*split_quotes(t_data *data, char *cmd);
+int				split_quotes(t_data *data, char *cmd, int i);
 char			*insert_space(char *cmd, int index);
 void			expand_vars(t_data *data);
 

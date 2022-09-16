@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/15 13:45:01 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/16 18:06:32 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,9 +244,8 @@ static void	parse_string(t_data *data, char *cmd, int array_index, int i, int j)
 	return ;
 }
 
-char	*split_quotes(t_data *data, char *cmd)
+int	split_quotes(t_data *data, char *cmd, int i)
 {
-	int		i;
 	int		j;
 	int		array_index;
 	bool	f_dquote;
@@ -256,7 +255,6 @@ char	*split_quotes(t_data *data, char *cmd)
 	f_squote = false;
 	if (alloc_mem_array(data, cmd))
 	{
-		i = 0;
 		j = 0;
 		array_index = 0;
 		while (cmd[i])
@@ -264,7 +262,7 @@ char	*split_quotes(t_data *data, char *cmd)
 			if (!ft_strncmp(cmd + i, "&&", 2) && !f_dquote && !f_squote)
 			{
 				if (i != 0)
-					return (cmd + i);
+					return (i);
 				i += 3;
 				data->flags->and = true;
 				data->flags->or = false;
@@ -274,17 +272,17 @@ char	*split_quotes(t_data *data, char *cmd)
 				data->fd_i = 0;
 				if (count_pipes(data, cmd + i))
 					open_pipes(data);
-				return (cmd + i);
+				return (i);
 			}
 			if (!ft_strncmp(cmd + i, "||", 2) && !f_dquote && !f_squote)
 			{
 				if (i != 0)
-					return (cmd + i);
+					return (i);
 				i += 3;
 				data->fd_i = 0;
 				data->flags->and = false;
 				data->flags->or = true;
-				return (cmd + i);
+				return (i);
 			}
 			if (!ft_strncmp(cmd + i, "<<", 2) && !f_dquote && !f_squote)
 			{
@@ -323,13 +321,13 @@ char	*split_quotes(t_data *data, char *cmd)
 					data->flags->redir_out = true;
 					set_filename2(data, &i, data->cmd + 2);
 				}	
-				return (cmd + i);
+				return (i);
 			}
 			if ((cmd[i] == ';' || cmd[i] == '|') && !f_dquote && !f_squote)
 			{
 				data->flags->pipe = true;
 				i += 2;
-				return (cmd + i);
+				return (i);
 			}
 			if (cmd[i] == '\"' && !f_squote)
 				f_dquote = !f_dquote;
@@ -340,6 +338,7 @@ char	*split_quotes(t_data *data, char *cmd)
 				parse_string(data, cmd, array_index, i, j);
 				array_index++;
 				j = i + 1;
+				printf("lol");
 			}
 			i++;
 		}
@@ -354,8 +353,8 @@ char	*split_quotes(t_data *data, char *cmd)
 		}
 		else
 			data->argv[array_index] = NULL;
-		return (cmd + i);
+		return (i);
 	}
 	data->flags->error = true;
-	return (NULL);
+	return (0);
 }

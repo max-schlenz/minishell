@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/16 14:25:36 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/16 17:49:03 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	cleanup(t_data *data, int flag)
 	free (data->prompt);
 	free (data->last_cmd);
 	free (data->flags);
+	free(data->cmd);
 	rl_clear_history();
 	if (data->pipes)
 		free(data->pipes);

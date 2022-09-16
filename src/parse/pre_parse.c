@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:32:27 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/15 10:47:23 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/16 17:38:38 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,23 +85,35 @@ char *skip_s(char *cmd)
 char *pre_parse(t_data *data, char *cmd)
 {
 	int	i;
-	char *ops;
+	char	*ops;
+	char	*tmp;
+	char	*tmp2;
 
- 	ops = ft_strdup("|&><");
+ 	ops = "|&><";
 	i = 0;
 	cmd = skip_s(cmd);
+	//exit(0);
 	while (*ops)
 	{
 		i = 0;
 		while (cmd[i])
 		{
 			if (cmd[i + 1] && cmd[i] != ' ' && cmd[i] != *ops && cmd[i + 1] == *ops)
-				cmd = insert_space(cmd, i);
+			{
+				tmp = cmd;
+				cmd = insert_space(tmp, i);
+				free(tmp);
+			}
 			else if (cmd[i + 1] && cmd[i + 1] != ' ' && cmd[i + 1] != *ops && cmd[i] == *ops)
-				cmd = insert_space(cmd, i);
+			{
+				tmp = cmd;
+				cmd = insert_space(tmp, i);
+				free(tmp);
+			}
 			i++;
 		}
 		ops++;
 	}
+	//exit(0);
 	return (cmd);
 }
