@@ -29,13 +29,19 @@ static bool	alloc_mem_array(t_data *data, char *cmd)
 			f_dquote = !f_dquote;
 		if (cmd[i] == '\'' && !f_dquote)
 			f_squote = !f_squote;
-		if (cmd[i] == ' ' && cmd[i + 1] && cmd[i + 1] != ' ' && !f_dquote && !f_squote)
+		if (cmd[i] == ' ' 
+		&& cmd[i + 1] 
+		&& cmd[i + 1] != ' ' 
+		&& cmd[i + 1] != '|' 
+		&& cmd[i + 1] != '&' 
+		&& !f_dquote 
+		&& !f_squote)
 			wc++;
 		i++;
 	}
 	if (!f_dquote && !f_squote)
 	{
-		data->argv = ft_calloc(wc + 1, (sizeof(char *)));
+		data->argv = ft_calloc(wc, (sizeof(char *)));
 		return (true);
 	}
 	else
@@ -191,7 +197,7 @@ void	expand_vars(t_data *data)
 	// exit(0);
 }
 
-void	set_filename2(t_data *data, int *i, char *cmd)
+bool	set_filename2(t_data *data, int *i, char *cmd)
 {
 	int	start;
 
@@ -201,9 +207,12 @@ void	set_filename2(t_data *data, int *i, char *cmd)
 		(*i)++;
 	}
 	data->file_name2 = ft_substr(cmd, start, *i - start);
+	if (!cmd[*i])
+		return (false);
+	return (true);
 }
 
-void	set_filename(t_data *data, int *i, char *cmd)
+bool	set_filename(t_data *data, int *i, char *cmd)
 {
 	int	start;
 
@@ -213,17 +222,26 @@ void	set_filename(t_data *data, int *i, char *cmd)
 		(*i)++;
 	}
 	data->file_name = ft_substr(cmd, start, *i - start);
+	if (!cmd[*i])
+		return (false);
+	return (true);
 }
 
-void	heredoc_delim(t_data *data, int *i, char *cmd)
+bool	heredoc_delim(t_data *data, int *i, int *j, char *cmd)
 {
 	int	start;
+	char *tmp;
 
 	start = *i;
 	while (cmd[*i] && cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<')
 		(*i)++;
-	data->heredoc_delim = ft_substr(cmd, start, *i - start);
-	data->heredoc_delim = ft_strjoin(data->heredoc_delim, "\n");
+	tmp = ft_substr(cmd, start, *i - start);
+	data->heredoc_delim = ft_strjoin(tmp, "\n");
+	free (tmp);
+	(*j) += ft_strlen(data->heredoc_delim);
+	if (!cmd[*i])
+		return (false);
+	return (true);
 }
 
 void	skip_spaces(char *cmd, int *i)
@@ -234,41 +252,41 @@ void	skip_spaces(char *cmd, int *i)
 
 static void	parse_string(t_data *data, char *cmd, int array_index, int i, int j)
 {
-	char	*tmp_str;
-	
-	tmp_str = ft_substr(cmd, j, i - j);
-	if (data->argv[array_index])
+	// if (data->argv[array_index])
 		free(data->argv[array_index]);
-	data->argv[array_index] = ft_strdup(tmp_str);
-	free(tmp_str);
+	data->argv[array_index] = ft_substr(cmd, j, i - j);
 	return ;
 }
 
 int	split_quotes(t_data *data, char *cmd, int i)
 {
 	int		j;
+	int		k;
 	int		array_index;
 	bool	f_dquote;
 	bool	f_squote;
 
 	f_dquote = false;
 	f_squote = false;
+	k = 0;
 	if (alloc_mem_array(data, cmd))
 	{
-		j = 0;
+		j = i;
+		k = i;
 		array_index = 0;
 		while (cmd[i])
 		{
 			if (!ft_strncmp(cmd + i, "&&", 2) && !f_dquote && !f_squote)
 			{
-				if (i != 0)
+				// if (i != 0)
+				// 	return (i);
+				if (i != k)
 					return (i);
-				i += 3;
 				data->flags->and = true;
 				data->flags->or = false;
 				data->flags->pipe = false;
+				i += 3;
 				close_pipes(data);
-				// data->counter_pipes--;
 				data->fd_i = 0;
 				if (count_pipes(data, cmd + i))
 					open_pipes(data);
@@ -276,12 +294,15 @@ int	split_quotes(t_data *data, char *cmd, int i)
 			}
 			if (!ft_strncmp(cmd + i, "||", 2) && !f_dquote && !f_squote)
 			{
-				if (i != 0)
+				if (i != k)
 					return (i);
-				i += 3;
-				data->fd_i = 0;
 				data->flags->and = false;
 				data->flags->or = true;
+				i += 3;
+				close_pipes(data);
+				data->fd_i = 0;
+				if (count_pipes(data, cmd + i))
+					open_pipes(data);
 				return (i);
 			}
 			if (!ft_strncmp(cmd + i, "<<", 2) && !f_dquote && !f_squote)
@@ -289,9 +310,9 @@ int	split_quotes(t_data *data, char *cmd, int i)
 				i += 3;
 				j = i;
 				data->flags->heredoc = true;
-				heredoc_delim(data, &i, cmd);
-				j += ft_strlen(data->heredoc_delim);
 				data->argv[array_index] = NULL;
+				if (!heredoc_delim(data, &i, &j, cmd))
+					return (i);
 				i++;
 			}
 			if ((cmd[i] == '>' || cmd[i] == '<') && !f_dquote && !f_squote)
@@ -306,20 +327,25 @@ int	split_quotes(t_data *data, char *cmd, int i)
 				else if (cmd[i] == '<')
 					data->flags->redir_in = true;
 				i += 2;
-				if (!data->flags->redir_out)
-					set_filename(data, &i, cmd);
-				else
-					set_filename2(data, &i, cmd);
 				data->argv[array_index] = NULL;
-				i++;
-				if (data->cmd[i] == '|')
+				if (!data->flags->redir_out)
 				{
-					data->flags->pipe = true;
+					if (!set_filename(data, &i, cmd))
+						return (i);
 				}
-				if (data->cmd[i] == '>')
+				else
+				{
+					if (!set_filename2(data, &i, cmd))
+						return (i);
+				}		
+				i++;
+				if (cmd[i] && cmd[i] == '|')
+					data->flags->pipe = true;
+				if (cmd[i] && cmd[i] == '>')
 				{
 					data->flags->redir_out = true;
-					set_filename2(data, &i, data->cmd + 2);
+					if (!set_filename2(data, &i, cmd))
+						return (i);
 				}	
 				return (i);
 			}
@@ -338,17 +364,12 @@ int	split_quotes(t_data *data, char *cmd, int i)
 				parse_string(data, cmd, array_index, i, j);
 				array_index++;
 				j = i + 1;
-				printf("lol");
 			}
 			i++;
 		}
 		if (cmd[i] || !data->flags->heredoc)
 		{
 			parse_string(data, cmd, array_index, i, j);
-			j = 0;
-			while (data->argv[array_index][j] && data->argv[array_index][j] != ' ')
-				j++;
-			data->argv[array_index] = ft_substr(data->argv[array_index], 0, j);
 			data->argv[++array_index] = NULL;
 		}
 		else

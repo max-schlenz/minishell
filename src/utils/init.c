@@ -19,6 +19,7 @@ void	init_vars(t_data *data, char **argv)
 	data->flags->error = false;
 	data->file_name = NULL;
 	data->file_name2 = NULL;
+	data->heredoc_delim = NULL;
 	data->counter_env = 0;
 	data->exit_status = 0;
 	data->last_cmd = NULL;

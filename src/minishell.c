@@ -16,7 +16,14 @@ static void	clear_buffers(t_data *data)
 {
 	// free_array(data->argv);
 	// free(data->argv);
-	// data->cmd = NULL;
+	free (data->cmd);
+		data->cmd = NULL;
+	if (data->file_name)
+		free (data->file_name);
+	if (data->file_name2)
+		free (data->file_name2);
+	if (data->heredoc_delim)
+		free (data->heredoc_delim);
 	close_pipes(data);
 	data->flags->pipe = 0;
 }
@@ -65,25 +72,25 @@ static char last_char(char *str)
 	return(str[i - 1]);
 }
 
-static void prio(t_data *data)
+static void prio(t_data *data, char *cmd, int *i)
 {
-	int i;
+	int j;
 
-	i = 0;
+	j = 0;
 	data->flags->bracket = true;
 	if ((data->flags->and && data->exit_status) || (data->flags->or && !data->exit_status))
 	{
 		data->argv[0] = NULL;
-		while (*data->cmd && *data->cmd != ')')
-			data->cmd++;
+		while (cmd[*i] && cmd[*i] != ')')
+			(*i)++;
 	}
 	else
 	{
-		while (data->argv[i])
+		while (data->argv[j])
 		{
-			if (last_char(data->argv[i]) == ')')
+			if (last_char(data->argv[j]) == ')')
 				data->flags->bracket = false;
-			data->argv[i] = ft_strtrim(data->argv[i], "()");
+			data->argv[j] = ft_strtrim(data->argv[j], "()");
 			i++;
 		}
 	}
@@ -98,9 +105,9 @@ static void	prompt(t_data *data)
 	int		i;
 
 	left = true;
-	// data->cmd = get_next_line(0);
-	// data->cmd = ft_strtrim(data->cmd, "\n");
-	data->cmd = readline(data->prompt);
+	data->cmd = get_next_line(0);
+	data->cmd = ft_strtrim(data->cmd, "\n");
+	// data->cmd = readline(data->prompt);
 	i = 0;
 	if (!data->cmd)
 		data->cmd = "exit";
@@ -114,19 +121,23 @@ static void	prompt(t_data *data)
 			open_pipes(data);
 		// data->cmd = find_wc(data, data->cmd);
 	}
-	while (tmp_cmd[i] && tmp_cmd[0] != '\0')
+	while (tmp_cmd[i] && tmp_cmd[0])
 	{
-		if (tmp_cmd[i] == ' ')
+		while (tmp_cmd[i] == ' ')
 			i++;
 		i = split_quotes(data, tmp_cmd, i);
-		int k = 0;
-		while(data->argv[k])
-			printf("%s\n", data->argv[k++]);
+		// int k = 0;
+		// while(data->argv[k])
+		// 	printf("%s\n", data->argv[k++]);
 		expand_vars(data);
 		if (data->argv[0] && (data->argv[0][0] == '(' || data->flags->bracket))
-			prio(data);
+			prio(data, tmp_cmd, &i);
 		if (data->flags->error || !data->argv[0])
+		{
+			free_array(data->argv);
+			free(data->argv);
 			continue;
+		}
 		if ((left)
 		||	(!data->flags->and && !data->flags->or) 
 		||	(data->flags->and && !data->exit_status) 
@@ -135,13 +146,12 @@ static void	prompt(t_data *data)
 			if (!builtin_environment(data))
 				exec_program(data);
 		}
+		left = false;
 		free_array(data->argv);
 		free(data->argv);
-		left = false;
 	}
 	data->flags->and = false;
 	data->flags->or = false;
-	free(data->cmd);
 }
 
 int	main(int argc, char **argv, char **envp)

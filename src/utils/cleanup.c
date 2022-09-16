@@ -28,7 +28,7 @@ void free_array(char **array)
 {
 	int	i;
 	
-	if (!array || !*array)
+	if (!array)
 		return ;
 	i = 0;
 	while (array[i])
@@ -58,7 +58,8 @@ void	cleanup(t_data *data, int flag)
 	free (data->prompt);
 	free (data->last_cmd);
 	free (data->flags);
-	free(data->cmd);
+	if (data->cmd)
+		free (data->cmd);
 	rl_clear_history();
 	if (data->pipes)
 		free(data->pipes);

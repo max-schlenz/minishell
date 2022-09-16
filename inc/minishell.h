@@ -179,7 +179,7 @@ char			*insert_space(char *cmd, int index);
 char			*pre_parse(t_data *data, char *cmd);
 void			skip_spaces(char *cmd, int *i);
 
-void			set_filename2(t_data *data, int *i, char *cmd);
+bool			set_filename2(t_data *data, int *i, char *cmd);
 bool 			count_pipes(t_data *data, char *cmd);
 char 			*strrepc(char *cmd, char to_rep, char rep_with);
 
