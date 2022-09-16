@@ -60,7 +60,8 @@ static char	*get_var_content(t_data *data, char *var)
 	while (data->envp[i])
 	{
 		if (!ft_strncmp(data->envp[i], var, len_var))
-			return (ft_substr(data->envp[i], len_var + 1, ft_strlen(data->envp[i])));
+			return(data->envp[i])
+			// return (ft_substr(data->envp[i], len_var + 1, ft_strlen(data->envp[i])));
 		i++;
 	}
 	return (ft_strdup(""));

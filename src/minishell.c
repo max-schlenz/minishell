@@ -34,7 +34,7 @@ static void	clear_buffers(t_data *data)
 
 static void	init_prompt(t_data *data)
 {
-	data->flags->debug = false;
+	data->flags->debug = true;
 	data->flags->error = false;
 	data->flags->pipe = false;
 	data->flags->redir_out = false;
@@ -137,7 +137,7 @@ static void	prompt(t_data *data)
 	}
 	while (tmp_cmd[i] && tmp_cmd[0])
 	{
-		while (tmp_cmd[i] == ' ')
+		while (tmp_cmd[i] == ' ' &&  tmp_cmd[i] == ';')
 			i++;
 		i = split_quotes(data, tmp_cmd, i);
 		expand_vars(data);
