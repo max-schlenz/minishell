@@ -26,6 +26,7 @@
 # include <stdlib.h>
 # include <signal.h>
 # include <dirent.h>
+# include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -178,9 +179,9 @@ char			*find_wc(t_data *data, char *cmd);
 char			*pre_parse(t_data *data, char *cmd);
 char			*skip_d(t_data *data, char *cmd, char delim);
 
-bool			set_filename2(t_data *data, int *i, char *cmd);
 bool 			count_pipes(t_data *data, char *cmd);
 char 			*strrepc(char *cmd, char to_rep, char rep_with);
+char			*get_var_content(t_data *data, char *var);
 
 //test
 int	*get_indexes(char *str);

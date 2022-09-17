@@ -120,18 +120,23 @@ bool	exec_program(t_data *data)
 	int			exit_code;
 	char		*abs_path;
 	int			fd;
-	
+	bool		error;
+
 	int			heredoc_fd[2];
 	char		*heredoc_tmp;
 
 	exit_code = 0;
+	pid = 1;
+	error = false;
+	data->flags->error = false;
 	abs_path = get_path(data);
 	if (!abs_path)
 		abs_path = ft_strdup(data->argv[0]);
-	// if (data->flags->redir_out)
-	// 	data->flags->pipe = false;
 	data->debug = fopen("debug", "a+");
-	pid = fork();
+	if (!access(abs_path, F_OK))
+		pid = fork();
+	else
+		error = true;
 	if (pid == -1)
 		ft_exit(2);
 	if (pid == 0)
@@ -190,11 +195,17 @@ bool	exec_program(t_data *data)
 		}
 		exit(0);
 	}
+	free (abs_path);
+	if (error)
+	{
+		printf("%s\n", strerror(errno));
+		data->exit_status = 127;
+		return (true);
+	}
 	waitpid(pid, &exit_code, 0);
 	if (data->counter_pipes > 0 && data->fd_i != data->counter_pipes)
 		close(data->pipes->pipefd[data->fd_i][1]);
 	data->fd_i++;
-	free (abs_path);
 	if (data->flags->redir_out)
 		data->flags->redir_out = false;
 	if (data->flags->redir_in)

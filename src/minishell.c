@@ -133,6 +133,8 @@ static void	prompt(t_data *data)
 			open_pipes(data);
 		// data->cmd = find_wc(data, data->cmd);
 	}
+	else
+		return ;
 	while (tmp_cmd[i] && tmp_cmd[0])
 	{
 		while (tmp_cmd[i] == ' ' ||  tmp_cmd[i] == ';')

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/17 14:26:50 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/17 15:11:54 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ bool	builtin_cd(t_data *data)
 	char	*new_pwd_tmp;
 	int		i;
 	int		j;
+	int		k;
 	
 	i = 0;
+	k = 0;
 	new_pwd_tmp = NULL;
 	while (data->envp[i] && strcmp_alnum(data->envp[i], "PWD"))
 		i++;
@@ -31,7 +33,19 @@ bool	builtin_cd(t_data *data)
 	if (data->argv[1])
 	{
 		path_tmp2 = ft_strtrim(data->argv[1], " ");
-		if (data->argv[1][0] != '/')
+		if (!ft_strncmp(data->argv[1], "-", 2))
+		{
+			k = ft_strlen(data->envp[i] + 4);
+			while (k && data->envp[i][k] != '/')
+				k--;
+			path_tmp = ft_strdup("");
+			path_tmp_bs = ft_strdup("");
+			path = ft_substr(data->envp[i], 4, k - 4);
+			new_pwd_tmp = ft_strjoin("PWD=", path);
+			free (path_tmp_bs);
+			free (path_tmp);
+		}
+		else if (data->argv[1][0] != '/')
 		{
 			path_tmp = ft_strdup(data->envp[i] + 4);
 			path_tmp_bs = ft_strjoin(path_tmp, "/");
@@ -67,7 +81,10 @@ bool	builtin_cd(t_data *data)
 			}
 		}
 		else
+		{
+			printf("%s\n", strerror(errno));
 			return (true);
+		}
 	}
 	else
 	{
@@ -143,6 +160,8 @@ bool	builtin_export(t_data *data)
 				parse_path(data);
 			}
 		}
+		else
+			printf("export: %s is not a valid identifier\n", data->argv[1]);
 		return (true);
 	}
 	if (!data->argv[1])
@@ -169,9 +188,14 @@ bool	builtin_env(t_data *data)
 	int	i;
 
 	i = 0;
-	while (data->envp[i])
-		printf("%s\n", data->envp[i++]);
-	data->exit_status = 0;
+	if (!data->argv[1])
+	{
+		while (data->envp[i])
+			printf("%s\n", data->envp[i++]);
+		data->exit_status = 0;
+	}
+	else
+		printf("syntax error\n");
 	return (true);
 }
 

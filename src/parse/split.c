@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/17 14:30:28 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/17 15:47:23 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static bool	alloc_mem_array(t_data *data, char *cmd)
 	return (false);
 }
 
-static char	*get_var_content(t_data *data, char *var)
+char	*get_var_content(t_data *data, char *var)
 {
 	int i;
 	int	len_var;
@@ -57,6 +57,8 @@ static char	*get_var_content(t_data *data, char *var)
 	i = 0;
 	var++;
 	len_var = ft_strlen(var);
+	if (!len_var)
+		return (NULL);
 	while (data->envp[i])
 	{
 		if (!ft_strncmp(data->envp[i], var, len_var))
@@ -106,6 +108,17 @@ static void remove_quotes(t_data *data, int i_arg, bool f_dquote, bool f_squote)
 // 	}
 // }
 
+// bool	is_env_var(t_data *data, char *var)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (data->envp[i])
+// 	{
+// 		if ()
+// 	}
+// }
+
 void	expand_vars(t_data *data)
 {
 	int i_arg;
@@ -139,6 +152,7 @@ void	expand_vars(t_data *data)
 			{
 				f_backslash = true;
 				i_char++;
+				continue ;
 			}
 			if (data->argv[i_arg][i_char] == '$' && data->argv[i_arg][i_char + 1] && data->argv[i_arg][i_char + 1] != ' ' && !f_squote && !f_backslash)
 			{
@@ -148,39 +162,39 @@ void	expand_vars(t_data *data)
 				if (data->argv[i_arg][i_char] && data->argv[i_arg][i_char + 1] && !ft_strncmp(data->argv[i_arg] + i_char, "$?", 2))
 				{
 					i_char++;
-					vcontent = ft_strdup(ft_itoa(data->exit_status));
+					vcontent = ft_itoa(data->exit_status);
 				}
 				else
 					vcontent = get_var_content(data, vname);
-				str_before_vplus_vcontent = ft_strjoin(str_before_v_trim, vcontent);
-				// str_after_v = ft_substr(data->argv[i_arg], i_char + ft_strlen(vname), ft_strlen(data->argv[i_arg]) - i_char + ft_strlen(vname));
-				str_after_v = ft_strdup(data->argv[i_arg] + i_char + ft_strlen(vname));
-				str_after_v_trim = ft_strtrim(str_after_v, "\"");
+				if (vcontent)
+				{
+					str_before_vplus_vcontent = ft_strjoin(str_before_v_trim, vcontent);
+					str_after_v = ft_strdup(data->argv[i_arg] + i_char + ft_strlen(vname));
+					str_after_v_trim = ft_strtrim(str_after_v, "\"");
+					free (data->argv[i_arg]);
+					data->argv[i_arg] = ft_strjoin(str_before_vplus_vcontent, str_after_v_trim);
+					free (str_before_vplus_vcontent);
+					free (str_after_v);
+					free (str_after_v_trim);
+					free (vcontent);
+				}
 				free (str_before_v);
 				free (str_before_v_trim);
 				free (vname);
-				free (vcontent);
-				free (data->argv[i_arg]);
-				data->argv[i_arg] = ft_strjoin(str_before_vplus_vcontent, str_after_v_trim);
-				free (str_before_vplus_vcontent);
-				free (str_after_v);
-				free (str_after_v_trim);
 			}
-			i_char++;
+			if (data->argv[i_arg][i_char] && data->argv[i_arg][i_char + 1])
+				i_char++;
+			else
+				break ;
 			f_backslash = false;
 		}
 		if (ft_strlen(data->argv[i_arg]) > 2)
 			remove_quotes(data, i_arg, f_dquote, f_squote);
-		// if (f_backslash)
-		// 	remove_backslash(data, i_arg);
 		else if (data->argv[i_arg][0] == '\'' || data->argv[i_arg][0] == '\"')
 			data->argv[i_arg] = ft_strdup(" ");
 		i_char = 0;
 		i_arg++;
 	}
-	// while (data->argv[k])
-	// 	printf("%s\n", data->argv[k++]);
-	// exit(0);
 }
 
 bool	set_filenames(t_data *data, int *i, char *cmd, int flag)
@@ -243,8 +257,6 @@ int	split_quotes(t_data *data, char *cmd, int i)
 		{
 			if (!ft_strncmp(cmd + i, "&&", 2) && !f_dquote && !f_squote)
 			{
-				// if (i != 0)
-				// 	return (i);
 				if (i != k)
 					return (i);
 				data->flags->and = true;
