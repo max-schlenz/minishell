@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:32:27 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/17 14:33:50 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/17 16:38:17 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char *insert_space(t_data *data, char *cmd, int index)
 }
 
 
-char *delete_spaces(t_data *data, char *cmd, int start_space, int end_space)
+char *delete_delim(t_data *data, char *cmd, int start_space, int end_space, char delim)
 {
 	char	*ret;
 	int		len;
@@ -58,15 +58,15 @@ char *delete_spaces(t_data *data, char *cmd, int start_space, int end_space)
 	return (ret);
 }
 
-static void	skip_spaces(char *cmd, int *i)
+static void	skip_delim(char *cmd, int *i, char delim)
 {
-	while (cmd[*i] == ' ')
+	while (cmd[*i] == delim)
 		(*i)++;
-	if (!cmd[*i])
+	if (!cmd[*i] && delim == ' ')
 		(*i)++;
 }
 
-char *skip_s(t_data *data, char *cmd)
+char *skip_d(t_data *data, char *cmd, char delim)
 {
 	int		i;
 	int		j;
@@ -84,11 +84,11 @@ char *skip_s(t_data *data, char *cmd)
 				f_dquote = !f_dquote;
 		if (cmd[i] == '\'' && !f_dquote)
 				f_squote = !f_squote;
-		if (((!cmd[i + 1] && cmd[i] == ' ') || (cmd[i + 1] && cmd[i] == ' ' && cmd[i + 1] == ' ')) && !f_dquote && !f_squote)
+		if ((!cmd[i + 1] && cmd[i] == delim || cmd[i + 1] && cmd[i] == delim && cmd[i + 1] == delim ) && !f_dquote && !f_squote)
 		{
 			j = i;
-			skip_spaces(cmd, &j);
-			cmd = delete_spaces(data, cmd, i, j);
+			skip_delim(cmd, &j, ' ');
+			cmd = delete_delim(data, cmd, i, j, ' ');
 		}
 		i++;
 	}
@@ -102,10 +102,12 @@ char *pre_parse(t_data *data, char *cmd)
 {
 	int	i;
 	char	*ops;
+	char	*tmp;
+	char	*tmp2;
 
  	ops = "|&><";
 	i = 0;
-	cmd = skip_s(data, cmd);
+	cmd = skip_d(data, cmd, ' ');
 	while (*ops)
 	{
 		i = 0;
