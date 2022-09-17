@@ -123,7 +123,6 @@ bool	exec_program(t_data *data)
 	
 	int			heredoc_fd[2];
 	char		*heredoc_tmp;
-	char		rdbuf[4096];
 
 	exit_code = 0;
 	abs_path = get_path(data);

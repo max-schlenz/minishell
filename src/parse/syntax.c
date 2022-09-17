@@ -6,19 +6,18 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:51 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/16 13:46:56 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/17 14:32:08 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-bool	check_syntax(t_data *data, char *cmd)
+bool	check_syntax(char *cmd)
 {
 	int		i;
 	int		j;
 	char	*ops_supported;
 	char	*ops_unsupported;
-	bool	quote;
 
 	ops_supported = ft_strdup("|&><");
 	ops_unsupported = ft_strdup("{");
@@ -75,7 +74,6 @@ bool	check_syntax(t_data *data, char *cmd)
 			if	(cmd[i] == ops_unsupported[j])
 			{
 				printf("Syntax error: '%c' [%d] unsupported operation\n", ops_unsupported[j], i + 3);
-				free (ops_supported);
 				free (ops_unsupported);
 				return (false);
 			}
@@ -87,7 +85,7 @@ bool	check_syntax(t_data *data, char *cmd)
 	return (true);
 }
 
-bool	syntax_err(t_data *data, char *cmd)
+bool	syntax_err(char *cmd)
 {
 	int i = 0;
 	int j = 0;

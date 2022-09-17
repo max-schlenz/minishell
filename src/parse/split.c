@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/17 16:06:42 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/17 14:30:28 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static char	*get_var_content(t_data *data, char *var)
 	{
 		if (!ft_strncmp(data->envp[i], var, len_var))
 			return(ft_strdup(data->envp[i] + len_var + 1));
-			// return (ft_substr(data->envp[i], len_var + 1, ft_strlen(data->envp[i])));
 		i++;
 	}
 	return (ft_strdup(""));
@@ -94,36 +93,16 @@ static void remove_quotes(t_data *data, int i_arg, bool f_dquote, bool f_squote)
 	}
 }
 
-static void	remove_backslash(t_data *data, int i_arg)
-{
-	int		i;
-
-	i = 0;
-	while (data->argv[i_arg][i])
-	{
-		if (data->argv[i_arg][i] == '\\')
-			data->argv[i_arg][i] = ' ';
-		i++;
-	}
-}
-
 // static void	remove_backslash(t_data *data, int i_arg)
 // {
-// 	char	**tmp;
-// 	char	*space;
 // 	int		i;
 
 // 	i = 0;
-// 	space = ft_strdup("ZZZ");
-// 	tmp = ft_split(data->argv[i_arg], '\\');
-// 	free(data->argv[i_arg]);
-// 	data->argv[i_arg] = NULL;
-// 	while (tmp[i])
+// 	while (data->argv[i_arg][i])
 // 	{
-// 		if (!i)
-// 			data->argv[i_arg] = ft_strjoin_dup(tmp[i], space);
-// 		data->argv[i_arg] = ft_strjoin_dup(data->argv[i_arg], tmp[i]);
-// 		free(tmp[i++]);
+// 		if (data->argv[i_arg][i] == '\\')
+// 			data->argv[i_arg][i] = ' ';
+// 		i++;
 // 	}
 // }
 
@@ -166,7 +145,7 @@ void	expand_vars(t_data *data)
 				str_before_v = ft_substr(data->argv[i_arg], 0, i_char);
 				str_before_v_trim = ft_strtrim(str_before_v, "\"");
 				vname = ft_substr(data->argv[i_arg], i_char, strlen_path(data->argv[i_arg] + i_char));
-				if (data->argv[i_arg] + i_char && data->argv[i_arg] + i_char + 1 && !ft_strncmp(data->argv[i_arg] + i_char, "$?", 2))
+				if (data->argv[i_arg][i_char] && data->argv[i_arg][i_char + 1] && !ft_strncmp(data->argv[i_arg] + i_char, "$?", 2))
 				{
 					i_char++;
 					vcontent = ft_strdup(ft_itoa(data->exit_status));
@@ -204,31 +183,17 @@ void	expand_vars(t_data *data)
 	// exit(0);
 }
 
-bool	set_filename2(t_data *data, int *i, char *cmd)
+bool	set_filenames(t_data *data, int *i, char *cmd, int flag)
 {
 	int	start;
 
 	start = *i;
 	while (cmd[*i] && cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<')
-	{
 		(*i)++;
-	}
-	data->file_name2 = ft_substr(cmd, start, *i - start);
-	if (!cmd[*i])
-		return (false);
-	return (true);
-}
-
-bool	set_filename(t_data *data, int *i, char *cmd)
-{
-	int	start;
-
-	start = *i;
-	while (cmd[*i] && cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<')
-	{
-		(*i)++;
-	}
-	data->file_name = ft_substr(cmd, start, *i - start);
+	if (!flag)
+		data->file_name = ft_substr(cmd, start, *i - start);
+	else
+		data->file_name2 = ft_substr(cmd, start, *i - start);
 	if (!cmd[*i])
 		return (false);
 	return (true);
@@ -330,12 +295,12 @@ int	split_quotes(t_data *data, char *cmd, int i)
 				data->argv[array_index] = NULL;
 				if (!data->flags->redir_out)
 				{
-					if (!set_filename(data, &i, cmd))
+					if (!set_filenames(data, &i, cmd, 0))
 						return (i);
 				}
 				else
 				{
-					if (!set_filename2(data, &i, cmd))
+					if (!set_filenames(data, &i, cmd, 1))
 						return (i);
 				}		
 				i++;
@@ -344,7 +309,7 @@ int	split_quotes(t_data *data, char *cmd, int i)
 				if (cmd[i] && cmd[i] == '>')
 				{
 					data->flags->redir_out = true;
-					if (!set_filename2(data, &i, cmd))
+					if (!set_filenames(data, &i, cmd, 1))
 						return (i);
 				}	
 				return (i);

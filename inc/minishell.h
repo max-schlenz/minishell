@@ -45,7 +45,7 @@
 
 typedef struct s_pipes
 {
-	int		pipefd[4096][2];
+	int		pipefd[FD_SETSIZE][2];
 }	t_pipes;
 
 typedef struct s_flags {
@@ -98,7 +98,7 @@ typedef enum s_status
 }	t_status;
 
 //	init.c
-void			init_vars(t_data *data, char **argv);
+void			init_vars(t_data *data);
 t_data			*allocate_mem();
 void			open_pipes(t_data *data);
 
@@ -145,7 +145,7 @@ int				split_quotes(t_data *data, char *cmd, int i);
 void			expand_vars(t_data *data);
 
 //parse/syntax.c
-bool			check_syntax(t_data *data, char *cmd);
+bool			check_syntax(char *cmd);
 
 //exec/builtins.c
 bool			builtin_environment(t_data *data);
@@ -167,7 +167,7 @@ void			signal_handler(int signal);
 void			signals();
 
 //utils/config.c
-void			create_config(t_data *data);
+void			create_config();
 void			read_config(t_data *data);
 
 //parse/wildcard.c

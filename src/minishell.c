@@ -112,9 +112,7 @@ static void prio(t_data *data, char *cmd, int *i)
 static void	prompt(t_data *data)
 {
 	bool	left;
-	char	*cmd;
 	char	*tmp_cmd;
-	char	*tmp;
 	int		i;
 
 	left = true;
@@ -128,10 +126,9 @@ static void	prompt(t_data *data)
 	if (data->cmd[0] && data->cmd[0] != '\n')
 	{
 		history(data);
-		if (!check_syntax(data, data->cmd))
+		if (!check_syntax(data->cmd))
 			return ;
 		tmp_cmd = pre_parse(data, data->cmd);
-		printf("tmp cmd a%sa\n", tmp_cmd);
 		if (count_pipes(data, tmp_cmd))
 			open_pipes(data);
 		// data->cmd = find_wc(data, data->cmd);
@@ -172,9 +169,11 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
 
+	(void)argc;
+	(void)argv;
 	data = allocate_mem();
 	signals();
-	init_vars(data, argv);
+	init_vars(data);
 	read_config(data);
 	parse_envp(data, envp);
 	while (1)

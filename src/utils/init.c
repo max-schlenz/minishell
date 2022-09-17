@@ -6,13 +6,13 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/16 14:27:58 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/17 14:27:15 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	init_vars(t_data *data, char **argv)
+void	init_vars(t_data *data)
 {
 	data->prompt = ft_strdup("\x01\033[34;1m\x02mini\x01\033[36;1m\x02shell\x01\033[0;1m\x02 # \x01\033[0m\x02");
 	data->flags->pipe = false;

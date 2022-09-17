@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/09/15 12:29:12 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/09/17 14:35:04 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,6 @@ LIB_DIR			=	lib
 INC_DIR			=	inc
 
 SRC				= 	${NAME}						\
-					parse/argv					\
 					parse/envp					\
 					parse/utils					\
 					exec/builtins				\

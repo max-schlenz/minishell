@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/08 10:46:31 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/17 14:25:18 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,12 @@ int		strcmp_alnum(const char *s1, const char *s2)
 void	sort_array(t_data *data)
 {
 	char	*tmp;
-	int		len;
-	int i = 0;
-	int j = 0;
-	// char	**envp_sorted;
+	size_t	len;
+	int		i;
+	int		j;
 
-	// envp_sorted = ft_calloc(data->counter_env, sizeof(char *))
-	// while (data->envp[i])
-	// 	envp_sorted[i] = ft_strdup(data->envp[i++]);
+	i = 0;
+	j = 0;
 	while (j < data->counter_env * data->counter_env)
 	{
 		while (i < data->counter_env)

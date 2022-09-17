@@ -6,13 +6,13 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:17:45 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/16 14:26:01 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/17 14:28:51 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	create_config(t_data *data)
+void	create_config()
 {
 	int fd;
 
@@ -27,7 +27,7 @@ void	read_config(t_data *data)
 	char *history;
 
 	if (access(".mscfg", F_OK))
-		create_config(data);
+		create_config();
 	if (!access(".mscfg", F_OK))
 	{
 		data->mscfg = open(".mscfg", O_RDWR | O_APPEND, 0644);

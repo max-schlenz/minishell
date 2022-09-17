@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:12:51 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/17 12:55:58 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/17 14:22:53 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,6 @@ char *strrepc(char *cmd, char to_rep, char rep_with)
 		i++;
 	}
 	return (cmd);
-}
-
-char	*check_esc_var_quo(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == '\'' || s[i] == '$' || s[i] == '\"')
-			return ((char *)s + i);
-		i++;
-	}
-	if (s[i] == '\'' || s[i] == '$' || s[i] == '\"')
-		return ((char *)s + i);
-	return (0);
 }
 
 size_t	strlen_path(const char *c)

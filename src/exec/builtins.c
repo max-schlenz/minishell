@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/17 12:58:51 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/17 14:26:50 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ bool	builtin_echo(t_data *data)
 {
 	int 	i = 1;
 	char	*cmd_trim;
-	bool	echo_n = false;
-	bool	space = false;
+	bool	echo_n;
 
+	echo_n = false;
 	if (data->argv[i] && !ft_strncmp(data->argv[i], "-n", 2))
 		echo_n = true;
 	while (data->argv[i])
@@ -113,11 +113,8 @@ bool	builtin_echo(t_data *data)
 
 bool	builtin_export(t_data *data)
 {
-	int		len_arg;
-	char	*var;
-	char	*value;
 	int		i;
-	int		len;
+	size_t	len;
 	int		len_name;
 	int		len_content;
 	char	*str_name;

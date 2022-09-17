@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:32:27 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/17 16:04:56 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/17 14:33:50 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char *skip_s(t_data *data, char *cmd)
 				f_dquote = !f_dquote;
 		if (cmd[i] == '\'' && !f_dquote)
 				f_squote = !f_squote;
-		if ((!cmd[i + 1] && cmd[i] == ' ' || cmd[i + 1] && cmd[i] == ' ' && cmd[i + 1] == ' ' ) && !f_dquote && !f_squote)
+		if (((!cmd[i + 1] && cmd[i] == ' ') || (cmd[i + 1] && cmd[i] == ' ' && cmd[i + 1] == ' ')) && !f_dquote && !f_squote)
 		{
 			j = i;
 			skip_spaces(cmd, &j);
@@ -102,8 +102,6 @@ char *pre_parse(t_data *data, char *cmd)
 {
 	int	i;
 	char	*ops;
-	char	*tmp;
-	char	*tmp2;
 
  	ops = "|&><";
 	i = 0;
