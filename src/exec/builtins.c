@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/16 14:26:49 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/17 12:58:51 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,11 +129,11 @@ bool	builtin_export(t_data *data)
 		len = strlen_var(data->argv[1]);
 		if (data->argv[1][len] == '=')
 		{
-			if (len > ft_strlen(data->argv[1]) - 1)
+			if (len < ft_strlen(data->argv[1]) - 1)
 			{
 				while (data->envp[i])
 				{
-					if (ft_strncmp(data->envp[i], data->argv[1], len) == 0)
+					if (!ft_strncmp(data->envp[i], data->argv[1], len))
 					{
 						free(data->envp[i]);
 						data->envp[i] = ft_strdup(data->argv[1]);

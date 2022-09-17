@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/16 18:06:32 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/17 12:48:08 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static char	*get_var_content(t_data *data, char *var)
 	while (data->envp[i])
 	{
 		if (!ft_strncmp(data->envp[i], var, len_var))
-			return(data->envp[i])
+			return(ft_strdup(data->envp[i] + len_var + 1));
 			// return (ft_substr(data->envp[i], len_var + 1, ft_strlen(data->envp[i])));
 		i++;
 	}
@@ -132,10 +132,12 @@ void	expand_vars(t_data *data)
 	int	i_char;
 
 	char *str_before_v;
+	char *str_before_v_trim;
 	char *vname;
 	char *vcontent;
 	char *str_before_vplus_vcontent;
 	char *str_after_v;
+	char *str_after_v_trim;
 	bool f_dquote;
 	bool f_squote;
 	bool f_backslash;
@@ -158,10 +160,10 @@ void	expand_vars(t_data *data)
 				f_backslash = true;
 				i_char++;
 			}
-			if (data->argv[i_arg][i_char] == '$' && !f_squote && !f_backslash)
+			if (data->argv[i_arg][i_char] == '$' && data->argv[i_arg][i_char + 1] && data->argv[i_arg][i_char + 1] != ' ' && !f_squote && !f_backslash)
 			{
 				str_before_v = ft_substr(data->argv[i_arg], 0, i_char);
-				str_before_v = ft_strtrim(str_before_v, "\"");
+				str_before_v_trim = ft_strtrim(str_before_v, "\"");
 				vname = ft_substr(data->argv[i_arg], i_char, strlen_path(data->argv[i_arg] + i_char));
 				if (data->argv[i_arg] + i_char && data->argv[i_arg] + i_char + 1 && !ft_strncmp(data->argv[i_arg] + i_char, "$?", 2))
 				{
@@ -170,16 +172,19 @@ void	expand_vars(t_data *data)
 				}
 				else
 					vcontent = get_var_content(data, vname);
-				str_before_vplus_vcontent = ft_strjoin(str_before_v, vcontent);
+				str_before_vplus_vcontent = ft_strjoin(str_before_v_trim, vcontent);
 				// str_after_v = ft_substr(data->argv[i_arg], i_char + ft_strlen(vname), ft_strlen(data->argv[i_arg]) - i_char + ft_strlen(vname));
 				str_after_v = ft_strdup(data->argv[i_arg] + i_char + ft_strlen(vname));
-				str_after_v = ft_strtrim(str_after_v, "\"");
+				str_after_v_trim = ft_strtrim(str_after_v, "\"");
+				free (str_before_v);
+				free (str_before_v_trim);
 				free (vname);
 				free (vcontent);
 				free (data->argv[i_arg]);
-				data->argv[i_arg] = ft_strjoin(str_before_vplus_vcontent, str_after_v);
+				data->argv[i_arg] = ft_strjoin(str_before_vplus_vcontent, str_after_v_trim);
 				free (str_before_vplus_vcontent);
 				free (str_after_v);
+				free (str_after_v_trim);
 			}
 			i_char++;
 			f_backslash = false;
