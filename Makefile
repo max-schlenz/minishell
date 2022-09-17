@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+         #
+#    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/09/17 16:39:31 by tdehne           ###   ########.fr        #
+#    Updated: 2022/09/17 17:09:15 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES)
 $(NAME): $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES) $(INC_FILES) header_c message
 	@gcc $(FLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(LINKER)
 	@echo -e "\\r		  ${BGREEN}$(NAME)${DEFCL}   	   ✅\n"
-
+	
 $(BREWFL):
 	@if [ ! -f $(BREW) ]; then \
 		echo "$(PURPLE)Installing brew & readline...$(DEFCL)";					\

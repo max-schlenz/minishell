@@ -109,7 +109,7 @@ static void prio(t_data *data, char *cmd, int *i)
 	}
 }
 
-static int	prompt(t_data *data, char *cmd, int flag)
+static void	prompt(t_data *data, char *cmd)
 {
 	bool	left;
 	char	*tmp_cmd;
@@ -119,10 +119,8 @@ static int	prompt(t_data *data, char *cmd, int flag)
 	// data->cmd = get_next_line(0);
 	// data->cmd = ft_strtrim(data->cmd, "\n");
 	data->cmd = NULL;
-	if (flag)
-		data->cmd = ft_strdup(cmd);
-	else
-		data->cmd = readline(data->prompt);
+	// data->cmd = readline(data->prompt);
+	data->cmd = ft_strdup(cmd);
 	i = 0;
 	if (!data->cmd)
 		data->cmd = ft_strdup("exit");
@@ -130,14 +128,14 @@ static int	prompt(t_data *data, char *cmd, int flag)
 	{
 		history(data);
 		if (!check_syntax(data->cmd))
-			return (2);
+			return ;
 		tmp_cmd = pre_parse(data, data->cmd);
 		if (count_pipes(data, tmp_cmd))
 			open_pipes(data);
 		// data->cmd = find_wc(data, data->cmd);
 	}
 	else
-		return (0);
+		return ;
 	while (tmp_cmd[i] && tmp_cmd[0])
 	{
 		while (tmp_cmd[i] == ' ' ||  tmp_cmd[i] == ';')
@@ -168,33 +166,29 @@ static int	prompt(t_data *data, char *cmd, int flag)
 	data->flags->or = false;
 	free(tmp_cmd);
 	tmp_cmd = NULL;
-	return (data->exit_status);
+}
+
+int ft_launch_minishell(char *cmd, t_data *data)
+{
+	// while (1)
+	// {
+		init_prompt(data);
+		prompt(data, cmd);
+		clear_buffers(data);
+		return (data->exit_status);
+	// }
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
 
-	(void)argc;
-	(void)argv;
+	//(void)argc;
+	//(void)argv;
 	data = allocate_mem();
 	signals();
 	init_vars(data);
 	read_config(data);
 	parse_envp(data, envp);
-	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
-  	{
-		init_prompt(data);
-    	int exit_status = prompt(data, argv[2], 1);
-		clear_buffers(data);
-    	exit(exit_status);
-  	}
-	// printf("%s\n", strerror(127));
-	// exit(0);
-	while (1)
-	{
-		init_prompt(data);
-		prompt(data, NULL, 0);
-		clear_buffers(data);
-	}
+	
 }

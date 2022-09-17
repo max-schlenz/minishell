@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 11:23:55 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/16 14:28:29 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/17 16:47:22 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ int	strdiff(const char *s1, const char *s2)
 	size_t	i;
 
 	i = 0;
-	while (s1[i]&& s2[i])
+	if (!s1 || !s2)
+		return (0);
+	while (s1[i] && s2[i])
 	{
 		if (s1[i] != s2[i])
 			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);

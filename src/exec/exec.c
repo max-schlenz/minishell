@@ -198,7 +198,8 @@ bool	exec_program(t_data *data)
 	free (abs_path);
 	if (error)
 	{
-		printf("%s\n", strerror(errno));
+		perror("Error ");
+		// printf("%s\n", strerror(errno));
 		data->exit_status = 127;
 		return (true);
 	}

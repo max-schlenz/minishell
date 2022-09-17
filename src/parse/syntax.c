@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:51 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/17 14:32:08 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/17 17:16:16 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@ bool	check_syntax(char *cmd)
 	int		j;
 	char	*ops_supported;
 	char	*ops_unsupported;
+	char	*err;
 
 	ops_supported = ft_strdup("|&><");
 	ops_unsupported = ft_strdup("{");
-
+	err = NULL;
 	j = 0;
 	while (ops_supported[j])
 	{
@@ -45,7 +46,8 @@ bool	check_syntax(char *cmd)
 			&&	cmd[i + 1] == ops_supported[j]
 			&&	cmd[i + 2] == ops_supported[j])
 			{
-				printf("Syntax error: '%c' [%d]\n", ops_supported[j], i + 3);
+				// printf("Syntax error: '%c' [%d]\n", ops_supported[j], i + 3);
+				write(2, "Syntax Error\n", 14);
 				free (ops_supported);
 				free (ops_unsupported);
 				return (false);

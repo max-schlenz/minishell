@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/17 15:11:54 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/17 17:27:46 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,21 +103,39 @@ bool	builtin_echo(t_data *data)
 	int 	i = 1;
 	char	*cmd_trim;
 	bool	echo_n;
+	int j = 0;
+	int k = 0;
 
 	echo_n = false;
-	if (data->argv[i] && !ft_strncmp(data->argv[i], "-n", 2))
-		echo_n = true;
+	// while (data->argv[k])
+	// 	printf("%s\n", data->argv[k++]);
 	while (data->argv[i])
 	{
-		data->argv[i] = strrepc(data->argv[i], '\\', ' ');
-		while (!ft_strncmp(data->argv[i], "-n", 3))
-			i++;
-		if (data->argv[i][0] != '-')
+		if (data->argv[i] && !ft_strncmp(data->argv[i], "-n", 2))
 		{
+			j = 0;
+			k = 0;
+			while (data->argv[i][j])
+			{
+				if (data->argv[i][j] == '-')
+					k++;
+				j++;
+			}
+			if (k == 1)
+			{
+				echo_n = true;
+				i++;
+			}
+		}
+		data->argv[i] = strrepc(data->argv[i], '\\', ' ');
+		// while (!ft_strncmp(data->argv[i], "-n", 2))
+		// 	i++;
+		// if (data->argv[i][0] != '-')
+		// {
 			cmd_trim = ft_strtrim(data->argv[i], " ");
 			printf("%s", cmd_trim);
 			free(cmd_trim);
-		}
+		// }
 		i++;
 		if (data->argv[i] && (!(echo_n && i < 3)))
 			printf(" ");
