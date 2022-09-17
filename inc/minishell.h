@@ -142,7 +142,6 @@ int				strdiff(const char *s1, const char *s2);
 
 //parse/split.c
 int				split_quotes(t_data *data, char *cmd, int i);
-char			*insert_space(char *cmd, int index);
 void			expand_vars(t_data *data);
 
 //parse/syntax.c
@@ -176,9 +175,7 @@ char			*find_wc(t_data *data, char *cmd);
 
 //parse/pre parse
 
-char			*insert_space(char *cmd, int index);
 char			*pre_parse(t_data *data, char *cmd);
-void			skip_spaces(char *cmd, int *i);
 
 bool			set_filename2(t_data *data, int *i, char *cmd);
 bool 			count_pipes(t_data *data, char *cmd);

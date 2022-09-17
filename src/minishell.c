@@ -131,13 +131,14 @@ static void	prompt(t_data *data)
 		if (!check_syntax(data, data->cmd))
 			return ;
 		tmp_cmd = pre_parse(data, data->cmd);
+		printf("tmp cmd a%sa\n", tmp_cmd);
 		if (count_pipes(data, tmp_cmd))
 			open_pipes(data);
 		// data->cmd = find_wc(data, data->cmd);
 	}
 	while (tmp_cmd[i] && tmp_cmd[0])
 	{
-		while (tmp_cmd[i] == ' ' &&  tmp_cmd[i] == ';')
+		while (tmp_cmd[i] == ' ' ||  tmp_cmd[i] == ';')
 			i++;
 		i = split_quotes(data, tmp_cmd, i);
 		expand_vars(data);
@@ -163,6 +164,7 @@ static void	prompt(t_data *data)
 	}
 	data->flags->and = false;
 	data->flags->or = false;
+	free(tmp_cmd);
 	tmp_cmd = NULL;
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/17 12:48:08 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/17 16:06:42 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ static void remove_quotes(t_data *data, int i_arg, bool f_dquote, bool f_squote)
 			data->argv[i_arg] = ft_strjoin_dup(data->argv[i_arg], tmp[i]);
 			free(tmp[i++]);
 		}
+		free(tmp);
 	}
 }
 
@@ -248,12 +249,6 @@ bool	heredoc_delim(t_data *data, int *i, int *j, char *cmd)
 	if (!cmd[*i])
 		return (false);
 	return (true);
-}
-
-void	skip_spaces(char *cmd, int *i)
-{
-	while (cmd[*i] == ' ')
-		(*i)++;
 }
 
 static void	parse_string(t_data *data, char *cmd, int array_index, int i, int j)
