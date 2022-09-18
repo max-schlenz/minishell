@@ -69,6 +69,7 @@ typedef struct s_data
 	char	**args;
 	char	**envp;
 	char	**argv;
+	int		argc;
 	char	**cmd_split;
 	char	*cmd;
 	int		counter_env;
@@ -147,6 +148,8 @@ void			expand_vars(t_data *data);
 
 //parse/syntax.c
 bool			check_syntax(char *cmd);
+bool			syntax_err(char *cmd);
+bool			check_syntax_first_char(t_data *data, char *cmd);
 
 //exec/builtins.c
 bool			builtin_environment(t_data *data);

@@ -133,7 +133,7 @@ bool	exec_program(t_data *data)
 	if (!abs_path)
 		abs_path = ft_strdup(data->argv[0]);
 	data->debug = fopen("debug", "a+");
-	if (!access(abs_path, F_OK))
+	if (!opendir(abs_path) && !access(abs_path, F_OK))
 		pid = fork();
 	else
 		error = true;
@@ -195,14 +195,17 @@ bool	exec_program(t_data *data)
 		}
 		exit(0);
 	}
-	free (abs_path);
 	if (error)
 	{
+		if (opendir(abs_path))
+			data->exit_status = 126;
+		else
+			data->exit_status = 127;
 		perror("Error ");
-		// printf("%s\n", strerror(errno));
-		data->exit_status = 127;
+		free (abs_path);
 		return (true);
 	}
+	free (abs_path);
 	waitpid(pid, &exit_code, 0);
 	if (data->counter_pipes > 0 && data->fd_i != data->counter_pipes)
 		close(data->pipes->pipefd[data->fd_i][1]);

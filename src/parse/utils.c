@@ -31,7 +31,7 @@ size_t	strlen_path(const char *c)
 	int	i;
 
 	i = 0;
-	while (c[i] && (ft_isalnum(c[i]) || c[i] == '$'))
+	while (c[i] && (ft_isalnum(c[i]) || c[i] == '$' || c[i] == '~'))
 		i++;
 	return (i);
 }

@@ -12,6 +12,49 @@
 
 #include <minishell.h>
 
+bool	check_syntax_first_char(t_data *data, char *cmd)
+{
+	int		i;
+	char	*chars;
+	char	*chars_stdin;
+
+	i = 0;
+	chars = ft_strdup("|&>~");
+	while (chars[i])
+	{
+		if (cmd[0] == chars[i])
+		{
+			write(2, "Syntax Error\n", 14);
+			free (chars);
+			return (false);
+		}
+		i++;
+	}
+	i = 0;
+	if ((cmd[i] == '<')
+	|| (cmd[i] == '.'))
+	{
+		i++;
+		while (cmd[i] == ' ')
+			i++;
+		if (!cmd[i])
+		{
+			write(2, "Syntax Error\n", 14);
+			free (chars);
+			return (false);
+		}
+	}
+
+	if (ft_strlen(cmd) >= 2 && !ft_strncmp(cmd, "<<", 2))
+	{
+		write(2, "Syntax Error\n", 14);
+		free (chars);
+		return (false);
+	}
+	free (chars);
+	return (true);
+}
+
 bool	check_syntax(char *cmd)
 {
 	int		i;
@@ -75,7 +118,8 @@ bool	check_syntax(char *cmd)
 			}
 			if	(cmd[i] == ops_unsupported[j])
 			{
-				printf("Syntax error: '%c' [%d] unsupported operation\n", ops_unsupported[j], i + 3);
+				// printf("Syntax error: '%c' [%d] unsupported operation\n", ops_unsupported[j], i + 3);
+				write(2, "Syntax Error\n", 14);
 				free (ops_unsupported);
 				return (false);
 			}
@@ -104,7 +148,8 @@ bool	syntax_err(char *cmd)
 				{
 					if (cmd[i + 2] == ops_supported[k])
 					{
-						printf("Syntax error: '%c' [%d]\n", ops_supported[k], i);
+						// printf("Syntax error: '%c' [%d]\n", ops_supported[k], i);
+						write(2, "Syntax Error\n", 14);
 						return (false);
 					}
 					k++;

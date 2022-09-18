@@ -56,7 +56,7 @@ bool	builtin_cd(t_data *data)
 		else
 		{
 			new_pwd_tmp = ft_strjoin("PWD=", path_tmp2);
-			path = path_tmp2;
+			path = ft_strdup(path_tmp2);
 		}
 		free (path_tmp2);
 		if (!access(path, F_OK))
@@ -82,7 +82,8 @@ bool	builtin_cd(t_data *data)
 		}
 		else
 		{
-			printf("%s\n", strerror(errno));
+			perror("Error");
+			data->exit_status = 1;
 			return (true);
 		}
 	}
@@ -103,38 +104,49 @@ bool	builtin_echo(t_data *data)
 	int 	i = 1;
 	char	*cmd_trim;
 	bool	echo_n;
+	bool	f_squote = false;
+	bool	f_dquote = false;
 	int j = 0;
 	int k = 0;
+	int l = 0;
 
 	echo_n = false;
 	// while (data->argv[k])
 	// 	printf("%s\n", data->argv[k++]);
+	if (data->argv[i] && !ft_strncmp(data->argv[i], "-n", 2))
+	{
+		j = 0;
+		k = 0;
+		while (data->argv[i][j])
+		{
+			if (data->argv[i][j] == '-')
+				k++;
+			j++;
+		}
+		if (k == 1)
+		{
+			echo_n = true;
+			i++;
+		}
+	}
 	while (data->argv[i])
 	{
-		if (data->argv[i] && !ft_strncmp(data->argv[i], "-n", 2))
-		{
-			j = 0;
-			k = 0;
-			while (data->argv[i][j])
-			{
-				if (data->argv[i][j] == '-')
-					k++;
-				j++;
-			}
-			if (k == 1)
-			{
-				echo_n = true;
-				i++;
-			}
-		}
-		data->argv[i] = strrepc(data->argv[i], '\\', ' ');
-		// while (!ft_strncmp(data->argv[i], "-n", 2))
-		// 	i++;
+		while (echo_n && !ft_strncmp(data->argv[i], "-n", 2))
+			i++;
+		// data->argv[i] = strrepc(data->argv[i], '\\', ' ');
 		// if (data->argv[i][0] != '-')
 		// {
-			cmd_trim = ft_strtrim(data->argv[i], " ");
-			printf("%s", cmd_trim);
-			free(cmd_trim);
+			// cmd_trim = ft_strtrim(data->argv[i], " ");
+		while (data->argv[i][l])
+		{
+
+			if (data->argv[i][l] != '\\')
+				printf("%c", data->argv[i][l]);
+			l++;
+		}
+		l = 0;
+			// printf("%s", data->argv[i]);
+			// free(cmd_trim);
 		// }
 		i++;
 		if (data->argv[i] && (!(echo_n && i < 3)))

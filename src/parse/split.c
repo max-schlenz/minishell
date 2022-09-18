@@ -18,16 +18,23 @@ static bool	alloc_mem_array(t_data *data, char *cmd)
 	int		i;
 	bool	f_dquote;
 	bool	f_squote;
+	bool	f_esc;
 
 	wc = 1;
 	i = 0;
 	f_dquote = false;
 	f_squote = false;
+	f_esc = false;
 	while (cmd[i])
 	{
-		if (cmd[i] == '\"' && !f_squote)
+		if (cmd[i] == '\\')
+		{
+			i++;
+			f_esc = true;
+		}
+		if (cmd[i] == '\"' && !f_squote && !f_esc)
 			f_dquote = !f_dquote;
-		if (cmd[i] == '\'' && !f_dquote)
+		if (cmd[i] == '\'' && !f_dquote && !f_esc)
 			f_squote = !f_squote;
 		if (cmd[i] == ' ' 
 		&& cmd[i + 1] 
@@ -38,9 +45,12 @@ static bool	alloc_mem_array(t_data *data, char *cmd)
 		&& !f_squote)
 			wc++;
 		i++;
+		f_esc = false;
 	}
 	if (!f_dquote && !f_squote)
 	{
+		// printf("%d", wc);
+		// exit(0);
 		data->argv = ft_calloc(wc + 1, (sizeof(char *)));
 		return (true);
 	}
@@ -55,6 +65,8 @@ char	*get_var_content(t_data *data, char *var)
 	int	len_var;
 
 	i = 0;
+	if (*var == '~')
+		var = "$HOME";
 	var++;
 	len_var = ft_strlen(var);
 	if (!len_var)
@@ -68,30 +80,57 @@ char	*get_var_content(t_data *data, char *var)
 	return (ft_strdup(""));
 }
 
-static void remove_quotes(t_data *data, int i_arg, bool f_dquote, bool f_squote)
+static void remove_quotes(t_data *data, int i_arg)
 {
-	char **tmp = NULL;
+	char *tmp = NULL;
+	char *tmp2 = NULL;
+	char *tmp3 = NULL;
+	bool	f_esc = false;
 	int i = 0;
 	char delim;
+	int j = 0;
+	int start = 0;
+	int end = 0;
 
 	delim = 0;
-	if (!f_squote && f_dquote)
-		delim = '\"';
-	if (!f_dquote && f_squote)
-		delim = '\'';
-	if (f_dquote && f_squote)
-		delim = '\'';
-	if (delim)
+	while (data->argv[i_arg][i])
 	{
-		tmp = ft_split(data->argv[i_arg], delim);
+		if (data->argv[i_arg][i] == '\\')
+		{
+			f_esc = true;
+			i++;
+		}
+		if (!f_esc && !start && (data->argv[i_arg][i] == '\"' || data->argv[i_arg][i] == '\''))
+		{
+			delim = data->argv[i_arg][i];
+			if (!tmp && i > 0)
+				tmp = ft_substr(data->argv[i_arg], 0, i);
+			while (data->argv[i_arg][i] == delim)
+				i++;
+			start = i;
+			i++;
+			while (data->argv[i_arg][i] && data->argv[i_arg][i] != delim)
+				i++;
+			end = i;
+			if (start != end)
+				tmp2 = ft_substr(data->argv[i_arg], start, end - start);
+			else
+				tmp2 = ft_strdup("");
+			tmp = ft_strjoin_dup(tmp, tmp2);
+		}
+		start = 0;
+		i++;
+		f_esc = false;
+	}
+	if (tmp)
+	{
+		tmp3 = ft_strdup(data->argv[i_arg] + end + 1);
 		free(data->argv[i_arg]);
 		data->argv[i_arg] = NULL;
-		while (tmp[i])
-		{
-			data->argv[i_arg] = ft_strjoin_dup(data->argv[i_arg], tmp[i]);
-			free(tmp[i++]);
-		}
-		free(tmp);
+		data->argv[i_arg] = ft_strjoin_dup(tmp, tmp3);
+		free (tmp);
+		free (tmp2);
+		free (tmp3);
 	}
 }
 
@@ -108,56 +147,49 @@ static void remove_quotes(t_data *data, int i_arg, bool f_dquote, bool f_squote)
 // 	}
 // }
 
-// bool	is_env_var(t_data *data, char *var)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (data->envp[i])
-// 	{
-// 		if ()
-// 	}
-// }
-
 void	expand_vars(t_data *data)
 {
 	int i_arg;
 	int	i_char;
 
 	char *str_before_v;
-	char *str_before_v_trim;
 	char *vname;
 	char *vcontent;
 	char *str_before_vplus_vcontent;
 	char *str_after_v;
-	char *str_after_v_trim;
 	bool f_dquote;
 	bool f_squote;
-	bool f_backslash;
+	bool f_esc;
 
 	i_arg = 0;
 	i_char = 0;
+	vname = NULL;
 	while (data->argv[i_arg])
 	{
 		f_dquote = false;
 		f_squote = false;
-		f_backslash = false;
+		f_esc = false;
 		while (data->argv[i_arg][i_char])
 		{
 			if (data->argv[i_arg][i_char] == '\"')
-				f_dquote = true;
+				f_dquote = !f_dquote;
 			if (data->argv[i_arg][i_char] == '\'' && !f_dquote)
-				f_squote = true;
+				f_squote = !f_squote;
 			if (data->argv[i_arg][i_char] == '\\')
 			{
-				f_backslash = true;
+				f_esc = true;
 				i_char++;
 				continue ;
 			}
-			if (data->argv[i_arg][i_char] == '$' && data->argv[i_arg][i_char + 1] && data->argv[i_arg][i_char + 1] != ' ' && !f_squote && !f_backslash)
+			if (data->argv[i_arg][0] == '~' 
+			&& (!ft_isalnum(data->argv[i_arg][1])
+			&& !f_dquote && !f_squote && !f_esc) 
+			|| (data->argv[i_arg][i_char] == '$' 
+			&& (data->argv[i_arg][i_char + 1]) 
+			&& (data->argv[i_arg][i_char + 1] != ' ') 
+			&& (!f_squote && !f_esc)))
 			{
 				str_before_v = ft_substr(data->argv[i_arg], 0, i_char);
-				str_before_v_trim = ft_strtrim(str_before_v, "\"");
 				vname = ft_substr(data->argv[i_arg], i_char, strlen_path(data->argv[i_arg] + i_char));
 				if (data->argv[i_arg][i_char] && data->argv[i_arg][i_char + 1] && !ft_strncmp(data->argv[i_arg] + i_char, "$?", 2))
 				{
@@ -168,30 +200,28 @@ void	expand_vars(t_data *data)
 					vcontent = get_var_content(data, vname);
 				if (vcontent)
 				{
-					str_before_vplus_vcontent = ft_strjoin(str_before_v_trim, vcontent);
+					str_before_vplus_vcontent = ft_strjoin(str_before_v, vcontent);
 					str_after_v = ft_strdup(data->argv[i_arg] + i_char + ft_strlen(vname));
-					str_after_v_trim = ft_strtrim(str_after_v, "\"");
 					free (data->argv[i_arg]);
-					data->argv[i_arg] = ft_strjoin(str_before_vplus_vcontent, str_after_v_trim);
+					data->argv[i_arg] = ft_strjoin(str_before_vplus_vcontent, str_after_v);
 					free (str_before_vplus_vcontent);
 					free (str_after_v);
-					free (str_after_v_trim);
 					free (vcontent);
 				}
 				free (str_before_v);
-				free (str_before_v_trim);
 				free (vname);
+				vname = NULL;
 			}
 			if (data->argv[i_arg][i_char] && data->argv[i_arg][i_char + 1])
 				i_char++;
 			else
 				break ;
-			f_backslash = false;
+			f_esc = false;
 		}
 		if (ft_strlen(data->argv[i_arg]) > 2)
-			remove_quotes(data, i_arg, f_dquote, f_squote);
+			remove_quotes(data, i_arg);
 		else if (data->argv[i_arg][0] == '\'' || data->argv[i_arg][0] == '\"')
-			data->argv[i_arg] = ft_strdup(" ");
+			data->argv[i_arg] = ft_strdup("");
 		i_char = 0;
 		i_arg++;
 	}
@@ -234,6 +264,7 @@ static void	parse_string(t_data *data, char *cmd, int array_index, int i, int j)
 {
 	free(data->argv[array_index]);
 	data->argv[array_index] = ft_substr(cmd, j, i - j);
+	data->argc = array_index;
 	return ;
 }
 
@@ -244,9 +275,11 @@ int	split_quotes(t_data *data, char *cmd, int i)
 	int		array_index;
 	bool	f_dquote;
 	bool	f_squote;
+	bool	f_esc;
 
 	f_dquote = false;
 	f_squote = false;
+	f_esc = false;
 	k = 0;
 	if (alloc_mem_array(data, cmd))
 	{
@@ -332,9 +365,11 @@ int	split_quotes(t_data *data, char *cmd, int i)
 				i += 2;
 				return (i);
 			}
-			if (cmd[i] == '\"' && !f_squote)
+			if (cmd[i] == '\\')
+				f_esc = true;
+			if (cmd[i] == '\"' && !f_squote && !f_esc)
 				f_dquote = !f_dquote;
-			if (cmd[i] == '\'' && !f_dquote)
+			if (cmd[i] == '\'' && !f_dquote && !f_esc)
 				f_squote = !f_squote;
 			if (cmd[i] == ' ' && cmd[i + 1] && cmd[i + 1] != ' ' && !f_dquote && !f_squote)
 			{
@@ -343,6 +378,7 @@ int	split_quotes(t_data *data, char *cmd, int i)
 				j = i + 1;
 			}
 			i++;
+			f_esc = false;
 		}
 		if (cmd[i] || !data->flags->heredoc)
 		{
@@ -354,5 +390,5 @@ int	split_quotes(t_data *data, char *cmd, int i)
 		return (i);
 	}
 	data->flags->error = true;
-	return (0);
+	return (-1);
 }

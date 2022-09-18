@@ -47,6 +47,7 @@ static void	init_prompt(t_data *data)
 	data->flags->bracket = false;
 	data->flags->prio = false;
 	data->counter_pipes = 0;
+	data->argc = 0;
 	data->fd_i = 0;
 }
 
@@ -129,7 +130,7 @@ static int	prompt(t_data *data, char *cmd, int flag)
 	if (data->cmd[0] && data->cmd[0] != '\n')
 	{
 		history(data);
-		if (!check_syntax(data->cmd))
+		if (!check_syntax(data->cmd) || !syntax_err(data->cmd) || !check_syntax_first_char(data, data->cmd))
 			return (2);
 		tmp_cmd = pre_parse(data, data->cmd);
 		if (count_pipes(data, tmp_cmd))
@@ -144,6 +145,11 @@ static int	prompt(t_data *data, char *cmd, int flag)
 			i++;
 		i = split_quotes(data, tmp_cmd, i);
 		expand_vars(data);
+		// exit(0);
+		// int k = 0;
+		// while (data->argv[k])
+		// 	printf("a:%s\n", data->argv[k++]);
+		// exit(0);
 		if (data->argv[0] && (data->argv[0][0] == '(' || data->flags->bracket))
 			prio(data, tmp_cmd, &i);
 		if (data->flags->error || !data->argv[0])
@@ -175,8 +181,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
 
-	(void)argc;
-	(void)argv;
 	data = allocate_mem();
 	signals();
 	init_vars(data);
@@ -185,12 +189,10 @@ int	main(int argc, char **argv, char **envp)
 	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
   	{
 		init_prompt(data);
-    	int exit_status = prompt(data, argv[2], 1);
+    	data->exit_status = prompt(data, argv[2], 1);
 		clear_buffers(data);
-    	exit(exit_status);
+    	exit(data->exit_status);
   	}
-	// printf("%s\n", strerror(127));
-	// exit(0);
 	while (1)
 	{
 		init_prompt(data);
