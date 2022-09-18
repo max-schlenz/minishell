@@ -3,33 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/16 17:49:03 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/18 14:34:42 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	ft_exit(t_status flag)
+void	ms_exit(t_status flag, int exit_status)
 {
 	// system("leaks minishell");
 	if (flag == SUCCESS)
-		exit(EXIT_SUCCESS);
+		exit(exit_status);
 	else if (flag == E_MEM)
 		printf("%s", E_MEM_MSG);
 	else if (flag == E_FORK)
 		printf("%s", E_FORK_MSG);
-	exit (EXIT_FAILURE);
+	exit (exit_status);
+}
+
+void free_argv(t_data *data, char **array)
+{
+	int	i;
+	
+	// if (!array || !*array)
+	// 	return ;
+	i = 0;
+	while (i <= data->argc)
+		free(array[i++]);
 }
 
 void free_array(char **array)
 {
 	int	i;
 	
-	if (!array)
-		return ;
+	// if (!array || !*array)
+	// 	return ;
 	i = 0;
 	while (array[i])
 		free(array[i++]);
@@ -49,12 +60,13 @@ void	close_pipes(t_data *data)
 
 void	cleanup(t_data *data, int flag)
 {
+	int	exit_status;
+
+	exit_status = data->exit_status;
 	free_array(data->envp);
 	free (data->envp);
 	free_array(data->path);
 	free (data->path);
-	free_array(data->argv);
-	free (data->argv);
 	free (data->prompt);
 	free (data->last_cmd);
 	free (data->flags);
@@ -65,6 +77,5 @@ void	cleanup(t_data *data, int flag)
 		free(data->pipes);
 	if (data)
 		free(data);
-	ft_exit(flag);
-	return ;
+	ms_exit(0, exit_status);
 }

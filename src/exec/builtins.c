@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/17 17:27:46 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/18 16:41:08 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ bool	builtin_cd(t_data *data)
 		else
 		{
 			perror("Error");
+			free (path);
+			free (new_pwd_tmp);
 			data->exit_status = 1;
 			return (true);
 		}
@@ -111,8 +113,6 @@ bool	builtin_echo(t_data *data)
 	int l = 0;
 
 	echo_n = false;
-	// while (data->argv[k])
-	// 	printf("%s\n", data->argv[k++]);
 	if (data->argv[i] && !ft_strncmp(data->argv[i], "-n", 2))
 	{
 		j = 0;
@@ -133,24 +133,20 @@ bool	builtin_echo(t_data *data)
 	{
 		while (echo_n && !ft_strncmp(data->argv[i], "-n", 2))
 			i++;
-		// data->argv[i] = strrepc(data->argv[i], '\\', ' ');
-		// if (data->argv[i][0] != '-')
-		// {
-			// cmd_trim = ft_strtrim(data->argv[i], " ");
 		while (data->argv[i][l])
 		{
-
 			if (data->argv[i][l] != '\\')
 				printf("%c", data->argv[i][l]);
 			l++;
 		}
 		l = 0;
-			// printf("%s", data->argv[i]);
-			// free(cmd_trim);
-		// }
-		i++;
-		if (data->argv[i] && (!(echo_n && i < 3)))
+		i++;	
+		if (data->argv[i] && i <= data->argc && ft_strlen(data->argv[i]) > 0 && (!(echo_n && i < 3)))
+		{
+			if (ft_strlen(data->argv[i]) == 1 && data->argv[i][0] == ' ')
+				return ;
 			printf(" ");
+		}
 	}
 	if (!echo_n)
 		printf("\n");
@@ -254,9 +250,10 @@ bool	builtin_unset(t_data *data)
 				break;
 			i++;
 		}
-		while (i < data->counter_env)
+		while (i < data->counter_env - 1)
 		{
-			data->envp[i] = data->envp[i + 1];
+			free(data->envp[i]);
+			data->envp[i] = ft_strdup(data->envp[i + 1]);
 			i++;
 		}
 		free(data->envp[i]);

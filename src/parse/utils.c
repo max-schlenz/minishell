@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:12:51 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/17 14:22:53 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/18 15:39:43 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,26 @@ char *strrepc(char *cmd, char to_rep, char rep_with)
 	return (cmd);
 }
 
+size_t	strlen_expv(const char *c)
+{
+	int	i;
+
+	i = 0;
+	if (c[0] && c[0] == '$')
+		i++;
+	while (c[i] && (isnumeric(c[i]) || c[i] == '~'))
+		i++;
+	return (i);
+}
+
 size_t	strlen_path(const char *c)
 {
 	int	i;
 
 	i = 0;
-	while (c[i] && (ft_isalnum(c[i]) || c[i] == '$' || c[i] == '~'))
+	if (c[0] && c[0] == '$')
+		i++;
+	while (c[i] && (ft_isalnum(c[i]) || c[i] == '~'))
 		i++;
 	return (i);
 }

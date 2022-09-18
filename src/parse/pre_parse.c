@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:32:27 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/17 16:38:17 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/18 13:46:09 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,11 @@ char *delete_delim(t_data *data, char *cmd, int start_space, int end_space, char
 	{
 		if (i == start_space)
 			i = end_space - 1;
-		ret[j++] = cmd[i++];
+		ret[j++] = cmd[i];
+		if (cmd[i] && cmd[i + 1])
+			i++;
+		else
+			break ;
 	}
 	ret[j] = '\0';
 	free(cmd);

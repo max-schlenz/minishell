@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/17 15:47:23 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/18 16:23:00 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ static bool	alloc_mem_array(t_data *data, char *cmd)
 	}
 	if (!f_dquote && !f_squote)
 	{
-		// printf("%d", wc);
-		// exit(0);
 		data->argv = ft_calloc(wc + 1, (sizeof(char *)));
 		return (true);
 	}
@@ -85,13 +83,13 @@ static void remove_quotes(t_data *data, int i_arg)
 	char *tmp = NULL;
 	char *tmp2 = NULL;
 	char *tmp3 = NULL;
+	char *tmp4 = NULL;
 	bool	f_esc = false;
 	int i = 0;
 	char delim;
 	int j = 0;
 	int start = 0;
 	int end = 0;
-
 	delim = 0;
 	while (data->argv[i_arg][i])
 	{
@@ -105,10 +103,11 @@ static void remove_quotes(t_data *data, int i_arg)
 			delim = data->argv[i_arg][i];
 			if (!tmp && i > 0)
 				tmp = ft_substr(data->argv[i_arg], 0, i);
-			while (data->argv[i_arg][i] == delim)
+			while (data->argv[i_arg][i] && data->argv[i_arg][i] == delim)
 				i++;
 			start = i;
-			i++;
+			if (data->argv[i_arg][i] && data->argv[i_arg][i + 1])
+				i++;
 			while (data->argv[i_arg][i] && data->argv[i_arg][i] != delim)
 				i++;
 			end = i;
@@ -116,20 +115,28 @@ static void remove_quotes(t_data *data, int i_arg)
 				tmp2 = ft_substr(data->argv[i_arg], start, end - start);
 			else
 				tmp2 = ft_strdup("");
+			tmp4 = tmp;
 			tmp = ft_strjoin_dup(tmp, tmp2);
+			free (tmp4);
+			free (tmp2);
 		}
 		start = 0;
-		i++;
 		f_esc = false;
+		if (data->argv[i_arg][i] && data->argv[i_arg][i + 1])
+			i++;
+		else 
+			break ;
 	}
 	if (tmp)
 	{
-		tmp3 = ft_strdup(data->argv[i_arg] + end + 1);
+		if (ft_strlen(data->argv[i_arg]) >= end + 1)
+			tmp3 = ft_strdup(data->argv[i_arg] + end + 1);
+		else
+			tmp3 = ft_strdup("");
 		free(data->argv[i_arg]);
 		data->argv[i_arg] = NULL;
 		data->argv[i_arg] = ft_strjoin_dup(tmp, tmp3);
 		free (tmp);
-		free (tmp2);
 		free (tmp3);
 	}
 }
@@ -196,6 +203,13 @@ void	expand_vars(t_data *data)
 					i_char++;
 					vcontent = ft_itoa(data->exit_status);
 				}
+				else if (data->argv[i_arg][i_char + 1] && isnumeric(data->argv[i_arg][i_char + 1]))
+				{
+					i_char++;
+					free (vname);
+					vname = ft_substr(data->argv[i_arg], i_char, 1);
+					vcontent = ft_strdup("");
+				}
 				else
 					vcontent = get_var_content(data, vname);
 				if (vcontent)
@@ -207,6 +221,7 @@ void	expand_vars(t_data *data)
 					free (str_before_vplus_vcontent);
 					free (str_after_v);
 					free (vcontent);
+					vcontent = NULL;
 				}
 				free (str_before_v);
 				free (vname);
@@ -221,7 +236,21 @@ void	expand_vars(t_data *data)
 		if (ft_strlen(data->argv[i_arg]) > 2)
 			remove_quotes(data, i_arg);
 		else if (data->argv[i_arg][0] == '\'' || data->argv[i_arg][0] == '\"')
-			data->argv[i_arg] = ft_strdup("");
+		{
+			free(data->argv[i_arg]);
+			data->argv[i_arg] = ft_strdup(" ");
+		}
+		else if (!data->argv[i_arg][0])
+		{
+			free(data->argv[i_arg]);
+			if (data->argc == i_arg)
+				data->argv[i_arg] = NULL;
+			else
+				data->argv[i_arg] = ft_strdup("");
+		}
+		// {
+		// 	data->argv[i_arg] = NULL;
+		// }
 		i_char = 0;
 		i_arg++;
 	}
@@ -260,11 +289,14 @@ bool	heredoc_delim(t_data *data, int *i, int *j, char *cmd)
 	return (true);
 }
 
-static void	parse_string(t_data *data, char *cmd, int array_index, int i, int j)
+static void	parse_string(t_data *data, char *cmd, int *array_index, int i, int j)
 {
-	free(data->argv[array_index]);
-	data->argv[array_index] = ft_substr(cmd, j, i - j);
-	data->argc = array_index;
+	int k = 0;
+
+	free(data->argv[*array_index]);
+	data->argv[*array_index] = NULL;
+	data->argv[*array_index] = ft_substr(cmd, j, i - j);
+	data->argc = *array_index;
 	return ;
 }
 
@@ -359,7 +391,7 @@ int	split_quotes(t_data *data, char *cmd, int i)
 				}	
 				return (i);
 			}
-			if ((cmd[i] == ';' || cmd[i] == '|') && !f_dquote && !f_squote)
+			if (cmd[i] == '|' && !f_dquote && !f_squote)
 			{
 				data->flags->pipe = true;
 				i += 2;
@@ -371,9 +403,16 @@ int	split_quotes(t_data *data, char *cmd, int i)
 				f_dquote = !f_dquote;
 			if (cmd[i] == '\'' && !f_dquote && !f_esc)
 				f_squote = !f_squote;
+			if (cmd[i] == ';' && !f_dquote && !f_esc)
+			{
+				parse_string(data, cmd, &array_index, i, j);
+				array_index++;
+				j = i + 1;
+				return (i + 1);
+			}
 			if (cmd[i] == ' ' && cmd[i + 1] && cmd[i + 1] != ' ' && !f_dquote && !f_squote)
 			{
-				parse_string(data, cmd, array_index, i, j);
+				parse_string(data, cmd, &array_index, i, j);
 				array_index++;
 				j = i + 1;
 			}
@@ -382,7 +421,7 @@ int	split_quotes(t_data *data, char *cmd, int i)
 		}
 		if (cmd[i] || !data->flags->heredoc)
 		{
-			parse_string(data, cmd, array_index, i, j);
+			parse_string(data, cmd, &array_index, i, j);
 			data->argv[++array_index] = NULL;
 		}
 		else

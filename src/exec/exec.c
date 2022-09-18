@@ -46,10 +46,73 @@ bool	builtin_print(t_data *data)
 	return (false);
 }
 
+static bool	strnum(char *str)
+{
+	int i;
+
+	i = 0;
+	if (str[0] == '-' || str[0] == '+')
+		i++;
+	while (str[i] && (str[i] >= 48 && str[i] <= 57))
+		i++;
+	if (i < ft_strlen(str))
+		return (false);
+	return (true);
+}
+
+static int exit_code_thing(int exit_status)
+{
+	int i;
+	int ret;
+	
+	i = 0;
+	ret = 0;
+	while (i < exit_status)
+	{
+		if (ret == 256)
+			ret = 0;
+		ret++;
+		i++;
+	}
+	i = 0;
+	while (i > exit_status)
+	{
+		if (ret == -1)
+			ret = 255;
+		ret--;
+		i--;
+	}
+	return (ret);
+}
+
+bool	builtin_exit(t_data *data)
+{
+	if (data->argc > 1)
+	{
+		write(2, "Error: too many arguments\n", 27);
+		data->exit_status = 1;
+	}
+	else if (data->argv[1] && strnum(data->argv[1]))
+	{
+		data->exit_status = ft_atoi(data->argv[1]);
+		if (data->exit_status > 255)
+			data->exit_status = exit_code_thing(data->exit_status);
+	}
+	if (data->argv[1] && !strnum(data->argv[1]))
+	{
+		write(2, "Error: numeric argument required\n", 34);
+		data->exit_status = 2;
+	}
+	write(2, "exit", 5);
+	free_array(data->argv);
+	free (data->argv);
+	cleanup(data, 0);
+}
+
 bool	builtin_environment(t_data *data)
 {
 	if (!ft_strncmp(data->argv[0], "exit", 5)) // || data->argv[0] == '\0')
-			cleanup(data, 0);
+		return (builtin_exit(data));
 	else if (!ft_strncmp(data->argv[0], "cd", 3))
 		return (builtin_cd(data));
 	else if (!ft_strncmp(data->argv[0], "export", 7))
@@ -121,6 +184,7 @@ bool	exec_program(t_data *data)
 	char		*abs_path;
 	int			fd;
 	bool		error;
+	DIR			*tmp;
 
 	int			heredoc_fd[2];
 	char		*heredoc_tmp;
@@ -133,12 +197,13 @@ bool	exec_program(t_data *data)
 	if (!abs_path)
 		abs_path = ft_strdup(data->argv[0]);
 	data->debug = fopen("debug", "a+");
-	if (!opendir(abs_path) && !access(abs_path, F_OK))
+	tmp = opendir(abs_path);
+	if (!tmp && !access(abs_path, F_OK))
 		pid = fork();
 	else
 		error = true;
 	if (pid == -1)
-		ft_exit(2);
+		ms_exit(2, WEXITSTATUS(exit_code));
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
@@ -197,15 +262,17 @@ bool	exec_program(t_data *data)
 	}
 	if (error)
 	{
-		if (opendir(abs_path))
+		if (tmp)
 			data->exit_status = 126;
 		else
 			data->exit_status = 127;
 		perror("Error ");
 		free (abs_path);
+		closedir(tmp);
 		return (true);
 	}
 	free (abs_path);
+	closedir(tmp);
 	waitpid(pid, &exit_code, 0);
 	if (data->counter_pipes > 0 && data->fd_i != data->counter_pipes)
 		close(data->pipes->pipefd[data->fd_i][1]);

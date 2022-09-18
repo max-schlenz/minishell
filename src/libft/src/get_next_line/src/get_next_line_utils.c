@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/30 20:35:24 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/05 12:06:39 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/18 12:08:32 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	p_nl(const char *c)
 	return (-1);
 }
 
-char	*ft_strjoin_dup(char const *s1, char const *s2)
+char	*ft_strjoin_dup(char *s1, char *s2)
 {
 	size_t	i;
 	size_t	j;

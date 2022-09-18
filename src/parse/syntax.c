@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:51 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/17 17:16:16 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/18 14:42:45 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,10 @@ bool	check_syntax(char *cmd)
 	int		i;
 	int		j;
 	char	*ops_supported;
-	char	*ops_unsupported;
+	// char	*ops_unsupported;
 	char	*err;
 
 	ops_supported = ft_strdup("|&><");
-	ops_unsupported = ft_strdup("{");
 	err = NULL;
 	j = 0;
 	while (ops_supported[j])
@@ -92,7 +91,7 @@ bool	check_syntax(char *cmd)
 				// printf("Syntax error: '%c' [%d]\n", ops_supported[j], i + 3);
 				write(2, "Syntax Error\n", 14);
 				free (ops_supported);
-				free (ops_unsupported);
+				// free (ops_unsupported);
 				return (false);
 			}
 			i++;
@@ -100,34 +99,34 @@ bool	check_syntax(char *cmd)
 		j++;
 	}
 	free (ops_supported);
-	j = 0;
-	while (ops_unsupported[j])
-	{
-		i = 0;
-		while (cmd[i])
-		{
-			if (cmd[i] == '\'' || cmd[i] == '\"')
-			{
-				i++;
-				while (cmd[i])
-				{
-					if (cmd[i] == '\'' || cmd[i] == '\"')
-						break ;
-					i++;
-				}
-			}
-			if	(cmd[i] == ops_unsupported[j])
-			{
-				// printf("Syntax error: '%c' [%d] unsupported operation\n", ops_unsupported[j], i + 3);
-				write(2, "Syntax Error\n", 14);
-				free (ops_unsupported);
-				return (false);
-			}
-			i++;
-		}
-		j++;
-	}
-	free (ops_unsupported);
+	// j = 0;
+	// while (ops_unsupported[j])
+	// {
+	// 	i = 0;
+	// 	while (cmd[i])
+	// 	{
+	// 		if (cmd[i] == '\'' || cmd[i] == '\"')
+	// 		{
+	// 			i++;
+	// 			while (cmd[i])
+	// 			{
+	// 				if (cmd[i] == '\'' || cmd[i] == '\"')
+	// 					break ;
+	// 				i++;
+	// 			}
+	// 		}
+	// 		if	(cmd[i] == ops_unsupported[j])
+	// 		{
+	// 			// printf("Syntax error: '%c' [%d] unsupported operation\n", ops_unsupported[j], i + 3);
+	// 			write(2, "Syntax Error\n", 14);
+	// 			free (ops_unsupported);
+	// 			return (false);
+	// 		}
+	// 		i++;
+	// 	}
+	// 	j++;
+	// }
+	// free (ops_unsupported);
 	return (true);
 }
 
@@ -150,6 +149,7 @@ bool	syntax_err(char *cmd)
 					{
 						// printf("Syntax error: '%c' [%d]\n", ops_supported[k], i);
 						write(2, "Syntax Error\n", 14);
+						free (ops_supported);
 						return (false);
 					}
 					k++;

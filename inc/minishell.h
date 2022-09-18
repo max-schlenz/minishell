@@ -113,7 +113,7 @@ int				strcmp_alnum(const char *s1, const char *s2);
 
 //utils/cleanup.c
 void			cleanup(t_data *data, int flag);
-void			ft_exit(t_status flag);
+void			ms_exit(t_status flag, int exit_status);
 void			free_array(char **array);
 void			close_pipes(t_data *data);
 
@@ -185,6 +185,9 @@ char			*skip_d(t_data *data, char *cmd, char delim);
 bool 			count_pipes(t_data *data, char *cmd);
 char 			*strrepc(char *cmd, char to_rep, char rep_with);
 char			*get_var_content(t_data *data, char *var);
+void			free_argv(t_data *data, char **array);
+int				isnumeric(int c);
+size_t	strlen_expv(const char *c);
 
 //test
 int	*get_indexes(char *str);
