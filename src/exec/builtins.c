@@ -108,6 +108,7 @@ bool	builtin_echo(t_data *data)
 	bool	echo_n;
 	bool	f_squote = false;
 	bool	f_dquote = false;
+	bool	f_space = false;
 	int j = 0;
 	int k = 0;
 	int l = 0;
@@ -140,13 +141,9 @@ bool	builtin_echo(t_data *data)
 			l++;
 		}
 		l = 0;
-		i++;	
-		if (data->argv[i] && i <= data->argc && ft_strlen(data->argv[i]) > 0 && (!(echo_n && i < 3)))
-		{
-			if (ft_strlen(data->argv[i]) == 1 && data->argv[i][0] == ' ')
-				return ;
+		i++;
+		if (!f_space && data->argv[i] && (!(echo_n && i < 3)))
 			printf(" ");
-		}
 	}
 	if (!echo_n)
 		printf("\n");
