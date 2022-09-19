@@ -91,8 +91,8 @@ char *skip_d(t_data *data, char *cmd, char delim)
 		if ((!cmd[i + 1] && cmd[i] == delim || cmd[i + 1] && cmd[i] == delim && cmd[i + 1] == delim ) && !f_dquote && !f_squote)
 		{
 			j = i;
-			skip_delim(cmd, &j, ' ');
-			cmd = delete_delim(data, cmd, i, j, ' ');
+			skip_delim(cmd, &j, delim);
+			cmd = delete_delim(data, cmd, i, j, delim);
 		}
 		i++;
 	}

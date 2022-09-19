@@ -61,9 +61,9 @@ char **realloc_argv(t_data *data, int argv_i, char *filename, int overwrite)
 			new_argv[j] = ft_strdup(filename);
 		else if (j == argv_i && !overwrite)
 		{
-			new_argv[j] = ft_strdup(filename);
-			j++;
-			continue;
+			new_argv[++j] = ft_strdup(filename);
+			//j++;
+			//continue;
 		}
 		free(data->argv[i]);
 		i++;
@@ -131,7 +131,7 @@ int	*get_indexes(char *str)
 	}
 	tmp = indexes;
 	tmp += j;
-	tmp = NULL;
+	*tmp = -1;
 	return (indexes);
 }
 
@@ -144,13 +144,89 @@ int	i_len(int *i)
 		counter++;
 	return (counter);
 }
-static void	extend_wildcards(t_data *data, char *to_be_extended, int to_be_extended_i, int argv_i)
+
+static bool	find_pattern(char *str, char *pattern, int start)
 {
-	char	**files = (char **)ft_calloc(sizeof(char *), 4);
-	files[0] = "lol";
-	files[1] = "lall";
-	files[2] = "lball";
-	files[3] = NULL;
+	int	i;
+
+	i = ft_strlen(str) - ft_strlen(pattern);
+	if (start)
+		i = 0;
+	while (*pattern && *pattern != '*')
+	{
+		if (str[i] != *pattern)
+			return (false);
+		i++;
+		pattern++;
+	}
+	return (true);
+}
+
+static bool	move_file_index(char *file, char *pattern, int *i)
+{
+	while ((file + *i) && ft_strncmp(file + *i, pattern, ft_strlen(pattern)))
+		(*i)++;
+	if (!(file + *i))
+		return (false);
+	return (true);
+}
+
+static bool	match(char *to_be_extended, int *indexes, char *file)
+{
+	int	word_len;
+	int		prev_index;
+	char	*sub_word;
+	int		i;
+
+	prev_index = 0;
+	i = 0;
+	while(*indexes != -1)
+	{
+		word_len = (*indexes) - prev_index;
+		sub_word = ft_substr(to_be_extended, prev_index, word_len);
+		if (*(indexes + 1) == -1 && *(to_be_extended + *indexes + 1) != '\0')
+		{
+			printf("index %d %s\n", *indexes, to_be_extended + *indexes + 1);
+			if (!find_pattern(file, to_be_extended + *indexes + 1, 0))
+				return (false);
+		}
+		else if (*(indexes + 1) == -1 && *(to_be_extended + *indexes + 1) == '\0')
+		{
+			printf("index %d %s\n", *indexes, to_be_extended + *indexes - 1);
+			if (!find_pattern(file, to_be_extended + *indexes - 1, 1))
+				return (false);
+		}
+		else if (!move_file_index(file, sub_word, &i))
+			return (false);
+		prev_index = *indexes;
+		indexes++;
+		free(sub_word);
+	}
+	return (true);
+}
+
+static char	**match_files(t_data *data, char *to_be_extended, int *indexes)
+{
+	char	**files = (char **)ft_calloc(sizeof(char *), 100);
+	int		i;
+	DIR 	*dirp= opendir(".");
+    struct 	dirent *direntStruct;
+	i = 0;
+	while (direntStruct = readdir(dirp))
+	{
+		if (match(to_be_extended, indexes, direntStruct->d_name))
+		{
+			printf("filename, %s\n", direntStruct->d_name);
+			files[i++] = ft_strdup(direntStruct->d_name);
+		}
+	}
+	files[i] = NULL;
+	closedir(dirp);
+	return (files);
+}
+
+static void	extend_wildcards(t_data *data, char *to_be_extended, char **files, int argv_i)
+{
 	while (*files)
 	{
 		if (!ft_strncmp(data->argv[argv_i], to_be_extended, ft_strlen(to_be_extended) + 1))
@@ -160,7 +236,12 @@ static void	extend_wildcards(t_data *data, char *to_be_extended, int to_be_exten
 		else
 		{
 			data->argv = realloc_argv(data, argv_i, *files, 0);
+			argv_i++;
 		}
+		int i = 0;
+		// while(data->argv[i])
+		// 	printf("\t%s %d\t", data->argv[i++], argv_i);
+		// printf("\n");
 		files++;
 	}
 }
@@ -171,6 +252,7 @@ char	*get_all_names(t_data *data)
 	int	j;
 	int	*indexes;
 	char	*to_be_extended;
+	char	**files;
 
 	i = 0;
 	while (data->argv[i])
@@ -178,19 +260,18 @@ char	*get_all_names(t_data *data)
 		data->argv[i] = skip_d(data, data->argv[i], '*');
 		indexes = get_indexes(data->argv[i]);
 		j = 0;
-		to_be_extended = data->argv[i];
-		while (indexes[j])
+		while (indexes[j] != -1)
+			printf("index %d\t", indexes[j++]);
+		printf("\n");
+		if (*indexes != -1)
 		{
-			extend_wildcards(data, to_be_extended, j, i);
-			j++;
+			to_be_extended = ft_strdup(data->argv[i]);
+			files = match_files(data, to_be_extended, indexes);
+			//extend_wildcards(data, to_be_extended, files, i);
+			free(files);
 		}
+		free(indexes);
 		i++;
-		if (indexes)
-			free(indexes);
 	}
-	i = 0;
-	while(data->argv[i])
-		printf("a%sa\n", data->argv[i++]);
-	exit(0);
 	return NULL;
 }
