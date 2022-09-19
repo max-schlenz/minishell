@@ -73,6 +73,23 @@ void	sort_array(t_data *data)
 	}
 }
 
+void	set_shlvl_env(t_data *data)
+{
+	int		shlvl;
+	char	*shlvl_new;
+	char	*envv;
+
+	envv = get_var_content(data, "$SHLVL");
+	shlvl = ft_atoi(envv) + 1;
+	free (envv);
+	shlvl_new = ft_itoa(shlvl);
+	envv = ft_strjoin("SHLVL=", shlvl_new);
+	free (shlvl_new);
+	builtin_export(data, envv);
+	free (envv);
+	builtin_export(data, "_=/usr/sbin/env");
+}
+
 void	parse_envp(t_data *data, char **envp)
 {
 	int	i;
@@ -87,6 +104,7 @@ void	parse_envp(t_data *data, char **envp)
 		i++;
 	}
 	data->envp[i] = NULL;
-	sort_array(data);
 	parse_path(data);
+	set_shlvl_env(data);
+	sort_array(data);
 }

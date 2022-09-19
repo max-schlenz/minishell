@@ -60,7 +60,7 @@ size_t	strlen_var(const char *c)
 	return (i);
 }
 
-void	realloc_envp(t_data *data, int flag)
+void	realloc_envp(t_data *data, char *newv, int flag)
 {
 	char	**new;
 	int		i;
@@ -78,7 +78,7 @@ void	realloc_envp(t_data *data, int flag)
 			i++;
 	}
 	free(data->envp);
-	new[i] = ft_strdup(data->argv[1]);
+	new[i] = ft_strdup(newv);
 	new[i + 1] = NULL;
 	data->envp = new;
 }

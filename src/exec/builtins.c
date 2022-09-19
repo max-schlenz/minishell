@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/18 16:41:08 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/19 15:33:45 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ bool	builtin_echo(t_data *data)
 		}
 		l = 0;
 		i++;
-		if (!f_space && data->argv[i] && (!(echo_n && i < 3)))
+		if (data->argv[i] && ft_strlen(data->argv[i]) > 0 && (!(echo_n && i < 3)))
 			printf(" ");
 	}
 	if (!echo_n)
@@ -151,7 +151,28 @@ bool	builtin_echo(t_data *data)
 	return (true);
 }
 
-bool	builtin_export(t_data *data)
+static bool	export_check_str(t_data *data, char *str)
+{
+	bool	check1;
+	bool	check2;
+	int		i;
+
+	i = 0;
+	check1 = false;
+	check2 = false;
+	while (str[i] && (str[i] >= 65 && str[i] <= 90) || (str[i] >= 97 && str[i] <= 122) || str[i] == '_' || str[i] == '+')
+		i++;
+	if (str[i] && str[i] != '=')
+		return (false);
+	i -= 2;
+	while (str[i] && str[i] != '+')
+		i--;
+	if (i >= 0)
+		return (false);
+	return (true);
+}
+
+bool	builtin_export(t_data *data, char *setv)
 {
 	int		i;
 	size_t	len;
@@ -159,48 +180,78 @@ bool	builtin_export(t_data *data)
 	int		len_content;
 	char	*str_name;
 	char	*str_content;
+	bool	set;
 
 	i = 0;
-	if (data->argv[1] && ft_isalnum(data->argv[1][0]))
+	set = false;
+	if (!setv)
+		setv = data->argv[1];
+	if (setv && setv[0] == '-')
 	{
-		len = strlen_var(data->argv[1]);
-		if (data->argv[1][len] == '=')
+		write(2, "Error: export: options not supported\n", 3);
+		data->exit_status = 2;
+		return (true);
+	}
+	if (setv && !export_check_str(data, setv))
+	{
+		data->exit_status = 1;
+		return (true);
+	}
+	if (setv && isidentifier(setv[0]))
+	{
+		len = strlen_var(setv);
+		if (setv[len] == '=')
 		{
-			if (len < ft_strlen(data->argv[1]) - 1)
+			if (len < ft_strlen(setv) - 1)
 			{
 				while (data->envp[i])
 				{
-					if (!ft_strncmp(data->envp[i], data->argv[1], len))
+					if (!ft_strncmp(data->envp[i], setv, len))
 					{
 						free(data->envp[i]);
-						data->envp[i] = ft_strdup(data->argv[1]);
+						data->envp[i] = ft_strdup(setv);
+						set = true;
 					}
 					i++;
 				}
-				if (!data->envp[i])
-					realloc_envp(data, 1);
+				if (!set && !data->envp[i])
+					realloc_envp(data, setv, 1);
 				sort_array(data);
 				parse_path(data);
 			}
 		}
-		else
-			printf("export: %s is not a valid identifier\n", data->argv[1]);
+		data->exit_status = 0;
 		return (true);
 	}
-	if (!data->argv[1])
+	else if (setv)
 	{
-		i = 0;
-		while (data->envp[i])
+		data->exit_status = 1;
+		// printf("export: %s is not a valid identifier\n", setv);
+		write(2, "export: not a valid identifier\n", 32);
+	}
+	if (!setv)
+	{
+		pid_t pid;
+		pid = fork();
+		if (pid == 0)
 		{
-			len_name = strlen_var(data->envp[i]);
-			len_content = ft_strlen(data->envp[i]) - len_name;
-			str_name = ft_substr(data->envp[i], 0, len_name);
-			str_content = ft_substr(data->envp[i], len_name + 1, len_content);
-			printf("declare -x %s=\"%s\"\n", str_name, str_content);
-			free (str_name);
-			free (str_content);
-			i++;
+			redirs_pipes(data);
+			i = 0;
+			while (data->envp[i])
+			{
+				len_name = strlen_var(data->envp[i]);
+				len_content = ft_strlen(data->envp[i]) - len_name;
+				str_name = ft_substr(data->envp[i], 0, len_name);
+				str_content = ft_substr(data->envp[i], len_name + 1, len_content);
+				printf("declare -x %s=\"%s\"\n", str_name, str_content);
+				free (str_name);
+				free (str_content);
+				i++;
+			}
+			exit(0);
 		}
+		waitpid(pid, &data->exit_code, 0);
+		reset_pipes_flags(data);
 		data->exit_status = 0;
 	}
 	return (true);

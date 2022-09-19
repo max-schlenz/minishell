@@ -19,6 +19,13 @@ int	isnumeric(int c)
 	return (0);
 }
 
+int	isidentifier(int c)
+{
+	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || c == '_')
+		return (1);
+	return (0);
+}
+
 int	strdiff(const char *s1, const char *s2)
 {
 	size_t	i;

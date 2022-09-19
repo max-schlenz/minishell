@@ -231,7 +231,7 @@ bool	expand_vars(t_data *data)
 			}
 			if (data->argv[i_arg][i_char] && data->argv[i_arg][i_char + 1])
 				i_char++;
-			else
+			else 
 				break ;
 			f_esc = false;
 		}
@@ -246,9 +246,9 @@ bool	expand_vars(t_data *data)
 		else if (!ft_strncmp(data->argv[i_arg], "\'\'", 2) || !ft_strncmp(data->argv[i_arg], "\"\"", 2))
 		{
 			free(data->argv[i_arg]);
-			data->argv[i_arg] = ft_strdup("");
+			data->argv[i_arg] = ft_strdup(" ");
 		}
-		else if (!data->argv[i_arg][0])
+		if (!data->argv[i_arg][0])
 		{
 			free(data->argv[i_arg]);
 			if (data->argc == i_arg)
@@ -256,9 +256,6 @@ bool	expand_vars(t_data *data)
 			else
 				data->argv[i_arg] = ft_strdup("");
 		}
-		// {
-		// 	data->argv[i_arg] = NULL;
-		// }
 		i_char = 0;
 		i_arg++;
 	}

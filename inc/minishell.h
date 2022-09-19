@@ -83,6 +83,7 @@ typedef struct s_data
 	char	*heredoc_delim;
 	char	*last_cmd;
 	char	**wc_dir_content;
+	int		exit_code;
 	int		exit_status;
 	bool	exit;
 	int		fd;
@@ -138,7 +139,7 @@ void			parse_args(t_data *data, int cmd_index);
 char			*get_next_special_char(char *str);
 size_t			strlen_path(const char *c);
 char			*check_esc_var_quo(const char *s);
-void			realloc_envp(t_data *data, int flag);
+void			realloc_envp(t_data *data, char *newv, int flag);
 size_t			strlen_var(const char *c);
 int				strdiff(const char *s1, const char *s2);
 
@@ -156,7 +157,7 @@ bool			builtin_environment(t_data *data);
 bool			builtin_print(t_data *data);
 bool			builtin_cd(t_data *data);
 bool			builtin_echo(t_data *data);
-bool			builtin_export(t_data *data);
+bool			builtin_export(t_data *data, char *setv);
 bool			builtin_env(t_data *data);
 bool			builtin_pwd(t_data *data);
 bool			builtin_unset(t_data *data);
@@ -187,11 +188,13 @@ char 			*strrepc(char *cmd, char to_rep, char rep_with);
 char			*get_var_content(t_data *data, char *var);
 void			free_argv(t_data *data, char **array);
 int				isnumeric(int c);
-size_t	strlen_expv(const char *c);
+size_t			strlen_expv(const char *c);
 
-//test
-int	*get_indexes(char *str);
+int				*get_indexes(char *str);
 
-char	*get_all_names(t_data *data);
+char			*get_all_names(t_data *data);
+void			redirs_pipes(t_data *data);
+void			reset_pipes_flags(t_data *data);
+int				isidentifier(int c);
 
 #endif
