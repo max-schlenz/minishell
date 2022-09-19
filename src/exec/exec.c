@@ -84,7 +84,12 @@ bool	builtin_exit(t_data *data)
 	}
 	else if (data->argv[1] && strnum(data->argv[1]))
 	{
-		data->exit_status = ft_atoi(data->argv[1]);
+		data->exit_status = ms_atoll(data, data->argv[1]);
+		if (data->flags->exit_code_of)
+		{
+			write(2, "Error: numeric argument required\n", 34);
+			data->exit_status = 2;
+		}
 		if (data->exit_status > 255)
 			data->exit_status = exit_code_thing(data->exit_status);
 	}

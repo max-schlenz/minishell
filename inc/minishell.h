@@ -61,36 +61,36 @@ typedef struct s_flags {
 	bool	debug;
 	bool	bracket;
 	bool	prio;
+	bool	exit_code_of;
 }	t_flags;
 
 typedef struct s_data
 {
-	char	**path;
-	char	**args;
-	char	**envp;
-	char	**argv;
-	int		argc;
-	char	**cmd_split;
-	char	*cmd;
-	int		counter_env;
-	int		counter_pipes;
-	int		fd_i;
-	char	*prompt;
-	char	*prompt_cl1;
-	char	*prompt_cl2;
-	char	*file_name;
-	char	*file_name2;
-	char	*heredoc_delim;
-	char	*last_cmd;
-	char	**wc_dir_content;
-	int		exit_code;
-	int		exit_status;
-	bool	exit;
-	int		fd;
-	int		mscfg;
-	FILE	*debug;
-	t_flags *flags;
-	t_pipes *pipes;
+	char		**path;
+	char		**args;
+	char		**envp;
+	char		**argv;
+	int			argc;
+	char		**cmd_split;
+	char		*cmd;
+	int			counter_env;
+	int			counter_pipes;
+	int			fd_i;
+	char		*prompt;
+	char		*prompt_cl1;
+	char		*prompt_cl2;
+	char		*file_name;
+	char		*file_name2;
+	char		*heredoc_delim;
+	char		*last_cmd;
+	char		**wc_dir_content;
+	int			exit_code;
+	long long	exit_status;
+	int			fd;
+	int			mscfg;
+	FILE		*debug;
+	t_flags 	*flags;
+	t_pipes		*pipes;
 }	t_data;
 
 typedef enum s_status
@@ -198,5 +198,6 @@ void			reset_pipes_flags(t_data *data);
 int				isidentifier(int c);
 void			dbg(t_data *data);
 void			heredoc(t_data *data);
+long long		ms_atoll(t_data *data, const char *str);
 
 #endif

@@ -57,3 +57,37 @@ void	history(t_data *data)
 		free (data->last_cmd);
 	data->last_cmd = ft_strdup(data->cmd);
 }
+
+long long	ms_atoll(t_data *data, const char *str)
+{
+	long long	i;
+	long long	r;
+	long long	is_neg;
+
+	i = 0;
+	r = 0;
+	is_neg = 1;
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
+		|| str[i] == '\f' || str[i] == '\r')
+			i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+		is_neg = -1;
+	i++;
+	}
+	while (ft_isdigit(str[i]))
+	{
+		if (((!is_neg && (r > 922337203685477580)
+		|| (r == 922337203685477580 && str[i] > '7')))
+		|| (is_neg && (r > 922337203685477580)
+		|| (r == 922337203685477580 && str[i] > '8')))
+		{
+			data->flags->exit_code_of = true;
+			return (0);
+		}
+		r = r * 10 + str[i] - '0';
+		i++;
+	}
+	return (r * is_neg);
+}

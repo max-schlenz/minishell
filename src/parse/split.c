@@ -237,9 +237,6 @@ bool	expand_vars(t_data *data)
 		}
 		if (!data->argv[i_arg])
 			break ;
-		// int k = 0;
-		// while (data->argv[k])
-		// 	printf("a:%s\n", data->argv[k++]);
 		if (ft_strlen(data->argv[i_arg]) > 2)
 			remove_quotes(data, i_arg);
 		// else if (data->argv[i_arg][0] == '\'' || data->argv[i_arg][0] == '\"')
@@ -320,10 +317,12 @@ int	split_quotes(t_data *data, char *cmd, int i)
 	bool	f_dquote;
 	bool	f_squote;
 	bool	f_esc;
+	bool	heredoc_begin;
 
 	f_dquote = false;
 	f_squote = false;
 	f_esc = false;
+	heredoc_begin = false;
 	k = 0;
 	if (alloc_mem_array(data, cmd))
 	{
@@ -371,15 +370,15 @@ int	split_quotes(t_data *data, char *cmd, int i)
 						return (i);
 					i++;
 				}
-				// else
-				// {
-				// 	i += 3;
-				// 	j = i;
-				// 	data->flags->heredoc = true;
-				// 	// data->argv[array_index] = NULL;
-				// 	heredoc_delim(data, &i, &j, cmd);
-				// 	i = ft_strlen(data->heredoc_delim) + 3;
-				// }
+				else
+				{
+					heredoc_begin = true;
+					i += 3;
+					j = i;
+					data->flags->heredoc = true;
+					heredoc_delim(data, &i, &j, cmd);
+					i = ft_strlen(data->heredoc_delim) + 3;
+				}
 			}
 			if ((cmd[i] == '>' || cmd[i] == '<') && !f_dquote && !f_squote)
 			{
@@ -443,7 +442,7 @@ int	split_quotes(t_data *data, char *cmd, int i)
 			i++;
 			f_esc = false;
 		}
-		if (cmd[i] || !data->flags->heredoc)
+		if (cmd[i] || !data->flags->heredoc || heredoc_begin)
 		{
 			parse_string(data, cmd, &array_index, i, j);
 			data->argv[++array_index] = NULL;

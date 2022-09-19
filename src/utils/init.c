@@ -23,6 +23,7 @@ void	init_vars(t_data *data)
 	data->counter_env = 0;
 	data->exit_status = 0;
 	data->last_cmd = NULL;
+	data->flags->exit_code_of = false;
 	data->debug = fopen("debug", "w");
 	fclose(data->debug);
 }
