@@ -144,12 +144,12 @@ int				strdiff(const char *s1, const char *s2);
 
 //parse/split.c
 int				split_quotes(t_data *data, char *cmd, int i);
-void			expand_vars(t_data *data);
+bool			expand_vars(t_data *data);
 
 //parse/syntax.c
-bool			check_syntax(char *cmd);
-bool			syntax_err(char *cmd);
-bool			check_syntax_first_char(t_data *data, char *cmd);
+bool			check_syntax(t_data *data);
+bool			syntax_err(t_data *data);
+bool			check_syntax_first_char(t_data *data);
 
 //exec/builtins.c
 bool			builtin_environment(t_data *data);

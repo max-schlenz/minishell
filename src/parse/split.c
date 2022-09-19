@@ -154,10 +154,11 @@ static void remove_quotes(t_data *data, int i_arg)
 // 	}
 // }
 
-void	expand_vars(t_data *data)
+bool	expand_vars(t_data *data)
 {
 	int i_arg;
 	int	i_char;
+	int	i = 0;
 
 	char *str_before_v;
 	char *vname;
@@ -167,6 +168,7 @@ void	expand_vars(t_data *data)
 	bool f_dquote;
 	bool f_squote;
 	bool f_esc;
+	bool reset = false;
 
 	i_arg = 0;
 	i_char = 0;
@@ -233,12 +235,18 @@ void	expand_vars(t_data *data)
 				break ;
 			f_esc = false;
 		}
+		if (!data->argv[i_arg])
+			break ;
+		// int k = 0;
+		// while (data->argv[k])
+		// 	printf("a:%s\n", data->argv[k++]);
 		if (ft_strlen(data->argv[i_arg]) > 2)
 			remove_quotes(data, i_arg);
-		else if (data->argv[i_arg][0] == '\'' || data->argv[i_arg][0] == '\"')
+		// else if (data->argv[i_arg][0] == '\'' || data->argv[i_arg][0] == '\"')
+		else if (!ft_strncmp(data->argv[i_arg], "\'\'", 2) || !ft_strncmp(data->argv[i_arg], "\"\"", 2))
 		{
 			free(data->argv[i_arg]);
-			data->argv[i_arg] = ft_strdup(" ");
+			data->argv[i_arg] = ft_strdup("");
 		}
 		else if (!data->argv[i_arg][0])
 		{
@@ -254,6 +262,7 @@ void	expand_vars(t_data *data)
 		i_char = 0;
 		i_arg++;
 	}
+	return (true);
 }
 
 bool	set_filenames(t_data *data, int *i, char *cmd, int flag)
@@ -261,6 +270,12 @@ bool	set_filenames(t_data *data, int *i, char *cmd, int flag)
 	int	start;
 
 	start = *i;
+	if (start >= ft_strlen(cmd))
+	{
+		write(2, "Syntax error\n", 14);
+		data->exit_status = 2;
+		return(false);
+	}
 	while (cmd[*i] && cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<')
 		(*i)++;
 	if (!flag)

@@ -14,8 +14,7 @@
 
 static void	clear_buffers(t_data *data)
 {
-	// free_array(data->argv);
-	// free(data->argv);
+
 	if (data->cmd)
 		free (data->cmd);
 	data->cmd = NULL;
@@ -121,23 +120,18 @@ static int	prompt(t_data *data, char *cmd, int flag)
 	if (flag)
 		data->cmd = ft_strdup(cmd);
 	else
-	{
-		// data->cmd = get_next_line(0);
-		// data->cmd = ft_strtrim(data->cmd, "\n");
 		data->cmd = readline(data->prompt);
-	}
 	i = 0;
 	if (!data->cmd)
 		data->cmd = ft_strdup("exit");
 	if (data->cmd[0] && data->cmd[0] != '\n')
 	{
 		history(data);
-		if (!check_syntax(data->cmd) || !syntax_err(data->cmd) || !check_syntax_first_char(data, data->cmd))
-			return (2);
+		if (!check_syntax(data) || !syntax_err(data) || !check_syntax_first_char(data))
+			return (data->exit_status);
 		tmp_cmd = pre_parse(data, data->cmd);
 		if (count_pipes(data, tmp_cmd))
 			open_pipes(data);
-		// data->cmd = find_wc(data, data->cmd);
 	}
 	else
 		return (0);
@@ -145,16 +139,14 @@ static int	prompt(t_data *data, char *cmd, int flag)
 	{
 		while (tmp_cmd[i] == ' ' || tmp_cmd[i] == ';')
 			i++;
-		// printf("%s\n", tmp_cmd);
-		// exit(0);
 		i = split_quotes(data, tmp_cmd, i);
+		if (!tmp_cmd[i - 1])
+		{
+			free_array(data->argv);
+			free(data->argv);
+			break ;
+		}
 		expand_vars(data);
-		// int k = 0;
-		// while (data->argv[k])
-		// 	printf("a:%s\n", data->argv[k++]);
-		// exit(0);
-		// exit(0);
-		// printf("%d\n", data->argc);
 		if (data->argv[0] && (data->argv[0][0] == '(' || data->flags->bracket))
 			prio(data, tmp_cmd, &i);
 		if (data->flags->error || !data->argv[0])
@@ -194,8 +186,6 @@ int	main(int argc, char **argv, char **envp)
 	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
   	{
 		init_prompt(data);
-		// printf("%s\n", argv[2]);
-		// exit(0);
     	data->exit_status = prompt(data, argv[2], 1);
 		clear_buffers(data);
     	cleanup(data, 0);
