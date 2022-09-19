@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:26:31 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/17 17:50:03 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/19 19:33:45 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,13 +145,11 @@ int	i_len(int *i)
 	return (counter);
 }
 
-static bool	find_pattern(char *str, char *pattern, int start)
+static bool	end(char *str, char *pattern)
 {
 	int	i;
 
 	i = ft_strlen(str) - ft_strlen(pattern);
-	if (start)
-		i = 0;
 	while (*pattern && *pattern != '*')
 	{
 		if (str[i] != *pattern)
@@ -171,36 +169,106 @@ static bool	move_file_index(char *file, char *pattern, int *i)
 	return (true);
 }
 
+static bool start(char *str, char *pattern, int *file_index)
+{	
+	int	i;
+	int	j;
+
+	i = 0;
+	while (str[*file_index])
+	{
+		j = 0;
+		while (pattern[j] && pattern[j] != '*')
+		{
+			if (str[i] != pattern[j])
+				break ;
+			i++;
+			j++;
+		}
+		if (!pattern[j])
+			break ;
+		(*file_index)++;
+		i = (*file_index);
+	}
+	(*file_index) = i;
+	if (pattern[j])
+		return (false);
+	return (true);
+}
+
+static bool inbetween(char *str, char *pattern, int *file_index)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (str[*file_index])
+	{
+		j = 0;
+		while (pattern[j] && pattern[j] != '*')
+		{
+			if (str[i] != pattern[j])
+				break ;
+			i++;
+			j++;
+		}
+		if (!pattern[j])
+			break ;
+		(*file_index)++;
+		i = (*file_index);
+	}
+	(*file_index) += j;
+	if (pattern[j])
+		return (false);
+	return (true);
+}
+
 static bool	match(char *to_be_extended, int *indexes, char *file)
 {
 	int	word_len;
 	int		prev_index;
 	char	*sub_word;
 	int		i;
+	int		left;
 
 	prev_index = 0;
 	i = 0;
+	left = 0;
+	if (*indexes == 0)
+		left = 1;
 	while(*indexes != -1)
 	{
 		word_len = (*indexes) - prev_index;
-		sub_word = ft_substr(to_be_extended, prev_index, word_len);
-		if (*(indexes + 1) == -1 && *(to_be_extended + *indexes + 1) != '\0')
+		if (*(indexes + 1) != -1 && left)
+			sub_word = ft_substr(to_be_extended, (*indexes) + 1, *(indexes + 1) - *(indexes) - 1);
+		else if (*(indexes + 1) == -1)
+			sub_word = ft_substr(to_be_extended, (*indexes) + 1, ft_strlen(to_be_extended) - 1);
+		else
+			sub_word = ft_substr(to_be_extended, prev_index, word_len);
+		//printf("pattern %s start %d end %d\n", to_be_extended, *indexes, *(indexes + 1) - *(indexes) - 1);
+		if (*(indexes) == 0 && (*(to_be_extended + *indexes + 1) != '\0'))
 		{
-			printf("index %d %s\n", *indexes, to_be_extended + *indexes + 1);
-			if (!find_pattern(file, to_be_extended + *indexes + 1, 0))
+			if (!start(file, sub_word, &i))
 				return (false);
+			printf("start index %d sub %s i %d\n", *indexes, sub_word, i);
 		}
-		else if (*(indexes + 1) == -1 && *(to_be_extended + *indexes + 1) == '\0')
+		else
 		{
-			printf("index %d %s\n", *indexes, to_be_extended + *indexes - 1);
-			if (!find_pattern(file, to_be_extended + *indexes - 1, 1))
+			if (!inbetween(file, sub_word, &i))
 				return (false);
+			printf("after index %d sub %s i %d\n", *indexes, sub_word, i);
 		}
-		else if (!move_file_index(file, sub_word, &i))
-			return (false);
+		// else if (*(indexes + 1) == -1 && *(to_be_extended + *indexes - 1) == '\0')
+		// {
+		// 	printf("index %d %s\n", *indexes, to_be_extended + *indexes - 1);
+		// 	if (!end(file, sub_word))
+		// 		return (false);
+		// }
+		// else if (!move_file_index(file, sub_word, &i))
+		// 	return (false);
 		prev_index = *indexes;
 		indexes++;
-		free(sub_word);
+		//free(sub_word);
 	}
 	return (true);
 }
@@ -212,7 +280,7 @@ static char	**match_files(t_data *data, char *to_be_extended, int *indexes)
 	DIR 	*dirp= opendir(".");
     struct 	dirent *direntStruct;
 	i = 0;
-	while (direntStruct = readdir(dirp))
+	while ((direntStruct = readdir(dirp)))
 	{
 		if (match(to_be_extended, indexes, direntStruct->d_name))
 		{
