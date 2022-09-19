@@ -196,5 +196,7 @@ char			*get_all_names(t_data *data);
 void			redirs_pipes(t_data *data);
 void			reset_pipes_flags(t_data *data);
 int				isidentifier(int c);
+void			dbg(t_data *data);
+void			heredoc(t_data *data);
 
 #endif

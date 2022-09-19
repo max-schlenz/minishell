@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/19 15:33:45 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/19 16:49:54 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 bool	builtin_cd(t_data *data)
 {
+	pid_t	pid;
 	char	*path;
 	char	*path_tmp_bs;
 	char	*path_tmp;
@@ -25,79 +26,102 @@ bool	builtin_cd(t_data *data)
 	
 	i = 0;
 	k = 0;
+	pid = 0;
 	new_pwd_tmp = NULL;
-	while (data->envp[i] && strcmp_alnum(data->envp[i], "PWD"))
-		i++;
-	if (data->argv[1] && !ft_strncmp(data->argv[1], ".", 2))
-		return (true);
-	if (data->argv[1])
+	if (data->flags->pipe)
+		pid = fork();
+	if ((data->flags->pipe && !pid) || !data->flags->pipe)
 	{
-		path_tmp2 = ft_strtrim(data->argv[1], " ");
-		if (!ft_strncmp(data->argv[1], "-", 2))
+		if (data->flags->pipe)
+			redirs_pipes(data);
+		while (data->envp[i] && strcmp_alnum(data->envp[i], "PWD"))
+			i++;
+		if (data->argv[1] && !ft_strncmp(data->argv[1], ".", 2))
 		{
-			k = ft_strlen(data->envp[i] + 4);
-			while (k && data->envp[i][k] != '/')
-				k--;
-			path_tmp = ft_strdup("");
-			path_tmp_bs = ft_strdup("");
-			path = ft_substr(data->envp[i], 4, k - 4);
-			new_pwd_tmp = ft_strjoin("PWD=", path);
-			free (path_tmp_bs);
-			free (path_tmp);
-		}
-		else if (data->argv[1][0] != '/')
-		{
-			path_tmp = ft_strdup(data->envp[i] + 4);
-			path_tmp_bs = ft_strjoin(path_tmp, "/");
-			path = ft_strjoin(path_tmp_bs, path_tmp2);
-			free (path_tmp_bs);
-			free (path_tmp);
-		}
-		else
-		{
-			new_pwd_tmp = ft_strjoin("PWD=", path_tmp2);
-			path = ft_strdup(path_tmp2);
-		}
-		free (path_tmp2);
-		if (!access(path, F_OK))
-		{
-			chdir(path);
-			free (path);
-			if (ft_strncmp(data->argv[1], "..", 3) && (!new_pwd_tmp))
-			{
-				if (data->envp[i][ft_strlen(data->envp[i]) - 1] != '/')
-					path = ft_strjoin("/", data->argv[1]);
-				else
-					path = ft_strdup(data->argv[1]);
-				new_pwd_tmp = ft_strjoin(data->envp[i], path);
-				free (path);
-			}
-			else if (!new_pwd_tmp)
-			{
-				j = ft_strlen(data->envp[i]) - 1;
-				while (data->envp[i][j] && data->envp[i][j] != '/')
-					j--;
-				new_pwd_tmp = ft_substr(data->envp[i], 0, j);
-			}
-		}
-		else
-		{
-			perror("Error");
-			free (path);
-			free (new_pwd_tmp);
-			data->exit_status = 1;
+			if (data->flags->pipe)
+				exit(0);
 			return (true);
 		}
+		if (data->argv[1])
+		{
+			path_tmp2 = ft_strtrim(data->argv[1], " ");
+			if (!ft_strncmp(data->argv[1], "-", 2))
+			{
+				k = ft_strlen(data->envp[i] + 4);
+				while (k && data->envp[i][k] != '/')
+					k--;
+				path_tmp = ft_strdup("");
+				path_tmp_bs = ft_strdup("");
+				path = ft_substr(data->envp[i], 4, k - 4);
+				new_pwd_tmp = ft_strjoin("PWD=", path);
+				free (path_tmp_bs);
+				free (path_tmp);
+			}
+			else if (data->argv[1][0] != '/')
+			{
+				path_tmp = ft_strdup(data->envp[i] + 4);
+				path_tmp_bs = ft_strjoin(path_tmp, "/");
+				path = ft_strjoin(path_tmp_bs, path_tmp2);
+				free (path_tmp_bs);
+				free (path_tmp);
+			}
+			else
+			{
+				new_pwd_tmp = ft_strjoin("PWD=", path_tmp2);
+				path = ft_strdup(path_tmp2);
+			}
+			free (path_tmp2);
+			if (!access(path, F_OK))
+			{
+				chdir(path);
+				free (path);
+				if (ft_strncmp(data->argv[1], "..", 3) && (!new_pwd_tmp))
+				{
+					if (data->envp[i][ft_strlen(data->envp[i]) - 1] != '/')
+						path = ft_strjoin("/", data->argv[1]);
+					else
+						path = ft_strdup(data->argv[1]);
+					new_pwd_tmp = ft_strjoin(data->envp[i], path);
+					free (path);
+				}
+				else if (!new_pwd_tmp)
+				{
+					j = ft_strlen(data->envp[i]) - 1;
+					while (data->envp[i][j] && data->envp[i][j] != '/')
+						j--;
+					new_pwd_tmp = ft_substr(data->envp[i], 0, j);
+				}
+			}
+			else
+			{
+				perror("Error");
+				free (path);
+				free (new_pwd_tmp);
+				data->exit_status = 1;
+				if (data->flags->pipe)
+					exit(0);
+				return (true);
+			}
+		}
+		else
+		{
+			chdir("/root");
+			new_pwd_tmp = ft_strdup("PWD=/root");
+		}
+		free (data->envp[i]);
+		data->envp[i] = ft_strdup(new_pwd_tmp);
+		free (new_pwd_tmp);
+		data->exit_status = 0;
+		if (data->flags->pipe)
+			exit(0);
+		return (true);
 	}
-	else
+	if (data->flags->pipe)
 	{
-		chdir("/root");
-		new_pwd_tmp = ft_strdup("PWD=/root");
+		waitpid(pid, &data->exit_code, 0);
+		reset_pipes_flags(data);
+		data->exit_status = 0;
 	}
-	free (data->envp[i]);
-	data->envp[i] = ft_strdup(new_pwd_tmp);
-	free (new_pwd_tmp);
-	data->exit_status = 0;
 	return (true);
 }
 
@@ -269,7 +293,7 @@ bool	builtin_env(t_data *data)
 		data->exit_status = 0;
 	}
 	else
-		printf("syntax error\n");
+		write(2, "syntax error\n", 14);
 	return (true);
 }
 

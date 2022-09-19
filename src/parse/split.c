@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/18 16:23:00 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:52:57 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -361,13 +361,25 @@ int	split_quotes(t_data *data, char *cmd, int i)
 			}
 			if (!ft_strncmp(cmd + i, "<<", 2) && !f_dquote && !f_squote)
 			{
-				i += 3;
-				j = i;
-				data->flags->heredoc = true;
-				data->argv[array_index] = NULL;
-				if (!heredoc_delim(data, &i, &j, cmd))
-					return (i);
-				i++;
+				if (i != 0)
+				{
+					i += 3;
+					j = i;
+					data->flags->heredoc = true;
+					data->argv[array_index] = NULL;
+					if (!heredoc_delim(data, &i, &j, cmd))
+						return (i);
+					i++;
+				}
+				// else
+				// {
+				// 	i += 3;
+				// 	j = i;
+				// 	data->flags->heredoc = true;
+				// 	// data->argv[array_index] = NULL;
+				// 	heredoc_delim(data, &i, &j, cmd);
+				// 	i = ft_strlen(data->heredoc_delim) + 3;
+				// }
 			}
 			if ((cmd[i] == '>' || cmd[i] == '<') && !f_dquote && !f_squote)
 			{

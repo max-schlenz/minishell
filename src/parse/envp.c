@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/17 14:25:18 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/19 16:51:31 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	set_shlvl_env(t_data *data)
 	builtin_export(data, envv);
 	free (envv);
 	builtin_export(data, "_=/usr/sbin/env");
-}
+} 
 
 void	parse_envp(t_data *data, char **envp)
 {
@@ -103,6 +103,8 @@ void	parse_envp(t_data *data, char **envp)
 		data->envp[i] = ft_strdup(envp[i]);
 		i++;
 	}
+	if (!data->counter_env)
+		data->counter_env = 3;
 	data->envp[i] = NULL;
 	parse_path(data);
 	set_shlvl_env(data);

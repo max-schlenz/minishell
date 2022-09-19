@@ -33,7 +33,7 @@ static void	clear_buffers(t_data *data)
 
 static void	init_prompt(t_data *data)
 {
-	data->flags->debug = false;
+	data->flags->debug = true;
 	data->flags->error = false;
 	data->flags->pipe = false;
 	data->flags->redir_out = false;
@@ -160,8 +160,12 @@ static int	prompt(t_data *data, char *cmd, int flag)
 		||	(data->flags->and && !data->exit_status) 
 		||	(data->flags->or && data->exit_status))
 		{
+			data->debug = fopen("debug", "a+");
+			if (data->flags->debug)
+				dbg(data);
 			if (!builtin_environment(data))
 				exec_program(data);
+			fclose(data->debug);
 		}
 		left = false;
 		free_array(data->argv);
