@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/20 14:22:12 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/20 14:48:01 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	set_shlvl_env(t_data *data)
 	builtin_export(data, "_=/usr/sbin/env");
 	pwd = ft_calloc(PATH_MAX, sizeof(char));
 	getcwd(pwd, PATH_MAX);
-	envv = ft_strjoin("PATH=", pwd);
+	envv = ft_strjoin("PWD=", pwd);
 	free(pwd);
 	builtin_export(data, envv);
 	free(envv);
