@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:26:31 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/20 17:29:28 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/20 17:45:56 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ char **realloc_argv(t_data *data, int argv_i, char *filename, int overwrite)
 	{
 		new_argv[j] = ft_strdup(data->argv[i]);
 		if (j == argv_i && overwrite)
+		{
+			free(new_argv[j]);
 			new_argv[j] = ft_strdup(filename);
+		}
 		else if (j == argv_i && !overwrite)
 		{
 			new_argv[++j] = ft_strdup(filename);
