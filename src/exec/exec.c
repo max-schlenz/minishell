@@ -182,7 +182,7 @@ void	dbg(t_data *data)
 	fprintf(data->debug, "data->counter_pipes   : %d\n", data->counter_pipes);
 	fprintf(data->debug, "data->file_name       : %s\n", data->file_name);
 	fprintf(data->debug, "data->file_name2      : %s\n", data->file_name2);
-	fprintf(data->debug, "data->exit_status (p) : %d\n", data->exit_status);
+	fprintf(data->debug, "data->exit_status (p) : %lld\n", data->exit_status);
 	fprintf(data->debug, "------------------\n");
 }
 
