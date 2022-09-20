@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/20 14:48:01 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/20 17:14:56 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ void	set_shlvl_env(t_data *data)
 	builtin_export(data, envv);
 	free (envv);
 	builtin_export(data, "_=/usr/sbin/env");
-	pwd = ft_calloc(PATH_MAX, sizeof(char));
-	getcwd(pwd, PATH_MAX);
+	pwd = ft_calloc(1024, sizeof(char));
+	getcwd(pwd, 1024);
 	envv = ft_strjoin("PWD=", pwd);
 	free(pwd);
 	builtin_export(data, envv);
