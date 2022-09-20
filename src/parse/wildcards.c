@@ -145,18 +145,21 @@ int	i_len(int *i)
 	return (counter);
 }
 
-static bool	end(char *str, char *pattern)
+static bool	end(char *str, char *pattern, int *i)
 {
-	int	i;
+	int	index;
 
-	i = ft_strlen(str) - ft_strlen(pattern);
+	if (!*str && *pattern != '\0')
+		return (false);
+	index = ft_strlen(str) - ft_strlen(pattern);
 	while (*pattern && *pattern != '*')
 	{
-		if (str[i] != *pattern)
+		if (str[index] != *pattern)
 			return (false);
-		i++;
+		index++;
 		pattern++;
 	}
+	(*i) = ft_strlen(str);
 	return (true);
 }
 
@@ -223,6 +226,45 @@ static bool inbetween(char *str, char *pattern, int *file_index)
 	return (true);
 }
 
+
+static bool left_wildcard(char *str, char *pattern, int *file_index)
+{
+	int	i;
+	int	j;
+
+	while (str[*file_index])
+	{
+		j = 0;
+		i = (*file_index);
+		while (pattern[j] && pattern[j] != '*')
+		{
+			if (str[i] != pattern[j])
+				break ;
+			i++;
+			j++;
+		}
+		if (!pattern[j])
+			break ;
+		(*file_index)++;
+	}
+	(*file_index) += j;
+	if (pattern[j])
+		return (false);
+	return (true);
+}
+
+static bool right_wildcard(char *str, char *pattern, int *file_index)
+{
+	while (*pattern)
+	{
+		if (str[*file_index] != *pattern)
+			return (false);
+		(*file_index)++;
+		pattern++;
+	}
+	return (true);
+}
+
 static bool	match(char *to_be_extended, int *indexes, char *file)
 {
 	int	word_len;
@@ -239,25 +281,56 @@ static bool	match(char *to_be_extended, int *indexes, char *file)
 	while(*indexes != -1)
 	{
 		word_len = (*indexes) - prev_index;
-		if (*(indexes + 1) != -1 && left)
-			sub_word = ft_substr(to_be_extended, (*indexes) + 1, *(indexes + 1) - *(indexes) - 1);
-		else if (*(indexes + 1) == -1)
+		if (*(indexes + 1) == -1 && left)
 			sub_word = ft_substr(to_be_extended, (*indexes) + 1, ft_strlen(to_be_extended) - 1);
-		else
+		else if (*(indexes + 1) != -1 && left)
+			sub_word = ft_substr(to_be_extended, (*indexes) + 1, *(indexes + 1) - *(indexes) - 1);
+		else if (*(indexes + 1) == -1 && !left)
+			sub_word = ft_substr(to_be_extended, 0, ft_strlen(to_be_extended) - 1);
+		else if (*(indexes + 1) != -1 && !left)
 			sub_word = ft_substr(to_be_extended, prev_index, word_len);
-		//printf("pattern %s start %d end %d\n", to_be_extended, *indexes, *(indexes + 1) - *(indexes) - 1);
-		if (*(indexes) == 0 && (*(to_be_extended + *indexes + 1) != '\0'))
+		if (!file[i] && *sub_word)
+			return (false);
+		else if ((*(indexes) == ft_strlen(to_be_extended) - 1))
 		{
-			if (!start(file, sub_word, &i))
+			printf("in here\n");
+			return (true);
+		}
+		else if ((*(indexes + 1) == -1 && left))
+		{
+			printf("start index %d sub %s i %d file %s\n", *(indexes), sub_word, i, file);
+			if (!end(file, sub_word, &i))
 				return (false);
-			printf("start index %d sub %s i %d\n", *indexes, sub_word, i);
+			printf("start index %d sub %s i %d file %s\n", *(indexes), sub_word, i, file);
+		}
+		else if (left)
+		{
+			//printf("start index %d sub %s i %d file %s\n", *(indexes), sub_word, i, file);
+			if (!left_wildcard(file, sub_word, &i))
+				return (false);
+			//printf("\nafter index %d sub %s i %d file %s\n", *indexes, sub_word, i, file);
 		}
 		else
 		{
-			if (!inbetween(file, sub_word, &i))
+			printf("lol\n");
+			printf("start index %d sub %s i %d file %s\n", *(indexes), sub_word, i, file);
+			if (!right_wildcard(file, sub_word, &i))
 				return (false);
-			printf("after index %d sub %s i %d\n", *indexes, sub_word, i);
+			printf("\nafter index %d sub %s i %d file %s\n", *indexes, sub_word, i, file);
 		}
+		//printf("pattern %s start %d end %d\n", to_be_extended, *indexes, *(indexes + 1) - *(indexes) - 1);
+		// if (*(indexes) == 0 && (*(to_be_extended + *indexes + 1) != '\0'))
+		// {
+		// 	if (!start(file, sub_word, &i))
+		// 		return (false);
+		// 	printf("start index %d sub %s i %d\n", *indexes, sub_word, i);
+		// }
+		// else
+		// {
+		// 	if (!inbetween(file, sub_word, &i))
+		// 		return (false);
+		// 	printf("after index %d sub %s i %d\n", *indexes, sub_word, i);
+		// }
 		// else if (*(indexes + 1) == -1 && *(to_be_extended + *indexes - 1) == '\0')
 		// {
 		// 	printf("index %d %s\n", *indexes, to_be_extended + *indexes - 1);
