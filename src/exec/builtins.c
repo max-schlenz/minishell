@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/20 09:59:20 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/20 12:47:10 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ bool	builtin_echo(t_data *data)
 		l = 0;
 		i++;
 		if (data->argv[i] && ft_strlen(data->argv[i]) > 0 && (!(echo_n && i < 3)))
-			printf(" ");
+				printf(" ");
 	}
 	if (!echo_n)
 		printf("\n");
@@ -182,7 +182,8 @@ static bool	export_check_str(t_data *data, char *str)
 	i = 0;
 	while (str[i] && (str[i] >= 65 && str[i] <= 90) 
 	|| (str[i] >= 97 && str[i] <= 122) 
-	|| str[i] == '_' || str[i] == '+')
+	|| (str[i] >= 48 && str[i] <= 57)
+	|| (str[i] == '_' || str[i] == '+'))
 		i++;
 	if (str[i] && str[i] != '=')
 		return (false);

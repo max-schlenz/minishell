@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:17:45 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/17 14:28:51 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/20 13:49:03 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	read_config(t_data *data)
 		{
 			free(read_buf);
 			read_buf = get_next_line(data->mscfg);
+			if (read_buf && read_buf[0] == '\n')
+				continue ;
 			if (read_buf && !strcmp_alnum(read_buf, "COLOR"))
 				builtin_color(data, read_buf + strlen_var(read_buf) + 1);
 			if (read_buf && !strcmp_alnum(read_buf, "HISTORY"))

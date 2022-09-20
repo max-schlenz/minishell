@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/20 10:45:22 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/20 12:48:45 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,20 +97,7 @@ static void remove_quotes(t_data *data, int i_arg)
 	int start = 0;
 	int end = 0;
 	delim = 0;
-	// int k = 0;
-	// while (data->argv[k])
-		// printf("%s\n", data->argv[k++]);
-	// while (data->argv[i_arg][k])
-	// {
-	// 	if (data->argv[i_arg][k] == '\\')
-	// 	{
-	// 		f_esc = true;
-	// 		tmp_esc2 = ft_substr(data->argv[i_arg], 0, i);
-	// 		printf("%s\n", tmp_esc2);
-	// 		i++;
-	// 	}
-	// 	k++;
-	// }
+
 	while (data->argv[i_arg][i])
 	{
 		if (data->argv[i_arg][i] == '\\')
@@ -159,7 +146,6 @@ static void remove_quotes(t_data *data, int i_arg)
 	}
 	if (tmp)
 	{
-		// printf("%d\n", inbetween);
 		if (ft_strlen(data->argv[i_arg]) >= end + 1)
 			tmp3 = ft_strdup(data->argv[i_arg] + end + 1);
 		else
@@ -172,18 +158,27 @@ static void remove_quotes(t_data *data, int i_arg)
 	}
 }
 
-// static void	remove_backslash(t_data *data, int i_arg)
-// {
-// 	int		i;
+static void	remove_backslashes(t_data *data, int i_arg)
+{
+	int		i;
 
-// 	i = 0;
-// 	while (data->argv[i_arg][i])
-// 	{
-// 		if (data->argv[i_arg][i] == '\\')
-// 			data->argv[i_arg][i] = ' ';
-// 		i++;
-// 	}
-// }
+	i = 0;
+	while (data->argv[i_arg][i])
+	{
+		if (data->argv[i_arg][i] == '\\' && data->argv[i_arg][i + 1] == ' ')
+			data->argv[i_arg][i] = ' ';
+		else if (data->argv[i_arg][i] == '\\')
+		{
+			while (data->argv[i_arg][i] && data->argv[i_arg][i + 1])
+			{
+				data->argv[i_arg][i] = data->argv[i_arg][i + 1];
+				i++;
+			}
+			data->argv[i_arg][i] = '\0';
+		}
+		i++;
+	}
+}
 
 bool	expand_vars(t_data *data)
 {
@@ -241,7 +236,10 @@ bool	expand_vars(t_data *data)
 					i_char++;
 					free (vname);
 					vname = ft_substr(data->argv[i_arg], i_char, 1);
-					vcontent = ft_strdup("");
+					if (data->argv[i_arg][i_char] == '0')
+						vcontent = ft_strdup("minishell");
+					else
+						vcontent = ft_strdup("");
 				}
 				else
 					vcontent = get_var_content(data, vname);
@@ -268,13 +266,22 @@ bool	expand_vars(t_data *data)
 		}
 		if (!data->argv[i_arg])
 			break ;
-		if (ft_strlen(data->argv[i_arg]) > 2)
-			remove_quotes(data, i_arg);
+		// printf("%s\n",data->argv[i_arg]);
 		// else if (data->argv[i_arg][0] == '\'' || data->argv[i_arg][0] == '\"')
+		if (ft_strlen(data->argv[i_arg]) > 2)
+		{
+			remove_quotes(data, i_arg);
+			remove_backslashes(data, i_arg);
+		}
 		else if (!ft_strncmp(data->argv[i_arg], "\'\'", 2) || !ft_strncmp(data->argv[i_arg], "\"\"", 2))
 		{
 			free(data->argv[i_arg]);
+			// if (ft_strlen(data->argv[i_arg]))
+			// if (i_arg < data->argc)
 			data->argv[i_arg] = ft_strdup(" ");
+			// else
+			// 	data->argv[i_arg] = ft_strdup("");
+				
 		}
 		if (!data->argv[i_arg][0])
 		{

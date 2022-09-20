@@ -241,6 +241,21 @@ void	redirs_pipes(t_data *data)
 	}
 }
 
+static bool is_builtin(t_data *data)
+{
+	if ((!ft_strncmp(data->argv[0], "exit", 5))
+	|| (!ft_strncmp(data->argv[0], "cd", 3))
+	|| (!ft_strncmp(data->argv[0], "export", 7))
+	|| (!ft_strncmp(data->argv[0], "unset", 6))
+	|| (!ft_strncmp(data->argv[0], "color", 6))
+	|| (!ft_strncmp(data->argv[0], "history", 8))
+	|| (!ft_strncmp(data->argv[0], "echo", 5))
+	|| (!ft_strncmp(data->argv[0], "env", 4))
+	|| (!ft_strncmp(data->argv[0], "pwd", 4)))
+		return (true);
+	return (false);
+}
+
 bool	exec_program(t_data *data)
 {
 	pid_t		pid;
@@ -256,7 +271,7 @@ bool	exec_program(t_data *data)
 	if (!abs_path && data->argv[0])
 		abs_path = ft_strdup(data->argv[0]);
 	tmp = opendir(abs_path);
-	if (!tmp && !access(abs_path, F_OK))
+	if (!tmp && (!access(abs_path, F_OK) || is_builtin(data)))
 		pid = fork();
 	else
 		error = true;

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/18 10:45:17 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/20 14:04:11 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	init_vars(t_data *data)
 	data->exit_status = 0;
 	data->last_cmd = NULL;
 	data->flags->exit_code_of = false;
+	data->flags->noenv = false;
+	data->path = NULL;
 	data->debug = fopen("debug", "w");
 	fclose(data->debug);
 }

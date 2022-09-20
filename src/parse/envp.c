@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/20 09:59:02 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/20 14:22:12 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,20 @@ void	parse_path(t_data *data)
 	}
 	while (data->envp[i] && ft_strncmp(data->envp[i], "PATH=", 5))
 		i++;
-	data->path = ft_split(data->envp[i], ':');
+	if (data->flags->noenv)
+	{
+		data->path = ft_calloc(2, sizeof(char **));
+		data->path[0] = ft_strdup("");
+		data->path[1] = NULL;
+	}
+	else
+		data->path = ft_split(data->envp[i], ':');
 }
 
 int		strcmp_alnum(const char *s1, const char *s2)
 {
 	size_t	i;
-
+	
 	i = 0;
 	if (!s1 || !s2)
 		return (0);
@@ -78,6 +85,7 @@ void	set_shlvl_env(t_data *data)
 	int		shlvl;
 	char	*shlvl_new;
 	char	*envv;
+	char	*pwd;
 
 	envv = get_var_content(data, "$SHLVL");
 	shlvl = ft_atoi(envv) + 1;
@@ -88,6 +96,12 @@ void	set_shlvl_env(t_data *data)
 	builtin_export(data, envv);
 	free (envv);
 	builtin_export(data, "_=/usr/sbin/env");
+	pwd = ft_calloc(PATH_MAX, sizeof(char));
+	getcwd(pwd, PATH_MAX);
+	envv = ft_strjoin("PATH=", pwd);
+	free(pwd);
+	builtin_export(data, envv);
+	free(envv);
 } 
 
 void	parse_envp(t_data *data, char **envp)
@@ -96,6 +110,8 @@ void	parse_envp(t_data *data, char **envp)
 
 	while (envp[data->counter_env])
 		data->counter_env++;
+	if (data->flags->noenv)
+		data->counter_env = 2;
 	data->envp = ft_calloc(data->counter_env + 1, sizeof(char *));
 	i = 0;
 	while (envp[i])
@@ -103,8 +119,6 @@ void	parse_envp(t_data *data, char **envp)
 		data->envp[i] = ft_strdup(envp[i]);
 		i++;
 	}
-	if (!data->counter_env)
-		data->counter_env = 3;
 	data->envp[i] = NULL;
 	parse_path(data);
 	set_shlvl_env(data);

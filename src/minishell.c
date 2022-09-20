@@ -151,8 +151,6 @@ static int	prompt(t_data *data, char *cmd, int flag)
 			break ;
 		}
 		expand_vars(data);
-		get_all_names(data);
-		exit(0);
 		if (data->argv[0] && (data->argv[0][0] == '(' || data->flags->bracket))
 			prio(data, tmp_cmd, &i);
 		if (!data->argv[0])
@@ -191,7 +189,12 @@ int	main(int argc, char **argv, char **envp)
 	data = allocate_mem();
 	signals();
 	init_vars(data);
-	read_config(data);
+	if (!*envp)
+	{
+		data->flags->noenv = true;
+		envp = ft_calloc(1, sizeof(char **));
+		envp[0] = NULL;
+	}
 	parse_envp(data, envp);
 	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
   	{
@@ -200,6 +203,7 @@ int	main(int argc, char **argv, char **envp)
 		clear_buffers(data);
     	cleanup(data, 0);
   	}
+	read_config(data);
 	while (1)
 	{
 		init_prompt(data);

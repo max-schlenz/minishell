@@ -61,6 +61,7 @@ typedef struct s_flags {
 	bool	debug;
 	bool	bracket;
 	bool	prio;
+	bool	noenv;
 	bool	exit_code_of;
 }	t_flags;
 
