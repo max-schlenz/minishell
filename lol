@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcards.c                                        :+:      :+:    :+:   */
+/*   lol                                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:26:31 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/20 17:29:28 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/20 17:09:37 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -345,7 +345,7 @@ static void	extend_wildcards(t_data *data, char *to_be_extended, char **files, i
 	}
 }
 
-void	get_all_names(t_data *data)
+char	*get_all_names(t_data *data)
 {
 	int	i;
 	int	j;
@@ -371,4 +371,10 @@ void	get_all_names(t_data *data)
 		free(indexes);
 		i++;
 	}
+	i = 0;
+	while (data->argv[i])
+	{
+		printf("%s\n", data->argv[i++]);
+	}
+	return NULL;
 }

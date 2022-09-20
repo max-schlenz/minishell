@@ -193,7 +193,7 @@ size_t			strlen_expv(const char *c);
 
 int				*get_indexes(char *str);
 
-char			*get_all_names(t_data *data);
+void			get_all_names(t_data *data);
 void			redirs_pipes(t_data *data);
 void			reset_pipes_flags(t_data *data);
 int				isidentifier(int c);
