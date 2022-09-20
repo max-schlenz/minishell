@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:26:31 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/20 17:45:56 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/20 16:48:57 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,7 +290,11 @@ static bool	match(char *to_be_extended, int *indexes, char *file)
 	{
 		sub_word = ft_substr(to_be_extended, *(indexes - 1) + 1, ft_strlen(to_be_extended) - *(indexes - 1) - 1);
 		if (!end(file, sub_word, &i))
+		{		
+				free(sub_word);
 				return (false);
+		}
+		free(sub_word);
 	}
 	return (true);
 }
@@ -368,7 +372,9 @@ void	get_all_names(t_data *data)
 			to_be_extended = ft_strdup(data->argv[i]);
 			files = match_files(data, to_be_extended, indexes);
 			extend_wildcards(data, to_be_extended, files, i, prev_w_index);
+			free_array(files);
 			free(files);
+			free(to_be_extended);
 			prev_w_index = i;
 		}
 		free(indexes);

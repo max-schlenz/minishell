@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/20 12:47:10 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/20 16:48:08 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,14 +160,17 @@ bool	builtin_echo(t_data *data)
 			i++;
 		while (data->argv[i][l])
 		{
+			// if (f_space && l == 0)
+			// 	printf(" ");
 			if (data->argv[i][l] != '\\')
 				printf("%c", data->argv[i][l]);
 			l++;
 		}
 		l = 0;
-		i++;
-		if (data->argv[i] && ft_strlen(data->argv[i]) > 0 && (!(echo_n && i < 3)))
+		if (data->argv[i] && ft_strlen(data->argv[i]) >= 0 && (!(echo_n && i < 3)))
 				printf(" ");
+		f_space = true;
+		i++;
 	}
 	if (!echo_n)
 		printf("\n");

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/20 12:48:45 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/20 16:48:34 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,27 @@ static bool	alloc_mem_array(t_data *data, char *cmd)
 	return (false);
 }
 
+static char **realloc_var(t_data *data, int index)
+{
+	char	**new_argv;
+	int		i;
+	int		j;
+
+	new_argv = (char **)ft_calloc(sizeof(char *), data->argc + 1);
+	i = 0;
+	j = 0;
+	while (data->argv[i])
+	{
+		if (i != index)
+			new_argv[j++] = ft_strdup(data->argv[i]);
+		free (data->argv[i++]);
+	}
+	new_argv[++j] = NULL;
+	free(data->argv);
+	data->argc--;
+	return(new_argv);
+}
+
 char	*get_var_content(t_data *data, char *var)
 {
 	int i;
@@ -75,7 +96,7 @@ char	*get_var_content(t_data *data, char *var)
 			return(ft_strdup(data->envp[i] + len_var + 1));
 		i++;
 	}
-	return (ft_strdup(""));
+	return (NULL);
 }
 
 static void remove_quotes(t_data *data, int i_arg)
@@ -185,6 +206,7 @@ bool	expand_vars(t_data *data)
 	int i_arg;
 	int	i_char;
 	int	i = 0;
+	int	test = 0;
 
 	char *str_before_v;
 	char *vname;
@@ -247,13 +269,30 @@ bool	expand_vars(t_data *data)
 				{
 					str_before_vplus_vcontent = ft_strjoin(str_before_v, vcontent);
 					str_after_v = ft_strdup(data->argv[i_arg] + i_char + ft_strlen(vname));
-					free (data->argv[i_arg]);
-					data->argv[i_arg] = ft_strjoin(str_before_vplus_vcontent, str_after_v);
+					// if (test)
+					// {
+					// 	// printf("lol\n");
+					// 	free (data->argv[test]);
+					// 	data->argv[test] = ft_strjoin(str_before_vplus_vcontent, str_after_v);
+					// 	test = 0;
+					// }
+					// else
+					// {
+						free (data->argv[i_arg]);
+						data->argv[i_arg] = ft_strjoin(str_before_vplus_vcontent, str_after_v);
+					// }
 					free (str_before_vplus_vcontent);
 					free (str_after_v);
 					free (vcontent);
 					vcontent = NULL;
 				}
+				else
+				{
+					data->argv = realloc_var(data, i_arg);
+					i_arg--;
+					// printf("%d\n", i_arg);
+				}
+					
 				free (str_before_v);
 				free (vname);
 				vname = NULL;
@@ -278,22 +317,27 @@ bool	expand_vars(t_data *data)
 			free(data->argv[i_arg]);
 			// if (ft_strlen(data->argv[i_arg]))
 			// if (i_arg < data->argc)
-			data->argv[i_arg] = ft_strdup(" ");
+			data->argv[i_arg] = ft_strdup("");
 			// else
 			// 	data->argv[i_arg] = ft_strdup("");
 				
 		}
 		if (!data->argv[i_arg][0])
 		{
-			free(data->argv[i_arg]);
+			// free(data->argv[i_arg]);
 			if (data->argc == i_arg)
 				data->argv[i_arg] = NULL;
-			else
-				data->argv[i_arg] = ft_strdup("");
+			// else
+			// 	data->argv[i_arg] = ft_strdup("");
 		}
 		i_char = 0;
 		i_arg++;
 	}
+	// int k = 0;
+	// while (data->argv[k])
+	// {
+	// 	if ()
+	// }
 	return (true);
 }
 
