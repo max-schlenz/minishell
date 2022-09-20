@@ -300,7 +300,8 @@ bool	exec_program(t_data *data)
 		return (true);
 	}
 	free (abs_path);
-	closedir(tmp);
+	if (tmp)
+		closedir(tmp);
 	waitpid(pid, &data->exit_code, 0);
 	reset_pipes_flags(data);
 	return (true);
