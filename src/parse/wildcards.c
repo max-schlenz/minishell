@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:26:31 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/20 14:54:44 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/20 17:08:05 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,8 +231,6 @@ static bool	match(char *to_be_extended, int *indexes, char *file)
 		else if (prev_index == 0 && !left)
 		{
 			sub_word = ft_substr(to_be_extended, 0, word_len);
-			// printf("lol\n");
-			// printf("start index %d sub %s i %d file %s word len %d prev index %d\n", *(indexes), sub_word, i, file, word_len, prev_index + 1);
 		}
 		else if (!left)
 		{
@@ -246,13 +244,11 @@ static bool	match(char *to_be_extended, int *indexes, char *file)
 		}
 		else if (*(indexes) == ft_strlen(to_be_extended) - 1 && left)
 		{
-			//printf("in here\n");
 			free(sub_word);
 			return (true);
 		}
 		else if (*(indexes + 1) == -1 && left)
 		{
-			//printf("start index %d sub %s i %d file %s\n", *(indexes), sub_word, i, file);
 			if (!end(file, sub_word, &i))
 			{
 				free(sub_word);
@@ -277,15 +273,11 @@ static bool	match(char *to_be_extended, int *indexes, char *file)
 		}
 		else
 		{
-			// printf("lol\n");
-			//printf("start index %d sub %s i %d file %s\n", *(indexes), sub_word, i, file);
 			if (!inbetween(file, sub_word, &i))
 			{
 				free(sub_word);
 				return (false);
 			}
-				
-			//printf("\nafter index %d sub %s i %d file %s\n", *indexes, sub_word, i, file);
 		}
 		prev_index = *indexes;
 		indexes++;
@@ -311,7 +303,7 @@ static char	**match_files(t_data *data, char *to_be_extended, int *indexes)
 	{
 		if (match(to_be_extended, indexes, direntStruct->d_name))
 		{
-			printf("filename, %s\n", direntStruct->d_name);
+			//printf("filename, %s\n", direntStruct->d_name);
 			files[i++] = ft_strdup(direntStruct->d_name);
 		}
 	}
@@ -320,10 +312,26 @@ static char	**match_files(t_data *data, char *to_be_extended, int *indexes)
 	return (files);
 }
 
-static void	extend_wildcards(t_data *data, char *to_be_extended, char **files, int argv_i)
+static bool	check_duplicate(t_data *data, char *file, int i)
+{
+	while (i > 0 && data->argv[i])
+	{
+		if (!ft_strncmp(data->argv[i], file, ft_strlen(file) + 1))
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
+static void	extend_wildcards(t_data *data, char *to_be_extended, char **files, int argv_i, int prev_wildcard_i)
 {
 	while (*files)
 	{
+		if (check_duplicate(data, *files, prev_wildcard_i))
+		{
+			files++;
+			continue ;
+		}
 		if (!ft_strncmp(data->argv[argv_i], to_be_extended, ft_strlen(to_be_extended) + 1))
 		{
 			data->argv = realloc_argv(data, argv_i, *files, 1);
@@ -344,8 +352,10 @@ char	*get_all_names(t_data *data)
 	int	*indexes;
 	char	*to_be_extended;
 	char	**files;
+	int		prev_w_index;
 
 	i = 0;
+	prev_w_index = 0;
 	while (data->argv[i])
 	{
 		data->argv[i] = skip_d(data, data->argv[i], '*');
@@ -354,8 +364,9 @@ char	*get_all_names(t_data *data)
 		{
 			to_be_extended = ft_strdup(data->argv[i]);
 			files = match_files(data, to_be_extended, indexes);
-			extend_wildcards(data, to_be_extended, files, i);
+			extend_wildcards(data, to_be_extended, files, i, prev_w_index);
 			free(files);
+			prev_w_index = i;
 		}
 		free(indexes);
 		i++;
