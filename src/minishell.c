@@ -151,6 +151,8 @@ static int	prompt(t_data *data, char *cmd, int flag)
 			break ;
 		}
 		expand_vars(data);
+		get_all_names(data);
+		exit(0);
 		if (data->argv[0] && (data->argv[0][0] == '(' || data->flags->bracket))
 			prio(data, tmp_cmd, &i);
 		if (!data->argv[0])

@@ -6,34 +6,11 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:26:31 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/20 13:22:43 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/20 14:54:44 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// char	*realloc_cmd(char *cmd, char *file_name, int insert_start)
-// {
-// 	int	i = 0;
-// 	int	j = 0;
-// 	int	len_cmd = ft_strlen(cmd);
-// 	int len_file_name = ft_strlen(file_name);
-// 	char *new = (char *)ft_calloc(sizeof(char), len_cmd + file_name + 2);
-// 	while (cmd[i])
-// 	{
-// 		if (j == insert_start)
-// 		{
-// 			while (*file_name)
-// 				new[j++] = *file_name++;
-// 			new[j] = ' ';
-// 		}
-// 		new[j] = cmd[i];
-// 		i++;
-// 		j++;
-// 	}
-// 	new[j] = '\0';
-// 	return (new);
-// }
 
 int	len_argv(char **argv)
 {
@@ -163,16 +140,7 @@ static bool	end(char *str, char *pattern, int *i)
 	return (true);
 }
 
-static bool	move_file_index(char *file, char *pattern, int *i)
-{
-	while ((file + *i) && ft_strncmp(file + *i, pattern, ft_strlen(pattern)))
-		(*i)++;
-	if (!(file + *i))
-		return (false);
-	return (true);
-}
-
-static bool start(char *str, char *pattern, int *file_index)
+/*static bool start(char *str, char *pattern, int *file_index)
 {	
 	int	i;
 	int	j;
@@ -197,41 +165,14 @@ static bool start(char *str, char *pattern, int *file_index)
 	if (pattern[j])
 		return (false);
 	return (true);
-}
+}*/
+
 
 static bool inbetween(char *str, char *pattern, int *file_index)
 {
 	int	i;
 	int	j;
 
-	i = 0;
-	while (str[*file_index])
-	{
-		j = 0;
-		while (pattern[j] && pattern[j] != '*')
-		{
-			if (str[i] != pattern[j])
-				break ;
-			i++;
-			j++;
-		}
-		if (!pattern[j])
-			break ;
-		(*file_index)++;
-		i = (*file_index);
-	}
-	(*file_index) += j;
-	if (pattern[j])
-		return (false);
-	return (true);
-}
-
-
-static bool left_wildcard(char *str, char *pattern, int *file_index)
-{
-	int	i;
-	int	j;
-
 	while (str[*file_index])
 	{
 		j = 0;
@@ -253,7 +194,7 @@ static bool left_wildcard(char *str, char *pattern, int *file_index)
 	return (true);
 }
 
-static bool right_wildcard(char *str, char *pattern, int *file_index)
+static bool start(char *str, char *pattern, int *file_index)
 {
 	while (*pattern)
 	{
@@ -280,68 +221,81 @@ static bool	match(char *to_be_extended, int *indexes, char *file)
 		left = 1;
 	while(*indexes != -1)
 	{
-		word_len = (*indexes) - prev_index;
+		word_len = (*indexes) - prev_index - 1;
+		if (!prev_index)
+			word_len = (*indexes);
 		if (*(indexes + 1) == -1 && left)
 			sub_word = ft_substr(to_be_extended, (*indexes) + 1, ft_strlen(to_be_extended) - 1);
 		else if (*(indexes + 1) != -1 && left)
 			sub_word = ft_substr(to_be_extended, (*indexes) + 1, *(indexes + 1) - *(indexes) - 1);
-		else if (*(indexes + 1) == -1 && !left)
-			sub_word = ft_substr(to_be_extended, 0, ft_strlen(to_be_extended) - 1);
-		else if (*(indexes + 1) != -1 && !left)
-			sub_word = ft_substr(to_be_extended, prev_index, word_len);
-		if (!file[i] && *sub_word)
-			return (false);
-		else if ((*(indexes) == ft_strlen(to_be_extended) - 1))
+		else if (prev_index == 0 && !left)
 		{
-			printf("in here\n");
+			sub_word = ft_substr(to_be_extended, 0, word_len);
+			// printf("lol\n");
+			// printf("start index %d sub %s i %d file %s word len %d prev index %d\n", *(indexes), sub_word, i, file, word_len, prev_index + 1);
+		}
+		else if (!left)
+		{
+			sub_word = ft_substr(to_be_extended, prev_index + 1, word_len);	
+		}
+
+		if (!file[i] && *sub_word)
+		{
+				free(sub_word);
+				return (false);
+		}
+		else if (*(indexes) == ft_strlen(to_be_extended) - 1 && left)
+		{
+			//printf("in here\n");
+			free(sub_word);
 			return (true);
 		}
-		else if ((*(indexes + 1) == -1 && left))
+		else if (*(indexes + 1) == -1 && left)
 		{
-			printf("start index %d sub %s i %d file %s\n", *(indexes), sub_word, i, file);
+			//printf("start index %d sub %s i %d file %s\n", *(indexes), sub_word, i, file);
 			if (!end(file, sub_word, &i))
+			{
+				free(sub_word);
 				return (false);
-			printf("start index %d sub %s i %d file %s\n", *(indexes), sub_word, i, file);
+			}
+		}
+		else if (prev_index == 0 && !left)
+		{
+			if (!start(file, sub_word, &i))
+			{
+				free(sub_word);
+				return (false);
+			}
 		}
 		else if (left)
 		{
-			//printf("start index %d sub %s i %d file %s\n", *(indexes), sub_word, i, file);
-			if (!left_wildcard(file, sub_word, &i))
+			if (!inbetween(file, sub_word, &i))
+			{
+				free(sub_word);
 				return (false);
-			//printf("\nafter index %d sub %s i %d file %s\n", *indexes, sub_word, i, file);
+			}
 		}
 		else
 		{
-			printf("lol\n");
-			printf("start index %d sub %s i %d file %s\n", *(indexes), sub_word, i, file);
-			if (!right_wildcard(file, sub_word, &i))
+			// printf("lol\n");
+			//printf("start index %d sub %s i %d file %s\n", *(indexes), sub_word, i, file);
+			if (!inbetween(file, sub_word, &i))
+			{
+				free(sub_word);
 				return (false);
-			printf("\nafter index %d sub %s i %d file %s\n", *indexes, sub_word, i, file);
+			}
+				
+			//printf("\nafter index %d sub %s i %d file %s\n", *indexes, sub_word, i, file);
 		}
-		//printf("pattern %s start %d end %d\n", to_be_extended, *indexes, *(indexes + 1) - *(indexes) - 1);
-		// if (*(indexes) == 0 && (*(to_be_extended + *indexes + 1) != '\0'))
-		// {
-		// 	if (!start(file, sub_word, &i))
-		// 		return (false);
-		// 	printf("start index %d sub %s i %d\n", *indexes, sub_word, i);
-		// }
-		// else
-		// {
-		// 	if (!inbetween(file, sub_word, &i))
-		// 		return (false);
-		// 	printf("after index %d sub %s i %d\n", *indexes, sub_word, i);
-		// }
-		// else if (*(indexes + 1) == -1 && *(to_be_extended + *indexes - 1) == '\0')
-		// {
-		// 	printf("index %d %s\n", *indexes, to_be_extended + *indexes - 1);
-		// 	if (!end(file, sub_word))
-		// 		return (false);
-		// }
-		// else if (!move_file_index(file, sub_word, &i))
-		// 	return (false);
 		prev_index = *indexes;
 		indexes++;
-		//free(sub_word);
+		free(sub_word);
+	}
+	if (to_be_extended[*(indexes - 1) + 1] != '\0')
+	{
+		sub_word = ft_substr(to_be_extended, *(indexes - 1) + 1, ft_strlen(to_be_extended) - *(indexes - 1) - 1);
+		if (!end(file, sub_word, &i))
+				return (false);
 	}
 	return (true);
 }
@@ -379,10 +333,6 @@ static void	extend_wildcards(t_data *data, char *to_be_extended, char **files, i
 			data->argv = realloc_argv(data, argv_i, *files, 0);
 			argv_i++;
 		}
-		int i = 0;
-		// while(data->argv[i])
-		// 	printf("\t%s %d\t", data->argv[i++], argv_i);
-		// printf("\n");
 		files++;
 	}
 }
@@ -400,19 +350,20 @@ char	*get_all_names(t_data *data)
 	{
 		data->argv[i] = skip_d(data, data->argv[i], '*');
 		indexes = get_indexes(data->argv[i]);
-		j = 0;
-		while (indexes[j] != -1)
-			printf("index %d\t", indexes[j++]);
-		printf("\n");
 		if (*indexes != -1)
 		{
 			to_be_extended = ft_strdup(data->argv[i]);
 			files = match_files(data, to_be_extended, indexes);
-			//extend_wildcards(data, to_be_extended, files, i);
+			extend_wildcards(data, to_be_extended, files, i);
 			free(files);
 		}
 		free(indexes);
 		i++;
+	}
+	i = 0;
+	while (data->argv[i])
+	{
+		printf("%s\n", data->argv[i++]);
 	}
 	return NULL;
 }
