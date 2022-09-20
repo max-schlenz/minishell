@@ -14,7 +14,6 @@
 
 static void	clear_buffers(t_data *data)
 {
-
 	if (data->cmd)
 		free (data->cmd);
 	data->cmd = NULL;
@@ -127,9 +126,13 @@ static int	prompt(t_data *data, char *cmd, int flag)
 	if (data->cmd[0] && data->cmd[0] != '\n')
 	{
 		history(data);
-		if (!check_syntax(data) || !syntax_err(data) || !check_syntax_first_char(data))
-			return (data->exit_status);
 		tmp_cmd = pre_parse(data, data->cmd);
+		if (!check_syntax(data, tmp_cmd) || !syntax_err(data, tmp_cmd) || !check_syntax_first_char(data, tmp_cmd))
+		{
+			free(tmp_cmd);
+			tmp_cmd = NULL;
+			return (data->exit_status);
+		}
 		if (count_pipes(data, tmp_cmd))
 			open_pipes(data);
 	}
@@ -139,7 +142,8 @@ static int	prompt(t_data *data, char *cmd, int flag)
 	{
 		while (tmp_cmd[i] == ' ' || tmp_cmd[i] == ';')
 			i++;
-		i = split_quotes(data, tmp_cmd, i);
+		if (!split_quotes(data, tmp_cmd, &i))
+			break ;
 		if (!tmp_cmd[i - 1])
 		{
 			free_array(data->argv);
@@ -149,7 +153,7 @@ static int	prompt(t_data *data, char *cmd, int flag)
 		expand_vars(data);
 		if (data->argv[0] && (data->argv[0][0] == '(' || data->flags->bracket))
 			prio(data, tmp_cmd, &i);
-		if (data->flags->error || !data->argv[0])
+		if (!data->argv[0])
 		{
 			free_array(data->argv);
 			free(data->argv);

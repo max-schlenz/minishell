@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:46:30 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/19 16:49:54 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/20 09:59:20 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,22 +177,27 @@ bool	builtin_echo(t_data *data)
 
 static bool	export_check_str(t_data *data, char *str)
 {
-	bool	check1;
-	bool	check2;
 	int		i;
 
 	i = 0;
-	check1 = false;
-	check2 = false;
-	while (str[i] && (str[i] >= 65 && str[i] <= 90) || (str[i] >= 97 && str[i] <= 122) || str[i] == '_' || str[i] == '+')
+	while (str[i] && (str[i] >= 65 && str[i] <= 90) 
+	|| (str[i] >= 97 && str[i] <= 122) 
+	|| str[i] == '_' || str[i] == '+')
 		i++;
 	if (str[i] && str[i] != '=')
 		return (false);
 	i -= 2;
-	while (str[i] && str[i] != '+')
-		i--;
-	if (i >= 0)
-		return (false);
+	if (i > 1)
+	{
+		while (str[i] && str[i] != '+')
+		{
+			i--;
+			if (i < 0)
+				break ;
+		}
+		if (i >= 0)
+			return (false);
+	}
 	return (true);
 }
 

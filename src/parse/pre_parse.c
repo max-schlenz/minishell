@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:32:27 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/18 13:46:09 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/20 10:58:36 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ char *pre_parse(t_data *data, char *cmd)
 	int	i;
 	char	*ops;
 	char	*tmp;
-	char	*tmp2;
 
  	ops = "|&><";
 	i = 0;

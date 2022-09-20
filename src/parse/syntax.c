@@ -6,13 +6,13 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:51 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/19 17:01:09 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/20 10:50:16 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-bool	check_syntax_first_char(t_data *data)
+bool	check_syntax_first_char(t_data *data, char *cmd)
 {
 	int		i;
 	char	*chars;
@@ -22,7 +22,7 @@ bool	check_syntax_first_char(t_data *data)
 	chars = ft_strdup("|&>~");
 	while (chars[i])
 	{
-		if (data->cmd[0] == chars[i])
+		if (cmd[0] == chars[i])
 		{
 			if (chars[i] == '~')
 				data->exit_status = 126;
@@ -35,13 +35,13 @@ bool	check_syntax_first_char(t_data *data)
 		i++;
 	}
 	i = 0;
-	if ((data->cmd[i] == '<')
-	|| (data->cmd[i] == '.'))
+	if ((cmd[i] == '<')
+	|| (cmd[i] == '.'))
 	{
 		i++;
-		while (data->cmd[i] == ' ')
+		while (cmd[i] == ' ')
 			i++;
-		if (!data->cmd[i])
+		if (!cmd[i])
 		{
 			data->exit_status = 2;
 			write(2, "Syntax Error\n", 14);
@@ -49,14 +49,14 @@ bool	check_syntax_first_char(t_data *data)
 			return (false);
 		}
 	}
-	if (ft_strlen(data->cmd) <= 2 && !ft_strncmp(data->cmd, "<<", 2))
+	if (ft_strlen(cmd) <= 2 && !ft_strncmp(cmd, "<<", 2))
 	{
 		data->exit_status = 2;
 		write(2, "Syntax Error\n", 14);
 		free (chars);
 		return (false);
 	}
-	if (ft_strlen(data->cmd) <= 2 && !ft_strncmp(data->cmd, "..", 2))
+	if (ft_strlen(cmd) <= 2 && !ft_strncmp(cmd, "..", 2))
 	{
 		data->exit_status = 127;
 		write(2, "Syntax Error\n", 14);
@@ -67,7 +67,7 @@ bool	check_syntax_first_char(t_data *data)
 	return (true);
 }
 
-bool	check_syntax(t_data *data)
+bool	check_syntax(t_data *data, char *cmd)
 {
 	int		i;
 	int		j;
@@ -81,24 +81,24 @@ bool	check_syntax(t_data *data)
 	while (ops_supported[j])
 	{
 		i = 0;
-		while (data->cmd[i] && data->cmd[i + 1] && data->cmd[i + 2])
+		while (cmd[i] && cmd[i + 1] && cmd[i + 2])
 		{
-			if (data->cmd[i] == '\'' || data->cmd[i] == '\"')
+			if (cmd[i] == '\'' || cmd[i] == '\"')
 			{
 				i++;
-				while (data->cmd[i] && data->cmd[i + 1] && data->cmd[i + 2])
+				while (cmd[i] && cmd[i + 1] && cmd[i + 2])
 				{
-					if (data->cmd[i] == '\'' || data->cmd[i++] == '\"')
+					if (cmd[i] == '\'' || cmd[i++] == '\"')
 						break ;
 					i++;
 				}
 			}
-			if	(data->cmd[i]
-			&&	data->cmd[i + 1]
-			&&	data->cmd[i + 2]
-			&&	data->cmd[i] == ops_supported[j]
-			&&	data->cmd[i + 1] == ops_supported[j]
-			&&	data->cmd[i + 2] == ops_supported[j])
+			if	(cmd[i]
+			&&	cmd[i + 1]
+			&&	cmd[i + 2]
+			&&	cmd[i] == ops_supported[j]
+			&&	cmd[i + 1] == ops_supported[j]
+			&&	cmd[i + 2] == ops_supported[j])
 			{
 				// printf("Syntax error: '%c' [%d]\n", ops_supported[j], i + 3);
 				data->exit_status = 2;
@@ -114,22 +114,22 @@ bool	check_syntax(t_data *data)
 	return (true);
 }
 
-bool	syntax_err(t_data *data)
+bool	syntax_err(t_data *data, char *cmd)
 {
 	int i = 0;
 	int j = 0;
 	int k = 0;
 	char *ops_supported = ft_strdup("|&><");
 	
-	while (data->cmd[i] && data->cmd[i + 1] && data->cmd[i + 2])
+	while (cmd[i] && cmd[i + 1] && cmd[i + 2])
 	{
 		while (ops_supported[j])
 		{
-			if (data->cmd[i] == ops_supported[j])
+			if (cmd[i] == ops_supported[j])
 			{
 				while (ops_supported[k])
 				{
-					if (data->cmd[i + 2] == ops_supported[k])
+					if (cmd[i + 2] == ops_supported[k])
 					{
 						// printf("Syntax error: '%c' [%d]\n", ops_supported[k], i);
 						data->exit_status = 2;
