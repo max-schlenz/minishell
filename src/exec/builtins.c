@@ -168,8 +168,10 @@ bool	builtin_echo(t_data *data)
 					f_space = true;
 					break ;
 				}
-				else 
+				else
 					l += 2;
+				if (l > ft_strlen(data->argv[i]) - 1)
+					break ;
 			}
 			else if (data->argv[i][l] != '\\')
 			{
@@ -221,91 +223,138 @@ static bool	export_check_str(t_data *data, char *str)
 bool	builtin_export(t_data *data, char *setv)
 {
 	int		i;
+	int		index_arg;
 	size_t	len;
 	int		len_name;
 	int		len_content;
 	char	*str_name;
 	char	*str_content;
+	char	*err;
 	bool	set;
+	bool	free_set;
 
 	i = 0;
+	index_arg = 1;
 	set = false;
-	if (!setv)
-		setv = data->argv[1];
-	if (setv && setv[0] == '-')
+	free_set = false;
+	err = NULL;
+	while (data->argc > 0 || setv)
 	{
-		write(2, "Error: export: options not supported\n", 38);
-		data->exit_status = 2;
-		return (true);
-	}
-	if (setv && !export_check_str(data, setv))
-	{
-		data->exit_status = 1;
-		return (true);
-	}
-	if (setv && isidentifier(setv[0]))
-	{
-		len = strlen_var(setv);
-		if (setv[len] == '=')
+		if (!setv)
 		{
-			if (len < ft_strlen(setv) - 1)
+			free_set = true;
+			setv = ft_strdup(data->argv[index_arg]);
+		}
+		if (setv && setv[0] == '-')
+		{
+			err = strjoin_nl("Error: export: option not supported: ", setv);
+			write(2, err, ft_strlen(err));
+			free (err);
+			data->exit_status = 2;
+			if (free_set)
 			{
+				free (setv);
+				setv = NULL;
+			}
+			if (index_arg++ < data->argc)
+				continue ;
+			return (true);
+		}
+		if (setv && !export_check_str(data, setv))
+		{
+			err = strjoin_nl("Error: export: not valid in this context: ", setv);
+			write(2, err, ft_strlen(err));
+			free (err);
+			if (free_set)
+			{
+				free (setv);
+				setv = NULL;
+			}
+			data->exit_status = 1;
+			if (index_arg++ < data->argc)
+				continue ;
+			return (true);
+		}
+		if (setv && isidentifier(setv[0]))
+		{
+			len = strlen_var(setv);
+			if (setv[len] == '=')
+			{
+				if (len < ft_strlen(setv) - 1)
+				{
+					while (data->envp[i])
+					{
+						if (!ft_strncmp(data->envp[i], setv, len + 1))
+						{
+							free(data->envp[i]);
+							data->envp[i] = ft_strdup(setv);
+							set = true;
+						}
+						i++;
+					}
+					if (!set && !data->envp[i])
+						realloc_envp(data, setv, 1);
+					sort_array(data);
+					parse_path(data);
+				}
+			}
+			data->exit_status = 0;
+			if (free_set)
+			{
+				free (setv);
+				setv = NULL;
+			}
+			if (index_arg++ < data->argc)
+				continue ;
+			return (true);
+		}
+		else if (setv)
+		{
+			data->exit_status = 1;
+			err = strjoin_nl("Error: export: not a valid identifier: ", setv);
+			write(2, err, ft_strlen(err));
+			free (err);
+			if (free_set)
+			{
+				free (setv);
+				setv = NULL;
+			}
+			return (true);
+			// printf("export: %s is not a valid identifier\n", setv);
+		}
+	}
+		if (!setv)
+		{
+			pid_t pid;
+			pid = fork();
+			if (pid == 0)
+			{
+				redirs_pipes(data);
+				i = 0;
 				while (data->envp[i])
 				{
-					if (!ft_strncmp(data->envp[i], setv, len + 1))
-					{
-						free(data->envp[i]);
-						data->envp[i] = ft_strdup(setv);
-						set = true;
-					}
+					len_name = strlen_var(data->envp[i]);
+					len_content = ft_strlen(data->envp[i]) - len_name;
+					str_name = ft_substr(data->envp[i], 0, len_name);
+					str_content = ft_substr(data->envp[i], len_name + 1, len_content);
+					printf("declare -x %s=\"%s\"\n", str_name, str_content);
+					free (str_name);
+					free (str_content);
 					i++;
 				}
-				if (!set && !data->envp[i])
-					realloc_envp(data, setv, 1);
-				sort_array(data);
-				parse_path(data);
+				exit(0);
 			}
+			waitpid(pid, &data->exit_code, 0);
+			reset_pipes_flags(data);
+			data->exit_status = 0;
 		}
-		data->exit_status = 0;
 		return (true);
-	}
-	else if (setv)
-	{
-		data->exit_status = 1;
-		// printf("export: %s is not a valid identifier\n", setv);
-		write(2, "export: not a valid identifier\n", 32);
-	}
-	if (!setv)
-	{
-		pid_t pid;
-		pid = fork();
-		if (pid == 0)
-		{
-			redirs_pipes(data);
-			i = 0;
-			while (data->envp[i])
-			{
-				len_name = strlen_var(data->envp[i]);
-				len_content = ft_strlen(data->envp[i]) - len_name;
-				str_name = ft_substr(data->envp[i], 0, len_name);
-				str_content = ft_substr(data->envp[i], len_name + 1, len_content);
-				printf("declare -x %s=\"%s\"\n", str_name, str_content);
-				free (str_name);
-				free (str_content);
-				i++;
-			}
-			exit(0);
-		}
-		waitpid(pid, &data->exit_code, 0);
-		reset_pipes_flags(data);
-		data->exit_status = 0;
-	}
-	return (true);
 }
 
 bool	builtin_env(t_data *data)
 {
-	int	i;
+	int		i;
+	char	*err;
 
 	i = 0;
 	if (!data->argv[1])
@@ -315,18 +364,21 @@ bool	builtin_env(t_data *data)
 		data->exit_status = 0;
 	}
 	else
-		write(2, "syntax error\n", 14);
+	{
+		err = strjoin_nl("Error: env: parameters not supported: ", data->argv[1]);
+		write(2, err, ft_strlen(err));
+		free (err);
+	}
 	return (true);
 }
 
 bool	builtin_pwd(t_data *data)
 {
-	int	i;
+	char	*pwd;
 
-	i = 0;
-	while (data->envp[i] && ft_strncmp(data->envp[i], "PWD", 3))
-		i++;
-	printf("%s\n", data->envp[i] + 4);
+	pwd = getcwd(NULL, 0);
+	printf("%s\n", pwd);
+	free (pwd);
 	data->exit_status = 0;
 	return (true);
 }
@@ -334,28 +386,37 @@ bool	builtin_pwd(t_data *data)
 bool	builtin_unset(t_data *data)
 {
 	int i;
+	int index_arg;
 
 	i = 0;
-	if (data->argv[1])
+	index_arg = 1;
+	while (data->argv[index_arg])
 	{
 		while (data->envp[i])
 		{
-			if (!ft_strncmp(data->envp[i], data->argv[1], ft_strlen(data->argv[1])))
+			if (!ft_strncmp(data->envp[i], data->argv[index_arg], ft_strlen(data->argv[index_arg])))
+			{
+				data->counter_env--;
 				break;
+			}
 			i++;
 		}
 		while (i < data->counter_env - 1)
 		{
 			free(data->envp[i]);
+			data->envp[i] = NULL;
+			if (!data->envp[i + 1])
+				break ;
 			data->envp[i] = ft_strdup(data->envp[i + 1]);
 			i++;
 		}
-		free(data->envp[i]);
+		if (data->envp[i])
+			free(data->envp[i]);
 		data->envp[i] = NULL;
+		parse_path(data);
 		sort_array(data);
-		data->counter_env--;
-		data->exit_status = 0;
-		return (true);
+		i = 0;
+		index_arg++;
 	}
 	data->exit_status = 0;
 	return (true);

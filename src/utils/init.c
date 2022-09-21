@@ -15,6 +15,8 @@
 void	init_vars(t_data *data)
 {
 	data->prompt = ft_strdup("\x01\033[34;1m\x02mini\x01\033[36;1m\x02shell\x01\033[0;1m\x02 # \x01\033[0m\x02");
+	data->flags->debug = true;
+	data->flags->macos = false;
 	data->flags->pipe = false;
 	data->flags->error = false;
 	data->file_name = NULL;
@@ -26,11 +28,11 @@ void	init_vars(t_data *data)
 	data->flags->exit_code_of = false;
 	data->flags->noenv = false;
 	data->path = NULL;
-	// if (data->flags->debug)
-	// {
+	if (data->flags->debug)
+	{
 		data->debug = fopen("debug", "w");
 		fclose(data->debug);
-	// }
+	}
 }
 
 void	open_pipes(t_data *data)

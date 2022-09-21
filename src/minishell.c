@@ -14,6 +14,7 @@
 
 static void	clear_buffers(t_data *data)
 {
+	data->argc = 0;
 	if (data->cmd)
 		free (data->cmd);
 	data->cmd = NULL;
@@ -32,8 +33,6 @@ static void	clear_buffers(t_data *data)
 
 static void	init_prompt(t_data *data)
 {
-	data->flags->debug = true;
-	data->flags->macos = true;
 	data->flags->error = false;
 	data->flags->pipe = false;
 	data->flags->redir_out = false;

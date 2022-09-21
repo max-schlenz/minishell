@@ -77,6 +77,8 @@ static int exit_code_thing(int exit_status)
 
 bool	builtin_exit(t_data *data)
 {
+	char	*err;
+
 	if (data->argc > 1)
 	{
 		write(2, "Error: too many arguments\n", 27);
@@ -87,17 +89,26 @@ bool	builtin_exit(t_data *data)
 		data->exit_status = ms_atoll(data, data->argv[1]);
 		if (data->flags->exit_code_of)
 		{
-			write(2, "Error: numeric argument required\n", 34);
+			err = strjoin_nl("Error: exit: numeric argument required: ", data->argv[1]);
+			write (2, err, ft_strlen(err));
+			free (err);
 			if (data->flags->macos)
-			data->exit_status = 255;
+				data->exit_status = 255;
+			else
+				data->exit_status = 2;
 		}
 		if (data->exit_status > 255)
 			data->exit_status = exit_code_thing(data->exit_status);
 	}
 	if (data->argv[1] && !strnum(data->argv[1]))
 	{
-		write(2, "Error: numeric argument required\n", 34);
-		data->exit_status = 255;
+		err = strjoin_nl("Error: exit: numeric argument required: ", data->argv[1]);
+		write (2, err, ft_strlen(err));
+		free (err);
+		if (data->flags->macos)
+			data->exit_status = 255;
+		else
+			data->exit_status = 2;
 	}
 	write(2, "exit", 5);
 	free_array(data->argv);
@@ -140,19 +151,19 @@ void	pipes(t_data *data)
 {
 	if (data->fd_i == 0)
 	{
-		fprintf(data->debug, "pipe fd 0 write <-> stdout\n");
+		// fprintf(data->debug, "pipe fd 0 write <-> stdout\n");
 		dup2(data->pipes->pipefd[0][1], 1);								//stdout <-> fd 0 write
 	}
 	else if (data->fd_i < data->counter_pipes)
 	{
-		fprintf(data->debug, "pipe fd %d read <-> stdin\n", data->fd_i - 1);
+		// fprintf(data->debug, "pipe fd %d read <-> stdin\n", data->fd_i - 1);
 		dup2(data->pipes->pipefd[data->fd_i - 1][0], 0);				//stdin <-> fd 0 read
-		fprintf(data->debug, "pipe fd %d write <-> stdout\n", data->fd_i);
+		// fprintf(data->debug, "pipe fd %d write <-> stdout\n", data->fd_i);
 		dup2(data->pipes->pipefd[data->fd_i][1], 1);			 		//stdout <-> fd 1 write
 	}
 	else
 	{
-		fprintf(data->debug, "pipe fd %d read <-> stdin\n", data->fd_i - 1);
+		// fprintf(data->debug, "pipe fd %d read <-> stdin\n", data->fd_i - 1);
 		dup2(data->pipes->pipefd[data->fd_i - 1][0], 0);				//stdin <-> fd 3 read
 	}
 }
@@ -211,6 +222,7 @@ void	heredoc(t_data *data)
 void	redirs_pipes(t_data *data)
 {
 	int		fd;
+	int		fd2;
 
 	if (data->counter_pipes > 0 && data->flags->pipe)
 		pipes(data);

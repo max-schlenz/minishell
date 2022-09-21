@@ -239,7 +239,8 @@ bool	expand_vars(t_data *data)
 				i_char++;
 				continue ;
 			}
-			if (data->argv[i_arg][0] == '~' 
+			if (!data->flags->noenv
+			&& data->argv[i_arg][0] == '~' 
 			&& (!ft_isalnum(data->argv[i_arg][1])
 			&& !f_dquote && !f_squote && !f_esc) 
 			|| (data->argv[i_arg][i_char] == '$' 
@@ -271,7 +272,12 @@ bool	expand_vars(t_data *data)
 					str_before_vplus_vcontent = ft_strjoin(str_before_v, vcontent);
 					str_after_v = ft_strdup(data->argv[i_arg] + i_char + ft_strlen(vname));
 					free (data->argv[i_arg]);
-					data->argv[i_arg] = ft_strjoin(str_before_vplus_vcontent, str_after_v);
+
+					// printf("%d-%d\n", ft_strlen(str_before_vplus_vcontent), ft_strlen(str_after_v));
+					if (ft_strlen(str_before_vplus_vcontent) > 0 || ft_strlen(str_after_v) > 0)
+						data->argv[i_arg] = ft_strjoin(str_before_vplus_vcontent, str_after_v);
+					else
+						data->argv[i_arg] = ft_strdup("");
 					free (str_before_vplus_vcontent);
 					free (str_after_v);
 					free (vcontent);
@@ -280,6 +286,8 @@ bool	expand_vars(t_data *data)
 				free (str_before_v);
 				free (vname);
 				vname = NULL;
+				if (i_char > ft_strlen(data->argv[i_arg]))
+					break ;
 				continue ;
 			}
 			if (data->argv[i_arg][i_char] && data->argv[i_arg][i_char + 1])
@@ -308,7 +316,10 @@ bool	expand_vars(t_data *data)
 		if (!data->argv[i_arg][0])
 		{
 			if (data->argc == i_arg)
+			{
+				free (data->argv[i_arg]);
 				data->argv[i_arg] = NULL;
+			}
 		}
 		i_char = 0;
 		i_arg++;
@@ -464,11 +475,7 @@ bool	split_quotes(t_data *data, char *cmd, int *i)
 				if (cmd[*i] && cmd[*i] == '|')
 					data->flags->pipe = true;
 				if (cmd[*i] && cmd[*i] == '>')
-				{
-					data->flags->redir_out = true;
-					if (!set_filenames(data, i, cmd, 1))
-						return (true);
-				}	
+					continue ;
 				return (true);
 			}
 			if (cmd[*i] == '|' && !f_dquote && !f_squote)

@@ -91,3 +91,32 @@ long long	ms_atoll(t_data *data, const char *str)
 	}
 	return (r * is_neg);
 }
+
+char	*strjoin_nl(char const *s1, char const *s2)
+{
+	size_t	i;
+	size_t	j;
+	char	*str;
+
+	i = 0;
+	j = 0;
+	if (!s1 || !s2)
+		return (0);
+	str = malloc((ft_strlen(s1)) + (ft_strlen(s2)) + 2);
+	if (!str)
+		return (0);
+	while (s1[i] != '\0')
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	while (s2[j] != '\0')
+	{
+		str[i] = s2[j];
+		i++;
+		j++;
+	}
+	str[i] = '\n';
+	str[i + 1] = '\0';
+	return (str);
+}

@@ -111,7 +111,7 @@ void	parse_envp(t_data *data, char **envp)
 	while (envp[data->counter_env])
 		data->counter_env++;
 	if (data->flags->noenv)
-		data->counter_env = 2;
+		data->counter_env = 3;
 	data->envp = ft_calloc(data->counter_env + 1, sizeof(char *));
 	i = 0;
 	while (envp[i])
