@@ -26,8 +26,11 @@ void	init_vars(t_data *data)
 	data->flags->exit_code_of = false;
 	data->flags->noenv = false;
 	data->path = NULL;
-	data->debug = fopen("debug", "w");
-	fclose(data->debug);
+	// if (data->flags->debug)
+	// {
+		data->debug = fopen("debug", "w");
+		fclose(data->debug);
+	// }
 }
 
 void	open_pipes(t_data *data)

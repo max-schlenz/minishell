@@ -96,8 +96,8 @@ void	set_shlvl_env(t_data *data)
 	builtin_export(data, envv);
 	free (envv);
 	builtin_export(data, "_=/usr/sbin/env");
-	pwd = ft_calloc(1024, sizeof(char));
-	getcwd(pwd, 1024);
+	// pwd = ft_calloc(1024, sizeof(char));
+	pwd = getcwd(NULL, 0);
 	envv = ft_strjoin("PWD=", pwd);
 	free(pwd);
 	builtin_export(data, envv);

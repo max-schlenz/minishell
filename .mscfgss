@@ -1,0 +1,73 @@
+COLOR=yg
+HISTORY=lol
+HISTORY=echi lol
+HISTORY=make re
+HISTORY=echo '' | cat -e
+HISTORY=echo lol '' lol | cat -e
+HISTORY=hello world
+HISTORY=echo $?
+HISTORY=hello world
+HISTORY=exit
+HISTORY=exit --1239312
+HISTORY=ls
+HISTORY=echo $?
+HISTORY=unset PATH
+HISTORY=echo $PATH
+HISTORY=ls
+HISTORY=env
+HISTORY=exit
+HISTORY=unset PATH
+HISTORY=echo $PATH
+HISTORY=unset PATH
+HISTORY=ls
+HISTORY=unset PATH
+HISTORY=ls
+HISTORY=./minishell
+HISTORY=exit
+HISTORY=minishell
+HISTORY=exit
+HISTORY=./ms2
+HISTORY=exit
+HISTORY=./ms2
+HISTORY=echo $?
+HISTORY=echo "lol$USER/" | grep l >> miuep && ls || ls || ls >> miuep > bam && cat < x.txt && << f cat
+HISTORY=echo "lol$USER/" | grep l >> miuep && ls || ls || ls >> miuep > bam && cat < x.txt
+HISTORY=<< f cat
+HISTORY=echo "lol$USER/" | grep l >> miuep && ls || ls || ls >> miuep > bam
+HISTORY=rm ms2 miuep 
+HISTORY=rm x.txt 
+HISTORY=ls > lol
+HISTORY=cat lol
+HISTORY=rm lol
+HISTORY=ls > lol > lol2
+HISTORY=cd ..
+HISTORY=env | grep "_="
+HISTORY=env
+HISTORY=exit
+t ZZZ=000
+HISTORY=env
+HISTORY=export ZZZ=111
+HISTORY=env
+HISTORY=export _ZZZ=111
+HISTORY=env
+HISTORY=export _ZZZ=111
+HISTORY=env
+HISTORY=export _ZZZ=111
+HISTORY=env
+HISTORY=export _=111
+HISTORY=env
+HISTORY=export _=111
+HISTORY=env
+HISTORY=export _=1112
+HISTORY=env
+HISTORY=export
+HISTORY=env
+HISTORY=exit
+HISTORY=echo lol > out > out 
+HISTORY=ls
+HISTORY=echo *i
+HISTORY=echo *i*
+HISTORY=echo i*n
+HISTORY=echo i*n*
+HISTORY=color
+HISTORY=exit

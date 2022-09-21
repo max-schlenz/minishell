@@ -20,7 +20,7 @@ static char *get_path(t_data *data)
 	char	*cmd_trim;
 
 	i = 0;
-	while (data->path[i])
+	while (data->path && data->path[i])
 	{
 		abs_path_bs = ft_strjoin(data->path[i], "/");
 		cmd_trim = ft_strtrim(data->argv[0], " ");
@@ -88,7 +88,8 @@ bool	builtin_exit(t_data *data)
 		if (data->flags->exit_code_of)
 		{
 			write(2, "Error: numeric argument required\n", 34);
-			data->exit_status = 2;
+			if (data->flags->macos)
+			data->exit_status = 255;
 		}
 		if (data->exit_status > 255)
 			data->exit_status = exit_code_thing(data->exit_status);
@@ -96,7 +97,7 @@ bool	builtin_exit(t_data *data)
 	if (data->argv[1] && !strnum(data->argv[1]))
 	{
 		write(2, "Error: numeric argument required\n", 34);
-		data->exit_status = 2;
+		data->exit_status = 255;
 	}
 	write(2, "exit", 5);
 	free_array(data->argv);
@@ -296,7 +297,8 @@ bool	exec_program(t_data *data)
 			data->exit_status = 127;
 		perror("Error ");
 		free (abs_path);
-		closedir(tmp);
+		if (tmp)
+			closedir(tmp);
 		return (true);
 	}
 	free (abs_path);

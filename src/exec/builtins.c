@@ -168,7 +168,7 @@ bool	builtin_echo(t_data *data)
 					f_space = true;
 					break ;
 				}
-				else
+				else 
 					l += 2;
 			}
 			else if (data->argv[i][l] != '\\')
@@ -234,7 +234,7 @@ bool	builtin_export(t_data *data, char *setv)
 		setv = data->argv[1];
 	if (setv && setv[0] == '-')
 	{
-		write(2, "Error: export: options not supported\n", 3);
+		write(2, "Error: export: options not supported\n", 38);
 		data->exit_status = 2;
 		return (true);
 	}
@@ -252,7 +252,7 @@ bool	builtin_export(t_data *data, char *setv)
 			{
 				while (data->envp[i])
 				{
-					if (!ft_strncmp(data->envp[i], setv, len))
+					if (!ft_strncmp(data->envp[i], setv, len + 1))
 					{
 						free(data->envp[i]);
 						data->envp[i] = ft_strdup(setv);
@@ -353,6 +353,7 @@ bool	builtin_unset(t_data *data)
 		free(data->envp[i]);
 		data->envp[i] = NULL;
 		sort_array(data);
+		data->counter_env--;
 		data->exit_status = 0;
 		return (true);
 	}

@@ -26,7 +26,7 @@ BCYAN	=	$(shell echo -e "\033[1;36m")
 # ---------------------------------------#
 
 MAKEFLAGS 		=	--no-print-directory
-FLAGS			= 	-g #-fsanitize=address #-Wall -Wextra -Werror
+FLAGS			= 	#-g #-fsanitize=address #-Wall -Wextra -Werror
 
 NAME			=	minishell
 
@@ -45,7 +45,7 @@ SRC				= 	${NAME}						\
 					utils/signal				\
 					utils/utils					\
 					utils/config				\
-					parse/split					\
+					parse/argv					\
 					parse/syntax				\
 					parse/pre_parse				\
 					parse/wildcards

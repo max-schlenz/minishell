@@ -295,6 +295,16 @@ bool	expand_vars(t_data *data)
 			remove_quotes(data, i_arg);
 			remove_backslashes(data, i_arg);
 		}
+		else if (ft_strncmp(data->argv[0], "echo", 4) && !ft_strncmp(data->argv[i_arg], "\'\'", 2) || !ft_strncmp(data->argv[i_arg], "\"\"", 2))
+		{
+			free(data->argv[i_arg]);
+			// if (ft_strlen(data->argv[i_arg]))
+			// if (i_arg < data->argc)
+			data->argv[i_arg] = ft_strdup("");
+			// else
+			// 	data->argv[i_arg] = ft_strdup("");
+				
+		}
 		if (!data->argv[i_arg][0])
 		{
 			if (data->argc == i_arg)

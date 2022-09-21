@@ -63,6 +63,7 @@ typedef struct s_flags {
 	bool	prio;
 	bool	noenv;
 	bool	exit_code_of;
+	bool	macos;
 }	t_flags;
 
 typedef struct s_data
