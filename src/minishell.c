@@ -119,7 +119,11 @@ static int	prompt(t_data *data, char *cmd, int flag)
 	if (flag)
 		data->cmd = ft_strdup(cmd);
 	else
+	{
+		// data->cmd = get_next_line(0);
+		// data->cmd = ft_strtrim(data->cmd, "\n");
 		data->cmd = readline(data->prompt);
+	}
 	i = 0;
 	if (!data->cmd)
 		data->cmd = ft_strdup("exit");
@@ -165,12 +169,15 @@ static int	prompt(t_data *data, char *cmd, int flag)
 		||	(data->flags->and && !data->exit_status) 
 		||	(data->flags->or && data->exit_status))
 		{
-			data->debug = fopen("debug", "a+");
 			if (data->flags->debug)
+			{
+				data->debug = fopen("debug", "a+");
 				dbg(data);
+			}
 			if (!builtin_environment(data))
 				exec_program(data);
-			fclose(data->debug);
+			if (data->flags->debug)
+				fclose(data->debug);
 		}
 		left = false;
 		free_array(data->argv);

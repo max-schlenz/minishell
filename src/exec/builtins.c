@@ -133,6 +133,7 @@ bool	builtin_echo(t_data *data)
 	bool	f_squote = false;
 	bool	f_dquote = false;
 	bool	f_space = false;
+	bool	f_fc = false;
 	int j = 0;
 	int k = 0;
 	int l = 0;
@@ -160,17 +161,29 @@ bool	builtin_echo(t_data *data)
 			i++;
 		while (data->argv[i][l])
 		{
-			// if (f_space && l == 0)
-			// 	printf(" ");
-			if (data->argv[i][l] != '\\')
+			if (i <= data->argc && !ft_strncmp(data->argv[i], "\'\'", 2) || !ft_strncmp(data->argv[i], "\"\"", 2))
+			{
+				if (i == data->argc)
+				{
+					f_space = true;
+					break ;
+				}
+				else
+					l += 2;
+			}
+			else if (data->argv[i][l] != '\\')
+			{
 				printf("%c", data->argv[i][l]);
+				f_fc = true;
+			}
 			l++;
 		}
+		if (f_space)
+			break ;
 		l = 0;
-		if (data->argv[i] && ft_strlen(data->argv[i]) >= 0 && (!(echo_n && i < 3)))
-				printf(" ");
-		f_space = true;
 		i++;
+		if (f_fc && data->argv[i] && ft_strlen(data->argv[i]) > 0 && (!(echo_n && i < 3)))
+				printf(" ");
 	}
 	if (!echo_n)
 		printf("\n");

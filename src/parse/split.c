@@ -96,7 +96,7 @@ char	*get_var_content(t_data *data, char *var)
 			return(ft_strdup(data->envp[i] + len_var + 1));
 		i++;
 	}
-	return (NULL);
+	return (ft_strdup(""));
 }
 
 static void remove_quotes(t_data *data, int i_arg)
@@ -208,6 +208,7 @@ bool	expand_vars(t_data *data)
 	int	i = 0;
 	int	test = 0;
 
+
 	char *str_before_v;
 	char *vname;
 	char *vcontent;
@@ -269,33 +270,17 @@ bool	expand_vars(t_data *data)
 				{
 					str_before_vplus_vcontent = ft_strjoin(str_before_v, vcontent);
 					str_after_v = ft_strdup(data->argv[i_arg] + i_char + ft_strlen(vname));
-					// if (test)
-					// {
-					// 	// printf("lol\n");
-					// 	free (data->argv[test]);
-					// 	data->argv[test] = ft_strjoin(str_before_vplus_vcontent, str_after_v);
-					// 	test = 0;
-					// }
-					// else
-					// {
-						free (data->argv[i_arg]);
-						data->argv[i_arg] = ft_strjoin(str_before_vplus_vcontent, str_after_v);
-					// }
+					free (data->argv[i_arg]);
+					data->argv[i_arg] = ft_strjoin(str_before_vplus_vcontent, str_after_v);
 					free (str_before_vplus_vcontent);
 					free (str_after_v);
 					free (vcontent);
 					vcontent = NULL;
 				}
-				else
-				{
-					data->argv = realloc_var(data, i_arg);
-					i_arg--;
-					// printf("%d\n", i_arg);
-				}
-					
 				free (str_before_v);
 				free (vname);
 				vname = NULL;
+				continue ;
 			}
 			if (data->argv[i_arg][i_char] && data->argv[i_arg][i_char + 1])
 				i_char++;
@@ -305,39 +290,19 @@ bool	expand_vars(t_data *data)
 		}
 		if (!data->argv[i_arg])
 			break ;
-		// printf("%s\n",data->argv[i_arg]);
-		// else if (data->argv[i_arg][0] == '\'' || data->argv[i_arg][0] == '\"')
 		if (ft_strlen(data->argv[i_arg]) > 2)
 		{
 			remove_quotes(data, i_arg);
 			remove_backslashes(data, i_arg);
 		}
-		else if (!ft_strncmp(data->argv[i_arg], "\'\'", 2) || !ft_strncmp(data->argv[i_arg], "\"\"", 2))
-		{
-			free(data->argv[i_arg]);
-			// if (ft_strlen(data->argv[i_arg]))
-			// if (i_arg < data->argc)
-			data->argv[i_arg] = ft_strdup("");
-			// else
-			// 	data->argv[i_arg] = ft_strdup("");
-				
-		}
 		if (!data->argv[i_arg][0])
 		{
-			// free(data->argv[i_arg]);
 			if (data->argc == i_arg)
 				data->argv[i_arg] = NULL;
-			// else
-			// 	data->argv[i_arg] = ft_strdup("");
 		}
 		i_char = 0;
 		i_arg++;
 	}
-	// int k = 0;
-	// while (data->argv[k])
-	// {
-	// 	if ()
-	// }
 	return (true);
 }
 
