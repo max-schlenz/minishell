@@ -513,7 +513,12 @@ bool	split_quotes(t_data *data, char *cmd, int *i)
 				if (cmd[*i] && cmd[*i] == '|')
 					data->flags->pipe = true;
 				if (cmd[*i] && cmd[*i] == '>')
+				{
+					data->flags->redir_in = false;
+					data->flags->redir_out = false;
+					data->flags->redir_append = false;
 					continue ;
+				}
 				return (true);
 			}
 			if (cmd[*i] == '|' && !f_dquote && !f_squote)
