@@ -15,13 +15,17 @@
 static char *get_path(t_data *data)
 {
 	int		i;
+	int		j;
 	char	*abs_path_bs;
 	char	*abs_path;
 	char	*cmd_trim;
 
 	i = 0;
+	j = 0;
 	while (data->path && data->path[i])
 	{
+		if (ft_strchr(data->argv[0] + 2, '/'))
+			return (NULL);
 		abs_path_bs = ft_strjoin(data->path[i], "/");
 		cmd_trim = ft_strtrim(data->argv[0], " ");
 		abs_path = ft_strjoin(abs_path_bs, cmd_trim);

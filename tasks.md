@@ -27,8 +27,5 @@
 - export "'#
 - rm x (when x doesnt exist doesnt error)
 
-cd -
-
-unset env -i
-fix ~
-fix pwd
+cat ctrl+c nl
+cat | cat | ls
