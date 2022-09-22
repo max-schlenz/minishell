@@ -155,6 +155,11 @@ bool	syntax_err(t_data *data, char *cmd)
 		{
 			if (cmd[i] == ops_supported[j])
 			{
+				if (ft_strncmp(cmd + i, "<<", 3))
+				{
+					i++;
+					continue ;
+				}
 				while (ops_supported[k])
 				{
 					if (cmd[i + 2] == ops_supported[k])

@@ -473,7 +473,7 @@ bool	split_quotes(t_data *data, char *cmd, int *i)
 					data->flags->heredoc = true;
 					data->argv[array_index] = NULL;
 					if (!heredoc_delim(data, i, &j, cmd))
-						return (true);
+						return (false);
 					(*i)++;
 				}
 				else
@@ -550,7 +550,7 @@ bool	split_quotes(t_data *data, char *cmd, int *i)
 			(*i)++;
 			f_esc = false;
 		}
-		if (cmd[*i] || !data->flags->heredoc || heredoc_begin)
+		if (cmd[*i] || data->flags->heredoc || !data->flags->heredoc || heredoc_begin)
 		{
 			parse_string(data, cmd, &array_index, (*i), j);
 			data->argv[++array_index] = NULL;
