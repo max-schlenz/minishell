@@ -232,6 +232,15 @@ void	redirs_pipes(t_data *data)
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
+	if (data->flags->redir_append && data->flags->redir_out)
+	{
+		fd = open(data->file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		fd2 = open(data->file_name2, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
+		dup2(fd2, STDOUT_FILENO);
+		close(fd2);
+	}
 	else if (data->flags->redir_out)
 	{
 		fd = open(data->file_name2, O_CREAT | O_TRUNC | O_WRONLY, 0644);

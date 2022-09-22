@@ -201,6 +201,28 @@ static void	remove_backslashes(t_data *data, int i_arg)
 	}
 }
 
+static bool	check_var_exists(t_data *data, char *var)
+{
+	int i;
+	char *tmp;
+
+	i = 0;
+	if (var && var[0] == '~' || !ft_strncmp(var, "$?", 2) || (var && var[0] && var[1] && isnumeric(var[1])))
+		return (true);
+	tmp = ft_strjoin(var + 1, "=");
+	while (data->envp[i])
+	{
+		if (!ft_strncmp(tmp, data->envp[i], ft_strlen(tmp)))
+		{
+			free(tmp);
+			return (true);
+		}
+		i++;
+	}
+	free(tmp);
+	return (false);
+}
+
 bool	expand_vars(t_data *data)
 {
 	int i_arg;
@@ -250,6 +272,22 @@ bool	expand_vars(t_data *data)
 			{
 				str_before_v = ft_substr(data->argv[i_arg], 0, i_char);
 				vname = ft_substr(data->argv[i_arg], i_char, strlen_path(data->argv[i_arg] + i_char));
+				if (!check_var_exists(data, vname) && data->argv[i_arg][i_char] && data->argv[i_arg][i_char + 1] && ft_strncmp(data->argv[i_arg] + i_char, "$?", 2))
+				{
+					str_after_v = ft_strdup(data->argv[i_arg] + i_char + ft_strlen(vname));
+					free(data->argv[i_arg]);
+					if (ft_strlen(str_before_v) > 0)
+						data->argv[i_arg] = ft_strjoin(str_before_v, str_after_v);
+					else
+						data->argv[i_arg] = ft_strdup("");
+					free (str_before_v);
+					str_before_v = NULL;
+					free (str_after_v);
+					str_after_v = NULL;
+					free (vname);
+					vname = NULL;
+					continue ;
+				}
 				if (data->argv[i_arg][i_char] && data->argv[i_arg][i_char + 1] && !ft_strncmp(data->argv[i_arg] + i_char, "$?", 2))
 				{
 					i_char++;

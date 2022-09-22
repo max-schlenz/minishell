@@ -112,17 +112,29 @@ static int	prompt(t_data *data, char *cmd, int flag)
 {
 	bool	left;
 	char	*tmp_cmd;
+	char	*cwd;
+	char	*prompt_cwd;
+	char	*prompt;
 	int		i;
 
 	left = true;
 	data->cmd = NULL;
+	i = 0;
 	if (flag)
 		data->cmd = ft_strdup(cmd);
 	else
 	{
 		// data->cmd = get_next_line(0);
 		// data->cmd = ft_strtrim(data->cmd, "\n");
-		data->cmd = readline(data->prompt);
+		cwd = getcwd(NULL, 0);
+		while (cwd[ft_strlen(cwd) - i] != '/')
+			i++;
+		prompt_cwd = ft_strjoin(data->prompt, cwd + ft_strlen(cwd) - i + 1);
+		free (cwd);
+		prompt = ft_strjoin(prompt_cwd, "]\x01\033[0;1m\x02 #\x01\033[0m\x02 ");
+		free (prompt_cwd);
+		data->cmd = readline(prompt);
+		free (prompt);
 	}
 	i = 0;
 	if (!data->cmd)

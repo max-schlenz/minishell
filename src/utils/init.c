@@ -16,7 +16,7 @@ void	init_vars(t_data *data)
 {
 	data->prompt = ft_strdup("\x01\033[34;1m\x02mini\x01\033[36;1m\x02shell\x01\033[0;1m\x02 # \x01\033[0m\x02");
 	data->flags->debug = true;
-	data->flags->macos = false;
+	data->flags->macos = true;
 	data->flags->pipe = false;
 	data->flags->error = false;
 	data->file_name = NULL;

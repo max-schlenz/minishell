@@ -438,7 +438,7 @@ bool	builtin_color(t_data *data, char *cfg)
 	i = 0;
 	j = 0;
 	prompt[1] = ft_strdup("mini");
-	prompt[3] = ft_strdup("shell\x01\033[0;1m\x02 #\x01\033[0m\x02  ");
+	prompt[3] = ft_strdup("shell\x01\033[0m\x02 > [");
 	if (!cfg)
 	{
 		printf("change the color of your prompt!\n\n \
