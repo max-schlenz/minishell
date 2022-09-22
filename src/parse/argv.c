@@ -424,12 +424,14 @@ bool	split_quotes(t_data *data, char *cmd, int *i)
 	bool	f_squote;
 	bool	f_esc;
 	bool	heredoc_begin;
+	int		tmp_fd;
 
 	f_dquote = false;
 	f_squote = false;
 	f_esc = false;
 	heredoc_begin = false;
 	k = 0;
+	tmp_fd = 0;
 	if (alloc_mem_array(data, cmd))
 	{
 		j = (*i);
@@ -517,6 +519,11 @@ bool	split_quotes(t_data *data, char *cmd, int *i)
 					data->flags->redir_in = false;
 					data->flags->redir_out = false;
 					data->flags->redir_append = false;
+					if (data->file_name2)
+					{
+						tmp_fd = open(data->file_name2, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+						close(tmp_fd);
+					}
 					continue ;
 				}
 				return (true);
