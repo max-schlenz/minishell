@@ -170,8 +170,8 @@ bool			builtin_history(t_data *data);
 void			pipes(t_data *data);
 
 //utils/signal.c
-void			signal_handler(int signal);
-void			signals();
+void			signal_handler(int signal, siginfo_t *info, void *context);
+void			signals(bool inter_active);
 
 //utils/config.c
 void			create_config();

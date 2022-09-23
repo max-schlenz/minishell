@@ -296,7 +296,8 @@ bool	exec_program(t_data *data)
 		ms_exit(2, WEXITSTATUS(data->exit_code));
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
+		//signal(SIGINT, SIG_DFL);
+		signals(true);
 		redirs_pipes(data);
 		if (!builtin_print(data))
 		{

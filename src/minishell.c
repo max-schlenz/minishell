@@ -207,7 +207,7 @@ int	main(int argc, char **argv, char **envp)
 	t_data		*data;
 
 	data = allocate_mem();
-	signals();
+	signals(false);
 	init_vars(data);
 	if (!*envp)
 	{
