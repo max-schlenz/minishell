@@ -25,14 +25,13 @@ void	signal_handler(int sig, siginfo_t *info, void *context)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	// if (sig == SIGQUIT)  --> das exited automatisch es kommt garnicht in das if rein lol
+	// if (sig == SIGQUIT)  --> das exited automatisch davor es kommt garnicht in das if rein lol
 	// 	exit(0);
-	if (sig == SIGCHLD && info->si_status == 3) //falls der si status bei mir in poos anders ist als auf mac, dann einfach : info->si_status != 0
+	if (sig == SIGCHLD && info->si_status == 3) //falls der si status auf mac anders ist, dann einfach : info->si_status != 0
 	{
 		printf("Quit (core dumped)");
 		printf("\n");
 	}
-	usleep(100);
 }
 
 void	signals(bool in_child)
