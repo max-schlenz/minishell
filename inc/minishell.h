@@ -202,5 +202,6 @@ void			dbg(t_data *data);
 void			heredoc(t_data *data);
 long long		ms_atoll(t_data *data, const char *str);
 char			*strjoin_nl(char const *s1, char const *s2);
+void			wait_for_childs(t_data *data);
 
 #endif

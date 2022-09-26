@@ -27,7 +27,8 @@ static void	clear_buffers(t_data *data)
 	if (data->heredoc_delim)
 		free (data->heredoc_delim);
 	data->heredoc_delim = NULL;
-	close_pipes(data);
+	if (data->flags->pipe)
+		close_pipes(data);
 	data->flags->pipe = 0;
 }
 
@@ -108,10 +109,11 @@ static void prio(t_data *data, char *cmd, int *i)
 	}
 }
 
-static void	wait_for_childs(t_data *data)
+void	wait_for_childs(t_data *data)
 {
-	while (wait(&data->exit_code) != -1)
+	while (wait(&data->exit_code) > 0)
 		continue ;
+	data->exit_status = WEXITSTATUS(data->exit_code);
 }
 
 static int	prompt(t_data *data, char *cmd, int flag)
@@ -143,8 +145,8 @@ static int	prompt(t_data *data, char *cmd, int flag)
 		free (prompt);
 	}
 	i = 0;
-	if (!data->cmd)
-		data->cmd = ft_strdup("exit");
+	// if (!data->cmd)
+	// 	data->cmd = ft_strdup("exit");
 	if (data->cmd[0] && data->cmd[0] != '\n')
 	{
 		history(data);

@@ -364,5 +364,4 @@ void	reset_pipes_flags(t_data *data)
 		data->flags->heredoc = false;
 	if (data->flags->pipe && (data->flags->redir_out || data->flags->redir_in))
 		data->flags->pipe = false;
-	data->exit_status = WEXITSTATUS(data->exit_code);
 }

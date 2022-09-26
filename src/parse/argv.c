@@ -450,7 +450,8 @@ bool	split_quotes(t_data *data, char *cmd, int *i)
 				close_pipes(data);
 				data->fd_i = 0;
 				if (count_pipes(data, cmd + (*i)))
-					open_pipes(data);
+					;
+				wait_for_childs(data);
 				return (true);
 			}
 			if (!ft_strncmp(cmd + (*i), "||", 2) && !f_dquote && !f_squote)
@@ -463,7 +464,8 @@ bool	split_quotes(t_data *data, char *cmd, int *i)
 				close_pipes(data);
 				data->fd_i = 0;
 				if (count_pipes(data, cmd + (*i)))
-					open_pipes(data);
+					;
+				wait_for_childs(data);
 				return (true);
 			}
 			if (!ft_strncmp(cmd + (*i), "<<", 2) && !f_dquote && !f_squote)
