@@ -155,21 +155,30 @@ void	pipes(t_data *data)
 {
 	if (data->fd_i == 0)
 	{
-		// fprintf(data->debug, "pipe fd 0 write <-> stdout\n");
+		// fprintf(data->debug, "fd: %d, pipe fd 0 write <-> stdout\n", data->pipes->pipefd[0][1]);
 		dup2(data->pipes->pipefd[0][1], 1);								//stdout <-> fd 0 write
+		close (data->pipes->pipefd[0][1]);
+		close (data->pipes->pipefd[0][0]);
 	}
 	else if (data->fd_i < data->counter_pipes)
 	{
-		// fprintf(data->debug, "pipe fd %d read <-> stdin\n", data->fd_i - 1);
+		// fprintf(data->debug, "fd: %d, pipe fd %d read <-> stdin\n", data->pipes->pipefd[data->fd_i - 1][0],  data->fd_i - 1);
 		dup2(data->pipes->pipefd[data->fd_i - 1][0], 0);				//stdin <-> fd 0 read
-		// fprintf(data->debug, "pipe fd %d write <-> stdout\n", data->fd_i);
+		close (data->pipes->pipefd[data->fd_i - 1][0]);
+		close (data->pipes->pipefd[data->fd_i - 1][1]);
+		// fprintf(data->debug, "fd: %d, pipe fd %d write <-> stdout\n", data->pipes->pipefd[data->fd_i - 1][1], data->fd_i);
 		dup2(data->pipes->pipefd[data->fd_i][1], 1);			 		//stdout <-> fd 1 write
+		close (data->pipes->pipefd[data->fd_i][1]);
+		close (data->pipes->pipefd[data->fd_i][0]);
 	}
 	else
 	{
-		// fprintf(data->debug, "pipe fd %d read <-> stdin\n", data->fd_i - 1);
+		// fprintf(data->debug, "fd: %d, pipe fd %d read <-> stdin\n", data->pipes->pipefd[data->fd_i - 1][0], data->fd_i - 1);
 		dup2(data->pipes->pipefd[data->fd_i - 1][0], 0);				//stdin <-> fd 3 read
+		close (data->pipes->pipefd[data->fd_i - 1][0]);
+		close (data->pipes->pipefd[data->fd_i - 1][1]);
 	}
+	// printf(÷"\n");
 }
 
 void	dbg(t_data *data)
@@ -289,7 +298,11 @@ bool	exec_program(t_data *data)
 		abs_path = ft_strdup(data->argv[0]);
 	tmp = opendir(abs_path);
 	if (!tmp && (!access(abs_path, F_OK) || is_builtin(data)))
+	{
+		if (data->flags->pipe)
+			pipe(data->pipes->pipefd[data->fd_i]);
 		pid = fork();
+	}
 	else
 		error = true;
 	if (pid == -1)
@@ -321,15 +334,25 @@ bool	exec_program(t_data *data)
 	free (abs_path);
 	if (tmp)
 		closedir(tmp);
-	waitpid(pid, &data->exit_code, 0);
 	reset_pipes_flags(data);
 	return (true);
 }
 
 void	reset_pipes_flags(t_data *data)
 {
-	if (data->counter_pipes > 0 && data->fd_i != data->counter_pipes)
-		close(data->pipes->pipefd[data->fd_i][1]);
+	if (data->counter_pipes)
+	{
+		if (data->fd_i == 0)
+			close (data->pipes->pipefd[0][1]);
+		else if (data->fd_i < data->counter_pipes)
+			close (data->pipes->pipefd[data->fd_i - 1][0]);
+		else
+		{
+			close (data->pipes->pipefd[data->fd_i - 1][0]);
+			close (data->pipes->pipefd[data->fd_i][0]);
+			close (data->pipes->pipefd[data->fd_i - 1][1]);
+		}
+	}
 	data->fd_i++;
 	if (data->flags->redir_out)
 		data->flags->redir_out = false;

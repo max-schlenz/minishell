@@ -108,6 +108,12 @@ static void prio(t_data *data, char *cmd, int *i)
 	}
 }
 
+static void	wait_for_childs(t_data *data)
+{
+	while (wait(&data->exit_code) != -1)
+		continue ;
+}
+
 static int	prompt(t_data *data, char *cmd, int flag)
 {
 	bool	left;
@@ -150,7 +156,8 @@ static int	prompt(t_data *data, char *cmd, int flag)
 			return (data->exit_status);
 		}
 		if (count_pipes(data, tmp_cmd))
-			open_pipes(data);
+			;
+			// open_pipes(data);
 	}
 	else
 		return (0);
@@ -195,6 +202,7 @@ static int	prompt(t_data *data, char *cmd, int flag)
 		free_array(data->argv);
 		free(data->argv);
 	}
+	wait_for_childs(data);
 	data->flags->and = false;
 	data->flags->or = false;
 	free(tmp_cmd);

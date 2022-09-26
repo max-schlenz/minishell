@@ -51,7 +51,7 @@ void	close_pipes(t_data *data)
 	int	i;
 
 	i = 0;
-	while (i < data->counter_pipes)
+	while (i <= data->counter_pipes)
 	{
 		close(data->pipes->pipefd[i][0]);
 		close(data->pipes->pipefd[i++][1]);	
