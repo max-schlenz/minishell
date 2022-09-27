@@ -157,9 +157,7 @@ static int	prompt(t_data *data, char *cmd, int flag)
 			tmp_cmd = NULL;
 			return (data->exit_status);
 		}
-		if (count_pipes(data, tmp_cmd))
-			;
-			// open_pipes(data);
+		count_pipes(data, tmp_cmd);
 	}
 	else
 		return (0);
@@ -167,8 +165,7 @@ static int	prompt(t_data *data, char *cmd, int flag)
 	{
 		while (tmp_cmd[i] == ' ' || tmp_cmd[i] == ';')
 			i++;
-		if (!split_quotes(data, tmp_cmd, &i))
-			break ;
+		split_quotes(data, tmp_cmd, &i);
 		if (!tmp_cmd[i - 1])
 		{
 			free_array(data->argv);
@@ -233,7 +230,7 @@ int	main(int argc, char **argv, char **envp)
 		clear_buffers(data);
     	cleanup(data, 0);
   	}
-	read_config(data);
+	read_cfg(data);
 	while (1)
 	{
 		init_prompt(data);

@@ -12,16 +12,14 @@
 
 #include <minishell.h>
 
-static char *get_path(t_data *data)
+static char	*get_path(t_data *data)
 {
 	int		i;
-	int		j;
 	char	*abs_path_bs;
 	char	*abs_path;
 	char	*cmd_trim;
 
 	i = 0;
-	j = 0;
 	while (data->path && data->path[i])
 	{
 		if (ft_strchr(data->argv[0] + 2, '/'))
@@ -39,10 +37,9 @@ static char *get_path(t_data *data)
 	return (NULL);
 }
 
-
 static bool	strnum(char *str)
 {
-	int i;
+	size_t	i;
 
 	i = 0;
 	if (str[0] == '-' || str[0] == '+')
@@ -54,11 +51,11 @@ static bool	strnum(char *str)
 	return (true);
 }
 
-static int exit_code_thing(int exit_status)
+static int	exit_code_thing(int exit_status)
 {
-	int i;
-	int ret;
-	
+	int	i;
+	int	ret;
+
 	i = 0;
 	ret = 0;
 	while (i < exit_status)
@@ -85,7 +82,7 @@ bool	builtin_exit(t_data *data)
 
 	if (data->argc > 1)
 	{
-		write(2, "Error: too many arguments\n", 27);
+		write(2, E_TM_ARG, 27);
 		data->exit_status = 1;
 	}
 	else if (data->argv[1] && strnum(data->argv[1]))
@@ -93,7 +90,7 @@ bool	builtin_exit(t_data *data)
 		data->exit_status = ms_atoll(data, data->argv[1]);
 		if (data->flags->exit_code_of)
 		{
-			err = strjoin_nl("Error: exit: numeric argument required: ", data->argv[1]);
+			err = strjoin_nl(E_EXIT_REQNO, data->argv[1]);
 			write (2, err, ft_strlen(err));
 			free (err);
 			if (data->flags->macos)
@@ -106,7 +103,7 @@ bool	builtin_exit(t_data *data)
 	}
 	if (data->argv[1] && !strnum(data->argv[1]))
 	{
-		err = strjoin_nl("Error: exit: numeric argument required: ", data->argv[1]);
+		err = strjoin_nl(E_EXIT_REQNO, data->argv[1]);
 		write (2, err, ft_strlen(err));
 		free (err);
 		if (data->flags->macos)
@@ -118,13 +115,14 @@ bool	builtin_exit(t_data *data)
 	free_array(data->argv);
 	free (data->argv);
 	cleanup(data, 0);
+	return (true);
 }
 
 bool	builtin_environment(t_data *data)
 {
 	if (data->argv[0])
 	{
-		if (!ft_strncmp(data->argv[0], "exit", 5)) // || data->argv[0] == '\0')
+		if (!ft_strncmp(data->argv[0], "exit", 5))
 			return (builtin_exit(data));
 		else if (!ft_strncmp(data->argv[0], "cd", 3))
 			return (builtin_cd(data));
@@ -155,30 +153,25 @@ void	pipes(t_data *data)
 {
 	if (data->fd_i == 0)
 	{
-		// fprintf(data->debug, "fd: %d, pipe fd 0 write <-> stdout\n", data->pipes->pipefd[0][1]);
 		dup2(data->pipes->pipefd[0][1], 1);								//stdout <-> fd 0 write
 		close (data->pipes->pipefd[0][1]);
 		close (data->pipes->pipefd[0][0]);
 	}
 	else if (data->fd_i < data->counter_pipes)
 	{
-		// fprintf(data->debug, "fd: %d, pipe fd %d read <-> stdin\n", data->pipes->pipefd[data->fd_i - 1][0],  data->fd_i - 1);
 		dup2(data->pipes->pipefd[data->fd_i - 1][0], 0);				//stdin <-> fd 0 read
 		close (data->pipes->pipefd[data->fd_i - 1][0]);
 		close (data->pipes->pipefd[data->fd_i - 1][1]);
-		// fprintf(data->debug, "fd: %d, pipe fd %d write <-> stdout\n", data->pipes->pipefd[data->fd_i - 1][1], data->fd_i);
 		dup2(data->pipes->pipefd[data->fd_i][1], 1);			 		//stdout <-> fd 1 write
 		close (data->pipes->pipefd[data->fd_i][1]);
 		close (data->pipes->pipefd[data->fd_i][0]);
 	}
 	else
 	{
-		// fprintf(data->debug, "fd: %d, pipe fd %d read <-> stdin\n", data->pipes->pipefd[data->fd_i - 1][0], data->fd_i - 1);
 		dup2(data->pipes->pipefd[data->fd_i - 1][0], 0);				//stdin <-> fd 3 read
 		close (data->pipes->pipefd[data->fd_i - 1][0]);
 		close (data->pipes->pipefd[data->fd_i - 1][1]);
 	}
-	// printf(÷"\n");
 }
 
 void	dbg(t_data *data)
@@ -192,7 +185,6 @@ void	dbg(t_data *data)
 		fprintf(data->debug, "argv[%d] = %s\n", i, data->argv[i]);
 		i++;
 	}
-	// fprintf(data->debug, "\ndata->cmd = %s\n", data->cmd);
 	fprintf(data->debug, "------------------\n");
 	fprintf(data->debug, "FLAGS:\n");
 	fprintf(data->debug, "redir_out    : %d\n", data->flags->redir_out);
@@ -235,17 +227,10 @@ void	heredoc(t_data *data)
 void	redirs_pipes(t_data *data)
 {
 	int		fd;
-	int		fd2;
 
 	if (data->counter_pipes > 0 && data->flags->pipe)
 		pipes(data);
-	if (data->flags->redir_out && data->flags->redir_in)
-	{
-		fd = open(data->file_name2, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
-	}
-	else if (data->flags->redir_out)
+	if (data->flags->redir_out)
 	{
 		fd = open(data->file_name2, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 		dup2(fd, STDOUT_FILENO);

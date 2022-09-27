@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:12:51 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/18 15:39:43 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/27 11:57:10 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ void	realloc_envp(t_data *data, char *newv, int flag)
 	i = 0;
 	while (data->envp[i])
 	{
-			new[i] = ft_strdup(data->envp[i]);
-			free(data->envp[i]);
-			i++;
+		new[i] = ft_strdup(data->envp[i]);
+		free(data->envp[i]);
+		i++;
 	}
 	free(data->envp);
 	new[i] = ft_strdup(newv);

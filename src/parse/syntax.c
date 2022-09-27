@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:51 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/20 10:50:16 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/27 11:49:25 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ bool	check_syntax_first_char(t_data *data, char *cmd)
 {
 	int		i;
 	char	*chars;
-	char	*chars_stdin;
 	char	*err;
 	char	err_c[3];
 

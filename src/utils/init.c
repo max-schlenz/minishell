@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/20 14:04:11 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/27 11:22:22 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	init_vars(t_data *data)
 {
-	data->prompt = ft_strdup("\x01\033[34;1m\x02mini\x01\033[36;1m\x02shell\x01\033[0;1m\x02 # \x01\033[0m\x02");
 	data->flags->debug = true;
 	data->flags->macos = true;
 	data->flags->pipe = false;
@@ -46,8 +45,8 @@ void	open_pipes(t_data *data)
 
 t_data	*allocate_mem()
 {
-	t_data *data;
-	
+	t_data	*data;
+
 	data = ft_calloc(1, sizeof(t_data));
 	if (!data)
 		ms_exit(1, 1);

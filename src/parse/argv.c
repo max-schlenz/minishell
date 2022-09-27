@@ -1,16 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split.c                                            :+:      :+:    :+:   */
+/*   argv.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/20 16:48:34 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/27 13:47:40 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+// static int	alloc_argv_quotes(char *cmd, int *i, int *argc, bool reset)
+// {
+// 	static bool	f_dquote;
+// 	static bool	f_squote;
+
+// 	if (reset)
+// 	{
+// 		f_dquote = false;
+// 		f_squote = false;
+// 		return (1);
+// 	}
+// 	if (cmd[(*i)] == '\\')
+// 		(*i)++;
+// 	else if (cmd[(*i)] == '\"' && !f_squote)
+// 		f_dquote = !f_dquote;
+// 	else if (cmd[(*i)] == '\'' && !f_dquote)
+// 		f_squote = !f_squote;
+// 	if (cmd[(*i)] == ' ' && cmd[(*i) + 1] && cmd[(*i) + 1] != ' '
+// 		&& cmd[(*i) + 1] != '|' && cmd[(*i) + 1] != '&' && !f_dquote && !f_squote)
+// 		(*argc)++;
+// 	(*i)++;
+// 	if (f_dquote || f_squote)
+// 		return (-1);
+// 	return (1);
+// }
 
 static bool	alloc_mem_array(t_data *data, char *cmd)
 {
@@ -57,31 +83,10 @@ static bool	alloc_mem_array(t_data *data, char *cmd)
 	return (false);
 }
 
-static char **realloc_var(t_data *data, int index)
-{
-	char	**new_argv;
-	int		i;
-	int		j;
-
-	new_argv = (char **)ft_calloc(sizeof(char *), data->argc + 1);
-	i = 0;
-	j = 0;
-	while (data->argv[i])
-	{
-		if (i != index)
-			new_argv[j++] = ft_strdup(data->argv[i]);
-		free (data->argv[i++]);
-	}
-	new_argv[++j] = NULL;
-	free(data->argv);
-	data->argc--;
-	return(new_argv);
-}
-
 char	*get_var_content(t_data *data, char *var)
 {
-	int i;
-	int	len_var;
+	int		i;
+	int		len_var;
 
 	i = 0;
 	if (*var == '~')
@@ -93,90 +98,99 @@ char	*get_var_content(t_data *data, char *var)
 	while (data->envp[i])
 	{
 		if (!ft_strncmp(data->envp[i], var, len_var))
-			return(ft_strdup(data->envp[i] + len_var + 1));
+			return (ft_strdup(data->envp[i] + len_var + 1));
 		i++;
 	}
 	return (ft_strdup(""));
 }
 
+static char	*rm_quotes_start(t_data *data, int *i, int i_arg, char *tmp)
+{
+	char	*str_before_q;
+	char	*str_wo_q;
+	char	*ret;
+	char	delim;
+
+	delim = data->argv[i_arg][(*i)];
+	if (!tmp && (*i) > 0)
+		str_before_q = ft_substr(data->argv[i_arg], 0, (*i));
+	else
+		str_before_q = tmp;
+	while (data->argv[i_arg][(*i)] && data->argv[i_arg][(*i)] == delim)
+		(*i)++;
+	data->rmq.start = (*i);
+	if (data->argv[i_arg][(*i)] && data->argv[i_arg][(*i) + 1])
+		(*i)++;
+	while (data->argv[i_arg][(*i)] && data->argv[i_arg][(*i)] != delim)
+		(*i)++;
+	data->rmq.end = (*i);
+	if (data->rmq.start != data->rmq.end)
+		str_wo_q = ft_substr(data->argv[i_arg], data->rmq.start, data->rmq.end - data->rmq.start);
+	else
+		str_wo_q = ft_strdup("");
+	ret = ft_strjoin_dup(str_before_q, str_wo_q);
+	free (str_wo_q);
+	free (str_before_q);
+	return (ret);
+}
+
+static void	rm_quotes_wr_argv(t_data *data, int i_arg, char *tmp)
+{
+	char *argv;
+
+	if (ft_strlen(data->argv[i_arg]) >= data->rmq.end + 1)
+		argv = ft_strdup(data->argv[i_arg] + data->rmq.end + 1);
+	else
+		argv = ft_strdup("");
+	free(data->argv[i_arg]);
+	data->argv[i_arg] = NULL;
+	data->argv[i_arg] = ft_strjoin_dup(tmp, argv);
+	free (tmp);
+	free (argv);
+}
+
+static char	*rm_quotes_mid(t_data *data, int *i, int i_arg, char *argv)
+{
+	char	*str_between;
+	char	*ret;
+	char	*tmp;
+	
+	str_between = ft_substr(data->argv[i_arg], (*i), 1);
+	data->rmq.end++;
+	tmp = argv;
+	ret = ft_strjoin_dup(argv, str_between);
+	free (tmp);
+	free (str_between);
+	return (ret);
+}
+
 static void remove_quotes(t_data *data, int i_arg)
 {
-	char *tmp = NULL;
-	char *tmp2 = NULL;
-	char *tmp3 = NULL;
-	char *tmp4 = NULL;
-	char *str_between = NULL;
-	char *tmp_esc = NULL;
-	char *tmp_esc2 = NULL;
-	int	inbetween = 0;
-	bool	f_esc = false;
-	bool	f_rmq = false;
-	int i = 0;
-	char delim;
-	int j = 0;
-	int k = 0;
-	int start = 0;
-	int end = 0;
-	delim = 0;
+	char	*argv;
+	bool	f_rmq;
+	int 	i;
 
-	while (data->argv[i_arg][i])
+	f_rmq = false;
+	argv = NULL;
+	data->rmq.start = 0;
+	data->rmq.end = 0;
+	i = 0;
+	while (data->argv[i_arg][i] && data->argv[i_arg][i + 1])
 	{
 		if (data->argv[i_arg][i] == '\\')
-		{
-			f_esc = true;
 			i++;
-		}
-		if (!f_esc && !start && (data->argv[i_arg][i] == '\"' || data->argv[i_arg][i] == '\''))
+		else if (!data->rmq.start && (data->argv[i_arg][i] == '\"' || data->argv[i_arg][i] == '\''))
 		{
 			f_rmq = true;
-			delim = data->argv[i_arg][i];
-			if (!tmp && i > 0)
-				tmp = ft_substr(data->argv[i_arg], 0, i);
-			while (data->argv[i_arg][i] && data->argv[i_arg][i] == delim)
-				i++;
-			start = i;
-			if (data->argv[i_arg][i] && data->argv[i_arg][i + 1])
-				i++;
-			while (data->argv[i_arg][i] && data->argv[i_arg][i] != delim)
-				i++;
-			end = i;
-			if (start != end)
-				tmp2 = ft_substr(data->argv[i_arg], start, end - start);
-			else
-				tmp2 = ft_strdup("");
-			tmp4 = tmp;
-			tmp = ft_strjoin_dup(tmp, tmp2);
-			free (tmp4);
-			free (tmp2);
+			argv = rm_quotes_start(data, &i, i_arg, argv);
 		}
 		else if (f_rmq)
-		{
-			str_between = ft_substr(data->argv[i_arg], i, 1);
-			end++;
-			tmp4 = tmp;
-			tmp = ft_strjoin_dup(tmp, str_between);
-			free (tmp4);
-			free (str_between);
-		}
-		start = 0;
-		f_esc = false;
-		if (data->argv[i_arg][i] && data->argv[i_arg][i + 1])
-			i++;
-		else 
-			break ;
+			argv = rm_quotes_mid(data, &i, i_arg, argv);
+		data->rmq.start = 0;
+		i++;
 	}
-	if (tmp)
-	{
-		if (ft_strlen(data->argv[i_arg]) >= end + 1)
-			tmp3 = ft_strdup(data->argv[i_arg] + end + 1);
-		else
-			tmp3 = ft_strdup("");
-		free(data->argv[i_arg]);
-		data->argv[i_arg] = NULL;
-		data->argv[i_arg] = ft_strjoin_dup(tmp, tmp3);
-		free (tmp);
-		free (tmp3);
-	}
+	if (argv)
+		rm_quotes_wr_argv(data, i_arg, argv);
 }
 
 static void	remove_backslashes(t_data *data, int i_arg)
@@ -207,7 +221,7 @@ static bool	check_var_exists(t_data *data, char *var)
 	char *tmp;
 
 	i = 0;
-	if (var && var[0] == '~' || !ft_strncmp(var, "$?", 2) || (var && var[0] && var[1] && isnumeric(var[1])))
+	if ((var && (var[0] == '~' || !ft_strncmp(var, "$?", 2))) || (var && var[0] && var[1] && isnumeric(var[1])))
 		return (true);
 	tmp = ft_strjoin(var + 1, "=");
 	while (data->envp[i])
@@ -223,23 +237,23 @@ static bool	check_var_exists(t_data *data, char *var)
 	return (false);
 }
 
+// static void	expand_exit_status(t_data *data)
+// {
+	
+// }
+
 bool	expand_vars(t_data *data)
 {
-	int i_arg;
-	int	i_char;
-	int	i = 0;
-	int	test = 0;
-
-
-	char *str_before_v;
-	char *vname;
-	char *vcontent;
-	char *str_before_vplus_vcontent;
-	char *str_after_v;
-	bool f_dquote;
-	bool f_squote;
-	bool f_esc;
-	bool reset = false;
+	size_t	i_char;
+	int		i_arg;
+	char	*str_before_v;
+	char	*vname;
+	char	*vcontent;
+	char	*str_before_vplus_vcontent;
+	char	*str_after_v;
+	bool	f_dquote;
+	bool	f_squote;
+	bool	f_esc;
 
 	i_arg = 0;
 	i_char = 0;
@@ -261,10 +275,10 @@ bool	expand_vars(t_data *data)
 				i_char++;
 				continue ;
 			}
-			if (!data->flags->noenv
+			if ((!data->flags->noenv
 			&& data->argv[i_arg][0] == '~' 
 			&& (!ft_isalnum(data->argv[i_arg][1])
-			&& !f_dquote && !f_squote && !f_esc) 
+			&& !f_dquote && !f_squote && !f_esc))
 			|| (data->argv[i_arg][i_char] == '$' 
 			&& (data->argv[i_arg][i_char + 1]) 
 			&& (data->argv[i_arg][i_char + 1] != ' ') 
@@ -310,8 +324,6 @@ bool	expand_vars(t_data *data)
 					str_before_vplus_vcontent = ft_strjoin(str_before_v, vcontent);
 					str_after_v = ft_strdup(data->argv[i_arg] + i_char + ft_strlen(vname));
 					free (data->argv[i_arg]);
-
-					// printf("%d-%d\n", ft_strlen(str_before_vplus_vcontent), ft_strlen(str_after_v));
 					if (ft_strlen(str_before_vplus_vcontent) > 0 || ft_strlen(str_after_v) > 0)
 						data->argv[i_arg] = ft_strjoin(str_before_vplus_vcontent, str_after_v);
 					else
@@ -341,15 +353,12 @@ bool	expand_vars(t_data *data)
 			remove_quotes(data, i_arg);
 			remove_backslashes(data, i_arg);
 		}
-		else if (ft_strncmp(data->argv[0], "echo", 4) && !ft_strncmp(data->argv[i_arg], "\'\'", 2) || !ft_strncmp(data->argv[i_arg], "\"\"", 2))
+		else if (ft_strncmp(data->argv[0], "echo", 4) 
+			&& (!ft_strncmp(data->argv[i_arg], "\'\'", 2) 
+			|| !ft_strncmp(data->argv[i_arg], "\"\"", 2)))
 		{
 			free(data->argv[i_arg]);
-			// if (ft_strlen(data->argv[i_arg]))
-			// if (i_arg < data->argc)
 			data->argv[i_arg] = ft_strdup("");
-			// else
-			// 	data->argv[i_arg] = ft_strdup("");
-				
 		}
 		if (!data->argv[i_arg][0])
 		{
@@ -367,7 +376,7 @@ bool	expand_vars(t_data *data)
 
 bool	set_filenames(t_data *data, int *i, char *cmd, int flag)
 {
-	int	start;
+	size_t	start;
 
 	start = *i;
 	if (start >= ft_strlen(cmd))
@@ -406,8 +415,6 @@ bool	heredoc_delim(t_data *data, int *i, int *j, char *cmd)
 
 static void	parse_string(t_data *data, char *cmd, int *array_index, int i, int j)
 {
-	int k = 0;
-
 	free(data->argv[*array_index]);
 	data->argv[*array_index] = NULL;
 	data->argv[*array_index] = ft_substr(cmd, j, i - j);
@@ -447,11 +454,11 @@ bool	split_quotes(t_data *data, char *cmd, int *i)
 				data->flags->or = false;
 				data->flags->pipe = false;
 				(*i) += 3;
-				close_pipes(data);
 				data->fd_i = 0;
-				if (count_pipes(data, cmd + (*i)))
-					;
+				count_pipes(data, cmd + (*i));
 				wait_for_childs(data);
+				// if (data->flags->heredoc)
+				// 	continue ;
 				return (true);
 			}
 			if (!ft_strncmp(cmd + (*i), "||", 2) && !f_dquote && !f_squote)
@@ -461,10 +468,8 @@ bool	split_quotes(t_data *data, char *cmd, int *i)
 				data->flags->and = false;
 				data->flags->or = true;
 				(*i) += 3;
-				close_pipes(data);
 				data->fd_i = 0;
-				if (count_pipes(data, cmd + (*i)))
-					;
+				count_pipes(data, cmd + (*i));
 				wait_for_childs(data);
 				return (true);
 			}

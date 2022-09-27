@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 13:02:06 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/12 10:19:23 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/27 11:39:43 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 void	signal_handler(int sig, siginfo_t *info, void *context)
 {
+	context = context;
 	if (info->si_pid == 0)
 			printf("\n");
 	if (sig == SIGINT && info->si_pid != 0)
@@ -36,9 +37,11 @@ void	signal_handler(int sig, siginfo_t *info, void *context)
 
 void	signals(bool in_child)
 {
-	struct sigaction	sa;
-	struct sigaction	sa_ignore;
-	
+	struct sigaction	sa; // = { { 0 } };
+	struct sigaction	sa_ignore; // = { { 0 } };
+
+	ft_memset(&sa, 0, sizeof(sa));
+	ft_memset(&sa_ignore, 0, sizeof(sa_ignore));
 	sa.sa_sigaction = signal_handler;
 	//sigfillset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART | SA_SIGINFO;
@@ -47,9 +50,7 @@ void	signals(bool in_child)
 	if (!in_child)
 		sigaction(SIGQUIT, &sa_ignore, NULL);
 	else
-	{
 		sigaction(SIGQUIT, &sa, NULL);
-	}
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGCHLD, &sa, NULL);
 }

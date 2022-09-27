@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/09/20 15:41:36 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/09/27 13:50:47 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ SRC				= 	${NAME}						\
 					utils/signal				\
 					utils/utils					\
 					utils/config				\
+					utils/color					\
 					parse/argv					\
 					parse/syntax				\
 					parse/pre_parse				\

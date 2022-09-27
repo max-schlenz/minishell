@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/20 17:14:56 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/09/27 13:14:30 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ void	sort_array(t_data *data)
 	int		i;
 	int		j;
 
-	i = 0;
 	j = 0;
 	while (j < data->counter_env * data->counter_env)
 	{
+		i = 0;
 		while (i < data->counter_env)
 		{
 			len = ft_strlen(data->envp[i]);
@@ -75,7 +75,6 @@ void	sort_array(t_data *data)
 			}
 			i++;
 		}
-		i = 0;
 		j++;
 	}
 }

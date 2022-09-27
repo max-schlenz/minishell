@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/18 14:34:42 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/27 12:01:10 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,23 @@ void	ms_exit(t_status flag, int exit_status)
 	exit (exit_status);
 }
 
-void free_argv(t_data *data, char **array)
+void	free_argv(t_data *data, char **array)
 {
 	int	i;
-	
-	// if (!array || !*array)
-	// 	return ;
+
+	if (!array || !*array)
+		return ;
 	i = 0;
 	while (i <= data->argc)
 		free(array[i++]);
 }
 
-void free_array(char **array)
+void	free_array(char **array)
 {
 	int	i;
-	
-	// if (!array || !*array)
-	// 	return ;
+
+	if (!array || !*array)
+		return ;
 	i = 0;
 	while (array[i])
 		free(array[i++]);
@@ -77,5 +77,5 @@ void	cleanup(t_data *data, int flag)
 		free(data->pipes);
 	if (data)
 		free(data);
-	ms_exit(0, exit_status);
+	ms_exit(flag, exit_status);
 }

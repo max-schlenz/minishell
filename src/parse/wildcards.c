@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:26:31 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/20 16:48:57 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/27 11:55:48 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ char **realloc_argv(t_data *data, int argv_i, char *filename, int overwrite)
 
 char *delete_str(char *cmd, size_t start, size_t end)
 {
-	char	*ret;
+	char		*ret;
 	size_t		len;
-	int		i;
-	int		j;
+	size_t		i;
+	int			j;
 
 	len = ft_strlen(cmd);
 	ret = (char *)ft_calloc(sizeof(char), len - (start - end) + 1);
@@ -93,7 +93,6 @@ int	*get_indexes(char *str)
 {
 	int	i;
 	int	j;
-	int	len;
 	int	*indexes;
 	int	*tmp;
 
@@ -115,15 +114,15 @@ int	*get_indexes(char *str)
 	return (indexes);
 }
 
-int	i_len(int *i)
-{
-	int	counter;
+// int	i_len(int *i)
+// {
+// 	int	counter;
 
-	counter = 0;
-	while ((i + counter))
-		counter++;
-	return (counter);
-}
+// 	counter = 0;
+// 	while (i + counter)
+// 		counter++;
+// 	return (counter);
+// }
 
 static bool	end(char *str, char *pattern, int *i)
 {
@@ -211,7 +210,7 @@ static bool start(char *str, char *pattern, int *file_index)
 
 static bool	match(char *to_be_extended, int *indexes, char *file)
 {
-	int	word_len;
+	int		word_len;
 	int		prev_index;
 	char	*sub_word;
 	int		i;
@@ -245,7 +244,7 @@ static bool	match(char *to_be_extended, int *indexes, char *file)
 				free(sub_word);
 				return (false);
 		}
-		else if (*(indexes) == ft_strlen(to_be_extended) - 1 && left)
+		else if (*(indexes) == (int)ft_strlen(to_be_extended) - 1 && left)
 		{
 			free(sub_word);
 			return (true);
@@ -299,7 +298,7 @@ static bool	match(char *to_be_extended, int *indexes, char *file)
 	return (true);
 }
 
-static char	**match_files(t_data *data, char *to_be_extended, int *indexes)
+static char	**match_files(char *to_be_extended, int *indexes)
 {
 	char	**files = (char **)ft_calloc(sizeof(char *), 100);
 	int		i;
@@ -354,9 +353,8 @@ static void	extend_wildcards(t_data *data, char *to_be_extended, char **files, i
 
 void	get_all_names(t_data *data)
 {
-	int	i;
-	int	j;
-	int	*indexes;
+	int		i;
+	int		*indexes;
 	char	*to_be_extended;
 	char	**files;
 	int		prev_w_index;
@@ -370,7 +368,7 @@ void	get_all_names(t_data *data)
 		if (*indexes != -1)
 		{
 			to_be_extended = ft_strdup(data->argv[i]);
-			files = match_files(data, to_be_extended, indexes);
+			files = match_files(to_be_extended, indexes);
 			extend_wildcards(data, to_be_extended, files, i, prev_w_index);
 			free_array(files);
 			free(files);

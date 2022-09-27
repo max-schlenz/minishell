@@ -34,6 +34,9 @@
 # define E_FORK_MSG	"Failed to create Forks."
 # define E_NC_QUOTE "Error: unclosed quotes!"
 
+# define E_TM_ARG "Error: too many arguments\n"
+# define E_EXIT_REQNO "Error: exit: numeric argument required: "
+
 # define WHITE "\x01\033[0m\x02"
 # define RED "\x01\033[31;1m\x02"
 # define GREEN "\x01\033[32;1m\x02"
@@ -43,6 +46,23 @@
 # define CYAN "\x01\033[36;1m\x02"
 
 # define CFG ".mscfg"
+
+typedef struct s_rmq
+{
+	size_t	start;
+	size_t	end;
+}	t_rmq;
+
+typedef struct s_color
+{
+	char	*prompt[4];
+	char	*prompt_tmp;
+	char	*cfg_str_pf;
+	char	*cfg_str_cl;
+	char	*cfg_str;
+	char	*prompt_tmp2;
+	char	*code[2];
+}	t_color;
 
 typedef struct s_pipes
 {
@@ -91,6 +111,8 @@ typedef struct s_data
 	int			fd;
 	int			mscfg;
 	FILE		*debug;
+	t_color		color;
+	t_rmq		rmq;
 	t_flags 	*flags;
 	t_pipes		*pipes;
 }	t_data;
@@ -112,7 +134,6 @@ void			parse_envp(t_data *data, char **envp);
 void			parse_path(t_data *data);
 void			sort_array(t_data *data);
 int				strcmp_alnum(const char *s1, const char *s2);
-
 
 //utils/cleanup.c
 void			cleanup(t_data *data, int flag);
@@ -174,8 +195,8 @@ void			signal_handler(int signal, siginfo_t *info, void *context);
 void			signals(bool inter_active);
 
 //utils/config.c
-void			create_config();
-void			read_config(t_data *data);
+void			create_cfg();
+void			read_cfg(t_data *data);
 
 //parse/wildcard.c
 char			*find_wc(t_data *data, char *cmd);

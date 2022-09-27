@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:32:27 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/20 10:58:36 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/27 11:51:12 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char *insert_space(t_data *data, char *cmd, int index)
 }
 
 
-char *delete_delim(t_data *data, char *cmd, int start_space, int end_space, char delim)
+char *delete_delim(t_data *data, char *cmd, int start_space, int end_space)
 {
 	char	*ret;
 	int		len;
@@ -88,11 +88,11 @@ char *skip_d(t_data *data, char *cmd, char delim)
 				f_dquote = !f_dquote;
 		if (cmd[i] == '\'' && !f_dquote)
 				f_squote = !f_squote;
-		if ((!cmd[i + 1] && cmd[i] == delim || cmd[i + 1] && cmd[i] == delim && cmd[i + 1] == delim ) && !f_dquote && !f_squote)
+		if (!cmd[i + 1] && cmd[i] == delim && !f_dquote && !f_squote)
 		{
 			j = i;
 			skip_delim(cmd, &j, delim);
-			cmd = delete_delim(data, cmd, i, j, delim);
+			cmd = delete_delim(data, cmd, i, j);
 		}
 		i++;
 	}
@@ -104,9 +104,8 @@ char *skip_d(t_data *data, char *cmd, char delim)
 
 char *pre_parse(t_data *data, char *cmd)
 {
-	int	i;
+	int		i;
 	char	*ops;
-	char	*tmp;
 
  	ops = "|&><";
 	i = 0;
