@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/27 13:47:40 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/27 15:40:54 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ static char	*rm_quotes_start(t_data *data, int *i, int i_arg, char *tmp)
 
 static void	rm_quotes_wr_argv(t_data *data, int i_arg, char *tmp)
 {
-	char *argv;
+	char	*argv;
 
 	if (ft_strlen(data->argv[i_arg]) >= data->rmq.end + 1)
 		argv = ft_strdup(data->argv[i_arg] + data->rmq.end + 1);
@@ -154,7 +154,7 @@ static char	*rm_quotes_mid(t_data *data, int *i, int i_arg, char *argv)
 	char	*str_between;
 	char	*ret;
 	char	*tmp;
-	
+
 	str_between = ft_substr(data->argv[i_arg], (*i), 1);
 	data->rmq.end++;
 	tmp = argv;
@@ -164,11 +164,11 @@ static char	*rm_quotes_mid(t_data *data, int *i, int i_arg, char *argv)
 	return (ret);
 }
 
-static void remove_quotes(t_data *data, int i_arg)
+static void	remove_quotes(t_data *data, int i_arg)
 {
 	char	*argv;
 	bool	f_rmq;
-	int 	i;
+	int		i;
 
 	f_rmq = false;
 	argv = NULL;
@@ -217,11 +217,12 @@ static void	remove_backslashes(t_data *data, int i_arg)
 
 static bool	check_var_exists(t_data *data, char *var)
 {
-	int i;
-	char *tmp;
+	int		i;
+	char	*tmp;
 
 	i = 0;
-	if ((var && (var[0] == '~' || !ft_strncmp(var, "$?", 2))) || (var && var[0] && var[1] && isnumeric(var[1])))
+	if ((var && (var[0] == '~' || !ft_strncmp(var, "$?", 2)))
+		|| (var && var[0] && var[1] && isnumeric(var[1])))
 		return (true);
 	tmp = ft_strjoin(var + 1, "=");
 	while (data->envp[i])
@@ -383,7 +384,7 @@ bool	set_filenames(t_data *data, int *i, char *cmd, int flag)
 	{
 		write(2, "Syntax error\n", 14);
 		data->exit_status = 2;
-		return(false);
+		return (false);
 	}
 	while (cmd[*i] && cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<')
 		(*i)++;
@@ -396,10 +397,10 @@ bool	set_filenames(t_data *data, int *i, char *cmd, int flag)
 	return (true);
 }
 
-bool	heredoc_delim(t_data *data, int *i, int *j, char *cmd)
+bool	heredoc_delim(t_data *data, int *i, char *cmd)
 {
-	int	start;
-	char *tmp;
+	int		start;
+	char	*tmp;
 
 	start = *i;
 	while (cmd[*i] && cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<')
@@ -407,26 +408,79 @@ bool	heredoc_delim(t_data *data, int *i, int *j, char *cmd)
 	tmp = ft_substr(cmd, start, *i - start);
 	data->heredoc_delim = ft_strjoin(tmp, "\n");
 	free (tmp);
-	(*j) += ft_strlen(data->heredoc_delim);
+	data->parser.arg_start += ft_strlen(data->heredoc_delim);
 	if (!cmd[*i])
 		return (false);
 	return (true);
 }
 
-static void	parse_string(t_data *data, char *cmd, int *array_index, int i, int j)
+static bool	parse_string(t_data *data, char *cmd, int i, bool end)
 {
-	free(data->argv[*array_index]);
-	data->argv[*array_index] = NULL;
-	data->argv[*array_index] = ft_substr(cmd, j, i - j);
-	data->argc = *array_index;
-	return ;
+	free(data->argv[data->parser.array_index]);
+	data->argv[data->parser.array_index] = NULL;
+	data->argv[data->parser.array_index]
+		= ft_substr(cmd, data->parser.arg_start, i - data->parser.arg_start);
+	data->argc = data->parser.array_index;
+	data->parser.array_index++;
+	if (!end)
+		data->parser.arg_start = i + 1;
+	return (true);
+}
+
+static bool	parse_or(t_data *data, char *cmd, int *i, int start_args)
+{
+	if ((*i) != start_args)
+		return (true);
+	data->flags->and = false;
+	data->flags->or = true;
+	(*i) += 3;
+	data->fd_i = 0;
+	count_pipes(data, cmd + (*i));
+	wait_for_childs(data);
+	return (true);
+}
+
+static bool	parse_and(t_data *data, char *cmd, int *i, int start_args)
+{
+	if ((*i) != start_args)
+		return (true);
+	data->flags->and = true;
+	data->flags->or = false;
+	data->flags->pipe = false;
+	(*i) += 3;
+	data->fd_i = 0;
+	count_pipes(data, cmd + (*i));
+	wait_for_childs(data);
+	return (true);
+}
+
+static bool	parse_heredoc(t_data *data, char *cmd, int *i)
+{
+	if ((*i) != 0)
+	{
+		(*i) += 3;
+		data->parser.arg_start = (*i);
+		data->flags->heredoc = true;
+		data->argv[data->parser.array_index] = NULL;
+		if (!heredoc_delim(data, i, cmd))
+			return (false);
+		(*i)++;
+	}
+	else
+	{
+		data->flags->heredoc_begin = true;
+		(*i) += 3;
+		data->parser.arg_start = (*i);
+		data->flags->heredoc = true;
+		heredoc_delim(data, i, cmd);
+		(*i) = ft_strlen(data->heredoc_delim) + 3;
+	}
+	return (true);
 }
 
 bool	split_quotes(t_data *data, char *cmd, int *i)
 {
-	int		j;
-	int		k;
-	int		array_index;
+	int		start_args;
 	bool	f_dquote;
 	bool	f_squote;
 	bool	f_esc;
@@ -437,64 +491,21 @@ bool	split_quotes(t_data *data, char *cmd, int *i)
 	f_squote = false;
 	f_esc = false;
 	heredoc_begin = false;
-	k = 0;
+	start_args = 0;
 	tmp_fd = 0;
 	if (alloc_mem_array(data, cmd))
 	{
-		j = (*i);
-		k = (*i);
-		array_index = 0;
+		data->parser.arg_start = (*i);
+		start_args = (*i);
+		data->parser.array_index = 0;
 		while (cmd[*i])
 		{
 			if (!ft_strncmp(cmd + (*i), "&&", 2) && !f_dquote && !f_squote)
-			{
-				if ((*i) != k)
-					return (true);
-				data->flags->and = true;
-				data->flags->or = false;
-				data->flags->pipe = false;
-				(*i) += 3;
-				data->fd_i = 0;
-				count_pipes(data, cmd + (*i));
-				wait_for_childs(data);
-				// if (data->flags->heredoc)
-				// 	continue ;
-				return (true);
-			}
+				return (parse_and(data, cmd, i, start_args));
 			if (!ft_strncmp(cmd + (*i), "||", 2) && !f_dquote && !f_squote)
-			{
-				if ((*i) != k)
-					return (true);
-				data->flags->and = false;
-				data->flags->or = true;
-				(*i) += 3;
-				data->fd_i = 0;
-				count_pipes(data, cmd + (*i));
-				wait_for_childs(data);
-				return (true);
-			}
+				return (parse_or(data, cmd, i, start_args));
 			if (!ft_strncmp(cmd + (*i), "<<", 2) && !f_dquote && !f_squote)
-			{
-				if ((*i) != 0)
-				{
-					(*i) += 3;
-					j = (*i);
-					data->flags->heredoc = true;
-					data->argv[array_index] = NULL;
-					if (!heredoc_delim(data, i, &j, cmd))
-						return (false);
-					(*i)++;
-				}
-				else
-				{
-					heredoc_begin = true;
-					(*i) += 3;
-					j = (*i);
-					data->flags->heredoc = true;
-					heredoc_delim(data, i, &j, cmd);
-					(*i) = ft_strlen(data->heredoc_delim) + 3;
-				}
-			}
+				return (parse_heredoc(data, cmd, i));
 			if ((cmd[*i] == '>' || cmd[*i] == '<') && !f_dquote && !f_squote)
 			{
 				if (!ft_strncmp(cmd + (*i), ">>", 2) && !f_dquote && !f_squote)
@@ -507,7 +518,7 @@ bool	split_quotes(t_data *data, char *cmd, int *i)
 				else if (cmd[*i] == '<')
 					data->flags->redir_in = true;
 				(*i) += 2;
-				data->argv[array_index] = NULL;
+				data->argv[data->parser.array_index] = NULL;
 				if (!data->flags->redir_out)
 				{
 					if (!set_filenames(data, i, cmd, 0))
@@ -549,28 +560,22 @@ bool	split_quotes(t_data *data, char *cmd, int *i)
 				f_squote = !f_squote;
 			if (cmd[*i] == ';' && !f_dquote && !f_esc)
 			{
-				parse_string(data, cmd, &array_index, (*i), j);
-				array_index++;
-				j = (*i) + 1;
+				parse_string(data, cmd, (*i), false);
 				(*i) += 1;
 				return (true);
 			}
 			if (cmd[*i] == ' ' && cmd[(*i) + 1] && cmd[(*i) + 1] != ' ' && !f_dquote && !f_squote)
-			{
-				parse_string(data, cmd, &array_index, (*i), j);
-				array_index++;
-				j = (*i) + 1;
-			}
+				parse_string(data, cmd, (*i), false);
 			(*i)++;
 			f_esc = false;
 		}
 		if (cmd[*i] || data->flags->heredoc || !data->flags->heredoc || heredoc_begin)
 		{
-			parse_string(data, cmd, &array_index, (*i), j);
-			data->argv[++array_index] = NULL;
+			parse_string(data, cmd, (*i), true);
+			data->argv[data->parser.array_index] = NULL;
 		}
 		else
-			data->argv[array_index] = NULL;
+			data->argv[data->parser.array_index] = NULL;
 		return (true);
 	}
 	return (false);

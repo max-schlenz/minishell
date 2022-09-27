@@ -1,6 +1,7 @@
 minishell
 debug
 out
+tmp
 # Prerequisites
 *.d
 *.txt

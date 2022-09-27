@@ -40,12 +40,15 @@ static void	init_prompt(t_data *data)
 	data->flags->redir_append = false;
 	data->flags->redir_in = false;
 	data->flags->heredoc = false;
+	data->flags->heredoc_begin = false;
 	data->flags->and = false;
 	data->flags->or = false;
 	data->flags->pipe = false;
 	data->flags->bracket = false;
 	data->flags->prio = false;
 	data->counter_pipes = 0;
+	data->parser.array_index = 0;
+	data->parser.arg_start = 0;
 	data->argc = 0;
 	data->fd_i = 0;
 }

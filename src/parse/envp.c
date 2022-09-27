@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/27 13:14:30 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/27 15:42:19 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,15 @@ void	parse_path(t_data *data)
 		data->path = ft_split(data->envp[i], ':');
 }
 
-int		strcmp_alnum(const char *s1, const char *s2)
+int	strcmp_alnum(const char *s1, const char *s2)
 {
 	size_t	i;
-	
+
 	i = 0;
 	if (!s1 || !s2)
 		return (0);
-	while (s1[i] != '\0' && s2[i] != '\0' && ft_isalnum(s1[i]) && ft_isalnum(s2[i]))
+	while (s1[i] != '\0' && s2[i] != '\0' 
+		&& ft_isalnum(s1[i]) && ft_isalnum(s2[i]))
 	{
 		if (s1[i] != s2[i])
 			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
@@ -70,8 +71,8 @@ void	sort_array(t_data *data)
 			{
 				tmp = data->envp[i];
 				data->envp[i] = data->envp[i + 1];
-				data->envp[i + 1]= tmp;
-				break;
+				data->envp[i + 1] = tmp;
+				break ;
 			}
 			i++;
 		}
@@ -95,13 +96,12 @@ void	set_shlvl_env(t_data *data)
 	builtin_export(data, envv);
 	free (envv);
 	builtin_export(data, "_=/usr/sbin/env");
-	// pwd = ft_calloc(1024, sizeof(char));
 	pwd = getcwd(NULL, 0);
 	envv = ft_strjoin("PWD=", pwd);
 	free(pwd);
 	builtin_export(data, envv);
 	free(envv);
-} 
+}
 
 void	parse_envp(t_data *data, char **envp)
 {

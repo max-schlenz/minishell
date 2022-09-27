@@ -47,6 +47,12 @@
 
 # define CFG ".mscfg"
 
+typedef struct s_parser
+{
+	int		array_index;
+	int		arg_start;
+}	t_parser;
+
 typedef struct s_rmq
 {
 	size_t	start;
@@ -75,6 +81,7 @@ typedef struct s_flags {
 	bool	redir_in;
 	bool	heredoc;
 	bool	redir_append;
+	bool	heredoc_begin;
 	bool	and;
 	bool	or;
 	bool	pipe;
@@ -111,6 +118,7 @@ typedef struct s_data
 	int			fd;
 	int			mscfg;
 	FILE		*debug;
+	t_parser	parser;
 	t_color		color;
 	t_rmq		rmq;
 	t_flags 	*flags;
