@@ -421,15 +421,15 @@ static bool	parse_string(t_data *data, char *cmd, int i, bool end)
 	data->argv[data->parser.array_index]
 		= ft_substr(cmd, data->parser.arg_start, i - data->parser.arg_start);
 	data->argc = data->parser.array_index;
-	data->parser.array_index++;
+	data->argv[++data->parser.array_index] = NULL;
 	if (!end)
 		data->parser.arg_start = i + 1;
 	return (true);
 }
 
-static bool	parse_or(t_data *data, char *cmd, int *i, int start_args)
+static bool	parse_or(t_data *data, char *cmd, int *i)
 {
-	if ((*i) != start_args)
+	if ((*i) != data->parser.arg_start)
 		return (true);
 	data->flags->and = false;
 	data->flags->or = true;
@@ -440,9 +440,9 @@ static bool	parse_or(t_data *data, char *cmd, int *i, int start_args)
 	return (true);
 }
 
-static bool	parse_and(t_data *data, char *cmd, int *i, int start_args)
+static bool	parse_and(t_data *data, char *cmd, int *i)
 {
-	if ((*i) != start_args)
+	if ((*i) != data->parser.arg_start)
 		return (true);
 	data->flags->and = true;
 	data->flags->or = false;
@@ -478,102 +478,102 @@ static bool	parse_heredoc(t_data *data, char *cmd, int *i)
 	return (true);
 }
 
-bool	split_quotes(t_data *data, char *cmd, int *i)
+static bool	parse_redir(t_data *data, char *cmd, int *i)
 {
-	int		start_args;
-	bool	f_dquote;
-	bool	f_squote;
-	bool	f_esc;
-	bool	heredoc_begin;
 	int		tmp_fd;
 
-	f_dquote = false;
-	f_squote = false;
-	f_esc = false;
-	heredoc_begin = false;
-	start_args = 0;
 	tmp_fd = 0;
+	if (!ft_strncmp(cmd + (*i), ">>", 2) && !data->parser.f_dquote && !data->parser.f_squote)
+	{
+		(*i)++;
+		data->flags->redir_append = true;
+	}
+	else if (cmd[*i] == '>')
+		data->flags->redir_out = true;
+	else if (cmd[*i] == '<')
+		data->flags->redir_in = true;
+	(*i) += 2;
+	data->argv[data->parser.array_index] = NULL;
+	if (!data->flags->redir_out)
+	{
+		if (!set_filenames(data, i, cmd, 0))
+			return (true);
+	}
+	else
+	{
+		if (!set_filenames(data, i, cmd, 1))
+			return (true);
+	}		
+	(*i)++;
+	if (cmd[*i] && cmd[*i] == '|')
+		data->flags->pipe = true;
+	if (cmd[*i] && cmd[*i] == '>')
+	{
+		data->flags->redir_in = false;
+		data->flags->redir_out = false;
+		data->flags->redir_append = false;
+		if (data->file_name2)
+		{
+			tmp_fd = open(data->file_name2, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+			close(tmp_fd);
+		}
+		return (false);
+	}
+	return (true);
+}
+
+static bool	parse_pipes(t_data *data, int *i)
+{
+	data->flags->pipe = true;
+	(*i) += 2;
+	return (true);
+}
+
+static bool	parse_semic(t_data *data, char *cmd, int *i)
+{
+	parse_string(data, cmd, (*i), false);
+	(*i) += 1;
+	return (true);
+}
+
+bool	split_quotes(t_data *data, char *cmd, int *i)
+{
+	data->parser.f_dquote = false;
+	data->parser.f_squote = false;
 	if (alloc_mem_array(data, cmd))
 	{
 		data->parser.arg_start = (*i);
-		start_args = (*i);
 		data->parser.array_index = 0;
 		while (cmd[*i])
 		{
-			if (!ft_strncmp(cmd + (*i), "&&", 2) && !f_dquote && !f_squote)
-				return (parse_and(data, cmd, i, start_args));
-			if (!ft_strncmp(cmd + (*i), "||", 2) && !f_dquote && !f_squote)
-				return (parse_or(data, cmd, i, start_args));
-			if (!ft_strncmp(cmd + (*i), "<<", 2) && !f_dquote && !f_squote)
+			if (!ft_strncmp(cmd + (*i), "&&", 2) && !data->parser.f_dquote && !data->parser.f_squote)
+				return (parse_and(data, cmd, i));
+			if (!ft_strncmp(cmd + (*i), "||", 2) && !data->parser.f_dquote && !data->parser.f_squote)
+				return (parse_or(data, cmd, i));
+			if (!ft_strncmp(cmd + (*i), "<<", 2) && !data->parser.f_dquote && !data->parser.f_squote)
 				return (parse_heredoc(data, cmd, i));
-			if ((cmd[*i] == '>' || cmd[*i] == '<') && !f_dquote && !f_squote)
+			if ((cmd[*i] == '>' || cmd[*i] == '<') && !data->parser.f_dquote && !data->parser.f_squote)
 			{
-				if (!ft_strncmp(cmd + (*i), ">>", 2) && !f_dquote && !f_squote)
-				{
-					(*i)++;
-					data->flags->redir_append = true;
-				}
-				else if (cmd[*i] == '>')
-					data->flags->redir_out = true;
-				else if (cmd[*i] == '<')
-					data->flags->redir_in = true;
-				(*i) += 2;
-				data->argv[data->parser.array_index] = NULL;
-				if (!data->flags->redir_out)
-				{
-					if (!set_filenames(data, i, cmd, 0))
-						return (true);
-				}
-				else
-				{
-					if (!set_filenames(data, i, cmd, 1))
-						return (true);
-				}		
-				(*i)++;
-				if (cmd[*i] && cmd[*i] == '|')
-					data->flags->pipe = true;
-				if (cmd[*i] && cmd[*i] == '>')
-				{
-					data->flags->redir_in = false;
-					data->flags->redir_out = false;
-					data->flags->redir_append = false;
-					if (data->file_name2)
-					{
-						tmp_fd = open(data->file_name2, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-						close(tmp_fd);
-					}
-					continue ;
-				}
-				return (true);
+				if (parse_redir(data, cmd, i))
+					return (true);
+				continue ;
 			}
-			if (cmd[*i] == '|' && !f_dquote && !f_squote)
-			{
-				data->flags->pipe = true;
-				(*i) += 2;
-				return (true);
-			}
+			if (cmd[*i] == '|' && !data->parser.f_dquote && !data->parser.f_squote)
+				return (parse_pipes(data, i));
 			if (cmd[*i] == '\\')
-				f_esc = true;
-			if (cmd[*i] == '\"' && !f_squote && !f_esc)
-				f_dquote = !f_dquote;
-			if (cmd[*i] == '\'' && !f_dquote && !f_esc)
-				f_squote = !f_squote;
-			if (cmd[*i] == ';' && !f_dquote && !f_esc)
-			{
-				parse_string(data, cmd, (*i), false);
-				(*i) += 1;
-				return (true);
-			}
-			if (cmd[*i] == ' ' && cmd[(*i) + 1] && cmd[(*i) + 1] != ' ' && !f_dquote && !f_squote)
+				;
+			else if (cmd[*i] == '\"' && !data->parser.f_squote)
+				data->parser.f_dquote = !data->parser.f_dquote;
+			else if (cmd[*i] == '\'' && !data->parser.f_dquote)
+				data->parser.f_squote = !data->parser.f_squote;
+			else if (cmd[*i] == ';' && !data->parser.f_dquote)
+				return (parse_semic(data, cmd, i));
+			else if (cmd[*i] == ' ' && cmd[(*i) + 1] && cmd[(*i) + 1] != ' ' && !data->parser.f_dquote && !data->parser.f_squote)
 				parse_string(data, cmd, (*i), false);
 			(*i)++;
-			f_esc = false;
 		}
-		if (cmd[*i] || data->flags->heredoc || !data->flags->heredoc || heredoc_begin)
-		{
+		if (cmd[*i] || data->flags->heredoc || !data->flags->heredoc || data->flags->heredoc_begin)
 			parse_string(data, cmd, (*i), true);
-			data->argv[data->parser.array_index] = NULL;
-		}
 		else
 			data->argv[data->parser.array_index] = NULL;
 		return (true);

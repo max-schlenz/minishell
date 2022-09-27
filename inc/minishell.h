@@ -51,6 +51,8 @@ typedef struct s_parser
 {
 	int		array_index;
 	int		arg_start;
+	bool	f_dquote;
+	bool	f_squote;
 }	t_parser;
 
 typedef struct s_rmq
