@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:32:27 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/27 15:50:38 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/27 15:56:16 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,44 +70,48 @@ static void	skip_delim(char *cmd, int *i, char delim)
 		(*i)++;
 }
 
-char *skip_d(t_data *data, char *cmd, char delim)
+static void	skip_delim_iter(t_data *data, char *cmd, int *i, char delim)
 {
-	int		i;
-	int		j;
 	bool	f_dquote;
 	bool	f_squote;
-	char	*ret = NULL;
+	int		j;
 
-	i = 0;
-	j = 0;
 	f_dquote = false;
 	f_squote = false;
-	while (cmd[i])
+	j = 0;
+	if (cmd[(*i)] == '\"' && !f_squote)
+			f_dquote = !f_dquote;
+	if (cmd[(*i)] == '\'' && !f_dquote)
+			f_squote = !f_squote;
+	if (!cmd[(*i) + 1] && cmd[(*i)] == delim && !f_dquote && !f_squote)
 	{
-		if (cmd[i] == '\"' && !f_squote)
-				f_dquote = !f_dquote;
-		if (cmd[i] == '\'' && !f_dquote)
-				f_squote = !f_squote;
-		if (!cmd[i + 1] && cmd[i] == delim && !f_dquote && !f_squote)
-		{
-			j = i;
-			skip_delim(cmd, &j, delim);
-			cmd = delete_delim(data, cmd, i, j);
-		}
-		i++;
+		j = (*i);
+		skip_delim(cmd, &j, delim);
+		cmd = delete_delim(data, cmd, (*i), j);
 	}
+	(*i)++;
+}
+
+char	*skip_d(t_data *data, char *cmd, char delim)
+{
+	int		i;
+	char	*ret;
+
+	i = 0;
+	while (cmd[i])
+		skip_delim_iter(data, cmd, &i, delim);
 	ret = ft_strdup(cmd);
 	free(cmd);
 	data->cmd = NULL;
 	return (ret);
 }
 
-char *pre_parse(t_data *data, char *cmd)
+char	*pre_parse(t_data *data, char *cmd)
 {
 	int		i;
 	char	*ops;
 
- 	ops = "|&><";
+	ops = "|&><";
 	i = 0;
 	cmd = skip_d(data, cmd, ' ');
 	while (*ops)
@@ -115,9 +119,11 @@ char *pre_parse(t_data *data, char *cmd)
 		i = 0;
 		while (cmd[i])
 		{
-			if (cmd[i + 1] && cmd[i] != ' ' && cmd[i] != *ops && cmd[i + 1] == *ops)
+			if (cmd[i + 1] && cmd[i] != ' '
+				&& cmd[i] != *ops && cmd[i + 1] == *ops)
 				cmd = insert_space(data, cmd, i);
-			else if (cmd[i + 1] && cmd[i + 1] != ' ' && cmd[i + 1] != *ops && cmd[i] == *ops)
+			else if (cmd[i + 1] && cmd[i + 1] != ' '
+				&& cmd[i + 1] != *ops && cmd[i] == *ops)
 				cmd = insert_space(data, cmd, i);
 			i++;
 		}
