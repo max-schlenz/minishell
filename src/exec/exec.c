@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-static char	*get_path(t_data *data)
+char	*get_path(t_data *data, char *cmd)
 {
 	int		i;
 	char	*abs_path_bs;
@@ -22,10 +22,10 @@ static char	*get_path(t_data *data)
 	i = 0;
 	while (data->path && data->path[i])
 	{
-		if (ft_strchr(data->argv[0] + 2, '/'))
+		if (ft_strchr(cmd + 2, '/'))
 			return (NULL);
 		abs_path_bs = ft_strjoin(data->path[i], "/");
-		cmd_trim = ft_strtrim(data->argv[0], " ");
+		cmd_trim = ft_strtrim(cmd, " ");
 		abs_path = ft_strjoin(abs_path_bs, cmd_trim);
 		free (abs_path_bs);
 		free (cmd_trim);
@@ -134,6 +134,10 @@ bool	builtin_environment(t_data *data)
 			return (builtin_color(data, NULL));
 		else if (!ft_strncmp(data->argv[0], "history", 8))
 			return (builtin_history(data));
+		else if (!ft_strncmp(data->argv[0], "tdebug", 7))
+			return (builtin_dbg(data));
+		else if (!ft_strncmp(data->argv[0], "trndcl", 7))
+			return (builtin_rcl(data));
 	}
 	return (false);
 }
@@ -278,7 +282,7 @@ bool	exec_program(t_data *data)
 	pid = 1;
 	error = false;
 	data->flags->error = false;
-	abs_path = get_path(data);
+	abs_path = get_path(data, data->argv[0]);
 	if (!abs_path && data->argv[0])
 		abs_path = ft_strdup(data->argv[0]);
 	tmp = opendir(abs_path);

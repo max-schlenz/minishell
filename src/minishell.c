@@ -119,37 +119,44 @@ void	wait_for_childs(t_data *data)
 	data->exit_status = WEXITSTATUS(data->exit_code);
 }
 
-static int	prompt(t_data *data, char *cmd, int flag)
+static void	show_prompt(t_data *data)
 {
-	bool	left;
-	char	*tmp_cmd;
 	char	*cwd;
 	char	*prompt_cwd;
 	char	*prompt;
 	int		i;
+	// data->cmd = get_next_line(0);
+	// data->cmd = ft_strtrim(data->cmd, "\n");
+	i = 0;
+	if (data->flags->rndcl)
+	{
+		while (!random_cl(data))
+			continue ;
+	}
+	cwd = getcwd(NULL, 0);
+	while (cwd[ft_strlen(cwd) - i] != '/')
+		i++;
+	prompt_cwd = ft_strjoin(data->prompt, cwd + ft_strlen(cwd) - i + 1);
+	free (cwd);
+	prompt = ft_strjoin(prompt_cwd, PROMPT_SUFFIX);
+	free (prompt_cwd);
+	data->cmd = readline(prompt);
+	free (prompt);
+}
+
+static int	prompt(t_data *data, char *cmd, int flag)
+{
+	bool	left;
+	char	*tmp_cmd;
+	int		i;
 
 	left = true;
 	data->cmd = NULL;
-	i = 0;
 	if (flag)
 		data->cmd = ft_strdup(cmd);
 	else
-	{
-		// data->cmd = get_next_line(0);
-		// data->cmd = ft_strtrim(data->cmd, "\n");
-		cwd = getcwd(NULL, 0);
-		while (cwd[ft_strlen(cwd) - i] != '/')
-			i++;
-		prompt_cwd = ft_strjoin(data->prompt, cwd + ft_strlen(cwd) - i + 1);
-		free (cwd);
-		prompt = ft_strjoin(prompt_cwd, "]\x01\033[0;1m\x02 #\x01\033[0m\x02 ");
-		free (prompt_cwd);
-		data->cmd = readline(prompt);
-		free (prompt);
-	}
+		show_prompt(data);
 	i = 0;
-	// if (!data->cmd)
-	// 	data->cmd = ft_strdup("exit");
 	if (data->cmd[0] && data->cmd[0] != '\n')
 	{
 		history(data);
@@ -192,12 +199,12 @@ static int	prompt(t_data *data, char *cmd, int flag)
 		{
 			if (data->flags->debug)
 			{
-				data->debug = fopen("debug", "a+");
+				data->debug = fopen(DBG, "a+");
 				dbg(data);
 			}
 			if (!builtin_environment(data))
 				exec_program(data);
-			if (data->flags->debug)
+			if (data->flags->debug && data->debug)
 				fclose(data->debug);
 		}
 		left = false;

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/27 12:01:10 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/28 12:37:19 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	close_pipes(t_data *data)
 	while (i <= data->counter_pipes)
 	{
 		close(data->pipes->pipefd[i][0]);
-		close(data->pipes->pipefd[i++][1]);	
+		close(data->pipes->pipefd[i++][1]);
 	}
 }
 
@@ -70,6 +70,8 @@ void	cleanup(t_data *data, int flag)
 	free (data->prompt);
 	free (data->last_cmd);
 	free (data->flags);
+	free (data->color.code[0]);
+	free (data->color.code[1]);
 	if (data->cmd)
 		free (data->cmd);
 	rl_clear_history();

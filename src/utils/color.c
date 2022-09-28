@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 10:27:33 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/27 10:54:19 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/28 12:37:09 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ static void	color_cleanup(t_data *data)
 	free (data->color.prompt[1]);
 	free (data->color.prompt[2]);
 	free (data->color.prompt[3]);
-	free (data->color.code[0]);
-	free (data->color.code[1]);
 	free (data->color.prompt_tmp);
 	free (data->color.prompt_tmp2);
 	free (data->color.cfg_str_pf);
@@ -94,6 +92,7 @@ static void	color_prompt(t_data *data, char *cfg)
 				data->color.code[i] = readline("enter color code 1: ");
 			else
 				data->color.code[i] = readline("enter color code 2: ");
+			data->color.code[i][1] = '\0';
 		}
 		else
 			data->color.code[i] = ft_substr(cfg, i, 1);

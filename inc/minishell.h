@@ -45,7 +45,10 @@
 # define MAGENTA "\x01\033[35;1m\x02"
 # define CYAN "\x01\033[36;1m\x02"
 
+# define PROMPT_SUFFIX "]\x01\033[0;1m\x02 #\x01\033[0m\x02 "
+
 # define CFG ".mscfg"
+# define DBG ".debug"
 
 typedef struct s_parser
 {
@@ -93,6 +96,7 @@ typedef struct s_flags {
 	bool	noenv;
 	bool	exit_code_of;
 	bool	macos;
+	bool	rndcl;
 }	t_flags;
 
 typedef struct s_data
@@ -104,6 +108,7 @@ typedef struct s_data
 	int			argc;
 	char		**cmd_split;
 	char		*cmd;
+	char		clr[3];
 	int			counter_env;
 	int			counter_pipes;
 	int			fd_i;
@@ -234,5 +239,9 @@ void			heredoc(t_data *data);
 long long		ms_atoll(t_data *data, const char *str);
 char			*strjoin_nl(char const *s1, char const *s2);
 void			wait_for_childs(t_data *data);
+bool			builtin_dbg(t_data *data);
+char			*get_path(t_data *data, char *cmd);
+bool			random_cl(t_data *data);
+bool			builtin_rcl(t_data *data);
 
 #endif
