@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/09/28 12:42:56 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/09/28 15:06:17 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ BCYAN	=	$(shell echo -e "\033[1;36m")
 # ---------------------------------------#
 
 MAKEFLAGS 		=	--no-print-directory
-FLAGS			= 	-g #-Wall -Wextra -Werror #-fsanitize=address 
+FLAGS			= 	-g #-Wall -Wextra -Werror -fsanitize=address 
 
 NAME			=	minishell
 
@@ -91,6 +91,7 @@ $(BREWFL):
 		echo "$(PURPLE)Installing brew & readline...$(DEFCL)";					\
 		curl -fsSL https://rawgit.com/kube/42homebrew/master/install.sh | zsh;	\
 		brew install readline;													\
+		brew install gdate;														\
 	fi;
 	@touch .brew
 

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/28 13:28:53 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/28 15:23:12 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	init_vars(t_data *data)
 {
 	data->flags->rndcl = false;
-	data->flags->debug = false;
+	data->flags->debug = true;
 	data->flags->macos = true;
 	data->flags->pipe = false;
 	data->flags->error = false;
@@ -31,7 +31,7 @@ void	init_vars(t_data *data)
 	data->debug = NULL;
 	if (data->flags->debug)
 	{
-		data->debug = fopen("debug", "w");
+		data->debug = fopen(DBG, "w");
 		fclose(data->debug);
 	}
 }
