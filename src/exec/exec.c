@@ -155,26 +155,22 @@ bool	builtin_print(t_data *data)
 
 void	pipes(t_data *data)
 {
+	int	i;
+
 	if (data->fd_i == 0)
-	{
 		dup2(data->pipes->pipefd[0][1], 1);								//stdout <-> fd 0 write
-		close (data->pipes->pipefd[0][1]);
-		close (data->pipes->pipefd[0][0]);
-	}
 	else if (data->fd_i < data->counter_pipes)
 	{
 		dup2(data->pipes->pipefd[data->fd_i - 1][0], 0);				//stdin <-> fd 0 read
-		close (data->pipes->pipefd[data->fd_i - 1][0]);
-		close (data->pipes->pipefd[data->fd_i - 1][1]);
 		dup2(data->pipes->pipefd[data->fd_i][1], 1);			 		//stdout <-> fd 1 write
-		close (data->pipes->pipefd[data->fd_i][1]);
-		close (data->pipes->pipefd[data->fd_i][0]);
 	}
 	else
-	{
 		dup2(data->pipes->pipefd[data->fd_i - 1][0], 0);				//stdin <-> fd 3 read
-		close (data->pipes->pipefd[data->fd_i - 1][0]);
-		close (data->pipes->pipefd[data->fd_i - 1][1]);
+	i = 0;
+	while (i <= data->fd_i)
+	{
+		close(data->pipes->pipefd[i][0]);
+		close(data->pipes->pipefd[i++][1]);
 	}
 }
 
@@ -209,10 +205,17 @@ void	dbg(t_data *data)
 
 void	heredoc(t_data *data)
 {
-	int		heredoc_fd[2];
+	// int		heredoc_fd[2];
+	char	*hd_tmp;
+	char	*hd_tmp_i;
+	int		hd_fd;
 	char	*heredoc_tmp;
 
-	pipe(heredoc_fd);
+	// pipe(heredoc_fd);
+
+	hd_tmp_i = ft_itoa(data->heredoc_index);
+	hd_tmp = ft_strjoin(".heredoc_tmp", hd_tmp_i);
+	hd_fd = open(hd_tmp, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	heredoc_tmp = ft_strdup("42");
 	while (ft_strncmp(data->heredoc_delim, heredoc_tmp, ft_strlen(data->heredoc_delim)))
 	{
@@ -220,12 +223,13 @@ void	heredoc(t_data *data)
 		heredoc_tmp = get_next_line(0);
 		heredoc_tmp[ft_strlen(heredoc_tmp)] = '\0';
 		if (ft_strncmp(data->heredoc_delim, heredoc_tmp, ft_strlen(heredoc_tmp)))
-			write(heredoc_fd[1], heredoc_tmp, ft_strlen(heredoc_tmp));
+			write(hd_fd, heredoc_tmp, ft_strlen(heredoc_tmp));
 	}
 	free(heredoc_tmp);
-	close(heredoc_fd[1]);
-	dup2(heredoc_fd[0], STDIN_FILENO);
-	close(heredoc_fd[0]);
+	close (hd_fd);
+	// close(heredoc_fd[1]);
+	// dup2(heredoc_fd[0], STDIN_FILENO);
+	// close(heredoc_fd[0]);
 }
 
 void	redirs_pipes(t_data *data)
@@ -290,6 +294,7 @@ bool	exec_program(t_data *data)
 	{
 		if (data->flags->pipe)
 			pipe(data->pipes->pipefd[data->fd_i]);
+		signal(SIGINT, SIG_IGN);
 		pid = fork();
 	}
 	else
@@ -298,8 +303,8 @@ bool	exec_program(t_data *data)
 		ms_exit(2, WEXITSTATUS(data->exit_code));
 	if (pid == 0)
 	{
-		//signal(SIGINT, SIG_DFL);
-		signals(true);
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		redirs_pipes(data);
 		if (!builtin_print(data))
 		{
@@ -329,17 +334,25 @@ bool	exec_program(t_data *data)
 
 void	reset_pipes_flags(t_data *data)
 {
+	int	i;
+
 	if (data->counter_pipes)
 	{
 		if (data->fd_i == 0)
 			close (data->pipes->pipefd[0][1]);
 		else if (data->fd_i < data->counter_pipes)
-			close (data->pipes->pipefd[data->fd_i - 1][0]);
-		else
 		{
 			close (data->pipes->pipefd[data->fd_i - 1][0]);
-			close (data->pipes->pipefd[data->fd_i][0]);
-			close (data->pipes->pipefd[data->fd_i - 1][1]);
+			close (data->pipes->pipefd[data->fd_i - 1][0]);
+		}
+		else
+		{
+			i = 0;
+			while (i <= data->fd_i)
+			{
+				close(data->pipes->pipefd[i][0]);
+				close(data->pipes->pipefd[i++][1]);
+			}
 		}
 	}
 	data->fd_i++;
@@ -350,7 +363,10 @@ void	reset_pipes_flags(t_data *data)
 	if (data->flags->redir_append)
 		data->flags->redir_append = false;
 	if (data->flags->heredoc)
+	{
+		data->heredoc_index++;
 		data->flags->heredoc = false;
+	}
 	if (data->flags->pipe && (data->flags->redir_out || data->flags->redir_in))
 		data->flags->pipe = false;
 }

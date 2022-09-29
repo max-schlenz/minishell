@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/27 15:40:54 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/29 16:42:17 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -477,6 +477,18 @@ static bool	parse_heredoc(t_data *data, char *cmd, int *i)
 	}
 	return (true);
 }
+
+// void	handle_heredoc(t_data *data, char *cmd)
+// {
+// 	int	i;
+
+// 	while (cmd && cmd[i])
+// 	{
+// 		if (!ft_strncmp(cmd + i, "<<", 2)
+// 			parse_heredoc
+// 		i++;
+// 	}
+// }
 
 bool	split_quotes(t_data *data, char *cmd, int *i)
 {

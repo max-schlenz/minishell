@@ -124,6 +124,7 @@ typedef struct s_data
 	long long	exit_status;
 	int			fd;
 	int			mscfg;
+	int			heredoc_index;
 	FILE		*debug;
 	t_parser	parser;
 	t_color		color;
@@ -243,5 +244,6 @@ bool			builtin_dbg(t_data *data);
 char			*get_path(t_data *data, char *cmd);
 bool			random_cl(t_data *data);
 bool			builtin_rcl(t_data *data);
+void			handle_heredoc(t_data *data);
 
 #endif

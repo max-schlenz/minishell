@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/28 15:23:12 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/09/29 16:46:25 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_vars(t_data *data)
 {
-	data->flags->rndcl = false;
+	data->flags->rndcl = 0;
 	data->flags->debug = true;
 	data->flags->macos = true;
 	data->flags->pipe = false;
@@ -24,6 +24,7 @@ void	init_vars(t_data *data)
 	data->heredoc_delim = NULL;
 	data->counter_env = 0;
 	data->exit_status = 0;
+	data->heredoc_index = 0;
 	data->last_cmd = NULL;
 	data->flags->exit_code_of = false;
 	data->flags->noenv = false;

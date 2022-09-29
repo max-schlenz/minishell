@@ -157,6 +157,8 @@ static int	prompt(t_data *data, char *cmd, int flag)
 	else
 		show_prompt(data);
 	i = 0;
+	if (!data->cmd)
+		data->cmd = ft_strdup("exit");
 	if (data->cmd[0] && data->cmd[0] != '\n')
 	{
 		history(data);
@@ -212,6 +214,7 @@ static int	prompt(t_data *data, char *cmd, int flag)
 		free(data->argv);
 	}
 	wait_for_childs(data);
+	signals(false);
 	data->flags->and = false;
 	data->flags->or = false;
 	free(tmp_cmd);
