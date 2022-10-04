@@ -18,17 +18,18 @@ static void	clear_buffers(t_data *data)
 	if (data->cmd)
 		free (data->cmd);
 	data->cmd = NULL;
-	if (data->file_name)	
+	if (data->file_name)
 		free (data->file_name);
 	data->file_name = NULL;
 	if (data->file_name2)
 		free (data->file_name2);
 	data->file_name2 = NULL;
-	if (data->heredoc_delim)
-		free (data->heredoc_delim);
-	data->heredoc_delim = NULL;
+	if (data->heredoc.delim)
+		free (data->heredoc.delim);
+	data->heredoc.delim = NULL;
 	if (data->flags->pipe)
 		close_pipes(data);
+	rm_tmp_files(data);
 	data->flags->pipe = 0;
 }
 
@@ -173,6 +174,7 @@ static int	prompt(t_data *data, char *cmd, int flag)
 	}
 	else
 		return (0);
+	tmp_cmd = handle_heredoc(data, tmp_cmd);
 	while (tmp_cmd[i] && tmp_cmd[0])
 	{
 		while (tmp_cmd[i] == ' ' || tmp_cmd[i] == ';')

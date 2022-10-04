@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/29 16:42:17 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/04 13:35:52 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -390,8 +390,10 @@ bool	set_filenames(t_data *data, int *i, char *cmd, int flag)
 		(*i)++;
 	if (!flag)
 		data->file_name = ft_substr(cmd, start, *i - start);
-	else
+	else if (flag == 1)
 		data->file_name2 = ft_substr(cmd, start, *i - start);
+	else if (flag == 2)
+		data->file_name_append = ft_substr(cmd, start, *i - start);
 	if (!cmd[*i])
 		return (false);
 	return (true);
@@ -406,9 +408,9 @@ bool	heredoc_delim(t_data *data, int *i, char *cmd)
 	while (cmd[*i] && cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<')
 		(*i)++;
 	tmp = ft_substr(cmd, start, *i - start);
-	data->heredoc_delim = ft_strjoin(tmp, "\n");
+	data->heredoc.delim = ft_strjoin(tmp, "\n");
 	free (tmp);
-	data->parser.arg_start += ft_strlen(data->heredoc_delim);
+	data->parser.arg_start += ft_strlen(data->heredoc.delim);
 	if (!cmd[*i])
 		return (false);
 	return (true);
@@ -454,6 +456,13 @@ static bool	parse_and(t_data *data, char *cmd, int *i, int start_args)
 	return (true);
 }
 
+static bool	parse_pipes(t_data *data, int *i)
+{
+	data->flags->pipe = true;
+	(*i) += 2;
+	return (true);
+}
+
 static bool	parse_heredoc(t_data *data, char *cmd, int *i)
 {
 	if ((*i) != 0)
@@ -473,8 +482,16 @@ static bool	parse_heredoc(t_data *data, char *cmd, int *i)
 		data->parser.arg_start = (*i);
 		data->flags->heredoc = true;
 		heredoc_delim(data, i, cmd);
-		(*i) = ft_strlen(data->heredoc_delim) + 3;
+		(*i) = ft_strlen(data->heredoc.delim) + 3;
 	}
+	return (true);
+}
+
+static bool	parse_redir_out(t_data *data, char *cmd, int *i)
+{
+	(*i) += 3;
+	data->flags->redir_append = true;
+	set_filenames(data, i, cmd, 2);
 	return (true);
 }
 
@@ -521,10 +538,7 @@ bool	split_quotes(t_data *data, char *cmd, int *i)
 			if ((cmd[*i] == '>' || cmd[*i] == '<') && !f_dquote && !f_squote)
 			{
 				if (!ft_strncmp(cmd + (*i), ">>", 2) && !f_dquote && !f_squote)
-				{
-					(*i)++;
-					data->flags->redir_append = true;
-				}
+					return (parse_redir_out(data, cmd, i));
 				else if (cmd[*i] == '>')
 					data->flags->redir_out = true;
 				else if (cmd[*i] == '<')
@@ -546,7 +560,7 @@ bool	split_quotes(t_data *data, char *cmd, int *i)
 					data->flags->pipe = true;
 				if (cmd[*i] && cmd[*i] == '>')
 				{
-					data->flags->redir_in = false;
+					// data->flags->redir_in = false;
 					data->flags->redir_out = false;
 					data->flags->redir_append = false;
 					if (data->file_name2)
@@ -559,11 +573,7 @@ bool	split_quotes(t_data *data, char *cmd, int *i)
 				return (true);
 			}
 			if (cmd[*i] == '|' && !f_dquote && !f_squote)
-			{
-				data->flags->pipe = true;
-				(*i) += 2;
-				return (true);
-			}
+				return (parse_pipes(data, i));
 			if (cmd[*i] == '\\')
 				f_esc = true;
 			if (cmd[*i] == '\"' && !f_squote && !f_esc)

@@ -199,37 +199,34 @@ void	dbg(t_data *data)
 	fprintf(data->debug, "data->counter_pipes   : %d\n", data->counter_pipes);
 	fprintf(data->debug, "data->file_name       : %s\n", data->file_name);
 	fprintf(data->debug, "data->file_name2      : %s\n", data->file_name2);
+	fprintf(data->debug, "data->file_name_append : %s\n", data->file_name_append);
 	fprintf(data->debug, "data->exit_status (p) : %lld\n", data->exit_status);
 	fprintf(data->debug, "------------------\n");
 }
 
 void	heredoc(t_data *data)
 {
-	// int		heredoc_fd[2];
 	char	*hd_tmp;
 	char	*hd_tmp_i;
 	int		hd_fd;
 	char	*heredoc_tmp;
 
-	// pipe(heredoc_fd);
-
 	hd_tmp_i = ft_itoa(data->heredoc_index);
 	hd_tmp = ft_strjoin(".heredoc_tmp", hd_tmp_i);
 	hd_fd = open(hd_tmp, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	free(hd_tmp);
+	free(hd_tmp_i);
 	heredoc_tmp = ft_strdup("42");
-	while (ft_strncmp(data->heredoc_delim, heredoc_tmp, ft_strlen(data->heredoc_delim)))
+	while (ft_strncmp(data->heredoc.delim, heredoc_tmp, ft_strlen(data->heredoc.delim)))
 	{
 		free(heredoc_tmp);
 		heredoc_tmp = get_next_line(0);
 		heredoc_tmp[ft_strlen(heredoc_tmp)] = '\0';
-		if (ft_strncmp(data->heredoc_delim, heredoc_tmp, ft_strlen(heredoc_tmp)))
+		if (ft_strncmp(data->heredoc.delim, heredoc_tmp, ft_strlen(heredoc_tmp)))
 			write(hd_fd, heredoc_tmp, ft_strlen(heredoc_tmp));
 	}
 	free(heredoc_tmp);
 	close (hd_fd);
-	// close(heredoc_fd[1]);
-	// dup2(heredoc_fd[0], STDIN_FILENO);
-	// close(heredoc_fd[0]);
 }
 
 void	redirs_pipes(t_data *data)
@@ -244,11 +241,9 @@ void	redirs_pipes(t_data *data)
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
-	if (data->flags->heredoc)
-		heredoc(data);
 	if (data->flags->redir_append)
 	{
-		fd = open(data->file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		fd = open(data->file_name_append, O_CREAT | O_WRONLY | O_APPEND, 0644);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
@@ -359,9 +354,17 @@ void	reset_pipes_flags(t_data *data)
 	if (data->flags->redir_out)
 		data->flags->redir_out = false;
 	if (data->flags->redir_in)
+	{
+		free(data->file_name);
+		data->file_name = NULL;
 		data->flags->redir_in = false;
+	}
 	if (data->flags->redir_append)
+	{
+		free(data->file_name_append);
+		data->file_name_append = NULL;
 		data->flags->redir_append = false;
+	}
 	if (data->flags->heredoc)
 	{
 		data->heredoc_index++;

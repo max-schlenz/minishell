@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/09/28 15:06:17 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/04 11:40:35 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,10 +47,14 @@ SRC				= 	${NAME}						\
 					utils/config				\
 					utils/color					\
 					utils/color_random			\
+					utils/merge_str				\
 					parse/argv					\
 					parse/syntax				\
 					parse/pre_parse				\
-					parse/wildcards
+					parse/wildcards				\
+					parse/heredoc				\
+					parse/heredoc_utils			
+
 INC				=	libft						\
 					${NAME}
 

@@ -50,6 +50,24 @@
 # define CFG ".mscfg"
 # define DBG ".debug"
 
+typedef struct s_heredoc
+{
+	char	*cmd_begin;
+	char	*cmd;
+	char	*cmd_end;
+	char	*cmd_redir;
+	char	*cmd_redir_file;
+	char	*cmd_done;
+	char	*cmd_done1;
+	char	*delim;
+	char	*delim_tmp;
+	char	*hd_tmp;
+	char	*hd_tmp_i;
+	bool	andor;
+	bool	hd;
+	bool	quote;
+}	t_heredoc;
+
 typedef struct s_parser
 {
 	int		array_index;
@@ -117,7 +135,7 @@ typedef struct s_data
 	char		*prompt_cl2;
 	char		*file_name;
 	char		*file_name2;
-	char		*heredoc_delim;
+	char		*file_name_append;
 	char		*last_cmd;
 	char		**wc_dir_content;
 	int			exit_code;
@@ -126,6 +144,7 @@ typedef struct s_data
 	int			mscfg;
 	int			heredoc_index;
 	FILE		*debug;
+	t_heredoc	heredoc;
 	t_parser	parser;
 	t_color		color;
 	t_rmq		rmq;
@@ -244,6 +263,13 @@ bool			builtin_dbg(t_data *data);
 char			*get_path(t_data *data, char *cmd);
 bool			random_cl(t_data *data);
 bool			builtin_rcl(t_data *data);
-void			handle_heredoc(t_data *data);
+char			*handle_heredoc(t_data *data, char *cmd);
+void			heredoc(t_data *data);
+void			wr_tmp_file(t_data *data, char *cmd);
+void			wr_new_cmd(t_data *data, char **cmd, int *i);
+void			rm_tmp_files(t_data *data);
+void			init_hd(t_data *data);
+void 			free_hd(t_data *data);
+char			*merge_str(int index, ...);
 
 #endif
