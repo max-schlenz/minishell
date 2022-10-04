@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/04 10:53:15 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/04 16:25:16 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	heredoc_begin(t_data *data, char *cmd, int i)
 	while (cmd[k] == ' ')
 		k--;
 	data->heredoc.cmd_begin = ft_substr(cmd, j + 1, k - j - 1);
-	data->heredoc.cmd_end = ft_strdup(cmd + k - 1);
+	data->heredoc.cmd_end = ft_strdup(cmd + k);
 	wr_tmp_file(data, cmd);
 }
 
