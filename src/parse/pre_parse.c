@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:32:27 by tdehne            #+#    #+#             */
-/*   Updated: 2022/10/04 17:24:59 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/04 15:51:57 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ char *insert_space(t_data *data, char *cmd, int index)
 	return (ret);
 }
 
-
-char *delete_delim(t_data *data, char *cmd, int start_space, int end_space)
+char	*delete_delim(t_data *data, char *cmd, int start_space, int end_space)
 {
 	char	*ret;
 	int		len;
@@ -50,7 +49,11 @@ char *delete_delim(t_data *data, char *cmd, int start_space, int end_space)
 	{
 		if (i == start_space)
 			i = end_space - 1;
-		ret[j++] = cmd[i++];
+		ret[j++] = cmd[i];
+		if (cmd[i] && cmd[i + 1])
+			i++;
+		else
+			break ;
 	}
 	ret[j] = '\0';
 	free(cmd);
@@ -131,7 +134,6 @@ char	*skip_d(t_data *data, char *cmd, char delim)
 	ret = ft_strdup(cmd);
 	free(cmd);
 	data->cmd = NULL;
-	printf("ret: %sa\n", cmd);
 	return (ret);
 }
 

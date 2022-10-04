@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:26:31 by tdehne            #+#    #+#             */
-/*   Updated: 2022/09/27 11:55:48 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/04 15:51:28 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,7 +310,8 @@ static char	**match_files(char *to_be_extended, int *indexes)
 		if (match(to_be_extended, indexes, direntStruct->d_name))
 		{
 			//printf("filename, %s\n", direntStruct->d_name);
-			files[i++] = ft_strdup(direntStruct->d_name);
+			if (direntStruct->d_name[0] != '.')
+				files[i++] = ft_strdup(direntStruct->d_name);
 		}
 	}
 	files[i] = NULL;
