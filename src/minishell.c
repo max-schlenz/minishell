@@ -27,8 +27,8 @@ static void	clear_buffers(t_data *data)
 	if (data->heredoc.delim)
 		free (data->heredoc.delim);
 	data->heredoc.delim = NULL;
-	if (data->flags->pipe)
-		close_pipes(data);
+	// if (data->flags->pipe)
+	// 	close_pipes(data);
 	rm_tmp_files(data);
 	data->flags->and = false;
 	data->flags->or = false;
@@ -54,16 +54,17 @@ static void	init_prompt(t_data *data)
 	data->parser.arg_start = 0;
 	data->argc = 0;
 	data->fd_i = 0;
-	data->pid = 0;
+	data->pid = 1;
 }
 
-bool count_pipes(t_data *data, char *cmd)
+bool	count_pipes(t_data *data, char *cmd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	data->counter_pipes = 0;
-	while (cmd[i] && ft_strncmp(cmd + i, "&&", 2) && ft_strncmp(cmd + i, "||", 2))
+	while (cmd[i]
+		&& ft_strncmp(cmd + i, "&&", 2) && ft_strncmp(cmd + i, "||", 2))
 	{
 		if (cmd[i] && cmd[i] == '|')
 			data->counter_pipes++;
@@ -86,7 +87,7 @@ static char	last_char(char *str)
 
 void	prio(t_data *data, char *cmd, int *i)
 {
-	int 	j;
+	int		j;
 	char	*tmp;
 
 	j = 0;
@@ -120,8 +121,8 @@ void	prio(t_data *data, char *cmd, int *i)
 void	wait_for_childs(t_data *data)
 {
 	while (wait(&data->exit_code) > 0)
-		continue ;
-	data->exit_status = WEXITSTATUS(data->exit_code);
+		data->exit_status = WEXITSTATUS(data->exit_code);
+		// continue ;
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -139,12 +140,12 @@ int	main(int argc, char **argv, char **envp)
 	}
 	parse_envp(data, envp);
 	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
-  	{
+	{
 		init_prompt(data);
-    	data->exit_status = prompt(data, argv[2], 1);
+		data->exit_status = prompt(data, argv[2], 1);
 		clear_buffers(data);
-    	cleanup(data, 0);
-  	}
+		cleanup(data, 0);
+	}
 	read_cfg(data);
 	while (1)
 	{

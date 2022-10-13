@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/06 14:15:31 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/13 08:31:58 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@ static void	show_prompt(t_data *data)
 	// data->cmd = get_next_line(0);
 	// data->cmd = ft_strtrim(data->cmd, "\n");
 	i = 0;
-	if (data->flags->rndcl)
-	{
-		while (!random_cl(data))
-			continue ;
-	}
 	cwd = getcwd(NULL, 0);
 	while (cwd[ft_strlen(cwd) - i] != '/')
 		i++;

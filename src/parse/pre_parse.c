@@ -6,13 +6,13 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:32:27 by tdehne            #+#    #+#             */
-/*   Updated: 2022/10/05 12:12:44 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/13 12:29:07 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *insert_space(t_data *data, char *cmd, int index)
+char	*insert_space(t_data *data, char *cmd, int index)
 {
 	size_t	len;
 	char	*ret;
@@ -45,7 +45,7 @@ char	*delete_delim(t_data *data, char *cmd, int start_space, int end_space)
 	ret = (char *)ft_calloc(sizeof(char), len - (start_space - end_space) + 1);
 	i = 0;
 	j = 0;
-	while(cmd[i])
+	while (cmd[i])
 	{
 		if (i == start_space)
 			i = end_space - 1;
@@ -69,42 +69,6 @@ static void	skip_delim(char *cmd, int *i, char delim)
 		(*i)++;
 }
 
-// static void	skip_delim_iter(t_data *data, char *cmd, int *i, char delim)
-// {
-// 	bool	f_dquote;
-// 	bool	f_squote;
-// 	int		j;
-
-// 	f_dquote = false;
-// 	f_squote = false;
-// 	j = 0;
-// 	if (cmd[(*i)] == '\"' && !f_squote)
-// 			f_dquote = !f_dquote;
-// 	if (cmd[(*i)] == '\'' && !f_dquote)
-// 			f_squote = !f_squote;
-// 	if (!cmd[(*i) + 1] && cmd[(*i)] == delim && !f_dquote && !f_squote)
-// 	{
-// 		j = (*i);
-// 		skip_delim(cmd, &j, delim);
-// 		cmd = delete_delim(data, cmd, (*i), j);
-// 	}
-// 	(*i)++;
-// }
-
-// char	*skip_d(t_data *data, char *cmd, char delim)
-// {
-// 	int		i;
-// 	char	*ret;
-
-// 	i = 0;
-// 	while (cmd[i])
-// 		skip_delim_iter(data, cmd, &i, delim);
-// 	ret = ft_strdup(cmd);
-// 	free(cmd);
-// 	data->cmd = NULL;
-// 	return (ret);
-// }
-
 char	*skip_d(t_data *data, char *cmd, char delim)
 {
 	int		i;
@@ -123,7 +87,9 @@ char	*skip_d(t_data *data, char *cmd, char delim)
 				f_dquote = !f_dquote;
 		if (cmd[i] == '\'' && !f_dquote)
 				f_squote = !f_squote;
-		if (((cmd[i + 1] && cmd[i] == delim && cmd[i + 1] == delim) || (cmd[i] == delim && !cmd[i + 1])) && !f_dquote && !f_squote)
+		if (((cmd[i + 1] && cmd[i] == delim && cmd[i + 1] == delim)
+				|| (cmd[i] == delim && !cmd[i + 1]))
+			&& !f_dquote && !f_squote)
 		{
 			j = i;
 			skip_delim(cmd, &j, delim);

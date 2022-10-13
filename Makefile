@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/07 12:51:42 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/13 12:28:14 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,10 @@ INC_DIR			=	inc
 SRC				= 	${NAME}						\
 					parse/envp					\
 					parse/utils					\
+					parse/expvar/expand_vars	\
+					parse/expvar/special_cases	\
+					parse/expvar/utils			\
+					parse/expvar/get_var		\
 					exec/builtins/cd/cd			\
 					exec/builtins/cd/cd_cleanup	\
 					exec/builtins/cd/cd_utils	\
@@ -56,12 +60,15 @@ SRC				= 	${NAME}						\
 					utils/color					\
 					utils/color_random			\
 					utils/merge_str				\
-					parse/argv					\
+					parse/argv/argv				\
+					parse/argv/utils			\
+					parse/argv/modifiers		\
+					parse/argv/quote_escape		\
 					parse/syntax				\
 					parse/pre_parse				\
 					parse/wildcards				\
-					parse/heredoc				\
-					parse/heredoc_utils			
+					parse/heredoc/heredoc		\
+					parse/heredoc/utils
 
 INC				=	libft						\
 					${NAME}
@@ -91,7 +98,14 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)/exec/builtins
 	@mkdir -p $(OBJ_DIR)/exec/builtins/cd
 	@mkdir -p $(OBJ_DIR)/exec/builtins/echo
+	@mkdir -p $(OBJ_DIR)/exec/builtins/env
+	@mkdir -p $(OBJ_DIR)/exec/builtins/export
+	@mkdir -p $(OBJ_DIR)/exec/builtins/pwd
+	@mkdir -p $(OBJ_DIR)/exec/builtins/unset
 	@mkdir -p $(OBJ_DIR)/parse
+	@mkdir -p $(OBJ_DIR)/parse/expvar
+	@mkdir -p $(OBJ_DIR)/parse/argv
+	@mkdir -p $(OBJ_DIR)/parse/heredoc
 	@mkdir -p $(OBJ_DIR)/utils
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES)

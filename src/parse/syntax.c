@@ -6,99 +6,92 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:51 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/27 11:49:25 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/13 13:38:40 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-bool	check_syntax_first_char(t_data *data, char *cmd)
+static bool	*err_msg(t_data *data, char *err_c)
 {
-	int		i;
-	char	*chars;
 	char	*err;
+
+	err = strjoin_nl("Syntax error: ", err_c);
+	write (2, err, ft_strlen(err));
+	free (err);
+	free (err_c);
+	return (false);
+}
+
+static char	*err_type(t_data *data, char c, int exit_status, int flag)
+{
 	char	err_c[3];
 
-	i = 0;
-	chars = ft_strdup("|&>~");
-	while (chars[i])
+	if (!flag)
 	{
-		if (cmd[0] == chars[i])
-		{
-			if (chars[i] == '~')
-				data->exit_status = 126;
-			else
-				data->exit_status = 2;
-			err_c[0] = cmd[0];
-			err_c[1] = '\0';
-			err = strjoin_nl("Syntax error: ", err_c);
-			write (2, err, ft_strlen(err));
-			free (err);
-			free (chars);
-			return (false);
-		}
-		i++;
+		err_c[0] = c;
+		err_c[1] = '\0';
 	}
+	else
+	{
+		err_c[0] = c;
+		err_c[1] = c;
+		err_c[2] = '\0';
+	}
+	data->exit_status = exit_status;
+	return (ft_strdup(err_c));
+}
+
+static bool	synax_err_special_chars(t_data *data, char *cmd)
+{
+	int	i;
+
 	i = 0;
-	if ((cmd[i] == '<')
-	|| (cmd[i] == '.'))
+	if ((cmd[i] == '<') || (cmd[i] == '.'))
 	{
 		i++;
 		while (cmd[i] == ' ')
 			i++;
 		if (!cmd[i])
+			return (err_msg(data, err_type(data, cmd[i - 1], 2, 0)));
+	}
+	return (true);
+}
+
+bool	check_syntax_first_char(t_data *data, char *cmd)
+{
+	int		i;
+	char	*chars;
+	char	err_c[3];
+
+	i = 0;
+	chars = "|&>~";
+	while (chars[i])
+	{
+		if (cmd[0] == chars[i])
 		{
-			data->exit_status = 2;
-			err_c[0] = cmd[i - 1];
-			err_c[1] = '\0';
-			err = strjoin_nl("Syntax error: ", err_c);
-			write (2, err, ft_strlen(err));
-			free (err);
-			free (chars);
-			return (false);
+			if (chars[i] == '~')
+				return (err_msg(data, err_type(data, cmd[0], 126, 0)));
+			else
+				return (err_msg(data, err_type(data, cmd[0], 2, 0)));
 		}
+		i++;
 	}
+	if (!synax_err_special_chars(data, cmd))
+		return (false);
 	if (ft_strlen(cmd) <= 2 && !ft_strncmp(cmd, "<<", 2))
-	{
-		data->exit_status = 2;
-		err_c[0] = '<';
-		err_c[1] = '<';
-		err_c[2] = '\0';
-		err = strjoin_nl("Syntax error: ", err_c);
-		write (2, err, ft_strlen(err));
-		free (err);
-		free (chars);
-		return (false);
-	}
+		return (err_msg(data, err_type(data, '<', 2, 1)));
 	if (ft_strlen(cmd) <= 2 && !ft_strncmp(cmd, "..", 2))
-	{
-		data->exit_status = 127;
-		err_c[0] = '.';
-		err_c[1] = '.';
-		err_c[2] = '\0';
-		err = strjoin_nl("Syntax error: ", err_c);
-		write (2, err, ft_strlen(err));
-		free (err);
-		free (chars);
-		return (false);
-	}
-	free (chars);
+		return (err_msg(data, err_type(data, '.', 127, 1)));
 	return (true);
 }
 
 bool	check_syntax(t_data *data, char *cmd)
 {
-	int		i;
-	int		j;
-	char	*ops_supported;
-	// char	*ops_unsupported;
-	char	*err;
-	char	err_c[2];
+	int			i;
+	static char	*ops_supported = "|&><";
 
-	ops_supported = ft_strdup("|&><");
-	err = NULL;
-	j = 0;
-	while (ops_supported[j])
+	while (*ops_supported)
 	{
 		i = 0;
 		while (cmd[i] && cmd[i + 1] && cmd[i + 2])
@@ -113,35 +106,19 @@ bool	check_syntax(t_data *data, char *cmd)
 					i++;
 				}
 			}
-			if	(cmd[i]
-			&&	cmd[i + 1]
-			&&	cmd[i + 2]
-			&&	cmd[i] == ops_supported[j]
-			&&	cmd[i + 1] == ops_supported[j]
-			&&	cmd[i + 2] == ops_supported[j])
-			{
-				err_c[0] = ops_supported[j];
-				err_c[1] = '\0';
-				err = strjoin_nl("Syntax error: ", err_c);
-				write (2, err, ft_strlen(err));
-				free (err);
-				// printf("Syntax error: '%c' [%d]\n", ops_supported[j], i + 3);
-				data->exit_status = 2;
-				// write(2, "Syntax Error\n", 14);
-				free (ops_supported);
-				return (false);
-			}
+			if (cmd[i] && cmd[i + 1] && cmd[i + 2] && cmd[i] == *ops_supported
+				&& cmd[i + 1] == *ops_supported && cmd[i + 2] == *ops_supported)
+				return (err_msg(data, err_type(data, *ops_supported, 2, 0)));
 			i++;
 		}
-		j++;
+		*ops_supported++;
 	}
-	free (ops_supported);
 	return (true);
 }
 
 bool	syntax_err(t_data *data, char *cmd)
 {
-	int i = 0;
+	int		i = 0;
 	int j = 0;
 	int k = 0;
 	char	*err;

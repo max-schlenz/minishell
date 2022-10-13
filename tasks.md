@@ -29,3 +29,6 @@
 
 cat ctrl+c nl
 cat | cat | ls
+
+echo \
+echo $P/lol

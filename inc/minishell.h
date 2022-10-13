@@ -50,6 +50,20 @@
 # define CFG ".mscfg"
 # define DBG ".debug"
 
+typedef struct s_expvar
+{
+	char	*str_before_v;
+	char	*vname;
+	char	*vcontent;
+	char	*str_before_vplus_vcontent;
+	char	*str_after_v;
+	int		i_arg;
+	size_t	i_char;
+	bool	f_dquote;
+	bool	f_squote;
+	bool	f_esc;
+}	t_expvar;
+
 typedef struct s_export
 {
 	int		index_arg;
@@ -176,6 +190,7 @@ typedef struct s_data
 	t_rmq		rmq;
 	t_cd		cd;
 	t_echo		echo;
+	t_expvar	expvar;
 	t_flags 	*flags;
 	t_pipes		*pipes;
 }	t_data;
@@ -299,6 +314,7 @@ void			rm_tmp_files(t_data *data);
 void			init_hd(t_data *data);
 void 			free_hd(t_data *data);
 char			*merge_str(int index, ...);
+char			*free_str(int index, ...);
 char			*heredoc_delim(char *cmd, int i, int j);
 void			prio(t_data *data, char *cmd, int *i);
 void			builtin_fork(t_data *data, bool flag);
@@ -324,6 +340,42 @@ void			cd_root(t_data *data);
 
 // exec/builtins/echo/echo.c
 bool			builtin_echo(t_data *data);
+void			remove_quotes(t_data *data, int i_arg);
+void			remove_backslashes(t_data *data, int i_arg);
 
+// parse/expvar/utils.c
+void			expand_vars_init(t_data *data, bool flag);
+void			expand_vars_rm_mod(t_data *data);
+void			expand_vars_reset_flags(t_data *data);
+void			expand_vars_weird_special_case(t_data *data, bool flag);
+bool			v_ex(t_data *data);
+
+// parse/expvar/special_cases.c
+void			expand_vars_ne(t_data *data);
+void			expand_vars_exit(t_data *data);
+void			expand_vars_shl(t_data *data);
+
+//parse/expvar/expand_vars.c
+bool			check_var_exists(t_data *data, char *var);
+
+//parse/expvar/get_var.c
+char			*get_var_content(t_data *data, char *var);
+
+//parse/argv/modifiers.c
+bool			parse_string(t_data *data, char *cmd, int i, bool end);
+bool			parse_or(t_data *data, char *cmd, int *i, int start_args);
+bool			parse_and(t_data *data, char *cmd, int *i, int start_args);
+bool			parse_pipes(t_data *data, int *i);
+bool			parse_redir_out(t_data *data, char *cmd, int *i);
+
+//parse/argv/quote_escape.c
+char			*rm_quotes_start(t_data *data, int *i, int i_arg, char *tmp);
+void			rm_quotes_wr_argv(t_data *data, int i_arg, char *tmp);
+char			*rm_quotes_mid(t_data *data, int *i, int i_arg, char *argv);
+void			remove_quotes(t_data *data, int i_arg);
+void			remove_backslashes(t_data *data, int i_arg);
+
+//parse/argv/utils.c
+bool			set_filenames(t_data *data, int *i, char *cmd, int flag);
 
 #endif

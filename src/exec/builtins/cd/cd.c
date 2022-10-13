@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/05 12:25:46 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/13 08:59:23 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,9 @@ bool	builtin_cd(t_data *data)
 
 	init_cd(data);
 	builtin_fork(data, false);
-	if ((data->flags->pipe && !data->pid) || !data->flags->pipe)
+	if (!data->argv[1])
+		cd_root(data);
+	else if ((data->flags->pipe && !data->pid) || !data->flags->pipe)
 	{
 		if (data->flags->pipe)
 			redirs_pipes(data);
@@ -102,8 +104,6 @@ bool	builtin_cd(t_data *data)
 		if (data->argv[1] && !cd_def(data, index_pwd))
 			return (cd_err(data));
 	}
-	else
-		cd_root(data);
 	return (cd_success(data, index_pwd));
 	builtin_fork(data, true);
 	return (true);
