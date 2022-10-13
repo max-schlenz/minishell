@@ -2,8 +2,8 @@
 
 ------------------
 
-argv[0] = echo
-argv[1] = ignore
+argv[0] = export
+argv[1] = ZZZ=123
 ------------------
 FLAGS:
 redir_out    : 0
@@ -26,8 +26,7 @@ data->exit_status (p) : 0
 
 ------------------
 
-argv[0] = echo
-argv[1] = ignore
+argv[0] = env
 ------------------
 FLAGS:
 redir_out    : 0
@@ -50,34 +49,7 @@ data->exit_status (p) : 0
 
 ------------------
 
-argv[0] = echo
-argv[1] = tasks.md
-argv[2] = tasks_talea.md
-------------------
-FLAGS:
-redir_out    : 0
-redir_in     : 0
-heredoc      : 0
-redir_append : 0
-pipe         : 0
-
-and          : 0
-or           : 0
-VARS:
-data->fd_i            : 0
-data->counter_pipes   : 0
-data->file_name       : (null)
-data->file_name2      : (null)
-data->file_name_append : (null)
-data->exit_status (p) : 0
-------------------
-
-
-------------------
-
-argv[0] = echo
-argv[1] = tasks.md
-argv[2] = tasks_talea.md
+argv[0] = env
 ------------------
 FLAGS:
 redir_out    : 0

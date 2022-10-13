@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/04 13:32:25 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/07 12:52:24 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	open_pipes(t_data *data)
 		pipe(data->pipes->pipefd[i++]);
 }
 
-t_data	*allocate_mem()
+t_data	*allocate_mem(void)
 {
 	t_data	*data;
 

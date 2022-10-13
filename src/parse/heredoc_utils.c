@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/04 10:53:18 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/05 12:16:48 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	init_hd(t_data *data)
 	data->heredoc.cmd_done = NULL;
 	data->heredoc.cmd_done1 = NULL;
 	data->heredoc.delim = NULL;
-	data->heredoc.delim_tmp = NULL;
 	data->heredoc.hd_tmp = NULL;
 	data->heredoc.hd_tmp_i = NULL;
 }
@@ -80,11 +79,24 @@ void	free_hd(t_data *data)
 		free(data->heredoc.cmd_done1);
 	if (data->heredoc.delim)
 		free(data->heredoc.delim);
-	if (data->heredoc.delim_tmp)
-		free(data->heredoc.delim_tmp);
 	if (data->heredoc.hd_tmp)
 		free(data->heredoc.hd_tmp);
 	if (data->heredoc.hd_tmp_i)
 		free(data->heredoc.hd_tmp_i);
 	init_hd(data);
+}
+
+char	*heredoc_delim(char *cmd, int i, int j)
+{
+	char	*delim;
+	char	*delim_nl;
+
+	if (!cmd)
+		return (ft_strdup("\n"));
+	delim = NULL;
+	delim_nl = NULL;
+	delim = ft_substr(cmd, i, j - i);
+	delim_nl = ft_strjoin_dup(delim, "\n");
+	free (delim);
+	return (delim_nl);
 }

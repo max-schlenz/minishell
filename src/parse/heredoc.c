@@ -24,8 +24,7 @@ static void	heredoc_andor(t_data *data, char *cmd, int i)
 	j = i;
 	while (cmd[j] && cmd[j] != ' ')
         j++;
-	data->heredoc.delim_tmp = ft_substr(cmd, i, j - i);
-	data->heredoc.delim = ft_strjoin(data->heredoc.delim_tmp, "\n");
+	data->heredoc.delim = heredoc_delim(cmd, i, j);
 	k = j + 1;
 	while (cmd[k] && cmd[k] != ' ')
 		k++;
@@ -46,8 +45,7 @@ static void	heredoc_begin(t_data *data, char *cmd, int i)
 	j = i;
 	while (cmd[j] && cmd[j] != ' ')
 		j++;
-	data->heredoc.delim_tmp = ft_substr(cmd, i, j - i);
-	data->heredoc.delim = ft_strjoin(data->heredoc.delim_tmp, "\n");
+	data->heredoc.delim = heredoc_delim(cmd, i, j);
 	k = j + 1;
 	while (cmd[k]
 		&& cmd[k] != '<'
@@ -78,9 +76,8 @@ static void	heredoc_after_cmd(t_data *data, char *cmd, int i)
 	k = i;
 	while (cmd[k] && cmd[k] != ' ')
 		k++;
-	data->heredoc.delim_tmp = ft_substr(cmd, i, k - i);
+	data->heredoc.delim = heredoc_delim(cmd, i, k);
 	data->heredoc.cmd_end = ft_strdup(cmd + k);
-	data->heredoc.delim = ft_strjoin(data->heredoc.delim_tmp, "\n");
 	wr_tmp_file(data, cmd);
 }
 

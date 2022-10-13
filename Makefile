@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/04 11:40:35 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/07 12:51:42 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,8 +38,16 @@ INC_DIR			=	inc
 SRC				= 	${NAME}						\
 					parse/envp					\
 					parse/utils					\
-					exec/builtins				\
+					exec/builtins/cd/cd			\
+					exec/builtins/cd/cd_cleanup	\
+					exec/builtins/cd/cd_utils	\
+					exec/builtins/echo/echo		\
+					exec/builtins/env/env		\
+					exec/builtins/export/export	\
+					exec/builtins/pwd/pwd		\
+					exec/builtins/unset/unset	\
 					exec/exec					\
+					utils/prompt				\
 					utils/init					\
 					utils/cleanup				\
 					utils/signal				\
@@ -80,6 +88,9 @@ $(LIB_FILES): header
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)/exec
+	@mkdir -p $(OBJ_DIR)/exec/builtins
+	@mkdir -p $(OBJ_DIR)/exec/builtins/cd
+	@mkdir -p $(OBJ_DIR)/exec/builtins/echo
 	@mkdir -p $(OBJ_DIR)/parse
 	@mkdir -p $(OBJ_DIR)/utils
 

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:26:31 by tdehne            #+#    #+#             */
-/*   Updated: 2022/10/04 15:51:28 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/07 12:54:43 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	len_argv(char **argv)
 	return (i);
 }
 
-char **realloc_argv(t_data *data, int argv_i, char *filename, int overwrite)
+char	**realloc_argv(t_data *data, int argv_i, char *filename, int overwrite)
 {
 	char	**new_argv;
 	int		i;
@@ -40,21 +40,17 @@ char **realloc_argv(t_data *data, int argv_i, char *filename, int overwrite)
 			new_argv[j] = ft_strdup(filename);
 		}
 		else if (j == argv_i && !overwrite)
-		{
 			new_argv[++j] = ft_strdup(filename);
-			//j++;
-			//continue;
-		}
 		free(data->argv[i]);
 		i++;
 		j++;
 	}
 	new_argv[j] = NULL;
 	free(data->argv);
-	return(new_argv);
+	return (new_argv);
 }
 
-char *delete_str(char *cmd, size_t start, size_t end)
+char	*delete_str(char *cmd, size_t start, size_t end)
 {
 	char		*ret;
 	size_t		len;
@@ -65,7 +61,7 @@ char *delete_str(char *cmd, size_t start, size_t end)
 	ret = (char *)ft_calloc(sizeof(char), len - (start - end) + 1);
 	i = 0;
 	j = 0;
-	while(cmd[i])
+	while (cmd[i])
 	{
 		if (i == start)
 			i = end - 1;
@@ -86,7 +82,7 @@ int	num_wildcards(char *str)
 			counter++;
 		str++;
 	}
-	return(counter);
+	return (counter);
 }
 
 int	*get_indexes(char *str)
@@ -170,7 +166,7 @@ static bool	end(char *str, char *pattern, int *i)
 }*/
 
 
-static bool inbetween(char *str, char *pattern, int *file_index)
+static bool	inbetween(char *str, char *pattern, int *file_index)
 {
 	int	i;
 	int	j;
@@ -196,7 +192,7 @@ static bool inbetween(char *str, char *pattern, int *file_index)
 	return (true);
 }
 
-static bool start(char *str, char *pattern, int *file_index)
+static bool	start(char *str, char *pattern, int *file_index)
 {
 	while (*pattern)
 	{
@@ -221,7 +217,7 @@ static bool	match(char *to_be_extended, int *indexes, char *file)
 	left = 0;
 	if (*indexes == 0)
 		left = 1;
-	while(*indexes != -1)
+	while (*indexes != -1)
 	{
 		word_len = (*indexes) - prev_index - 1;
 		if (!prev_index)
@@ -334,11 +330,11 @@ static void	extend_wildcards(t_data *data, char *to_be_extended, char **files, i
 {
 	while (*files)
 	{
-		if (check_duplicate(data, *files, prev_wildcard_i))
-		{
-			files++;
-			continue ;
-		}
+		// if (check_duplicate(data, *files, prev_wildcard_i))
+		// {
+		// 	files++;
+		// 	continue ;
+		// }
 		if (!ft_strncmp(data->argv[argv_i], to_be_extended, ft_strlen(to_be_extended) + 1))
 		{
 			data->argv = realloc_argv(data, argv_i, *files, 1);

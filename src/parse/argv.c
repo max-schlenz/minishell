@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/04 13:35:52 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/07 12:54:52 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -399,22 +399,22 @@ bool	set_filenames(t_data *data, int *i, char *cmd, int flag)
 	return (true);
 }
 
-bool	heredoc_delim(t_data *data, int *i, char *cmd)
-{
-	int		start;
-	char	*tmp;
+// bool	heredoc_delim(t_data *data, int *i, char *cmd)
+// {
+// 	int		start;
+// 	char	*tmp;
 
-	start = *i;
-	while (cmd[*i] && cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<')
-		(*i)++;
-	tmp = ft_substr(cmd, start, *i - start);
-	data->heredoc.delim = ft_strjoin(tmp, "\n");
-	free (tmp);
-	data->parser.arg_start += ft_strlen(data->heredoc.delim);
-	if (!cmd[*i])
-		return (false);
-	return (true);
-}
+// 	start = *i;
+// 	while (cmd[*i] && cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<')
+// 		(*i)++;
+// 	tmp = ft_substr(cmd, start, *i - start);
+// 	data->heredoc.delim = ft_strjoin(tmp, "\n");
+// 	free (tmp);
+// 	data->parser.arg_start += ft_strlen(data->heredoc.delim);
+// 	if (!cmd[*i])
+// 		return (false);
+// 	return (true);
+// }
 
 static bool	parse_string(t_data *data, char *cmd, int i, bool end)
 {
@@ -463,29 +463,29 @@ static bool	parse_pipes(t_data *data, int *i)
 	return (true);
 }
 
-static bool	parse_heredoc(t_data *data, char *cmd, int *i)
-{
-	if ((*i) != 0)
-	{
-		(*i) += 3;
-		data->parser.arg_start = (*i);
-		data->flags->heredoc = true;
-		data->argv[data->parser.array_index] = NULL;
-		if (!heredoc_delim(data, i, cmd))
-			return (false);
-		(*i)++;
-	}
-	else
-	{
-		data->flags->heredoc_begin = true;
-		(*i) += 3;
-		data->parser.arg_start = (*i);
-		data->flags->heredoc = true;
-		heredoc_delim(data, i, cmd);
-		(*i) = ft_strlen(data->heredoc.delim) + 3;
-	}
-	return (true);
-}
+// static bool	parse_heredoc(t_data *data, char *cmd, int *i)
+// {
+// 	if ((*i) != 0)
+// 	{
+// 		(*i) += 3;
+// 		data->parser.arg_start = (*i);
+// 		data->flags->heredoc = true;
+// 		data->argv[data->parser.array_index] = NULL;
+// 		if (!heredoc_delim(data, i, cmd))
+// 			return (false);
+// 		(*i)++;
+// 	}
+// 	else
+// 	{
+// 		data->flags->heredoc_begin = true;
+// 		(*i) += 3;
+// 		data->parser.arg_start = (*i);
+// 		data->flags->heredoc = true;
+// 		heredoc_delim(data, i, cmd);
+// 		(*i) = ft_strlen(data->heredoc.delim) + 3;
+// 	}
+// 	return (true);
+// }
 
 static bool	parse_redir_out(t_data *data, char *cmd, int *i)
 {
@@ -533,8 +533,6 @@ bool	split_quotes(t_data *data, char *cmd, int *i)
 				return (parse_and(data, cmd, i, start_args));
 			if (!ft_strncmp(cmd + (*i), "||", 2) && !f_dquote && !f_squote)
 				return (parse_or(data, cmd, i, start_args));
-			if (!ft_strncmp(cmd + (*i), "<<", 2) && !f_dquote && !f_squote)
-				return (parse_heredoc(data, cmd, i));
 			if ((cmd[*i] == '>' || cmd[*i] == '<') && !f_dquote && !f_squote)
 			{
 				if (!ft_strncmp(cmd + (*i), ">>", 2) && !f_dquote && !f_squote)

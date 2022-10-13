@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:17:45 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/28 10:57:33 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/07 12:52:10 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ bool	builtin_dbg(t_data *data)
 {
 	int		fd;
 	char	buf[1];
-	
+
 	buf[0] = '\0';
 	data->flags->debug = !data->flags->debug;
 	if (data->flags->debug)

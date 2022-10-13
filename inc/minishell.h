@@ -50,6 +50,32 @@
 # define CFG ".mscfg"
 # define DBG ".debug"
 
+typedef struct s_export
+{
+	int		index_arg;
+	bool	free_set;
+	bool	set;
+	char	*err;
+	int		index_envp;
+	size_t	len;
+}	t_export;
+
+typedef struct s_echo
+{
+	int		index_char;
+	bool	f_space;
+	bool	f_fc;
+}	t_echo;
+
+typedef struct s_cd
+{
+	char	*path;
+	char	*path_tmp_bs;
+	char	*path_tmp;
+	char	*path_tmp2;
+	char	*new_pwd_tmp;
+}	t_cd;
+
 typedef struct s_heredoc
 {
 	char	*cmd_begin;
@@ -60,7 +86,6 @@ typedef struct s_heredoc
 	char	*cmd_done;
 	char	*cmd_done1;
 	char	*delim;
-	char	*delim_tmp;
 	char	*hd_tmp;
 	char	*hd_tmp_i;
 	bool	andor;
@@ -131,7 +156,6 @@ typedef struct s_data
 	int			counter_pipes;
 	int			fd_i;
 	char		*prompt;
-	char		*prompt_cl1;
 	char		*prompt_cl2;
 	char		*file_name;
 	char		*file_name2;
@@ -143,11 +167,15 @@ typedef struct s_data
 	int			fd;
 	int			mscfg;
 	int			heredoc_index;
+	pid_t		pid;
 	FILE		*debug;
 	t_heredoc	heredoc;
+	t_export	export;
 	t_parser	parser;
 	t_color		color;
 	t_rmq		rmq;
+	t_cd		cd;
+	t_echo		echo;
 	t_flags 	*flags;
 	t_pipes		*pipes;
 }	t_data;
@@ -271,5 +299,31 @@ void			rm_tmp_files(t_data *data);
 void			init_hd(t_data *data);
 void 			free_hd(t_data *data);
 char			*merge_str(int index, ...);
+char			*heredoc_delim(char *cmd, int i, int j);
+void			prio(t_data *data, char *cmd, int *i);
+void			builtin_fork(t_data *data, bool flag);
+
+// utils/prompt.c
+
+int				prompt(t_data *data, char *cmd, int flag);
+
+// exec/builtins/cd/cd.c
+bool			builtin_cd(t_data *data);
+void			init_cd(t_data *data);
+void			free_cd(t_data *data);
+
+// exec/builtins/cd/cd_cleanup.c
+bool			cd_success(t_data *data, int i);
+void			init_cd(t_data *data);
+void			free_cd(t_data *data);
+bool			cd_err(t_data *data);
+
+// exec/builtins/cd/cd_utils.c
+size_t			cd_find_pwd(t_data *data);
+void			cd_root(t_data *data);
+
+// exec/builtins/echo/echo.c
+bool			builtin_echo(t_data *data);
+
 
 #endif
