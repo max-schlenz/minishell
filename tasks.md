@@ -35,5 +35,10 @@ echo $P/lol
 echo .* (hidden files)
 echo ||
 echo "<<<" (insert spaces not aware of quotes?)
+insert spaces not aware of escape char
 echo <|
 echo |&
+
+echo lol & asd
+
+ls | grep m > out > out2

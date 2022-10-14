@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 09:46:57 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/13 12:05:28 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 23:09:43 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,8 @@ static bool	expand_vars_handle_arg(t_data *data)
 		return (do_expand(data));
 	if (data->argv[data->expvar.i_arg][data->expvar.i_char]
 		&& data->argv[data->expvar.i_arg][data->expvar.i_char + 1])
-		data->expvar.i_char++;
-	else
-		return (false);
+		return (data->expvar.i_char++, true);
+	return (false);
 }
 
 bool	expand_vars(t_data *data)

@@ -55,19 +55,23 @@ static void	init_prompt(t_data *data)
 	data->argc = 0;
 	data->fd_i = 0;
 	data->pid = 1;
+	data->flags->f_esc = false;
 }
 
 bool	count_pipes(t_data *data, char *cmd)
 {
-	int	i;
+	int		i;
+	char	buf;
 
 	i = 0;
+	buf = 0;
 	data->counter_pipes = 0;
 	while (cmd[i]
 		&& ft_strncmp(cmd + i, "&&", 2) && ft_strncmp(cmd + i, "||", 2))
 	{
-		if (cmd[i] && cmd[i] == '|')
+		if (cmd[i] && cmd[i] == '|' && buf && buf != '\\')
 			data->counter_pipes++;
+		buf = cmd[i];
 		i++;
 	}
 	if (i)

@@ -6,11 +6,17 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 12:17:26 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 22:41:27 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+static void	init_dbg(t_data *data)
+{
+	data->debug = fopen(DBG, "w");
+	fclose(data->debug);
+}
 
 void	init_vars(t_data *data)
 {
@@ -36,10 +42,7 @@ void	init_vars(t_data *data)
 	data->debug = NULL;
 	init_hd(data);
 	if (data->flags->debug)
-	{
-		data->debug = fopen(DBG, "w");
-		fclose(data->debug);
-	}
+		init_dbg(data);
 }
 
 void	open_pipes(t_data *data)

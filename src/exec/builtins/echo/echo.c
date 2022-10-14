@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:26 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/07 12:47:04 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 22:50:33 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static bool	echo_n_flag(t_data *data)
 
 static bool	echo_print(t_data *data, int i)
 {
-	int	j;
+	size_t	j;
 
 	j = 0;
 	while (data->argv[i][j])

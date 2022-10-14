@@ -32,7 +32,7 @@
 
 # define E_MEM_MSG	"Failed to allocate memory."
 # define E_FORK_MSG	"Failed to create Forks."
-# define E_NC_QUOTE "Error: unclosed quotes!"
+# define E_NC_QUOTE "Error: unclosed quotes!\n"
 
 # define E_TM_ARG "Error: too many arguments\n"
 # define E_EXIT_REQNO "Error: exit: numeric argument required: "
@@ -164,6 +164,9 @@ typedef struct s_flags {
 	bool	exit_code_of;
 	bool	macos;
 	bool	rndcl;
+	bool	f_dquote;
+	bool	f_squote;
+	bool	f_esc;
 }	t_flags;
 
 typedef struct s_data
@@ -255,9 +258,10 @@ void			realloc_envp(t_data *data, char *newv, int flag);
 size_t			strlen_var(const char *c);
 int				strdiff(const char *s1, const char *s2);
 
-//parse/split.c
+//parse/argv.c
 bool			split_quotes(t_data *data, char *cmd, int *i);
 bool			expand_vars(t_data *data);
+void			split_reset_flags(t_data *data);
 
 //parse/syntax.c
 bool			check_syntax(t_data *data, char *cmd);
@@ -318,13 +322,13 @@ bool			random_cl(t_data *data);
 bool			builtin_rcl(t_data *data);
 char			*handle_heredoc(t_data *data, char *cmd);
 void			heredoc_prompt(t_data *data);
-void			wr_tmp_file(t_data *data, char *cmd);
+void			wr_tmp_file(t_data *data);
 void			wr_new_cmd(t_data *data, char **cmd, int *i);
 void			rm_tmp_files(t_data *data);
 void			init_hd(t_data *data);
 void			free_hd(t_data *data);
 char			*merge_str(int index, ...);
-char			*free_str(int index, ...);
+void			free_str(int index, ...);
 char			*heredoc_delim(char *cmd, int i, int j);
 void			prio(t_data *data, char *cmd, int *i);
 void			builtin_fork(t_data *data, bool flag);
@@ -411,8 +415,37 @@ void			dbg(t_data *data);
 //exec/utils.c
 bool			is_builtin(t_data *data);
 
-
 void			exec_close_pipes(t_data *data);
 void			exec_set_flags(t_data *data);
+
+//parse/argv/argv_redir
+int				split_redir(t_data *data, char *cmd, int *i);
+
+//parse/argv/argv_ops
+bool			split_andor(t_data *data, char *cmd, int *i, int start_args);
+bool			split_esc(t_data *data, char *cmd, int *i);
+bool			split_pipe(t_data *data, char *cmd, int *i);
+bool			split_col(t_data *data, char *cmd, int *i);
+bool			split_semicolon(t_data *data, char *cmd, int *i);
+
+//parse/argv/argv_utils
+void			split_qflags(t_data *data, char *cmd, int *i);
+bool			alloc_mem_array(t_data *data, char *cmd);
+
+//parse/pre_parse/pre_parse
+char			*insert_space(t_data *data, char *cmd, int index);
+
+//parse/pre_parse/utils
+void			pre_parse_check_ops(t_data *data, char **cmd, char op, int i);
+
+//parse/syntax/utils
+bool			check_syntax_iter(char *cmd, int *i);
+bool			*err_msg(char *err_c);
+char			*err_type(t_data *data, char c, int exit_status, int flag);
+bool			syntax_err_msg(t_data *data, char *ops, int i);
+
+//utils/color/utils
+void			color_cleanup(t_data *data);
+void			color_help(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:26:31 by tdehne            #+#    #+#             */
-/*   Updated: 2022/10/07 12:54:43 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 23:04:28 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,26 +315,10 @@ static char	**match_files(char *to_be_extended, int *indexes)
 	return (files);
 }
 
-static bool	check_duplicate(t_data *data, char *file, int i)
-{
-	while (i > 0 && data->argv[i])
-	{
-		if (!ft_strncmp(data->argv[i], file, ft_strlen(file) + 1))
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
-static void	extend_wildcards(t_data *data, char *to_be_extended, char **files, int argv_i, int prev_wildcard_i)
+static void	extend_wildcards(t_data *data, char *to_be_extended, char **files, int argv_i)
 {
 	while (*files)
 	{
-		// if (check_duplicate(data, *files, prev_wildcard_i))
-		// {
-		// 	files++;
-		// 	continue ;
-		// }
 		if (!ft_strncmp(data->argv[argv_i], to_be_extended, ft_strlen(to_be_extended) + 1))
 		{
 			data->argv = realloc_argv(data, argv_i, *files, 1);
@@ -354,10 +338,8 @@ void	get_all_names(t_data *data)
 	int		*indexes;
 	char	*to_be_extended;
 	char	**files;
-	int		prev_w_index;
 
 	i = 0;
-	prev_w_index = 0;
 	while (data->argv[i])
 	{
 		data->argv[i] = skip_d(data, data->argv[i], '*');
@@ -366,11 +348,10 @@ void	get_all_names(t_data *data)
 		{
 			to_be_extended = ft_strdup(data->argv[i]);
 			files = match_files(to_be_extended, indexes);
-			extend_wildcards(data, to_be_extended, files, i, prev_w_index);
+			extend_wildcards(data, to_be_extended, files, i);
 			free_array(files);
 			free(files);
 			free(to_be_extended);
-			prev_w_index = i;
 		}
 		free(indexes);
 		i++;

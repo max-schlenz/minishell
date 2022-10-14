@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 13:02:06 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/04 15:57:56 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/14 22:42:30 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	signal_handler_child(int sig, siginfo_t *info, void *context)
 {
 	(void)context;
-
 	if (info->si_pid == 0)
 		printf("a\n");
 	if (sig == SIGCHLD && info->si_status == 3)
@@ -30,7 +29,6 @@ void	signal_handler_child(int sig, siginfo_t *info, void *context)
 void	signal_handler(int sig, siginfo_t *info, void *context)
 {
 	(void)context;
-
 	if (sig == SIGINT && info->si_pid != 0)
 	{
 		printf("\n");

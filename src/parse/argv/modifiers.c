@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:19:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/13 12:25:45 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 21:52:50 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ bool	parse_string(t_data *data, char *cmd, int i, bool end)
 {
 	free(data->argv[data->parser.array_index]);
 	data->argv[data->parser.array_index] = NULL;
+	if (cmd && cmd[data->parser.arg_start] == '\\')
+		data->parser.arg_start++;
 	data->argv[data->parser.array_index]
 		= ft_substr(cmd, data->parser.arg_start, i - data->parser.arg_start);
 	data->argc = data->parser.array_index;

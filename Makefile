@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/14 16:02:15 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/14 23:07:20 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,47 +35,53 @@ OBJ_DIR			=	obj
 LIB_DIR			=	lib
 INC_DIR			=	inc
 
-SRC				= 	${NAME}						\
-					debug						\
-					parse/envp					\
-					parse/utils					\
-					parse/expvar/expand_vars	\
-					parse/expvar/special_cases	\
-					parse/expvar/utils			\
-					parse/expvar/get_var		\
-					exec/builtins/cd/cd			\
-					exec/builtins/cd/cd_cleanup	\
-					exec/builtins/cd/cd_utils	\
-					exec/builtins/echo/echo		\
-					exec/builtins/env/env		\
-					exec/builtins/export/export	\
-					exec/builtins/export/error	\
-					exec/builtins/export/utils	\
-					exec/builtins/pwd/pwd		\
-					exec/builtins/unset/unset	\
-					exec/builtins/exit/exit		\
-					exec/pipes					\
-					exec/exec					\
-					exec/utils					\
-					utils/prompt				\
-					utils/init					\
-					utils/cleanup				\
-					utils/signal				\
-					utils/history				\
-					utils/utils					\
-					utils/config				\
-					utils/color					\
-					utils/color_random			\
-					utils/merge_str				\
-					parse/argv/argv				\
-					parse/argv/utils			\
-					parse/argv/modifiers		\
-					parse/argv/quote_escape		\
-					parse/syntax				\
-					parse/pre_parse				\
-					parse/wildcards				\
-					parse/heredoc/heredoc		\
-					parse/heredoc/utils
+SRC				= 	${NAME}								\
+					debug								\
+					parse/envp							\
+					parse/utils							\
+					parse/expvar/expand_vars			\
+					parse/expvar/special_cases			\
+					parse/expvar/utils					\
+					parse/expvar/get_var				\
+					exec/builtins/cd/cd					\
+					exec/builtins/cd/cd_cleanup			\
+					exec/builtins/cd/cd_utils			\
+					exec/builtins/echo/echo				\
+					exec/builtins/env/env				\
+					exec/builtins/export/export			\
+					exec/builtins/export/error			\
+					exec/builtins/export/utils			\
+					exec/builtins/pwd/pwd				\
+					exec/builtins/unset/unset			\
+					exec/builtins/exit/exit				\
+					exec/pipes							\
+					exec/exec							\
+					exec/utils							\
+					utils/prompt						\
+					utils/init							\
+					utils/cleanup						\
+					utils/signal						\
+					utils/history						\
+					utils/utils							\
+					utils/config						\
+					utils/color/utils					\
+					utils/color/color					\
+					utils/merge_str						\
+					parse/argv/argv						\
+					parse/argv/utils					\
+					parse/argv/modifiers				\
+					parse/argv/quote_escape				\
+					parse/argv/argv_redir				\
+					parse/argv/argv_ops					\
+					parse/argv/argv_utils				\
+					parse/pre_parse/pre_parse			\
+					parse/pre_parse/utils				\
+					parse/syntax/syntax					\
+					parse/syntax/utils					\
+					parse/wildcards						\
+					parse/heredoc/heredoc				\
+					parse/heredoc/utils					\
+					parse/heredoc/cleanup				\
 
 INC				=	libft						\
 					${NAME}
@@ -114,7 +120,10 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)/parse/expvar
 	@mkdir -p $(OBJ_DIR)/parse/argv
 	@mkdir -p $(OBJ_DIR)/parse/heredoc
+	@mkdir -p $(OBJ_DIR)/parse/pre_parse
+	@mkdir -p $(OBJ_DIR)/parse/syntax
 	@mkdir -p $(OBJ_DIR)/utils
+	@mkdir -p $(OBJ_DIR)/utils/color
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES)
 	@gcc $(FLAGS) $(INCLUDES) -c $< -o $@

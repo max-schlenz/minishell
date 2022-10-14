@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:32:27 by tdehne            #+#    #+#             */
-/*   Updated: 2022/10/14 14:03:05 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 22:29:40 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ char	*pre_parse(t_data *data, char *cmd)
 	int		i;
 	char	*ops;
 
-	ops = "|&><";
 	i = 0;
+	ops = "|&><";
 	cmd = skip_d(data, cmd, ' ');
 	data->cmd = NULL;
 	while (*ops)
@@ -112,12 +112,12 @@ char	*pre_parse(t_data *data, char *cmd)
 		i = 0;
 		while (cmd[i])
 		{
-			if (cmd[i + 1] && cmd[i] != ' '
-				&& cmd[i] != *ops && cmd[i + 1] == *ops)
-				cmd = insert_space(data, cmd, i);
-			else if (cmd[i + 1] && cmd[i + 1] != ' '
-				&& cmd[i + 1] != *ops && cmd[i] == *ops)
-				cmd = insert_space(data, cmd, i);
+			if (cmd[i] == '\\')
+			{
+				i++;
+				continue ;
+			}
+			pre_parse_check_ops(data, &cmd, *ops, i);
 			i++;
 		}
 		ops++;

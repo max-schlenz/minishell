@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 11:20:27 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 22:51:04 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,7 @@ static bool	export_var(t_data *data, char *setv)
 		return (export_err_con(data, setv));
 	if (setv && isidentifier(setv[0]))
 		return (export_setv(data, setv));
-	else if (setv)
-		return (export_err_inv(data, setv));
+	return (export_err_inv(data, setv));
 }
 
 bool	builtin_export(t_data *data, char *setv)

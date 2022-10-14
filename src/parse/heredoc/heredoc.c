@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 15:49:27 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 23:05:26 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	heredoc_andor(t_data *data, char *cmd, int i)
 	data->hdoc.cmd = ft_substr(cmd, j + 1, k - j - 1);
 	data->hdoc.cmd_end = ft_strdup(cmd + k);
 	data->hdoc.andor = true;
-	wr_tmp_file(data, cmd);
+	wr_tmp_file(data);
 }
 
 static void	heredoc_begin(t_data *data, char *cmd, int i)
@@ -83,7 +83,7 @@ static void	heredoc_begin(t_data *data, char *cmd, int i)
 		k--;
 	data->hdoc.cmd_begin = ft_substr(cmd, j + 1, k - j - 1);
 	data->hdoc.cmd_end = ft_strdup(cmd + k);
-	wr_tmp_file(data, cmd);
+	wr_tmp_file(data);
 }
 
 static void	heredoc_after_cmd(t_data *data, char *cmd, int i)
@@ -103,7 +103,7 @@ static void	heredoc_after_cmd(t_data *data, char *cmd, int i)
 		k++;
 	data->hdoc.delim = heredoc_delim(cmd, i, k);
 	data->hdoc.cmd_end = ft_strdup(cmd + k);
-	wr_tmp_file(data, cmd);
+	wr_tmp_file(data);
 }
 
 char	*handle_heredoc(t_data *data, char *cmd)

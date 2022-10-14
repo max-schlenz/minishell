@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 11:23:55 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 15:58:18 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 23:06:53 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,8 +152,6 @@ bool	builtin_environment(t_data *data)
 			return (builtin_history(data));
 		else if (!ft_strncmp(data->argv[0], "tdebug", 7))
 			return (builtin_dbg(data));
-		else if (!ft_strncmp(data->argv[0], "trndcl", 7))
-			return (builtin_rcl(data));
 	}
 	return (false);
 }
@@ -167,4 +165,14 @@ bool	builtin_print(t_data *data)
 	else if (!ft_strncmp(data->argv[0], "pwd", 4))
 		return (builtin_pwd(data));
 	return (false);
+}
+
+char	*strmv(char *new)
+{
+	char	*ret;
+
+	ret = ft_strdup(new);
+	free (new);
+	new = NULL;
+	return (ret);
 }

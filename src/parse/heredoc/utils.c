@@ -6,13 +6,13 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 15:51:38 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 23:04:49 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	wr_tmp_file(t_data *data, char *cmd)
+void	wr_tmp_file(t_data *data)
 {
 	heredoc_prompt(data);
 	data->hdoc.hd_tmp_i = ft_itoa(data->heredoc_index);

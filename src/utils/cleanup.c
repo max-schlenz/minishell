@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/04 10:47:39 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 22:36:54 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	ms_exit(t_status flag, int exit_status)
 {
-	// system("leaks minishell");
 	if (flag == SUCCESS)
 		exit(exit_status);
 	else if (flag == E_MEM)
@@ -81,22 +80,4 @@ void	cleanup(t_data *data, int flag)
 	if (data)
 		free(data);
 	ms_exit(flag, exit_status);
-}
-
-void	rm_tmp_files(t_data *data)
-{
-	int		i;
-	char	*tmp_name;
-	char	*tmp_index;
-
-	i = 0;
-	while (i < data->heredoc_index)
-	{
-		tmp_index = ft_itoa(i);
-		tmp_name = ft_strjoin(".heredoc_tmp", tmp_index);	
-		unlink(tmp_name);
-		free (tmp_index);
-		free (tmp_name);
-		i++;
-	}
 }

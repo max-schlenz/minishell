@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 08:01:45 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 13:56:14 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 22:53:25 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*merge_str(int index, ...)
 	return (ret);
 }
 
-char	*free_str(int index, ...)
+void	free_str(int index, ...)
 {
 	va_list	args;
 	char	*tmp;
@@ -101,16 +101,6 @@ char	*str_realloc(char *ptr, char *new, bool free_new)
 		free (new);
 		new = NULL;
 	}
-	return (ret);
-}
-
-char	*strmv(char *new)
-{
-	char	*ret;
-
-	ret = ft_strdup(new);
-	free (new);
-	new = NULL;
 	return (ret);
 }
 

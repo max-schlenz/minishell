@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 12:13:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 12:14:36 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 22:51:31 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ void	exec_close_pipes(t_data *data)
 
 void	exec_set_flags(t_data *data)
 {
-	int	i;
-
 	data->fd_i++;
 	if (data->flags->redir_out)
 		data->flags->redir_out = false;
