@@ -24,9 +24,9 @@ static void	clear_buffers(t_data *data)
 	if (data->file_name2)
 		free (data->file_name2);
 	data->file_name2 = NULL;
-	if (data->heredoc.delim)
-		free (data->heredoc.delim);
-	data->heredoc.delim = NULL;
+	if (data->hdoc.delim)
+		free (data->hdoc.delim);
+	data->hdoc.delim = NULL;
 	// if (data->flags->pipe)
 	// 	close_pipes(data);
 	rm_tmp_files(data);

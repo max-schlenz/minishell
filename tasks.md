@@ -32,3 +32,8 @@ cat | cat | ls
 
 echo \
 echo $P/lol
+echo .* (hidden files)
+echo ||
+echo "<<<" (insert spaces not aware of quotes?)
+echo <|
+echo |&

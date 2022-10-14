@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/13 12:28:14 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/14 16:02:15 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ LIB_DIR			=	lib
 INC_DIR			=	inc
 
 SRC				= 	${NAME}						\
+					debug						\
 					parse/envp					\
 					parse/utils					\
 					parse/expvar/expand_vars	\
@@ -48,13 +49,19 @@ SRC				= 	${NAME}						\
 					exec/builtins/echo/echo		\
 					exec/builtins/env/env		\
 					exec/builtins/export/export	\
+					exec/builtins/export/error	\
+					exec/builtins/export/utils	\
 					exec/builtins/pwd/pwd		\
 					exec/builtins/unset/unset	\
+					exec/builtins/exit/exit		\
+					exec/pipes					\
 					exec/exec					\
+					exec/utils					\
 					utils/prompt				\
 					utils/init					\
 					utils/cleanup				\
 					utils/signal				\
+					utils/history				\
 					utils/utils					\
 					utils/config				\
 					utils/color					\
@@ -102,6 +109,7 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)/exec/builtins/export
 	@mkdir -p $(OBJ_DIR)/exec/builtins/pwd
 	@mkdir -p $(OBJ_DIR)/exec/builtins/unset
+	@mkdir -p $(OBJ_DIR)/exec/builtins/exit
 	@mkdir -p $(OBJ_DIR)/parse
 	@mkdir -p $(OBJ_DIR)/parse/expvar
 	@mkdir -p $(OBJ_DIR)/parse/argv

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 08:01:45 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/13 11:27:29 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 13:56:14 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,19 +90,46 @@ char	*free_str(int index, ...)
 	va_end(args);
 }
 
+char	*str_realloc(char *ptr, char *new, bool free_new)
+{
+	char	*ret;
+
+	free (ptr);
+	ret = ft_strdup(new);
+	if (free_new)
+	{
+		free (new);
+		new = NULL;
+	}
+	return (ret);
+}
+
+char	*strmv(char *new)
+{
+	char	*ret;
+
+	ret = ft_strdup(new);
+	free (new);
+	new = NULL;
+	return (ret);
+}
+
 // int main (void)
 // {
 // 	char *a = NULL;
 // 	char *b = NULL;
 // 	char *c = NULL;
+// 	char *d = NULL;
 // 	char *ret;
 
 // 	a = ft_strdup("hello");
-// 	// b = ft_strdup("test");
-// 	// c = ft_strdup("123");
-// 	free_str(1, a);
+// 	// a = ft_strdup("test");
+// 	b = ft_strdup("test");
+// 	c = ft_strdup("123");
+// 	// free_str(1, a);
 // 	// printf("%s\n", ret);
-// 	// free (a);
+// 	d = merge_str(3, a, b, c);
+// 	free (a);
 // 	// free (b);
 // 	// free (c);
 // 	// free (ret);

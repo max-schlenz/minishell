@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:22:50 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/13 12:24:36 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:11:30 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,12 @@ char	*rm_quotes_start(t_data *data, int *i, int i_arg, char *tmp)
 		(*i)++;
 	data->rmq.end = (*i);
 	if (data->rmq.start != data->rmq.end)
-		str_wo_q = ft_substr(data->argv[i_arg],
-				data->rmq.start,
+		str_wo_q = ft_substr(data->argv[i_arg], data->rmq.start,
 				data->rmq.end - data->rmq.start);
 	else
 		str_wo_q = ft_strdup("");
 	ret = ft_strjoin_dup(str_before_q, str_wo_q);
-	free_str(2, str_wo_q, str_before_q);
-	return (ret);
+	return (free_str(2, str_wo_q, str_before_q), ret);
 }
 
 void	rm_quotes_wr_argv(t_data *data, int i_arg, char *tmp)
@@ -76,13 +74,12 @@ char	*rm_quotes_mid(t_data *data, int *i, int i_arg, char *argv)
 void	remove_quotes(t_data *data, int i_arg)
 {
 	char	*argv;
-	bool	f_rmq;
 	int		i;
 
-	f_rmq = false;
 	argv = NULL;
 	data->rmq.start = 0;
 	data->rmq.end = 0;
+	data->rmq.f_rmq = false;
 	i = 0;
 	while (data->argv[i_arg][i] && data->argv[i_arg][i + 1])
 	{
@@ -91,10 +88,10 @@ void	remove_quotes(t_data *data, int i_arg)
 		else if (!data->rmq.start
 			&& (data->argv[i_arg][i] == '\"' || data->argv[i_arg][i] == '\''))
 		{
-			f_rmq = true;
+			data->rmq.f_rmq = true;
 			argv = rm_quotes_start(data, &i, i_arg, argv);
 		}
-		else if (f_rmq)
+		else if (data->rmq.f_rmq)
 			argv = rm_quotes_mid(data, &i, i_arg, argv);
 		data->rmq.start = 0;
 		i++;

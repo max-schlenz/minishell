@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_utils.c                                    :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/05 12:16:48 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 15:51:38 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,75 +14,75 @@
 
 void	wr_tmp_file(t_data *data, char *cmd)
 {
-	heredoc(data);
-	data->heredoc.hd_tmp_i = ft_itoa(data->heredoc_index);
-	data->heredoc.hd_tmp = ft_strjoin(".heredoc_tmp", data->heredoc.hd_tmp_i);
-	if (data->heredoc.andor)
-		data->heredoc.cmd_redir = ft_strjoin(data->heredoc.cmd, " < ");
+	heredoc_prompt(data);
+	data->hdoc.hd_tmp_i = ft_itoa(data->heredoc_index);
+	data->hdoc.hd_tmp = ft_strjoin(".heredoc_tmp", data->hdoc.hd_tmp_i);
+	if (data->hdoc.andor)
+		data->hdoc.cmd_redir = ft_strjoin(data->hdoc.cmd, " < ");
 	else
-		data->heredoc.cmd_redir = ft_strjoin(data->heredoc.cmd_begin, " < ");
-	data->heredoc.cmd_redir_file
-		= ft_strjoin(data->heredoc.cmd_redir, data->heredoc.hd_tmp);
-	if (data->heredoc.andor)
+		data->hdoc.cmd_redir = ft_strjoin(data->hdoc.cmd_begin, " < ");
+	data->hdoc.cmd_redir_file
+		= ft_strjoin(data->hdoc.cmd_redir, data->hdoc.hd_tmp);
+	if (data->hdoc.andor)
 	{
-		data->heredoc.cmd_done1
-			= ft_strjoin(data->heredoc.cmd_redir_file, data->heredoc.cmd_end);
-		data->heredoc.cmd_done
-			= ft_strjoin(data->heredoc.cmd_begin, data->heredoc.cmd_done1);
+		data->hdoc.cmd_done1
+			= ft_strjoin(data->hdoc.cmd_redir_file, data->hdoc.cmd_end);
+		data->hdoc.cmd_done
+			= ft_strjoin(data->hdoc.cmd_begin, data->hdoc.cmd_done1);
 	}
 	else
 	{
-		data->heredoc.cmd_done
-			= ft_strjoin(data->heredoc.cmd_redir_file, data->heredoc.cmd_end);
+		data->hdoc.cmd_done
+			= ft_strjoin(data->hdoc.cmd_redir_file, data->hdoc.cmd_end);
 	}
-	data->heredoc.andor = false;
+	data->hdoc.andor = false;
 }
 
 void	wr_new_cmd(t_data *data, char **cmd, int *i)
 {
 	free (*cmd);
-	*cmd = ft_strdup(data->heredoc.cmd_done);
+	*cmd = ft_strdup(data->hdoc.cmd_done);
 	data->heredoc_index++;
 	*i = 0;
-	data->heredoc.hd = false;
+	data->hdoc.hd = false;
 }
 
 void	init_hd(t_data *data)
 {
-	data->heredoc.cmd_begin = NULL;
-	data->heredoc.cmd = NULL;
-	data->heredoc.cmd_end = NULL;
-	data->heredoc.cmd_redir = NULL;
-	data->heredoc.cmd_redir_file = NULL;
-	data->heredoc.cmd_done = NULL;
-	data->heredoc.cmd_done1 = NULL;
-	data->heredoc.delim = NULL;
-	data->heredoc.hd_tmp = NULL;
-	data->heredoc.hd_tmp_i = NULL;
+	data->hdoc.cmd_begin = NULL;
+	data->hdoc.cmd = NULL;
+	data->hdoc.cmd_end = NULL;
+	data->hdoc.cmd_redir = NULL;
+	data->hdoc.cmd_redir_file = NULL;
+	data->hdoc.cmd_done = NULL;
+	data->hdoc.cmd_done1 = NULL;
+	data->hdoc.delim = NULL;
+	data->hdoc.hd_tmp = NULL;
+	data->hdoc.hd_tmp_i = NULL;
 }
 
 void	free_hd(t_data *data)
 {
-	if (data->heredoc.cmd_begin)
-		free(data->heredoc.cmd_begin);
-	if (data->heredoc.cmd)
-		free(data->heredoc.cmd);
-	if (data->heredoc.cmd_end)
-		free(data->heredoc.cmd_end);
-	if (data->heredoc.cmd_redir)
-		free(data->heredoc.cmd_redir);
-	if (data->heredoc.cmd_redir_file)
-		free(data->heredoc.cmd_redir_file);
-	if (data->heredoc.cmd_done)
-		free(data->heredoc.cmd_done);
-	if (data->heredoc.cmd_done1)
-		free(data->heredoc.cmd_done1);
-	if (data->heredoc.delim)
-		free(data->heredoc.delim);
-	if (data->heredoc.hd_tmp)
-		free(data->heredoc.hd_tmp);
-	if (data->heredoc.hd_tmp_i)
-		free(data->heredoc.hd_tmp_i);
+	if (data->hdoc.cmd_begin)
+		free(data->hdoc.cmd_begin);
+	if (data->hdoc.cmd)
+		free(data->hdoc.cmd);
+	if (data->hdoc.cmd_end)
+		free(data->hdoc.cmd_end);
+	if (data->hdoc.cmd_redir)
+		free(data->hdoc.cmd_redir);
+	if (data->hdoc.cmd_redir_file)
+		free(data->hdoc.cmd_redir_file);
+	if (data->hdoc.cmd_done)
+		free(data->hdoc.cmd_done);
+	if (data->hdoc.cmd_done1)
+		free(data->hdoc.cmd_done1);
+	if (data->hdoc.delim)
+		free(data->hdoc.delim);
+	if (data->hdoc.hd_tmp)
+		free(data->hdoc.hd_tmp);
+	if (data->hdoc.hd_tmp_i)
+		free(data->hdoc.hd_tmp_i);
 	init_hd(data);
 }
 

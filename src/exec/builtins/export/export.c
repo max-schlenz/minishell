@@ -6,39 +6,11 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/13 09:26:07 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 11:20:27 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-static bool	export_check_str(char *str)
-{
-	int		i;
-
-	i = 0;
-	while (str[i] 
-		&& ((str[i] >= 65 && str[i] <= 90)
-			|| (str[i] >= 97 && str[i] <= 122)
-			|| (str[i] >= 48 && str[i] <= 57)
-			|| (str[i] == '_' || str[i] == '+')))
-		i++;
-	if (str[i] && str[i] != '=')
-		return (false);
-	i -= 2;
-	if (i > 1)
-	{
-		while (str[i] && str[i] != '+')
-		{
-			i--;
-			if (i < 0)
-				break ;
-		}
-		if (i >= 0)
-			return (false);
-	}
-	return (true);
-}
 
 static void	export_print(t_data *data)
 {
@@ -69,78 +41,30 @@ static void	export_print(t_data *data)
 	builtin_fork(data, true);
 }
 
-static bool	export_err_op(t_data *data, char *setv)
+static void	export_set_existing(t_data *data, char *setv)
 {
-	data->export.err = strjoin_nl
-		("Error: export: option not supported: ", setv);
-	write(2, data->export.err, ft_strlen(data->export.err));
-	free (data->export.err);
-	data->exit_status = 2;
-	if (data->export.free_set)
-	{
-		free (setv);
-		setv = NULL;
-	}
-	if (data->export.index_arg++ < data->argc)
-		return (false);
-	return (true);
+	data->envp[data->export.index_envp]
+		= str_realloc(data->envp[data->export.index_envp], setv, 0);
+	data->export.set = true;
 }
 
-static bool	export_err_con(t_data *data, char *setv)
-{
-	data->export.err = strjoin_nl
-		("Error: export: not valid in this context: ", setv);
-	write(2, data->export.err, ft_strlen(data->export.err));
-	free (data->export.err);
-	if (data->export.free_set)
-	{
-		free (setv);
-		setv = NULL;
-	}
-	data->exit_status = 1;
-	if (data->export.index_arg++ < data->argc)
-		return (false);
-	return (true);
-}
-
-static bool	export_err_inv(t_data *data, char *setv)
-{
-	data->exit_status = 1;
-	data->export.err = strjoin_nl
-		("Error: export: not a valid identifier: ", setv);
-	write(2, data->export.err, ft_strlen(data->export.err));
-	free (data->export.err);
-	if (data->export.free_set)
-	{
-		free (setv);
-		setv = NULL;
-	}
-	return (true);
-}
-
-static bool export_setv(t_data *data, char *setv)
+static bool	export_setv(t_data *data, char *setv)
 {
 	data->export.index_envp = 0;
 	data->export.len = strlen_var(setv);
-	if (setv[data->export.len] == '=')
+	if (setv[data->export.len] == '=' && data->export.len < ft_strlen(setv) - 1)
 	{
-		if (data->export.len < ft_strlen(setv) - 1)
+		while (data->envp[data->export.index_envp])
 		{
-			while (data->envp[data->export.index_envp])
-			{
-				if (!ft_strncmp(data->envp[data->export.index_envp],
-						setv, data->export.len + 1))
-				{
-					free(data->envp[data->export.index_envp]);
-					data->envp[data->export.index_envp] = ft_strdup(setv);
-				}
-				data->export.index_envp++;
-			}
-			if (!data->export.len && !data->envp[data->export.index_envp])
-				realloc_envp(data, setv, 1);
-			sort_array(data);
-			parse_path(data);
+			if (!ft_strncmp(data->envp[data->export.index_envp],
+					setv, data->export.len + 1))
+				export_set_existing(data, setv);
+			data->export.index_envp++;
 		}
+		if (!data->export.set && !data->envp[data->export.index_envp])
+			realloc_envp(data, setv, 1);
+		sort_array(data);
+		parse_path(data);
 	}
 	data->exit_status = 0;
 	if (data->export.free_set)
@@ -150,10 +74,23 @@ static bool export_setv(t_data *data, char *setv)
 	return (true);
 }
 
+static bool	export_var(t_data *data, char *setv)
+{
+	if (setv && setv[0] == '-')
+		return (export_err_op(data, setv));
+	if (setv && !export_check_str(setv))
+		return (export_err_con(data, setv));
+	if (setv && isidentifier(setv[0]))
+		return (export_setv(data, setv));
+	else if (setv)
+		return (export_err_inv(data, setv));
+}
+
 bool	builtin_export(t_data *data, char *setv)
 {
 	data->export.index_arg = 1;
 	data->export.free_set = false;
+	data->export.set = false;
 	while (data->argc > 0 || setv)
 	{
 		if (!setv)
@@ -164,28 +101,14 @@ bool	builtin_export(t_data *data, char *setv)
 			else
 				break ;
 		}
-		if (setv && setv[0] == '-')
+		if (setv)
 		{
-			if (!export_err_op(data, setv))
+			if (!export_var(data, setv))
 				continue ;
 			return (true);
 		}
-		if (setv && !export_check_str(setv))
-		{
-			if (!export_err_con(data, setv))
-				continue ;
-			return (true);
-		}
-		if (setv && isidentifier(setv[0]))
-		{
-			if (!export_setv(data, setv))
-				continue ;
-			return (true);
-		}
-		else if (setv)
-			return (export_err_inv(data, setv));
 	}
-		if (!setv && !data->argc)
-			export_print(data);
-		return (true);
+	if (!setv && !data->argc)
+		export_print(data);
+	return (true);
 }

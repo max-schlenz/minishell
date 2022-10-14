@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:32:27 by tdehne            #+#    #+#             */
-/*   Updated: 2022/10/13 12:29:07 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 14:03:05 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,35 +71,30 @@ static void	skip_delim(char *cmd, int *i, char delim)
 
 char	*skip_d(t_data *data, char *cmd, char delim)
 {
-	int		i;
-	int		j;
-	bool	f_dquote;
-	bool	f_squote;
 	char	*ret;
 
-	i = 0;
-	j = 0;
-	f_dquote = false;
-	f_squote = false;
-	while (cmd[i])
+	data->pparse.i = 0;
+	data->pparse.j = 0;
+	data->pparse.f_dquote = false;
+	data->pparse.f_squote = false;
+	while (cmd[data->pparse.i])
 	{
-		if (cmd[i] == '\"' && !f_squote)
-				f_dquote = !f_dquote;
-		if (cmd[i] == '\'' && !f_dquote)
-				f_squote = !f_squote;
-		if (((cmd[i + 1] && cmd[i] == delim && cmd[i + 1] == delim)
-				|| (cmd[i] == delim && !cmd[i + 1]))
-			&& !f_dquote && !f_squote)
+		if (cmd[data->pparse.i] == '\"' && !data->pparse.f_squote)
+				data->pparse.f_dquote = !data->pparse.f_dquote;
+		if (cmd[data->pparse.i] == '\'' && !data->pparse.f_dquote)
+				data->pparse.f_squote = !data->pparse.f_squote;
+		if (((cmd[data->pparse.i + 1] && cmd[data->pparse.i] == delim
+					&& cmd[data->pparse.i + 1] == delim)
+				|| (cmd[data->pparse.i] == delim && !cmd[data->pparse.i + 1]))
+			&& !data->pparse.f_dquote && !data->pparse.f_squote)
 		{
-			j = i;
-			skip_delim(cmd, &j, delim);
-			cmd = delete_delim(data, cmd, i, j);
+			data->pparse.j = data->pparse.i;
+			skip_delim(cmd, &data->pparse.j, delim);
+			cmd = delete_delim(data, cmd, data->pparse.i, data->pparse.j);
 		}
-		i++;
+		data->pparse.i++;
 	}
-	ret = ft_strdup(cmd);
-	free(cmd);
-	data->cmd = NULL;
+	ret = strmv(cmd);
 	return (ret);
 }
 
@@ -111,6 +106,7 @@ char	*pre_parse(t_data *data, char *cmd)
 	ops = "|&><";
 	i = 0;
 	cmd = skip_d(data, cmd, ' ');
+	data->cmd = NULL;
 	while (*ops)
 	{
 		i = 0;

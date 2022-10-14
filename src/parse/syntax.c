@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:51 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/13 13:38:40 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:22:52 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ bool	check_syntax(t_data *data, char *cmd)
 			if (cmd[i] == '\'' || cmd[i] == '\"')
 			{
 				i++;
-				while (cmd[i] && cmd[i + 1] && cmd[i + 2])
+				while ((cmd[i] && cmd[i + 1] && cmd[i + 2]))
 				{
 					if (cmd[i] == '\'' || cmd[i++] == '\"')
 						break ;

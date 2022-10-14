@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/13 12:26:59 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 14:06:35 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,8 @@ static bool	alloc_mem_array(t_data *data, char *cmd)
 			f_dquote = !f_dquote;
 		if (cmd[i] == '\'' && !f_dquote && !f_esc)
 			f_squote = !f_squote;
-		if (cmd[i] == ' '
-			&& cmd[i + 1]
-			&& cmd[i + 1] != ' '
-			&& cmd[i + 1] != '|'
-			&& cmd[i + 1] != '&'
-			&& !f_dquote
-			&& !f_squote)
+		if (cmd[i] == ' ' && cmd[i + 1]	&& cmd[i + 1] != ' '
+			&& cmd[i + 1] != '|' && cmd[i + 1] != '&' && !f_dquote && !f_squote)
 			wc++;
 		i++;
 		f_esc = false;

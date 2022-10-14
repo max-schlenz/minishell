@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 11:23:55 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/13 09:24:29 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/14 15:58:18 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,43 @@ void	builtin_fork(t_data *data, bool flag)
 	else if (flag && data->flags->pipe)
 	{
 		waitpid(data->pid, &data->exit_code, 0);
-		reset_pipes_flags(data);
+		exec_close_pipes(data);
+		exec_set_flags(data);
 		data->exit_status = 0;
 	}
+}
+
+bool	builtin_environment(t_data *data)
+{
+	if (data->argv[0])
+	{
+		if (!ft_strncmp(data->argv[0], "exit", 5))
+			return (builtin_exit(data));
+		else if (!ft_strncmp(data->argv[0], "cd", 3))
+			return (builtin_cd(data));
+		else if (!ft_strncmp(data->argv[0], "export", 7))
+			return (builtin_export(data, NULL));
+		else if (!ft_strncmp(data->argv[0], "unset", 6))
+			return (builtin_unset(data));
+		else if (!ft_strncmp(data->argv[0], "color", 6))
+			return (builtin_color(data, NULL));
+		else if (!ft_strncmp(data->argv[0], "history", 8))
+			return (builtin_history(data));
+		else if (!ft_strncmp(data->argv[0], "tdebug", 7))
+			return (builtin_dbg(data));
+		else if (!ft_strncmp(data->argv[0], "trndcl", 7))
+			return (builtin_rcl(data));
+	}
+	return (false);
+}
+
+bool	builtin_print(t_data *data)
+{
+	if (!ft_strncmp(data->argv[0], "echo", 5))
+		return (builtin_echo(data));
+	else if (!ft_strncmp(data->argv[0], "env", 4))
+		return (builtin_env(data));
+	else if (!ft_strncmp(data->argv[0], "pwd", 4))
+		return (builtin_pwd(data));
+	return (false);
 }

@@ -50,6 +50,15 @@
 # define CFG ".mscfg"
 # define DBG ".debug"
 
+typedef struct s_pparse
+{
+	int		i;
+	int		j;
+	bool	f_dquote;
+	bool	f_squote;
+	char	*ret;
+}	t_pparse;
+
 typedef struct s_expvar
 {
 	char	*str_before_v;
@@ -119,6 +128,7 @@ typedef struct s_rmq
 {
 	size_t	start;
 	size_t	end;
+	bool	f_rmq;
 }	t_rmq;
 
 typedef struct s_color
@@ -183,7 +193,7 @@ typedef struct s_data
 	int			heredoc_index;
 	pid_t		pid;
 	FILE		*debug;
-	t_heredoc	heredoc;
+	t_heredoc	hdoc;
 	t_export	export;
 	t_parser	parser;
 	t_color		color;
@@ -191,7 +201,8 @@ typedef struct s_data
 	t_cd		cd;
 	t_echo		echo;
 	t_expvar	expvar;
-	t_flags 	*flags;
+	t_pparse	pparse;
+	t_flags		*flags;
 	t_pipes		*pipes;
 }	t_data;
 
@@ -204,7 +215,7 @@ typedef enum s_status
 
 //	init.c
 void			init_vars(t_data *data);
-t_data			*allocate_mem();
+t_data			*allocate_mem(void);
 void			open_pipes(t_data *data);
 
 //parse/envp.c
@@ -263,7 +274,6 @@ bool			builtin_env(t_data *data);
 bool			builtin_pwd(t_data *data);
 bool			builtin_unset(t_data *data);
 bool			builtin_color(t_data *data, char *cfg);
-bool			builtin_history(t_data *data);
 
 //exec/exec.c
 void			pipes(t_data *data);
@@ -284,8 +294,8 @@ char			*find_wc(t_data *data, char *cmd);
 char			*pre_parse(t_data *data, char *cmd);
 char			*skip_d(t_data *data, char *cmd, char delim);
 
-bool 			count_pipes(t_data *data, char *cmd);
-char 			*strrepc(char *cmd, char to_rep, char rep_with);
+bool			count_pipes(t_data *data, char *cmd);
+char			*strrepc(char *cmd, char to_rep, char rep_with);
 char			*get_var_content(t_data *data, char *var);
 void			free_argv(t_data *data, char **array);
 int				isnumeric(int c);
@@ -307,17 +317,20 @@ char			*get_path(t_data *data, char *cmd);
 bool			random_cl(t_data *data);
 bool			builtin_rcl(t_data *data);
 char			*handle_heredoc(t_data *data, char *cmd);
-void			heredoc(t_data *data);
+void			heredoc_prompt(t_data *data);
 void			wr_tmp_file(t_data *data, char *cmd);
 void			wr_new_cmd(t_data *data, char **cmd, int *i);
 void			rm_tmp_files(t_data *data);
 void			init_hd(t_data *data);
-void 			free_hd(t_data *data);
+void			free_hd(t_data *data);
 char			*merge_str(int index, ...);
 char			*free_str(int index, ...);
 char			*heredoc_delim(char *cmd, int i, int j);
 void			prio(t_data *data, char *cmd, int *i);
 void			builtin_fork(t_data *data, bool flag);
+
+char			*str_realloc(char *ptr, char *new, bool free_new);
+char			*strmv(char *new);
 
 // utils/prompt.c
 
@@ -377,5 +390,29 @@ void			remove_backslashes(t_data *data, int i_arg);
 
 //parse/argv/utils.c
 bool			set_filenames(t_data *data, int *i, char *cmd, int flag);
+
+//utils/history.c
+bool			builtin_history(t_data *data);
+
+//src/exec/builtins/export/error.c
+bool			export_err_inv(t_data *data, char *setv);
+bool			export_err_con(t_data *data, char *setv);
+bool			export_err_op(t_data *data, char *setv);
+
+//builtins/export/utils.c
+bool			export_check_str(char *str);
+
+//builtins/exit/exit.c
+bool			builtin_exit(t_data *data);
+
+//debug.c 							!REMOVE!
+void			dbg(t_data *data);
+
+//exec/utils.c
+bool			is_builtin(t_data *data);
+
+
+void			exec_close_pipes(t_data *data);
+void			exec_set_flags(t_data *data);
 
 #endif
