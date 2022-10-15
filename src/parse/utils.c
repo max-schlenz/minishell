@@ -6,37 +6,11 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:12:51 by tdehne            #+#    #+#             */
-/*   Updated: 2022/10/14 13:42:41 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/15 12:14:40 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-char	*strrepc(char *cmd, char to_rep, char rep_with)
-{
-	int	i;
-
-	i = 0;
-	while (cmd[i])
-	{
-		if (cmd[i] == to_rep)
-			cmd[i] = rep_with;
-		i++;
-	}
-	return (cmd);
-}
-
-size_t	strlen_expv(const char *c)
-{
-	int	i;
-
-	i = 0;
-	if (c[0] && c[0] == '$')
-		i++;
-	while (c[i] && (isnumeric(c[i]) || c[i] == '~'))
-		i++;
-	return (i);
-}
 
 size_t	strlen_path(const char *c)
 {
@@ -81,4 +55,33 @@ void	realloc_envp(t_data *data, char *newv, int flag)
 	new[i] = ft_strdup(newv);
 	new[i + 1] = NULL;
 	data->envp = new;
+}
+
+char	*strjoin_nl(char const *s1, char const *s2)
+{
+	size_t	i;
+	size_t	j;
+	char	*str;
+
+	i = 0;
+	j = 0;
+	if (!s1 || !s2)
+		return (0);
+	str = malloc((ft_strlen(s1)) + (ft_strlen(s2)) + 2);
+	if (!str)
+		return (0);
+	while (s1[i] != '\0')
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	while (s2[j] != '\0')
+	{
+		str[i] = s2[j];
+		i++;
+		j++;
+	}
+	str[i] = '\n';
+	str[i + 1] = '\0';
+	return (str);
 }

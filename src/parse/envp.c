@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 16:04:06 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/15 13:13:17 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	parse_path(t_data *data)
 	if (data->path)
 	{
 		free_array(data->path);
-		free (data->path);
+		free(data->path);
 	}
 	while (data->envp[i] && ft_strncmp(data->envp[i], "PATH=", 5))
 		i++;

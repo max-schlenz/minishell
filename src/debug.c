@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 11:38:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 11:39:45 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/15 13:56:30 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	dbg(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	fprintf(data->debug, "\n\n------------------\n\n");
@@ -23,7 +23,6 @@ void	dbg(t_data *data)
 		fprintf(data->debug, "argv[%d] = %s\n", i, data->argv[i]);
 		i++;
 	}
-	fprintf(data->debug, "------------------\n");
 	fprintf(data->debug, "FLAGS:\n");
 	fprintf(data->debug, "redir_out    : %d\n", data->flags->redir_out);
 	fprintf(data->debug, "redir_in     : %d\n", data->flags->redir_in);
@@ -32,12 +31,11 @@ void	dbg(t_data *data)
 	fprintf(data->debug, "pipe         : %d\n\n", data->flags->pipe);
 	fprintf(data->debug, "and          : %d\n", data->flags->and);
 	fprintf(data->debug, "or           : %d\n", data->flags->or);
-	fprintf(data->debug, "VARS:\n");
 	fprintf(data->debug, "data->fd_i            : %d\n", data->fd_i);
 	fprintf(data->debug, "data->counter_pipes   : %d\n", data->counter_pipes);
 	fprintf(data->debug, "data->file_name       : %s\n", data->file_name);
 	fprintf(data->debug, "data->file_name2      : %s\n", data->file_name2);
-	fprintf(data->debug, "data->file_name_append : %s\n", data->file_name_append);
+	fprintf(data->debug, "data->file_name_append: %s\n", data->file_name_append);
 	fprintf(data->debug, "data->exit_status (p) : %lld\n", data->exit_status);
 	fprintf(data->debug, "------------------\n");
 }

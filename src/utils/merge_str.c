@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 08:01:45 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 22:53:25 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/15 12:26:57 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,12 @@ char	*str_realloc(char *ptr, char *new, bool free_new)
 	return (ret);
 }
 
+// char *fu(char *a, char **b)
+// {
+// 	*b = ft_strdup("new");
+// 	return (a);
+// }
+
 // int main (void)
 // {
 // 	char *a = NULL;
@@ -115,11 +121,11 @@ char	*str_realloc(char *ptr, char *new, bool free_new)
 // 	a = ft_strdup("hello");
 // 	// a = ft_strdup("test");
 // 	b = ft_strdup("test");
-// 	c = ft_strdup("123");
+// 	c = fu(a, &b);
 // 	// free_str(1, a);
-// 	// printf("%s\n", ret);
-// 	d = merge_str(3, a, b, c);
-// 	free (a);
+// 	printf("%s\n", b);
+// 	// d = merge_str(3, a, b, c);
+// 	// free (a);
 // 	// free (b);
 // 	// free (c);
 // 	// free (ret);

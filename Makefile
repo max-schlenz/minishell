@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/14 23:07:20 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/15 14:36:29 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,9 @@ SRC				= 	${NAME}								\
 					exec/pipes							\
 					exec/exec							\
 					exec/utils							\
-					utils/prompt						\
+					utils/prompt/prompt					\
+					utils/prompt/prio					\
+					utils/prompt/utils					\
 					utils/init							\
 					utils/cleanup						\
 					utils/signal						\
@@ -78,7 +80,10 @@ SRC				= 	${NAME}								\
 					parse/pre_parse/utils				\
 					parse/syntax/syntax					\
 					parse/syntax/utils					\
-					parse/wildcards						\
+					parse/wildcards/wildcards			\
+					parse/wildcards/cases				\
+					parse/wildcards/utils				\
+					parse/wildcards/match				\
 					parse/heredoc/heredoc				\
 					parse/heredoc/utils					\
 					parse/heredoc/cleanup				\
@@ -122,8 +127,10 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)/parse/heredoc
 	@mkdir -p $(OBJ_DIR)/parse/pre_parse
 	@mkdir -p $(OBJ_DIR)/parse/syntax
+	@mkdir -p $(OBJ_DIR)/parse/wildcards
 	@mkdir -p $(OBJ_DIR)/utils
 	@mkdir -p $(OBJ_DIR)/utils/color
+	@mkdir -p $(OBJ_DIR)/utils/prompt
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES)
 	@gcc $(FLAGS) $(INCLUDES) -c $< -o $@
@@ -136,8 +143,7 @@ $(BREWFL):
 	@if [ ! -f $(BREW) ]; then \
 		echo "$(PURPLE)Installing brew & readline...$(DEFCL)";					\
 		curl -fsSL https://rawgit.com/kube/42homebrew/master/install.sh | zsh;	\
-		brew install readline;													\
-		brew install gdate;														\
+		brew install readline;													\													\
 	fi;
 	@touch .brew
 

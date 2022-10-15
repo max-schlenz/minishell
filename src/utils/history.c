@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 10:13:35 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 22:52:03 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/15 13:19:03 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,18 @@ bool	builtin_history(t_data *data)
 		history_print(fd);
 	close (fd);
 	return (true);
+}
+
+void	history(t_data *data)
+{
+	if (strdiff(data->cmd, data->last_cmd))
+	{
+		add_history(data->cmd);
+		write(data->mscfg, "HISTORY=", 8);
+		write(data->mscfg, data->cmd, ft_strlen(data->cmd));
+		write(data->mscfg, "\n", 1);
+	}
+	if (data->last_cmd)
+		free (data->last_cmd);
+	data->last_cmd = ft_strdup(data->cmd);
 }

@@ -12,6 +12,8 @@
 
 #include <minishell.h>
 
+// if (data->flags->pipe)
+// 	close_pipes(data);
 static void	clear_buffers(t_data *data)
 {
 	data->argc = 0;
@@ -27,8 +29,6 @@ static void	clear_buffers(t_data *data)
 	if (data->hdoc.delim)
 		free (data->hdoc.delim);
 	data->hdoc.delim = NULL;
-	// if (data->flags->pipe)
-	// 	close_pipes(data);
 	rm_tmp_files(data);
 	data->flags->and = false;
 	data->flags->or = false;
@@ -79,54 +79,15 @@ bool	count_pipes(t_data *data, char *cmd)
 	return (false);
 }
 
-static char	last_char(char *str)
+static void	ms_c_switch(t_data *data, int argc, char **argv)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (str[i - 1]);
-}
-
-void	prio(t_data *data, char *cmd, int *i)
-{
-	int		j;
-	char	*tmp;
-
-	j = 0;
-	data->flags->bracket = true;
-	if ((data->flags->and && data->exit_status)
-		|| (data->flags->or && !data->exit_status))
+	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
 	{
-		data->flags->prio = true;
-		free_array(data->argv);
-		free(data->argv);
-		data->argv = ft_calloc(1, sizeof(char **));
-		data->argv[0] = NULL;
-		while (cmd[*i] && cmd[*i] != ')')
-			(*i)++;
+		init_prompt(data);
+		data->exit_status = prompt(data, argv[2], 1);
+		clear_buffers(data);
+		cleanup(data, 0);
 	}
-	else
-	{
-		while (data->argv[j])
-		{
-			if (last_char(data->argv[j]) == ')')
-				data->flags->bracket = false;
-			tmp = ft_strtrim(data->argv[j], "()");
-			if (data->argv[j])
-				free (data->argv[j]);
-			data->argv[j] = tmp;
-			j++;
-		}
-	}
-}
-
-void	wait_for_childs(t_data *data)
-{
-	while (wait(&data->exit_code) > 0)
-		data->exit_status = WEXITSTATUS(data->exit_code);
-		// continue ;
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -143,13 +104,7 @@ int	main(int argc, char **argv, char **envp)
 		envp[0] = NULL;
 	}
 	parse_envp(data, envp);
-	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
-	{
-		init_prompt(data);
-		data->exit_status = prompt(data, argv[2], 1);
-		clear_buffers(data);
-		cleanup(data, 0);
-	}
+	ms_c_switch(data, argc, argv);
 	read_cfg(data);
 	while (1)
 	{

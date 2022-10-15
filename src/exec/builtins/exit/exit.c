@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 11:22:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 22:51:20 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/15 13:47:18 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,36 @@ bool	builtin_exit(t_data *data)
 	if (data->argv[1] && !strnum(data->argv[1]))
 		exit_err(data);
 	free_array(data->argv);
-	free (data->argv);
+	free(data->argv);
 	cleanup(data, 0);
 	return (true);
+}
+
+long long	ms_atoll(t_data *data, const char *str)
+{
+	data->exit.i = 0;
+	data->exit.r = 0;
+	data->exit.neg = 1;
+	if (str[data->exit.i] == '-' || str[data->exit.i] == '+')
+	{
+		if (str[data->exit.i] == '-')
+			data->exit.neg = -1;
+	data->exit.i++;
+	}
+	while (ft_isdigit(str[data->exit.i]))
+	{
+		if (((!data->exit.neg && ((data->exit.r > data->exit.max)
+						|| (data->exit.r == data->exit.max
+							&& str[data->exit.i] > '7'))))
+			|| (data->exit.neg && ((data->exit.r > data->exit.max)
+					|| (data->exit.r == data->exit.max
+						&& str[data->exit.i] > '8'))))
+		{
+			data->flags->exit_code_of = true;
+			return (0);
+		}
+		data->exit.r = data->exit.r * 10 + str[data->exit.i] - '0';
+		data->exit.i++;
+	}
+	return (data->exit.r * data->exit.neg);
 }

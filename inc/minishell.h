@@ -44,11 +44,28 @@
 # define BLUE "\x01\033[34;1m\x02"
 # define MAGENTA "\x01\033[35;1m\x02"
 # define CYAN "\x01\033[36;1m\x02"
-
 # define PROMPT_SUFFIX "]\x01\033[0;1m\x02 #\x01\033[0m\x02 "
 
 # define CFG ".mscfg"
 # define DBG ".debug"
+
+typedef struct s_wcmatch
+{
+	int		word_len;
+	int		prev_index;
+	char	*sub_word;
+	int		i;
+	int		left;
+
+}	t_wcmatch;
+
+typedef struct s_exit
+{
+	long long	max;
+	long long	i;
+	long long	r;
+	long long	neg;
+}	t_exit;
 
 typedef struct s_pparse
 {
@@ -154,6 +171,7 @@ typedef struct s_flags {
 	bool	heredoc;
 	bool	redir_append;
 	bool	heredoc_begin;
+	bool	prompt_left;
 	bool	and;
 	bool	or;
 	bool	pipe;
@@ -205,6 +223,8 @@ typedef struct s_data
 	t_echo		echo;
 	t_expvar	expvar;
 	t_pparse	pparse;
+	t_exit		exit;
+	t_wcmatch	wcmatch;
 	t_flags		*flags;
 	t_pipes		*pipes;
 }	t_data;
@@ -447,5 +467,19 @@ bool			syntax_err_msg(t_data *data, char *ops, int i);
 //utils/color/utils
 void			color_cleanup(t_data *data);
 void			color_help(void);
+
+//utils/prompt/utils
+void			prompt_priorisation(t_data *data, char **tmp_cmd, int *i);
+
+//parse/wildcards/cases
+bool			match_end(t_data *data, char *str, char *pattern);
+bool			match_inbetween(t_data *data, char *str, char *pattern);
+bool			match_start(t_data *data, char *str, char *pattern);
+
+//parse/wildcards/utils
+char			**realloc_argv(t_data *data, int argv_i, char *file, bool repl);
+
+//parse/wildcards/match
+char			**match_files(t_data *data, char *to_be_extended, int *indexes);
 
 #endif

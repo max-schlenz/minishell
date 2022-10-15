@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 22:41:27 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/15 13:46:56 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	init_vars(t_data *data)
 	data->flags->noenv = false;
 	data->path = NULL;
 	data->debug = NULL;
+	data->exit.max = 922337203685477580;
 	init_hd(data);
 	if (data->flags->debug)
 		init_dbg(data);
