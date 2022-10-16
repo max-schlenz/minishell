@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/15 13:17:52 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/15 20:08:07 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,7 @@ static bool	prompt_prep(t_data *data, char **tmp_cmd)
 
 static void	prompt_exec(t_data *data)
 {
-	if ((data->flags->prompt_left)
-		|| (!data->flags->and && !data->flags->or)
-		|| (data->flags->and && !data->exit_status)
-		|| (data->flags->or && data->exit_status))
+	if ((EXEC) || (!AND && !OR) || (AND && !EXIT) || (OR && EXIT))
 	{
 		if (data->flags->debug)
 		{
@@ -67,7 +64,7 @@ static void	prompt_exec(t_data *data)
 		if (data->flags->debug && data->debug)
 			fclose(data->debug);
 	}
-	data->flags->prompt_left = false;
+	data->flags->prompt_exec = false;
 	free_array(data->argv);
 	free(data->argv);
 }
@@ -90,7 +87,7 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 		}
 		expand_vars(data);
 		get_all_names(data);
-		prompt_priorisation(data, &tmp_cmd, &i);
+		priorities(data, &tmp_cmd, &i);
 		if (!data->argv[0])
 		{
 			free_array(data->argv);
@@ -105,7 +102,7 @@ int	prompt(t_data *data, char *cmd, int flag)
 {
 	char	*tmp_cmd;
 
-	data->flags->prompt_left = true;
+	data->flags->prompt_exec = true;
 	data->cmd = NULL;
 	if (flag)
 		data->cmd = ft_strdup(cmd);

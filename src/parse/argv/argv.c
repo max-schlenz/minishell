@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 22:53:57 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/15 19:27:13 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ static bool	split_parse(t_data *data, char *cmd, int *i, int start_args)
 	flag_redir = 0;
 	while (cmd[*i])
 	{
-		if (split_esc(data, cmd, i))
-			continue ;
+		split_esc(data, cmd, i);
 		if (split_andor(data, cmd, i, start_args))
 			return (true);
 		flag_redir = split_redir(data, cmd, i);
@@ -52,9 +51,9 @@ static bool	split_parse(t_data *data, char *cmd, int *i, int start_args)
 		if (split_col(data, cmd, i))
 			return (true);
 		split_def(data, cmd, i);
+		data->flags->f_esc = false;
 		if (!split_iter(cmd, i))
 			break ;
-		data->flags->f_esc = false;
 	}
 	return (false);
 }

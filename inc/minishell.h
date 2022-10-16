@@ -34,6 +34,11 @@
 # define E_FORK_MSG	"Failed to create Forks."
 # define E_NC_QUOTE "Error: unclosed quotes!\n"
 
+# define AND "data->flags->and"
+# define OR "data->flags->or"
+# define EXIT "data->exit_status"
+# define EXEC "data->flags->prompt_exec"
+
 # define E_TM_ARG "Error: too many arguments\n"
 # define E_EXIT_REQNO "Error: exit: numeric argument required: "
 
@@ -171,7 +176,7 @@ typedef struct s_flags {
 	bool	heredoc;
 	bool	redir_append;
 	bool	heredoc_begin;
-	bool	prompt_left;
+	bool	prompt_exec;
 	bool	and;
 	bool	or;
 	bool	pipe;
@@ -469,7 +474,7 @@ void			color_cleanup(t_data *data);
 void			color_help(void);
 
 //utils/prompt/utils
-void			prompt_priorisation(t_data *data, char **tmp_cmd, int *i);
+void			priorities(t_data *data, char **tmp_cmd, int *i);
 
 //parse/wildcards/cases
 bool			match_end(t_data *data, char *str, char *pattern);
@@ -481,5 +486,8 @@ char			**realloc_argv(t_data *data, int argv_i, char *file, bool repl);
 
 //parse/wildcards/match
 char			**match_files(t_data *data, char *to_be_extended, int *indexes);
+
+
+void			exec_program_create_fork(t_data *data);
 
 #endif

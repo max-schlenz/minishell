@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/15 15:28:55 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/15 18:17:22 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ static void	export_print(t_data *data)
 	char	*str_name;
 	char	*str_content;
 
+	data->pid = 1;
 	builtin_fork(data, false);
-	if ((!data->pid && data->flags->pipe) || (data->pid && !data->flags->pipe))
+	if (!data->pid)
 	{
 		redirs_pipes(data);
 		i = 0;
@@ -35,8 +36,7 @@ static void	export_print(t_data *data)
 			free_str (2, str_name, str_content);
 			i++;
 		}
-		if (!data->pid)
-			exit(0);
+		exit(0);
 	}
 	builtin_fork(data, true);
 }

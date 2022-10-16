@@ -79,7 +79,7 @@ bool	count_pipes(t_data *data, char *cmd)
 	return (false);
 }
 
-static void	ms_c_switch(t_data *data, int argc, char **argv)
+static void	c_switch(t_data *data, int argc, char **argv)
 {
 	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
 	{
@@ -104,7 +104,7 @@ int	main(int argc, char **argv, char **envp)
 		envp[0] = NULL;
 	}
 	parse_envp(data, envp);
-	ms_c_switch(data, argc, argv);
+	c_switch(data, argc, argv);
 	read_cfg(data);
 	while (1)
 	{

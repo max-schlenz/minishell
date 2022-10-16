@@ -25,7 +25,7 @@ static bool	exec_err(t_data *data, DIR *tmp, char *abs_path)
 	return (true);
 }
 
-static void	exec_program_create_fork(t_data *data)
+void	exec_program_create_fork(t_data *data)
 {
 	if (data->flags->pipe)
 		pipe(data->pipes->pipefd[data->fd_i]);

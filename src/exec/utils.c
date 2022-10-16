@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 12:13:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/15 15:27:22 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/15 18:28:59 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,7 @@ char	*get_path(t_data *data, char *cmd)
 			return (NULL);
 		abs_path_bs = ft_strjoin(data->path[i], "/");
 		cmd_trim = ft_strtrim(cmd, " ");
-		abs_path = ft_strjoin(abs_path_bs, cmd_trim);
-		free (abs_path_bs);
-		free (cmd_trim);
+		abs_path = merge_str(2, abs_path_bs, cmd_trim);
 		if (!access(abs_path, F_OK))
 			return (abs_path);
 		free (abs_path);
@@ -106,11 +104,10 @@ char	*get_path(t_data *data, char *cmd)
 
 void	builtin_fork(t_data *data, bool flag)
 {
-	if (!flag && data->flags->pipe)
-		data->pid = fork();
-	else if (flag && data->flags->pipe)
+	if (!flag)
+		exec_program_create_fork(data);
+	else if (flag)
 	{
-		waitpid(data->pid, &data->exit_code, 0);
 		exec_close_pipes(data);
 		exec_set_flags(data);
 		data->exit_status = 0;

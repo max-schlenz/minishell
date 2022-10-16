@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 22:03:49 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 22:59:30 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/15 20:23:32 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 bool	check_syntax_iter(char *cmd, int *i)
 {
 	if (cmd[(*i)] == '\'' || cmd[(*i)++] == '\"')
+	{
+		(*i)++;
 		return (true);
+	}
 	(*i)++;
 	return (false);
 }
