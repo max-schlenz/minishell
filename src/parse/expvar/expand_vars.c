@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 09:46:57 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 06:25:37 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/16 14:13:10 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

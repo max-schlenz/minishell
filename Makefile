@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
+#    By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/16 11:19:51 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/16 13:49:03 by tdehne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -170,6 +170,7 @@ fclean: clean header
  		rm -f ${NAME};															\
 	fi
 	@make fclean -C src/libft
+	rm -rf obj/
 
 header:
 	@if [ ! -f ".header" ]; then												\

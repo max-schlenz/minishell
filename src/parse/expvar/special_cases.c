@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   special_cases.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:04:39 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 13:07:12 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/16 14:17:24 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ void	expand_vars_ne(t_data *data)
 			+ data->expvar.i_char
 			+ ft_strlen(data->expvar.vname));
 	free(data->argv[data->expvar.i_arg]);
-	if (ft_strlen(data->expvar.str_before_v) > 0)
-		data->argv[data->expvar.i_arg]
-			= ft_strjoin(data->expvar.str_before_v, data->expvar.str_after_v);
-	else
-		data->argv[data->expvar.i_arg] = ft_strdup("");
+	// if (ft_strlen(data->expvar.str_before_v) >= 0)
+	data->argv[data->expvar.i_arg]
+		= ft_strjoin_dup(data->expvar.str_before_v, data->expvar.str_after_v);
+	// else
+	// 	data->argv[data->expvar.i_arg] = ft_strdup("");
 	free_str(3, data->expvar.str_before_v,
 		data->expvar.str_after_v, data->expvar.vname);
 }
