@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:51 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/15 20:21:59 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/16 11:12:24 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ bool	check_syntax(t_data *data, char *cmd)
 				return (err_msg(err_type(data, *ops, 2, 0)));
 			i++;
 		}
-		*ops++;
+		ops++;
 	}
 	return (true);
 }

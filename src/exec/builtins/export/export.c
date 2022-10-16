@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/15 18:17:22 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/16 11:04:39 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ static void	export_print(t_data *data)
 {
 	int		i;
 	int		len_name;
-	int		len_content;
-	char	*str_name;
-	char	*str_content;
+	int		len_val;
+	char	*name;
+	char	*val;
 
 	data->pid = 1;
 	builtin_fork(data, false);
@@ -29,11 +29,11 @@ static void	export_print(t_data *data)
 		while (data->envp[i])
 		{
 			len_name = strlen_var(data->envp[i]);
-			len_content = ft_strlen(data->envp[i]) - len_name;
-			str_name = ft_substr(data->envp[i], 0, len_name);
-			str_content = ft_substr(data->envp[i], len_name + 1, len_content);
-			printf("declare -x %s=\"%s\"\n", str_name, str_content);
-			free_str (2, str_name, str_content);
+			len_val = ft_strlen(data->envp[i]) - len_name;
+			name = ft_substr(data->envp[i], 0, len_name);
+			val = ft_substr(data->envp[i], len_name + 1, len_val);
+			export_output(len_val, name, val);
+			free_str (2, name, val);
 			i++;
 		}
 		exit(0);
@@ -48,7 +48,22 @@ static void	export_set_existing(t_data *data, char *setv)
 	data->export.set = true;
 }
 
-static bool	export_setv(t_data *data, char *setv)
+static void	export_set_var_nval(t_data *data, char *setv)
+{
+	while (data->envp[data->export.index_envp])
+	{
+		if (!ft_strncmp(data->envp[data->export.index_envp],
+				setv, data->export.len))
+			export_set_existing(data, setv);
+		data->export.index_envp++;
+	}
+	if (!data->export.set && !data->envp[data->export.index_envp])
+		realloc_envp(data, setv, 1);
+	sort_array(data);
+	parse_path(data);
+}
+
+bool	export_setv(t_data *data, char *setv)
 {
 	data->export.index_envp = 0;
 	data->export.len = strlen_var(setv);
@@ -66,23 +81,14 @@ static bool	export_setv(t_data *data, char *setv)
 		sort_array(data);
 		parse_path(data);
 	}
+	else if (setv[data->export.len] != '=')
+		export_set_var_nval(data, setv);
 	data->exit_status = 0;
 	if (data->export.free_set)
 		free (setv);
 	if (data->export.index_arg++ < data->argc)
 		return (false);
 	return (true);
-}
-
-static bool	export_var(t_data *data, char *setv)
-{
-	if (setv && setv[0] == '-')
-		return (export_err_op(data, setv));
-	if (setv && !export_check_str(setv))
-		return (export_err_con(data, setv));
-	if (setv && isidentifier(setv[0]))
-		return (export_setv(data, setv));
-	return (export_err_inv(data, setv));
 }
 
 bool	builtin_export(t_data *data, char *setv)

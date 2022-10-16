@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:29 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/07 12:47:26 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/16 10:33:29 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ bool	builtin_env(t_data *data)
 	if (!data->argv[1])
 	{
 		while (data->envp[i])
-			printf("%s\n", data->envp[i++]);
+		{
+			if (ft_strchr(data->envp[i], '='))
+				printf("%s\n", data->envp[i]);
+			i++;
+		}
 		data->exit_status = 0;
 	}
 	else

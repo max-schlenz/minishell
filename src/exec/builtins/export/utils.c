@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 11:19:40 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 11:21:40 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/16 11:04:27 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,23 @@ bool	export_check_str(char *str)
 			return (false);
 	}
 	return (true);
+}
+
+bool	export_var(t_data *data, char *setv)
+{
+	if (setv && setv[0] == '-')
+		return (export_err_op(data, setv));
+	if (setv && !export_check_str(setv))
+		return (export_err_con(data, setv));
+	if (setv && isidentifier(setv[0]))
+		return (export_setv(data, setv));
+	return (export_err_inv(data, setv));
+}
+
+void	export_output(int len, char *name, char *val)
+{
+	if (!len)
+		printf("declare -x %s\n", name);
+	else
+		printf("declare -x %s=\"%s\"\n", name, val);
 }

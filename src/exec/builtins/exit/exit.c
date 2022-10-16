@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 11:22:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/15 13:47:18 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/16 11:05:13 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,11 @@ long long	ms_atoll(t_data *data, const char *str)
 	}
 	while (ft_isdigit(str[data->exit.i]))
 	{
-		if (((!data->exit.neg && ((data->exit.r > data->exit.max)
-						|| (data->exit.r == data->exit.max
-							&& str[data->exit.i] > '7'))))
-			|| (data->exit.neg && ((data->exit.r > data->exit.max)
+		if ((((!data->exit.neg && (data->exit.r > data->exit.max))
 					|| (data->exit.r == data->exit.max
-						&& str[data->exit.i] > '8'))))
+						&& str[data->exit.i] > '7')))
+			|| ((data->exit.neg && (data->exit.r > data->exit.max))
+				|| (data->exit.r == data->exit.max && str[data->exit.i] > '8')))
 		{
 			data->flags->exit_code_of = true;
 			return (0);

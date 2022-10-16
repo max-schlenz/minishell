@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/15 14:36:29 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/16 11:19:51 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ BCYAN	=	$(shell echo -e "\033[1;36m")
 # ---------------------------------------#
 
 MAKEFLAGS 		=	--no-print-directory
-FLAGS			= 	-g #-Wall -Wextra -Werror -fsanitize=address 
+FLAGS			= 	-g #-Wall -Wextra -Werror #-fsanitize=address 
 
 NAME			=	minishell
 
@@ -73,9 +73,8 @@ SRC				= 	${NAME}								\
 					parse/argv/utils					\
 					parse/argv/modifiers				\
 					parse/argv/quote_escape				\
-					parse/argv/argv_redir				\
-					parse/argv/argv_ops					\
-					parse/argv/argv_utils				\
+					parse/argv/redir					\
+					parse/argv/ops						\
 					parse/pre_parse/pre_parse			\
 					parse/pre_parse/utils				\
 					parse/syntax/syntax					\

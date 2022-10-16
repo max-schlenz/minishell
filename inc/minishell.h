@@ -367,12 +367,11 @@ int				prompt(t_data *data, char *cmd, int flag);
 
 // exec/builtins/cd/cd.c
 bool			builtin_cd(t_data *data);
-void			init_cd(t_data *data);
 void			free_cd(t_data *data);
 
 // exec/builtins/cd/cd_cleanup.c
 bool			cd_success(t_data *data, int i);
-void			init_cd(t_data *data);
+void			init_cd(t_data *data, int *index_pwd);
 void			free_cd(t_data *data);
 bool			cd_err(t_data *data);
 
@@ -430,6 +429,11 @@ bool			export_err_op(t_data *data, char *setv);
 
 //builtins/export/utils.c
 bool			export_check_str(char *str);
+bool			export_var(t_data *data, char *setv);
+void			export_output(int len, char *name, char *val);
+
+//builtins/export/export.c
+bool			export_setv(t_data *data, char *setv);
 
 //builtins/exit/exit.c
 bool			builtin_exit(t_data *data);
