@@ -418,6 +418,7 @@ void			remove_backslashes(t_data *data, int i_arg);
 
 //parse/argv/utils.c
 bool			set_filenames(t_data *data, int *i, char *cmd, int flag);
+void			rm_quotes_init(t_data *data);
 
 //utils/history.c
 bool			builtin_history(t_data *data);
@@ -443,7 +444,7 @@ void			dbg(t_data *data);
 
 //exec/utils.c
 bool			is_builtin(t_data *data);
-
+bool			check_path(char *cmd);
 void			exec_close_pipes(t_data *data);
 void			exec_set_flags(t_data *data);
 
@@ -472,6 +473,7 @@ bool			check_syntax_iter(char *cmd, int *i);
 bool			*err_msg(char *err_c);
 char			*err_type(t_data *data, char c, int exit_status, int flag);
 bool			syntax_err_msg(t_data *data, char *ops, int i);
+bool			check_syntax_helper(char *cmd, char *ops, int i);
 
 //utils/color/utils
 void			color_cleanup(t_data *data);

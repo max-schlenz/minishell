@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/15 19:27:13 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/16 16:12:52 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	split_def(t_data *data, char *cmd, int *i)
 {
-	if (!data->flags->f_dquote && !data->flags->f_squote && !data->flags->f_esc
+	if (!data->flags->f_dquote && !data->flags->f_squote
 		&& cmd[*i] == ' ' && cmd[(*i) + 1] && cmd[(*i) + 1] != ' ')
 		parse_string(data, cmd, (*i), false);
 }
@@ -37,7 +37,6 @@ static bool	split_parse(t_data *data, char *cmd, int *i, int start_args)
 	flag_redir = 0;
 	while (cmd[*i])
 	{
-		split_esc(data, cmd, i);
 		if (split_andor(data, cmd, i, start_args))
 			return (true);
 		flag_redir = split_redir(data, cmd, i);
@@ -45,9 +44,10 @@ static bool	split_parse(t_data *data, char *cmd, int *i, int start_args)
 			return (true);
 		if (flag_redir == 2)
 			continue ;
-		split_qflags(data, cmd, i);
 		if (split_pipe(data, cmd, i))
 			return (true);
+		split_esc(data, cmd, i);
+		split_qflags(data, cmd, i);
 		if (split_col(data, cmd, i))
 			return (true);
 		split_def(data, cmd, i);

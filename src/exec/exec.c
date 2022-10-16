@@ -12,6 +12,29 @@
 
 #include <minishell.h>
 
+char	*get_path(t_data *data, char *cmd)
+{
+	int		i;
+	char	*abs_path_bs;
+	char	*abs_path;
+	char	*cmd_trim;
+
+	i = 0;
+	while (data->path && data->path[i])
+	{
+		if (ft_strlen(cmd) > 2 && ft_strchr(cmd + 2, '/'))
+			return (NULL);
+		abs_path_bs = ft_strjoin(data->path[i], "/");
+		cmd_trim = ft_strtrim(cmd, " ");
+		abs_path = merge_str(2, abs_path_bs, cmd_trim);
+		if (!access(abs_path, F_OK) && check_path(abs_path))
+			return (abs_path);
+		free (abs_path);
+		i++;
+	}
+	return (NULL);
+}
+
 static bool	exec_err(t_data *data, DIR *tmp, char *abs_path)
 {
 	if (tmp)

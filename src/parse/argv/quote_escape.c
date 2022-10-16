@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:22:50 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 21:52:53 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/16 15:23:02 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,8 @@ void	remove_quotes(t_data *data, int i_arg)
 	char	*argv;
 	int		i;
 
+	rm_quotes_init(data);
 	argv = NULL;
-	data->rmq.start = 0;
-	data->rmq.end = 0;
-	data->rmq.f_rmq = false;
 	i = 0;
 	while (data->argv[i_arg][i] && data->argv[i_arg][i + 1])
 	{
@@ -94,7 +92,8 @@ void	remove_quotes(t_data *data, int i_arg)
 		else if (data->rmq.f_rmq)
 			argv = rm_quotes_mid(data, &i, i_arg, argv);
 		data->rmq.start = 0;
-		i++;
+		if (data->argv[i_arg][i] && data->argv[i_arg][i + 1])
+			i++;
 	}
 	if (argv)
 		rm_quotes_wr_argv(data, i_arg, argv);

@@ -1,5 +1,82 @@
 
 ------------------
+argv[0] = unset
+argv[1] = ZSH
+
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+and          : 0
+or           : 0
+data->fd_i            : 0
+data->counter_pipes   : 1
+data->file_name       : (null)
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 0
+
+------------------
+argv[0] = ls
+
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+and          : 0
+or           : 0
+data->fd_i            : 0
+data->counter_pipes   : 1
+data->file_name       : (null)
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 0
+
+------------------
+argv[0] = export
+
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+and          : 0
+or           : 0
+data->fd_i            : 0
+data->counter_pipes   : 0
+data->file_name       : (null)
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 0
+
+------------------
+argv[0] = export
+
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+and          : 0
+or           : 0
+data->fd_i            : 0
+data->counter_pipes   : 0
+data->file_name       : (null)
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 0
+
+------------------
 argv[0] = exit
 
 FLAGS:
@@ -16,4 +93,4 @@ data->counter_pipes   : 0
 data->file_name       : (null)
 data->file_name2      : (null)
 data->file_name_append: (null)
-data->exit_status (p) : 2
+data->exit_status (p) : 0

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 22:03:49 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/15 20:23:32 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/16 16:20:01 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,13 @@ bool	syntax_err_msg(t_data *data, char *ops, int i)
 	err = strjoin_nl("Syntax error: ", err_c);
 	write (2, err, ft_strlen(err));
 	free (err);
-	free (ops);
+	return (false);
+}
+
+bool	check_syntax_helper(char *cmd, char *ops, int i)
+{
+	if (cmd[i] && cmd[i + 1] && cmd[i + 2] && cmd[i] == *ops
+		&& cmd[i + 1] == *ops && cmd[i + 2] == *ops)
+		return (true);
 	return (false);
 }

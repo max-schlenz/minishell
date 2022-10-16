@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 12:13:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/15 18:28:59 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/16 16:22:04 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,27 +79,18 @@ void	exec_set_flags(t_data *data)
 		data->flags->pipe = false;
 }
 
-char	*get_path(t_data *data, char *cmd)
+bool	check_path(char *cmd)
 {
-	int		i;
-	char	*abs_path_bs;
-	char	*abs_path;
-	char	*cmd_trim;
+	int	i;
 
 	i = 0;
-	while (data->path && data->path[i])
+	while (cmd[i] && cmd[i + 1])
 	{
-		if (ft_strchr(cmd + 2, '/'))
-			return (NULL);
-		abs_path_bs = ft_strjoin(data->path[i], "/");
-		cmd_trim = ft_strtrim(cmd, " ");
-		abs_path = merge_str(2, abs_path_bs, cmd_trim);
-		if (!access(abs_path, F_OK))
-			return (abs_path);
-		free (abs_path);
+		if (cmd[i] && cmd[i + 1] && cmd[i] == '/' && cmd[i + 1] == '/')
+			return (false);
 		i++;
 	}
-	return (NULL);
+	return (true);
 }
 
 void	builtin_fork(t_data *data, bool flag)

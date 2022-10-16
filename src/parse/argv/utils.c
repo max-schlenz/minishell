@@ -6,11 +6,18 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:23:56 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 11:01:55 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/16 15:22:54 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+void	rm_quotes_init(t_data *data)
+{
+	data->rmq.start = 0;
+	data->rmq.end = 0;
+	data->rmq.f_rmq = false;
+}
 
 bool	alloc_mem_array(t_data *data, char *cmd)
 {

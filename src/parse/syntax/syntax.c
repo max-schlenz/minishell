@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:51 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 11:12:24 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/16 14:44:37 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,9 @@ bool	check_syntax_first_char(t_data *data, char *cmd)
 bool	check_syntax(t_data *data, char *cmd)
 {
 	int				i;
-	static char		*ops = "|&><";
+	char			*ops;
 
+	ops = "|&><";
 	while (*ops)
 	{
 		i = 0;
@@ -74,8 +75,7 @@ bool	check_syntax(t_data *data, char *cmd)
 						continue ;
 				}
 			}
-			if (cmd[i] && cmd[i + 1] && cmd[i + 2] && cmd[i] == *ops
-				&& cmd[i + 1] == *ops && cmd[i + 2] == *ops)
+			if (check_syntax_helper(cmd, ops, i))
 				return (err_msg(err_type(data, *ops, 2, 0)));
 			i++;
 		}
@@ -88,21 +88,19 @@ static bool	syntax_err_consecutive(t_data *data, char *cmd, int *i, int *k)
 {
 	char	*ops;
 
-	ops = ft_strdup("|&><");
-	if (ft_strncmp(cmd + (*i), "<<", 3))
+	ops = "|&><";
+	if (!ft_strncmp(cmd + (*i), "<<", 3))
 	{
 		(*i)++;
-		free(ops);
 		return (true);
 	}
 	while (ops[(*k)])
 	{
 		if (cmd[(*i) + 2] == ops[(*k)])
-			syntax_err_msg(data, ops, (*k));
-		k++;
+			return (err_msg(err_type(data, ops[(*k)], 2, 0)));
+		(*k)++;
 	}
-	free(ops);
-	return (false);
+	return (true);
 }
 
 bool	syntax_err(t_data *data, char *cmd)
@@ -115,19 +113,21 @@ bool	syntax_err(t_data *data, char *cmd)
 	i = 0;
 	j = 0;
 	k = 0;
-	ops = ft_strdup("|&><");
+	ops = "|&><";
 	while (cmd[i] && cmd[i + 1] && cmd[i + 2])
 	{
 		while (ops[j])
 		{
 			if (cmd[i] == ops[j])
-				syntax_err_consecutive(data, cmd, &i, &k);
+			{
+				if (!syntax_err_consecutive(data, cmd, &i, &k))
+					return (false);
+			}
 			k = 0;
 			j++;
 		}
 		j = 0;
 		i++;
 	}
-	free (ops);
 	return (true);
 }

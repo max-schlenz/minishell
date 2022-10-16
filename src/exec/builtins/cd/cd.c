@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 11:08:58 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/16 14:29:40 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,11 @@ static bool	cd_def(t_data *data, int i)
 	if (!access(data->cd.path, F_OK))
 		cd_chdir(data, i);
 	else
+	{
+		free_cd(data);
 		return (false);
+	}
+	free_cd(data);
 	return (true);
 }
 
