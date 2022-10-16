@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 15:15:20 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/16 20:25:46 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ static void	export_set_var_nval(t_data *data, char *setv)
 {
 	while (data->envp[data->export.index_envp])
 	{
-		if (!ft_strncmp(data->envp[data->export.index_envp],
-				setv, data->export.len))
+		if (!ft_strncmp(data->envp[data->export.index_envp], \
+						setv, data->export.len))
 			export_set_existing(data, setv);
 		data->export.index_envp++;
 	}
@@ -71,8 +71,8 @@ bool	export_setv(t_data *data, char *setv)
 	{
 		while (data->envp[data->export.index_envp])
 		{
-			if (!ft_strncmp(data->envp[data->export.index_envp],
-					setv, data->export.len + 1))
+			if (!ft_strncmp(data->envp[data->export.index_envp], \
+							setv, data->export.len + 1))
 				export_set_existing(data, setv);
 			data->export.index_envp++;
 		}
@@ -84,34 +84,31 @@ bool	export_setv(t_data *data, char *setv)
 	else if (setv[data->export.len] != '=')
 		export_set_var_nval(data, setv);
 	data->exit_status = 0;
-	if (data->export.free_set)
-		free (setv);
-	if (data->export.index_arg++ < data->argc)
-		return (false);
-	return (true);
 }
 
 bool	builtin_export(t_data *data, char *setv)
 {
 	data->export.index_arg = 1;
-	data->export.free_set = false;
 	data->export.set = false;
 	while (data->argc > 0 || setv)
 	{
+		data->export.free_set = false;
 		if (!setv)
 		{
-			data->export.free_set = true;
 			if (data->argv[data->export.index_arg])
+			{
+				data->export.free_set = true;
 				setv = ft_strdup(data->argv[data->export.index_arg]);
+			}
 			else
 				break ;
 		}
-		if (setv)
+		if (setv && !export_var(data, setv))
 		{
-			if (!export_var(data, setv))
-				continue ;
-			return (true);
+			setv = NULL;
+			continue ;
 		}
+		return (true);
 	}
 	if (!setv && !data->argc)
 		export_print(data);

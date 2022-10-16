@@ -1,38 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/05 08:39:29 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 20:27:48 by mschlenz         ###   ########.fr       */
+/*   Created: 2022/10/16 19:33:48 by mschlenz          #+#    #+#             */
+/*   Updated: 2022/10/16 20:02:25 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-bool	builtin_env(t_data *data)
+void	exec_error(t_data *data, int err, char *info, int exit)
 {
-	int		i;
-	char	*err;
+	char	*msg;
 
-	i = 0;
-	if (!data->argv[1])
-	{
-		while (data->envp[i])
-		{
-			if (ft_strchr(data->envp[i], '='))
-				printf("%s\n", data->envp[i]);
-			i++;
-		}
-		data->exit_status = 0;
-	}
+	if (err == 1)
+		msg = E_EXPORT_OPT;
+	else if (err == 2)
+		msg = E_EXPORT_CONT;
+	else if (err == 3)
+		msg = E_EXPORT_IDENT;
 	else
-	{
-		write(2, "Error: env: parameters not supported: ", 39);
-		write(2, data->argv[1], ft_strlen(data->argv[1]));
-		write(2, "\n", 1);
-	}
-	return (true);
+		msg = "";
+	write(2, msg, ft_strlen(msg));
+	write(2, info, ft_strlen(info));
+	write(2, "\n", 1);
+	data->exit_status = exit;
 }

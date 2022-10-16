@@ -42,6 +42,10 @@
 # define E_TM_ARG "Error: too many arguments\n"
 # define E_EXIT_REQNO "Error: exit: numeric argument required: "
 
+# define E_EXPORT_CONT "Error: export: not valid in this context: "
+# define E_EXPORT_IDENT "Error: export: not a valid identifier: "
+# define E_EXPORT_OPT "Error: export: option not supported: "
+
 # define WHITE "\x01\033[0m\x02"
 # define RED "\x01\033[31;1m\x02"
 # define GREEN "\x01\033[32;1m\x02"
@@ -495,5 +499,7 @@ char			**match_files(t_data *data, char *to_be_extended, int *indexes);
 
 
 void			exec_program_create_fork(t_data *data);
+void			exec_error(t_data *data, int err, char *info, int exit);
+// bool			err_msg(t_data *data, char *setv, int err);
 
 #endif

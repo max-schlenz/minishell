@@ -40,5 +40,5 @@ echo <|
 echo |&
 
 echo lol & asd
-
+sdjgn | grep E
 ls | grep m > out > out2

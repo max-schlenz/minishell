@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 11:19:40 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 11:04:27 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/16 20:30:56 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,29 @@ bool	export_check_str(char *str)
 
 bool	export_var(t_data *data, char *setv)
 {
+	int	err;
+	int	exit;
+
+	err = 0;
+	exit = 1;
 	if (setv && setv[0] == '-')
-		return (export_err_op(data, setv));
-	if (setv && !export_check_str(setv))
-		return (export_err_con(data, setv));
-	if (setv && isidentifier(setv[0]))
-		return (export_setv(data, setv));
-	return (export_err_inv(data, setv));
+	{
+		exit = 2;
+		err = 1;
+	}
+	else if (setv && !export_check_str(setv))
+		err = 2;
+	else if (setv && !isidentifier(setv[0]))
+		err = 3;
+	if (err)
+		exec_error(data, err, setv, exit);
+	else
+		export_setv(data, setv);
+	if (data->export.free_set)
+		free_str(1, setv);
+	if (data->export.index_arg++ < data->argc)
+		return (false);
+	return (true);
 }
 
 void	export_output(int len, char *name, char *val)

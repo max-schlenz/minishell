@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+         #
+#    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/16 13:49:03 by tdehne           ###   ########.fr        #
+#    Updated: 2022/10/16 20:23:20 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,6 @@ SRC				= 	${NAME}								\
 					exec/builtins/echo/echo				\
 					exec/builtins/env/env				\
 					exec/builtins/export/export			\
-					exec/builtins/export/error			\
 					exec/builtins/export/utils			\
 					exec/builtins/pwd/pwd				\
 					exec/builtins/unset/unset			\
@@ -57,6 +56,7 @@ SRC				= 	${NAME}								\
 					exec/pipes							\
 					exec/exec							\
 					exec/utils							\
+					exec/error							\
 					utils/prompt/prompt					\
 					utils/prompt/prio					\
 					utils/prompt/utils					\

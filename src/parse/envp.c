@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 10:30:23 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/16 18:13:17 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,10 @@ void	set_shlvl_env(t_data *data)
 	free (shlvl_new);
 	builtin_export(data, envv);
 	free (envv);
-	builtin_export(data, "_=/usr/bin/env");
+	if (data->flags->macos)
+		builtin_export(data, "_=/usr/bin/env");
+	else
+		builtin_export(data, "_=/usr/sbin/env");
 	pwd = getcwd(NULL, 0);
 	envv = ft_strjoin("PWD=", pwd);
 	free(pwd);
