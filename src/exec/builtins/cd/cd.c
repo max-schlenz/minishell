@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 14:29:40 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/17 14:50:14 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,15 @@ static void	cd_build_path(t_data *data, int i, bool absolute)
 {
 	if (absolute)
 	{
-		data->cd.new_pwd_tmp = ft_strjoin("PWD=", data->cd.path_tmp2);
 		data->cd.path = ft_strdup(data->cd.path_tmp2);
+		data->cd.new_pwd_tmp = ft_strjoin("PWD=", data->cd.path_tmp2);
 	}
 	else
 	{
 		data->cd.path_tmp = ft_strdup(data->envp[i] + 4);
 		data->cd.path_tmp_bs = ft_strjoin(data->cd.path_tmp, "/");
 		data->cd.path = ft_strjoin(data->cd.path_tmp_bs, data->cd.path_tmp2);
+		data->cd.new_pwd_tmp = ft_strjoin("PWD=", data->cd.path);
 	}
 }
 
@@ -111,5 +112,4 @@ bool	builtin_cd(t_data *data)
 	}
 	builtin_fork(data, true);
 	return (cd_success(data, index_pwd));
-	return (true);
 }

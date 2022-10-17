@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 09:37:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 11:10:42 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/17 14:51:19 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void	free_cd(t_data *data)
 		free (data->cd.path_tmp);
 	if (data->cd.path_tmp2)
 		free (data->cd.path_tmp2);
-	if (data->cd.new_pwd_tmp)
-		free (data->cd.new_pwd_tmp);
 	init_cd(data, &tmp);
 }
 
@@ -36,7 +34,6 @@ void	init_cd(t_data *data, int *index_pwd)
 	data->cd.path_tmp_bs = NULL;
 	data->cd.path_tmp = NULL;
 	data->cd.path_tmp2 = NULL;
-	data->cd.new_pwd_tmp = NULL;
 }
 
 bool	cd_err(t_data *data)
