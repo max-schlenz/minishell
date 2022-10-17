@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/17 17:46:30 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/17 16:12:21 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,7 @@ bool	builtin_export(t_data *data, char *setv)
 	data->export.index_arg = 1;
 	data->export.set = false;
 	data->pid = 1;
-	if (data->flags->pipe)
-	{
-		builtin_fork(data, false);
-		redirs_pipes(data);
-	}
-	if (data->flags->pipe && data->pid == 0 || !data->flags->pipe && data->pid)
-	{
+
 		while (data->argc > 0 || setv)
 		{
 			data->export.free_set = false;
@@ -117,14 +111,6 @@ bool	builtin_export(t_data *data, char *setv)
 		}
 		if (!setv && !data->argc)
 			export_print(data);
-	}
-	if (data->flags->pipe)
-	{
-		builtin_fork(data, true);
-		if (data->pid == 0)
-		{
-			exit(0);
-		}
-	}
+	
 	return (true);
 }
