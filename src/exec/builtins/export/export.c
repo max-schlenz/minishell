@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 20:25:46 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/17 17:46:30 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,22 @@ static void	export_print(t_data *data)
 	char	*name;
 	char	*val;
 
-	data->pid = 1;
-	builtin_fork(data, false);
-	if (!data->pid)
+//	data->pid = 1;
+	//builtin_fork(data, false);
+		//redirs_pipes(data);
+	i = 0;
+	while (data->envp[i])
 	{
-		redirs_pipes(data);
-		i = 0;
-		while (data->envp[i])
-		{
-			len_name = strlen_var(data->envp[i]);
-			len_val = ft_strlen(data->envp[i]) - len_name;
-			name = ft_substr(data->envp[i], 0, len_name);
-			val = ft_substr(data->envp[i], len_name + 1, len_val);
-			export_output(len_val, name, val);
-			free_str (2, name, val);
-			i++;
-		}
-		exit(0);
+		len_name = strlen_var(data->envp[i]);
+		len_val = ft_strlen(data->envp[i]) - len_name;
+		name = ft_substr(data->envp[i], 0, len_name);
+		val = ft_substr(data->envp[i], len_name + 1, len_val);
+		export_output(len_val, name, val);
+		free_str (2, name, val);
+		i++;
 	}
-	builtin_fork(data, true);
+		//exit(0);
+	//builtin_fork(data, true);
 }
 
 static void	export_set_existing(t_data *data, char *setv)
@@ -90,27 +87,44 @@ bool	builtin_export(t_data *data, char *setv)
 {
 	data->export.index_arg = 1;
 	data->export.set = false;
-	while (data->argc > 0 || setv)
+	data->pid = 1;
+	if (data->flags->pipe)
 	{
-		data->export.free_set = false;
-		if (!setv)
-		{
-			if (data->argv[data->export.index_arg])
-			{
-				data->export.free_set = true;
-				setv = ft_strdup(data->argv[data->export.index_arg]);
-			}
-			else
-				break ;
-		}
-		if (setv && !export_var(data, setv))
-		{
-			setv = NULL;
-			continue ;
-		}
-		return (true);
+		builtin_fork(data, false);
+		redirs_pipes(data);
 	}
-	if (!setv && !data->argc)
-		export_print(data);
+	if (data->flags->pipe && data->pid == 0 || !data->flags->pipe && data->pid)
+	{
+		while (data->argc > 0 || setv)
+		{
+			data->export.free_set = false;
+			if (!setv)
+			{
+				if (data->argv[data->export.index_arg])
+				{
+					data->export.free_set = true;
+					setv = ft_strdup(data->argv[data->export.index_arg]);
+				}
+				else
+					break ;
+			}
+			if (setv && !export_var(data, setv))
+			{
+				setv = NULL;
+				continue ;
+			}
+			return (true);
+		}
+		if (!setv && !data->argc)
+			export_print(data);
+	}
+	if (data->flags->pipe)
+	{
+		builtin_fork(data, true);
+		if (data->pid == 0)
+		{
+			exit(0);
+		}
+	}
 	return (true);
 }
