@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 12:13:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/17 16:10:06 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/17 20:44:31 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 bool	is_builtin(t_data *data)
 {
-	if ((!ft_strncmp(data->argv[0], "exit", 5))
-		|| (!ft_strncmp(data->argv[0], "cd", 3))
-		|| (!ft_strncmp(data->argv[0], "export", 7))
-		|| (!ft_strncmp(data->argv[0], "unset", 6))
-		|| (!ft_strncmp(data->argv[0], "color", 6))
-		|| (!ft_strncmp(data->argv[0], "history", 8))
-		|| (!ft_strncmp(data->argv[0], "echo", 5))
-		|| (!ft_strncmp(data->argv[0], "env", 4))
-		|| (!ft_strncmp(data->argv[0], "pwd", 4)))
+	if (!ft_strncmp(data->argv[0], "exit", 5) \
+	|| !ft_strncmp(data->argv[0], "cd", 3) \
+	|| !ft_strncmp(data->argv[0], "export", 7) \
+	|| !ft_strncmp(data->argv[0], "unset", 6) \
+	|| !ft_strncmp(data->argv[0], "color", 6) \
+	|| !ft_strncmp(data->argv[0], "history", 8) \
+	|| !ft_strncmp(data->argv[0], "echo", 5) \
+	|| !ft_strncmp(data->argv[0], "env", 4) \
+	|| !ft_strncmp(data->argv[0], "pwd", 4))
 		return (true);
 	return (false);
 }

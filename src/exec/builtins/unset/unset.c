@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:05 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 20:24:57 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/17 21:19:55 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,19 @@ bool	builtin_unset(t_data *data)
 {
 	int	i;
 	int	index_arg;
+	int	len;
 
 	i = 0;
 	index_arg = 1;
 	while (data->argv[index_arg])
 	{
+		if (data->argv[index_arg][0] == '-')
+			return (builtin_error(data, data->argv[index_arg]));
 		while (data->envp[i])
 		{
-			if (!ft_strncmp(data->envp[i], data->argv[index_arg], \
-				ft_strlen(data->argv[index_arg])))
+			len = ft_strlen(data->argv[index_arg]);
+			if (!ft_strncmp(data->envp[i], data->argv[index_arg], len)
+				&& (!data->envp[i][len] || data->envp[i][len] == '='))
 			{
 				data->counter_env--;
 				break ;

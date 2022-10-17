@@ -63,11 +63,8 @@ static void	exec_program_child(t_data *data, char *abs_path)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	redirs_pipes(data);
-	if (!builtin_print(data))
-	{
-		if (!access(abs_path, F_OK))
-			execve(abs_path, data->argv, data->envp);
-	}
+	if (!access(abs_path, F_OK))
+		execve(abs_path, data->argv, data->envp);
 	exit(0);
 }
 
@@ -82,7 +79,7 @@ bool	exec_program(t_data *data)
 	if (!abs_path && data->argv[0])
 		abs_path = ft_strdup(data->argv[0]);
 	tmp = opendir(abs_path);
-	if (!tmp && (!access(abs_path, F_OK) || is_builtin(data)))
+	if (!tmp && (!access(abs_path, F_OK)))
 		exec_program_create_fork(data);
 	else
 		data->flags->error = true;

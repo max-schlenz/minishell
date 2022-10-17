@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:29 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 20:27:48 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/17 21:20:53 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,6 @@ bool	builtin_env(t_data *data)
 		data->exit_status = 0;
 	}
 	else
-	{
-		write(2, "Error: env: parameters not supported: ", 39);
-		write(2, data->argv[1], ft_strlen(data->argv[1]));
-		write(2, "\n", 1);
-	}
+		builtin_error(data, data->argv[1]);
 	return (true);
 }

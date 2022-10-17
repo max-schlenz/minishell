@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 19:33:48 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 20:02:25 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/17 21:18:57 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,16 @@ void	exec_error(t_data *data, int err, char *info, int exit)
 	write(2, info, ft_strlen(info));
 	write(2, "\n", 1);
 	data->exit_status = exit;
+}
+
+bool	builtin_error(t_data *data, char *err)
+{
+	char	*msg;
+
+	msg = E_BUILTIN_INVOPT;
+	write(2, msg, 29);
+	write(2, err, 2);
+	write(2, "\n", 1);
+	data->exit_status = 2;
+	return (true);
 }

@@ -1,7 +1,355 @@
 
 ------------------
-argv[0] = cd
-argv[1] = src
+argv[0] = ls
+argv[1] = -la
+
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+and          : 0
+or           : 0
+data->fd_i            : 0
+data->counter_pipes   : 1
+data->file_name       : (null)
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 0
+
+------------------
+argv[0] = grep
+argv[1] = .
+
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+and          : 0
+or           : 0
+data->fd_i            : 1
+data->counter_pipes   : 1
+data->file_name       : (null)
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 0
+
+------------------
+argv[0] = \$
+
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+and          : 0
+or           : 0
+data->fd_i            : 0
+data->counter_pipes   : 0
+data->file_name       : (null)
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 0
+
+------------------
+argv[0] = \|
+
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+and          : 0
+or           : 0
+data->fd_i            : 0
+data->counter_pipes   : 0
+data->file_name       : (null)
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 127
+
+------------------
+argv[0] = \|
+argv[1] = ls
+
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+and          : 0
+or           : 0
+data->fd_i            : 0
+data->counter_pipes   : 0
+data->file_name       : (null)
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 127
+
+------------------
+argv[0] = \
+
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+and          : 0
+or           : 0
+data->fd_i            : 0
+data->counter_pipes   : 1
+data->file_name       : (null)
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 127
+
+------------------
+argv[0] = ls
+
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+and          : 0
+or           : 0
+data->fd_i            : 0
+data->counter_pipes   : 1
+data->file_name       : (null)
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 127
+
+------------------
+argv[0] = ls
+argv[1] = \
+argv[2] = ls
+
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+and          : 0
+or           : 0
+data->fd_i            : 0
+data->counter_pipes   : 0
+data->file_name       : (null)
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 0
+
+------------------
+argv[0] = ls
+
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+and          : 0
+or           : 0
+data->fd_i            : 0
+data->counter_pipes   : 0
+data->file_name       : (null)
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 2
+
+------------------
+argv[0] = ls
+
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+and          : 0
+or           : 0
+data->fd_i            : 1
+data->counter_pipes   : 0
+data->file_name       : (null)
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 2
+
+------------------
+argv[0] = ls
+
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+and          : 0
+or           : 0
+data->fd_i            : 0
+data->counter_pipes   : 1
+data->file_name       : (null)
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 0
+
+------------------
+argv[0] = lul
+
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+and          : 0
+or           : 0
+data->fd_i            : 1
+data->counter_pipes   : 1
+data->file_name       : (null)
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 0
+
+------------------
+argv[0] = ls
+
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+and          : 0
+or           : 0
+data->fd_i            : 1
+data->counter_pipes   : 1
+data->file_name       : (null)
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 127
+
+------------------
+argv[0] = grep
+argv[1] = t
+
+FLAGS:
+redir_out    : 0
+redir_in     : 1
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+and          : 0
+or           : 0
+data->fd_i            : 0
+data->counter_pipes   : 0
+data->file_name       : .heredoc_tmp0
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 0
+
+------------------
+argv[0] = grep
+argv[1] = b
+
+FLAGS:
+redir_out    : 0
+redir_in     : 1
+heredoc      : 0
+redir_append : 0
+pipe         : 0
+
+and          : 0
+or           : 0
+data->fd_i            : 1
+data->counter_pipes   : 0
+data->file_name       : .heredoc_tmp1
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 0
+
+------------------
+argv[0] = ls
+
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+and          : 0
+or           : 0
+data->fd_i            : 0
+data->counter_pipes   : 2
+data->file_name       : (null)
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 0
+
+------------------
+argv[0] = cat
+
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+and          : 0
+or           : 0
+data->fd_i            : 1
+data->counter_pipes   : 2
+data->file_name       : (null)
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 0
+
+------------------
+argv[0] = cat
+
+FLAGS:
+redir_out    : 0
+redir_in     : 0
+heredoc      : 0
+redir_append : 0
+pipe         : 1
+
+and          : 0
+or           : 0
+data->fd_i            : 2
+data->counter_pipes   : 2
+data->file_name       : (null)
+data->file_name2      : (null)
+data->file_name_append: (null)
+data->exit_status (p) : 0
+
+------------------
+argv[0] = cat
 
 FLAGS:
 redir_out    : 0

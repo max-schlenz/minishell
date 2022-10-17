@@ -45,6 +45,7 @@
 # define E_EXPORT_CONT "Error: export: not valid in this context: "
 # define E_EXPORT_IDENT "Error: export: not a valid identifier: "
 # define E_EXPORT_OPT "Error: export: option not supported: "
+# define E_BUILTIN_INVOPT "Error: env: invalid option: "
 
 # define WHITE "\x01\033[0m\x02"
 # define RED "\x01\033[31;1m\x02"
@@ -53,7 +54,7 @@
 # define BLUE "\x01\033[34;1m\x02"
 # define MAGENTA "\x01\033[35;1m\x02"
 # define CYAN "\x01\033[36;1m\x02"
-# define PROMPT_SUFFIX "]\x01\033[0;1m\x02 #\x01\033[0m\x02 "
+# define PROMPT_SUFFIX "] \x01\033[0;1m\x02#\x01\033[0m\x02 "
 
 # define CFG ".mscfg"
 # define DBG ".debug"
@@ -298,8 +299,7 @@ bool			syntax_err(t_data *data, char *cmd);
 bool			check_syntax_first_char(t_data *data, char *cmd);
 
 //exec/builtins.c
-bool			builtin_environment(t_data *data);
-bool			builtin_print(t_data *data);
+bool			builtin(t_data *data);
 bool			builtin_cd(t_data *data);
 bool			builtin_echo(t_data *data);
 bool			builtin_export(t_data *data, char *setv);
@@ -497,9 +497,11 @@ char			**realloc_argv(t_data *data, int argv_i, char *file, bool repl);
 //parse/wildcards/match
 char			**match_files(t_data *data, char *to_be_extended, int *indexes);
 
-
 void			exec_program_create_fork(t_data *data);
 void			exec_error(t_data *data, int err, char *info, int exit);
+bool			builtin_error_invalid_op(char *err);
+bool			builtin_error(t_data *data, char *err);
+
 // bool			err_msg(t_data *data, char *setv, int err);
 
 #endif

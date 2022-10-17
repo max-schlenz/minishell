@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 16:18:50 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/17 22:25:08 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	prompt_exec(t_data *data)
 			data->debug = fopen(DBG, "a+");
 			dbg(data);
 		}
-		if (!builtin_environment(data))
+		if (!builtin(data))
 			exec_program(data);
 		if (data->flags->debug && data->debug)
 			fclose(data->debug);
@@ -79,7 +79,7 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 		while (tmp_cmd[i] == ' ' || tmp_cmd[i] == ';')
 			i++;
 		split_quotes(data, tmp_cmd, &i);
-		if (!tmp_cmd[i - 1])
+		if (!i)
 		{
 			free_array(data->argv);
 			free(data->argv);

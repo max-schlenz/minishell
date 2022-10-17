@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 11:23:55 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/17 16:17:27 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/17 20:49:11 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	isidentifier(int c)
 	return (0);
 }
 
-bool	builtin_environment(t_data *data)
+bool	builtin(t_data *data)
 {
 	if (!is_builtin(data))
 		return (false);
@@ -34,10 +34,8 @@ bool	builtin_environment(t_data *data)
 	if (data->argv[0])
 	{
 		if (data->flags->pipe)
-		{
 			builtin_fork(data, false);
-		}
-		if (data->flags->pipe && data->pid == 0 || !data->flags->pipe && data->pid)
+		if (data->flags->pipe && !data->pid || !data->flags->pipe && data->pid)
 		{
 			if (!data->pid)
 				redirs_pipes(data);
@@ -49,6 +47,12 @@ bool	builtin_environment(t_data *data)
 				builtin_export(data, NULL);
 			else if (!ft_strncmp(data->argv[0], "unset", 6))
 				builtin_unset(data);
+			else if (!ft_strncmp(data->argv[0], "echo", 5))
+				builtin_echo(data);
+			else if (!ft_strncmp(data->argv[0], "env", 4))
+				builtin_env(data);
+			else if (!ft_strncmp(data->argv[0], "pwd", 4))
+				builtin_pwd(data);
 			else if (!ft_strncmp(data->argv[0], "color", 6))
 				builtin_color(data, NULL);
 			else if (!ft_strncmp(data->argv[0], "history", 8))
@@ -64,17 +68,6 @@ bool	builtin_environment(t_data *data)
 		}
 	}
 	return (true);
-}
-
-bool	builtin_print(t_data *data)
-{
-	if (!ft_strncmp(data->argv[0], "echo", 5))
-		return (builtin_echo(data));
-	else if (!ft_strncmp(data->argv[0], "env", 4))
-		return (builtin_env(data));
-	else if (!ft_strncmp(data->argv[0], "pwd", 4))
-		return (builtin_pwd(data));
-	return (false);
 }
 
 char	*strmv(char *new)

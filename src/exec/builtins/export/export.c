@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/17 16:12:21 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/17 20:19:24 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ bool	builtin_export(t_data *data, char *setv)
 {
 	data->export.index_arg = 1;
 	data->export.set = false;
-	data->pid = 1;
+	// data->pid = 1;
 
 		while (data->argc > 0 || setv)
 		{
