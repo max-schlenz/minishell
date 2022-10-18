@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/18 13:10:53 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/18 15:41:20 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ static bool	prompt_prep(t_data *data, char **tmp_cmd)
 
 static void	prompt_exec(t_data *data)
 {
-	if ((EXEC) || (!AND && !OR) || (AND && !EXIT) || (OR && EXIT))
+	if ((data->flags->prompt_exec)
+		|| (!data->flags->and && !data->flags->or)
+		|| (data->flags->and && !data->exit_status)
+		|| (data->flags->or && data->exit_status))
 	{
 		if (data->flags->debug)
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:51 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/18 15:15:46 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/18 15:37:40 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static bool	syntax_err_consecutive(t_data *data, char *cmd, int *i, int *k)
 	// {
 	// 	(*k)++;
 	// }
-	printf("in here\n");
+	// printf("in here\n");
 	if (cmd[(*i) + 2] == ops[(*k)])
 		return (err_msg(err_type(data, ops[(*k)], 2, 0)));
 	return (true);
