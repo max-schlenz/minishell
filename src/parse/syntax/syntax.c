@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:51 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/18 17:23:53 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/18 18:22:15 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ static bool	syntax_err_consecutive(t_data *data, char *cmd, int *i, int *j)
 	}
 	while (ops[(k)])
 	{
-		if ((cmd[(*i)] == '&' || cmd[(*i)] == '|') && cmd[(*i) + 2] == ops[(*j)])
+		if ((cmd[(*i)] == '&' || cmd[(*i)] == '|')
+			&& cmd[(*i) + 2] == ops[(*j)])
 			return (err_msg(err_type(data, ops[(*j)], 2, 0)));
 		else if ((cmd[(*i)] == '&' || cmd[(*i)] == '|'))
 			return (true);

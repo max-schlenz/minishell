@@ -56,8 +56,6 @@ static bool	exec_err(t_data *data, DIR *tmp, char *abs_path)
 
 void	exec_program_create_fork(t_data *data)
 {
-	// if (data->flags->pipe)
-	// 	pipe(data->pipes->pipefd[data->fd_i]);
 	signal(SIGINT, SIG_IGN);
 	data->pid = fork();
 	if (data->pid == -1)
