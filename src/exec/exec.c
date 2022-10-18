@@ -37,6 +37,11 @@ char	*get_path(t_data *data, char *cmd)
 
 static bool	exec_err(t_data *data, DIR *tmp, char *abs_path)
 {
+	if (data->flags->pipe)
+	{
+		exec_close_pipes(data);
+		exec_set_flags(data);
+	}
 	perror("Error ");
 	if (tmp)
 	{
@@ -51,8 +56,8 @@ static bool	exec_err(t_data *data, DIR *tmp, char *abs_path)
 
 void	exec_program_create_fork(t_data *data)
 {
-	if (data->flags->pipe)
-		pipe(data->pipes->pipefd[data->fd_i]);
+	// if (data->flags->pipe)
+	// 	pipe(data->pipes->pipefd[data->fd_i]);
 	signal(SIGINT, SIG_IGN);
 	data->pid = fork();
 	if (data->pid == -1)
@@ -80,6 +85,8 @@ bool	exec_program(t_data *data)
 	if (!abs_path && data->argv[0])
 		abs_path = ft_strdup(data->argv[0]);
 	dir = opendir(abs_path);
+	if (data->flags->pipe)
+		pipe(data->pipes->pipefd[data->fd_i]);
 	if (!dir && (!access(abs_path, F_OK)))
 		exec_program_create_fork(data);
 	else

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 19:33:48 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/18 12:11:34 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/18 14:28:23 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ bool	builtin_error(t_data *data, char *err)
 	char	*msg;
 
 	msg = "E_BUILTIN_INVOPT";
-	write(2, msg, 29);
+	write(2, msg, 17);
 	write(2, err, 2);
 	write(2, "\n", 1);
 	data->exit_status = 2;

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 12:13:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/18 13:18:52 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/18 17:21:51 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,11 @@ bool	check_path(char *cmd)
 void	builtin_fork(t_data *data, bool flag)
 {
 	if (!flag)
+	{
+		if (data->flags->pipe)
+			pipe(data->pipes->pipefd[data->fd_i]);
 		exec_program_create_fork(data);
+	}
 	else if (flag)
 	{
 		exec_close_pipes(data);

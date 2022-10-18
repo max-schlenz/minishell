@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:51 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/18 16:11:56 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/18 17:23:53 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool	check_syntax_first_char(t_data *data, char *cmd)
 	char	*chars;
 
 	i = 0;
-	chars = "|&>~";
+	chars = "|&~";
 	while (chars[i])
 	{
 		if (cmd[0] == chars[i])

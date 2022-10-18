@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 13:02:06 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/18 12:55:51 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/18 16:26:22 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	signal_handler_child(int sig, siginfo_t *info, void *context)
 		printf("\n");
 	}
 	else if (sig == SIGCHLD && info->si_status && info->si_status != 13)
-		printf("");
+		printf("\n");
 }
 
 void	signal_handler(int sig, siginfo_t *info, void *context)
