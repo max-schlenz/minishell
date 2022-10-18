@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:51 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/18 15:37:40 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/18 16:11:56 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,23 +84,28 @@ bool	check_syntax(t_data *data, char *cmd)
 	return (true);
 }
 
-static bool	syntax_err_consecutive(t_data *data, char *cmd, int *i, int *k)
+static bool	syntax_err_consecutive(t_data *data, char *cmd, int *i, int *j)
 {
 	char	*ops;
+	int		k;
 
 	ops = "|&><";
+	k = 0;
 	if (!ft_strncmp(cmd + (*i), "<<", 3))
 	{
 		(*i)++;
 		return (true);
 	}
-	// while (ops[(*k)])
-	// {
-	// 	(*k)++;
-	// }
-	// printf("in here\n");
-	if (cmd[(*i) + 2] == ops[(*k)])
-		return (err_msg(err_type(data, ops[(*k)], 2, 0)));
+	while (ops[(k)])
+	{
+		if ((cmd[(*i)] == '&' || cmd[(*i)] == '|') && cmd[(*i) + 2] == ops[(*j)])
+			return (err_msg(err_type(data, ops[(*j)], 2, 0)));
+		else if ((cmd[(*i)] == '&' || cmd[(*i)] == '|'))
+			return (true);
+		else if (cmd[(*i) + 2] == ops[(k)])
+			return (err_msg(err_type(data, ops[(k)], 2, 0)));
+		(k)++;
+	}
 	return (true);
 }
 
@@ -124,7 +129,6 @@ bool	syntax_err(t_data *data, char *cmd)
 				if (!syntax_err_consecutive(data, cmd, &i, &j))
 					return (false);
 			}
-			k = 0;
 			j++;
 		}
 		j = 0;
