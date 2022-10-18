@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/18 11:40:55 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/18 13:36:43 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	export_set_var_nval(t_data *data, char *setv)
 	parse_path(data);
 }
 
-bool	export_setv(t_data *data, char *setv)
+void	export_setv(t_data *data, char *setv)
 {
 	data->export.index_envp = 0;
 	data->export.len = strlen_var(setv);

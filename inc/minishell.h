@@ -439,7 +439,7 @@ bool			export_var(t_data *data, char *setv);
 void			export_output(int len, char *name, char *val);
 
 //builtins/export/export.c
-bool			export_setv(t_data *data, char *setv);
+void			export_setv(t_data *data, char *setv);
 
 //builtins/exit/exit.c
 bool			builtin_exit(t_data *data);

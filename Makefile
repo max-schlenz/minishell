@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/18 13:13:31 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/18 13:37:13 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -163,6 +163,7 @@ clean: header
 	@if find $(OBJ_DIR) -type f -name '*.o' -delete > /dev/null 2>&1; then		\
 		echo -e "\\r		  $(NAME)   	   ✅"; 		                       	\
 	fi
+	@find $(OBJ_DIR) -type d -empty -delete > /dev/null 2>&1
 	@echo																			
 	@if [ -f ".brew" ]; then 													\
 		rm -f .brew;															\
@@ -173,7 +174,7 @@ fclean: clean header
  		rm -f ${NAME};															\
 	fi
 	@make fclean -C src/libft
-	rm -rf obj/
+	@find $(LIB_DIR) -type d -empty -delete > /dev/null 2>&1
 
 header:
 	@if [ ! -f ".header" ]; then												\
