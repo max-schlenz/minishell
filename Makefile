@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/16 20:23:20 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/18 00:24:33 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ SRC				= 	${NAME}								\
 					exec/builtins/pwd/pwd				\
 					exec/builtins/unset/unset			\
 					exec/builtins/exit/exit				\
+					exec/builtins/where/where			\
 					exec/pipes							\
 					exec/exec							\
 					exec/utils							\
@@ -120,6 +121,7 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)/exec/builtins/pwd
 	@mkdir -p $(OBJ_DIR)/exec/builtins/unset
 	@mkdir -p $(OBJ_DIR)/exec/builtins/exit
+	@mkdir -p $(OBJ_DIR)/exec/builtins/where
 	@mkdir -p $(OBJ_DIR)/parse
 	@mkdir -p $(OBJ_DIR)/parse/expvar
 	@mkdir -p $(OBJ_DIR)/parse/argv

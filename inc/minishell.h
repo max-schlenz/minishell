@@ -502,6 +502,7 @@ void			exec_error(t_data *data, int err, char *info, int exit);
 bool			builtin_error_invalid_op(char *err);
 bool			builtin_error(t_data *data, char *err);
 
+bool			builtin_where(t_data *data);
 // bool			err_msg(t_data *data, char *setv, int err);
 
 #endif

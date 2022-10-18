@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 11:23:55 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/17 20:49:11 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/18 00:22:20 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ bool	builtin(t_data *data)
 				builtin_color(data, NULL);
 			else if (!ft_strncmp(data->argv[0], "history", 8))
 				builtin_history(data);
-			else if (!ft_strncmp(data->argv[0], "tdebug", 7))
-				builtin_dbg(data);
+			else if (!ft_strncmp(data->argv[0], "where", 8))
+				builtin_where(data);
 		}
 		if (data->flags->pipe)
 		{
