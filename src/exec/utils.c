@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 12:13:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/18 00:20:57 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/18 13:18:52 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	is_builtin(t_data *data)
 	|| !ft_strncmp(data->argv[0], "history", 8) \
 	|| !ft_strncmp(data->argv[0], "echo", 5) \
 	|| !ft_strncmp(data->argv[0], "env", 4) \
-	|| !ft_strncmp(data->argv[0], "pwd", 4)
+	|| !ft_strncmp(data->argv[0], "pwd", 4) \
 	|| !ft_strncmp(data->argv[0], "where", 6))
 		return (true);
 	return (false);

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:23:56 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 15:22:54 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/18 12:39:40 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ bool	set_filenames(t_data *data, int *i, char *cmd, int flag)
 	start = *i;
 	if (start >= ft_strlen(cmd))
 	{
+		(*i) = ft_strlen(cmd);
 		write(2, "Syntax error\n", 14);
 		data->exit_status = 2;
 		return (false);

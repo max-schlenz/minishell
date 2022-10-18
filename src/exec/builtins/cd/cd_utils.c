@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 09:37:25 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/13 08:51:03 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/18 12:49:41 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ size_t	cd_find_pwd(t_data *data)
 
 void	cd_root(t_data *data)
 {
-	chdir("/root");
+	char	*home;
+
+	home = get_var_content(data, "$HOME");
+	chdir(home);
 	data->cd.new_pwd_tmp = ft_strdup("PWD=/root");
+	free(home);
 }

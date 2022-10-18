@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 11:23:55 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/18 00:22:20 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/18 13:12:16 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,32 @@ int	isidentifier(int c)
 	return (0);
 }
 
+static void	builtin_exec(t_data *data)
+{
+	if (!data->pid)
+		redirs_pipes(data);
+	if (!ft_strncmp(data->argv[0], "exit", 5))
+		builtin_exit(data);
+	else if (!ft_strncmp(data->argv[0], "cd", 3))
+		builtin_cd(data);
+	else if (!ft_strncmp(data->argv[0], "export", 7))
+		builtin_export(data, NULL);
+	else if (!ft_strncmp(data->argv[0], "unset", 6))
+		builtin_unset(data);
+	else if (!ft_strncmp(data->argv[0], "echo", 5))
+		builtin_echo(data);
+	else if (!ft_strncmp(data->argv[0], "env", 4))
+		builtin_env(data);
+	else if (!ft_strncmp(data->argv[0], "pwd", 4))
+		builtin_pwd(data);
+	else if (!ft_strncmp(data->argv[0], "color", 6))
+		builtin_color(data, NULL);
+	else if (!ft_strncmp(data->argv[0], "history", 8))
+		builtin_history(data);
+	else if (!ft_strncmp(data->argv[0], "where", 8))
+		builtin_where(data);
+}
+
 bool	builtin(t_data *data)
 {
 	if (!is_builtin(data))
@@ -36,30 +62,7 @@ bool	builtin(t_data *data)
 		if (data->flags->pipe)
 			builtin_fork(data, false);
 		if (data->flags->pipe && !data->pid || !data->flags->pipe && data->pid)
-		{
-			if (!data->pid)
-				redirs_pipes(data);
-			if (!ft_strncmp(data->argv[0], "exit", 5))
-				builtin_exit(data);
-			else if (!ft_strncmp(data->argv[0], "cd", 3))
-				builtin_cd(data);
-			else if (!ft_strncmp(data->argv[0], "export", 7))
-				builtin_export(data, NULL);
-			else if (!ft_strncmp(data->argv[0], "unset", 6))
-				builtin_unset(data);
-			else if (!ft_strncmp(data->argv[0], "echo", 5))
-				builtin_echo(data);
-			else if (!ft_strncmp(data->argv[0], "env", 4))
-				builtin_env(data);
-			else if (!ft_strncmp(data->argv[0], "pwd", 4))
-				builtin_pwd(data);
-			else if (!ft_strncmp(data->argv[0], "color", 6))
-				builtin_color(data, NULL);
-			else if (!ft_strncmp(data->argv[0], "history", 8))
-				builtin_history(data);
-			else if (!ft_strncmp(data->argv[0], "where", 8))
-				builtin_where(data);
-		}
+			builtin_exec(data);
 		if (data->flags->pipe)
 		{
 			if (data->pid == 0)

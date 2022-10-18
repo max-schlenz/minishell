@@ -44,8 +44,9 @@
 
 # define E_EXPORT_CONT "Error: export: not valid in this context: "
 # define E_EXPORT_IDENT "Error: export: not a valid identifier: "
-# define E_EXPORT_OPT "Error: export: option not supported: "
-# define E_BUILTIN_INVOPT "Error: env: invalid option: "
+# define E_EXPORT_INVOPT "Error: export: invalid option: "
+# define E_ENV_IDENT "Error: env: not a valid identifier: "
+# define E_ENV_INVOPT "Error: env: invalid option: "
 
 # define WHITE "\x01\033[0m\x02"
 # define RED "\x01\033[31;1m\x02"

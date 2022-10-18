@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/17 20:19:24 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/18 11:40:55 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ static void	export_print(t_data *data)
 	char	*name;
 	char	*val;
 
-//	data->pid = 1;
-	//builtin_fork(data, false);
-		//redirs_pipes(data);
 	i = 0;
 	while (data->envp[i])
 	{
@@ -34,8 +31,6 @@ static void	export_print(t_data *data)
 		free_str (2, name, val);
 		i++;
 	}
-		//exit(0);
-	//builtin_fork(data, true);
 }
 
 static void	export_set_existing(t_data *data, char *setv)
@@ -87,30 +82,27 @@ bool	builtin_export(t_data *data, char *setv)
 {
 	data->export.index_arg = 1;
 	data->export.set = false;
-	// data->pid = 1;
-
-		while (data->argc > 0 || setv)
+	while (data->argc > 0 || setv)
+	{
+		data->export.free_set = false;
+		if (!setv)
 		{
-			data->export.free_set = false;
-			if (!setv)
+			if (data->argv[data->export.index_arg])
 			{
-				if (data->argv[data->export.index_arg])
-				{
-					data->export.free_set = true;
-					setv = ft_strdup(data->argv[data->export.index_arg]);
-				}
-				else
-					break ;
+				data->export.free_set = true;
+				setv = ft_strdup(data->argv[data->export.index_arg]);
 			}
-			if (setv && !export_var(data, setv))
-			{
-				setv = NULL;
-				continue ;
-			}
-			return (true);
+			else
+				break ;
 		}
-		if (!setv && !data->argc)
-			export_print(data);
-	
+		if (setv && !export_var(data, setv))
+		{
+			setv = NULL;
+			continue ;
+		}
+		return (true);
+	}
+	if (!setv && !data->argc)
+		export_print(data);
 	return (true);
 }

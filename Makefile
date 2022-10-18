@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/18 00:24:33 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/18 13:13:31 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,6 +87,7 @@ SRC				= 	${NAME}								\
 					parse/heredoc/heredoc				\
 					parse/heredoc/utils					\
 					parse/heredoc/cleanup				\
+					parse/heredoc/prompt				
 
 INC				=	libft						\
 					${NAME}

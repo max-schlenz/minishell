@@ -39,6 +39,5 @@ insert spaces not aware of escape char
 echo <|
 echo |&
 
-echo lol & asd
 sdjgn | grep E
-ls | grep m > out > out2
+> lol echo test lol; cat lol

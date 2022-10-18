@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 21:40:07 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 16:07:36 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/18 13:01:44 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ bool	split_pipe(t_data *data, char *cmd, int *i)
 
 bool	split_col(t_data *data, char *cmd, int *i)
 {
-	if (!data->flags->f_dquote && !data->flags->f_esc && cmd[*i] == ';')
+	if ((!data->flags->f_dquote && !data->flags->f_esc)
+		&& (cmd[*i] == ';' || (cmd[*i] == '&' && cmd[(*i) + 1])))
 		return (split_semicolon(data, cmd, i));
 	return (false);
 }
