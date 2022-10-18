@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:51 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 14:44:37 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/18 15:15:46 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,13 @@ static bool	syntax_err_consecutive(t_data *data, char *cmd, int *i, int *k)
 		(*i)++;
 		return (true);
 	}
-	while (ops[(*k)])
-	{
-		if (cmd[(*i) + 2] == ops[(*k)])
-			return (err_msg(err_type(data, ops[(*k)], 2, 0)));
-		(*k)++;
-	}
+	// while (ops[(*k)])
+	// {
+	// 	(*k)++;
+	// }
+	printf("in here\n");
+	if (cmd[(*i) + 2] == ops[(*k)])
+		return (err_msg(err_type(data, ops[(*k)], 2, 0)));
 	return (true);
 }
 
@@ -120,7 +121,7 @@ bool	syntax_err(t_data *data, char *cmd)
 		{
 			if (cmd[i] == ops[j])
 			{
-				if (!syntax_err_consecutive(data, cmd, &i, &k))
+				if (!syntax_err_consecutive(data, cmd, &i, &j))
 					return (false);
 			}
 			k = 0;

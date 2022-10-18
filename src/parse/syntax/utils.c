@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 22:03:49 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/18 12:33:43 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/18 15:05:09 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ bool	*err_msg(char *err_c)
 {
 	char	*err;
 
-	err = strjoin_nl("Syntax error: ", err_c);
+	err = strjoin_nl("2Syntax error: ", err_c);
 	write (2, err, ft_strlen(err));
 	free (err);
 	free (err_c);
