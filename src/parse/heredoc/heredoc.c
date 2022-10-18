@@ -6,33 +6,11 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/18 13:12:54 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/18 15:52:06 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-static void	heredoc_andor(t_data *data, char *cmd, int i)
-{
-	int	j;
-	int	k;
-
-	data->hdoc.hd = true;
-	free_hd(data);
-	data->hdoc.cmd_begin = ft_substr(cmd, 0, i + 3);
-	i += 6;
-	j = i;
-	while (cmd[j] && cmd[j] != ' ')
-		j++;
-	data->hdoc.delim = heredoc_delim(cmd, i, j);
-	k = j + 1;
-	while (cmd[k] && cmd[k] != ' ')
-		k++;
-	data->hdoc.cmd = ft_substr(cmd, j + 1, k - j - 1);
-	data->hdoc.cmd_end = ft_strdup(cmd + k);
-	data->hdoc.andor = true;
-	wr_tmp_file(data);
-}
 
 static void	heredoc_begin(t_data *data, char *cmd, int i)
 {
@@ -90,9 +68,6 @@ char	*handle_heredoc(t_data *data, char *cmd)
 	{
 		if (cmd[i] == '\'' || cmd[i] == '\"')
 			data->hdoc.quote = !data->hdoc.quote;
-		else if (!data->hdoc.quote && (!ft_strncmp(cmd + i, "&& <<", 5)
-				|| !ft_strncmp(cmd + i, "|| <<", 5)))
-			heredoc_andor(data, cmd, i);
 		else if (!data->hdoc.quote && !ft_strncmp(cmd + i, "<<", 2))
 		{
 			if (!i)
