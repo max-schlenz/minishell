@@ -6,27 +6,28 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/19 17:25:30 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/19 22:48:39 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SHELL = /bin/bash
+SHELL 			=	/bin/bash
+UNAME			=	$(shell uname)
+MAKEFLAGS 		=	--no-print-directory
 
 #FORMAT----------------------------------#
-DEFCL	=	$(shell echo -e "\033[0m")
-RED		=	$(shell echo -e "\033[0;31m")
-GREEN	=	$(shell echo -e "\033[0;32m")
-BGREEN	=	$(shell echo -e "\033[1;32m")
-YELLOW	=	$(shell echo -e "\033[0;33m")
-BLUE	=	$(shell echo -e "\033[0;34m")
-BBLUE	=	$(shell echo -e "\033[1;34m")
-PURPLE	=	$(shell echo -e "\033[0;35m")
-CYAN	=	$(shell echo -e "\033[0;36m")
-BCYAN	=	$(shell echo -e "\033[1;36m")
-GRAY	=	$(shell echo -e "\033[0m\033[38;5;239m")
+DEFCL			=	$(shell echo -e "\033[0m")
+RED				=	$(shell echo -e "\033[0;31m")
+GREEN			=	$(shell echo -e "\033[0;32m")
+BGREEN			=	$(shell echo -e "\033[1;32m")
+YELLOW			=	$(shell echo -e "\033[0;33m")
+BLUE			=	$(shell echo -e "\033[0;34m")
+BBLUE			=	$(shell echo -e "\033[1;34m")
+PURPLE			=	$(shell echo -e "\033[0;35m")
+CYAN			=	$(shell echo -e "\033[0;36m")
+BCYAN			=	$(shell echo -e "\033[1;36m")
+GRAY			=	$(shell echo -e "\033[0m\033[38;5;239m")
 # ---------------------------------------#
 
-MAKEFLAGS 		=	--no-print-directory
 FLAGS			= 	-g #-Wall -Wextra -Werror #-fsanitize=address 
 
 NAME			=	minishell
@@ -90,8 +91,10 @@ SRC				= 	${NAME}								\
 					utils/signal						\
 					utils/utils							
 
-INC				=	libft						\
-					${NAME}
+INC				=	${NAME}								\
+					data								\
+					strings								\
+					libft								
 
 LIB				=	libft 
 
@@ -100,19 +103,24 @@ LIB_FILES		=	$(addsuffix .a, $(addprefix $(LIB_DIR)/, $(LIB)))
 OBJ_FILES		=	$(addsuffix .o, $(addprefix $(OBJ_DIR)/, $(SRC)))
 INC_FILES		=	$(addsuffix .h, $(addprefix $(INC_DIR)/, $(INC)))
 
-INCLUDES		= 	-I ${INC_DIR} -I ~/.brew/opt/readline/include
-LINKER			=	-Llib -lft -lreadline -L ~/.brew/opt/readline/lib
-BREW			=	/Users/${USER}/.brewconfig.zsh
-BREWFL			=	.brew
+READLINE		=	/usr/include/readline/readline.h
+INCLUDES		= 	-I ${INC_DIR}
+LINKER			=	-Llib -lft -lreadline
+
+MAC_BREW		=	/Users/${USER}/.brewconfig.zsh
+MAC_READLINE	=	~/.brew/opt/readline
+MAC_INCLUDES	=	-I $(MAC_READLINE)/include
+MAC_LINKER		=	-L $(MAC_READLINE)/lib
 
 all: $(NAME)
 
 $(LIB_FILES): header
-	@touch .libft
-	@echo -n "compile:"
+	@echo -n "compiling:"
+	@touch .tmp
 	@make -C src/libft
 
 $(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)/exec
 	@mkdir -p $(OBJ_DIR)/exec/builtins
 	@mkdir -p $(OBJ_DIR)/exec/builtins/cd
@@ -134,54 +142,65 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)/prompt/color
 	@mkdir -p $(OBJ_DIR)/utils
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES) header_c message
-	@gcc $(FLAGS) $(INCLUDES) -c $< -o $@
-	@echo -en "\\r		➜ ${CYAN}$(NAME)${DEFCL}...     »  $@\033[K"
-	
-$(NAME): $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES) $(INC_FILES) 
-	@gcc $(FLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(LINKER)
-	@echo -en "\033[1K"
-#	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}   	     ➜ ${BGREEN}./$(NAME)${DEFCL}\033[K ✅\n\n"
-	@echo -e "\\r		  ${BGREEN}$(NAME)${DEFCL}        »  ${BGREEN}./$(NAME)${DEFCL}\t     ➜ ✅\033[K\n\n"
-	
-$(BREWFL):
-	@if [ ! -f $(BREW) ]; then \
-		echo "$(PURPLE)Installing brew & readline...$(DEFCL)";					\
-		curl -fsSL https://rawgit.com/kube/42homebrew/master/install.sh | zsh;	\
-		brew install readline;													\													\
-	fi;
-	@touch .brew
-
-message:
-	@if	[ ! -f ".libft" ]; then													\
-		echo -en "\ncompile:";												\
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES) header_c 
+	@if [ ! -f .tmp ]; then														\
+		echo -n "compiling:";													\
+		touch .tmp;\
 	fi
-	@rm -f .libft
-	@echo -en "\\r		➜ ${CYAN}$(NAME)${DEFCL}... - "
+	@echo -en "\\r		➜  ${BCYAN}$(NAME)${DEFCL}...    »  $@\033[K"
+	@gcc $(FLAGS) $(INCLUDES) $(MAC_INCLUDES) -c $< -o $@
+	
+ifeq ($(UNAME), Darwin)
+$(NAME): $(MAC_BREW) $(MAC_READLINE) $(LIB_FILES) $(INC_FILES) $(MAC_INCLUDES) $(OBJ_DIR) $(OBJ_FILES)
+	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}        ✔  ${BGREEN}./$(NAME)${DEFCL}\033[K\n"
+	@gcc $(FLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(LINKER) $(MAC_LINKER)
+	@rm -f .tmp
+else
+$(NAME): $(READLINE) $(LIB_FILES) $(INC_FILES) $(OBJ_DIR) $(OBJ_FILES)
+	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}        ✔  ${BGREEN}./$(NAME)${DEFCL}\033[K\n"
+	@gcc $(FLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(LINKER)
+	@rm -f .tmp
+endif
+
+$(READLINE):
+	@echo "$(CYAN)Installing readline...$(DEFCL)"
+	@pacman -Syu --noconfirm readline
+
+$(MAC_BREW):
+	@echo "$(CYAN)Installing brew...$(DEFCL)"
+	@curl -fsSL https://rawgit.com/kube/42homebrew/master/install.sh | zsh;
+	@source ~/.zshrc
+
+$(MAC_READLINE):
+	@echo "$(PURPLE)Installing readline...$(DEFCL)"
+	@brew install readline
 
 clean: header
-	@echo
 	@rm -f .header
-	@echo -en "clean (obj):";
+	@echo -en "cleaning objs:";
 	@make clean -C src/libft
 	@if find $(OBJ_DIR) -type f -name '*.o' -delete > /dev/null 2>&1; then		\
-		echo -e "\\r		  $(NAME)   	   »  ${RED}$(OBJ_DIR)/${DEFCL}\t\t     ➜ 🗑\033[K\n"; 		                       	\
+		echo -e "\\r		  $(NAME)   	   🗑  ${RED}$(OBJ_DIR)/${DEFCL}\033[K";\
 	fi
-	@if find $(OBJ_DIR) -type d -empty -delete > /dev/null 2>&1; then	\
-		echo -n;	\
+	@echo -en "\n";
+	@if find $(OBJ_DIR) -type d -empty -delete > /dev/null 2>&1; then			\
+		:;	\
 	fi
 	@if [ -f ".brew" ]; then 													\
 		rm -f .brew;															\
 	fi
 
 fclean: clean header
-	@echo -en "clean (bin/lib):";
+	@echo -en "cleaning bins:"
+	@make fclean -C src/libft
 	@if [ -f "${NAME}" ]; then													\
  		rm -f ${NAME};															\
-		echo -e "\\r		  $(NAME)   	   »  ${RED}./$(NAME)${DEFCL}\033[K\t     ➜ 🗑"; 															\
+		echo -e "\\r		  $(NAME)   	   🗑  ${RED}./$(NAME)${DEFCL}\033[K"; \
 	fi
-	@make fclean -C src/libft
-	@find $(LIB_DIR) -type d -empty -delete > /dev/null 2>&1
+	@echo -en "\n"
+	@if find $(LIB_DIR) -type d -empty -delete > /dev/null 2>&1; then			\
+		:;																		\
+	fi
 
 header:
 	@if [ ! -f ".header" ]; then												\
@@ -200,6 +219,6 @@ header_c:
 
 re: fclean all
 
-.INTERMEDIATE: message header header_c
+.INTERMEDIATE: header header_c
 
 .PHONY: all clean fclean re bonus

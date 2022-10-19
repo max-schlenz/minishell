@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/19 17:22:45 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/19 21:46:34 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,10 +49,10 @@ INCLUDES	= 	-I $(INC_DIR)
 PRINT_OBJ_DIR = $(shell echo "$$PWD/$(OBJ_DIR)" | sed -e 's/^.*src/src/g')
 
 all: create_dirs $(OBJ_PATH)
-		@echo -e "\\r		  ${DEFCL}ft_printf\033[K        »  ${GRAY}libft.a${DEFCL}\t\t     ➜ ✅\033[K"
+	@echo -e "\\r		  ${DEFCL}ft_printf\033[K        ✔  ${GRAY}lib/libft.a${DEFCL}\033[K"
 
-obj/%.o : src/%.c message
-	@echo -en "\\r		➜ ${CYAN}ft_printf${DEFCL}...     » $@\033[K"
+obj/%.o : src/%.c 
+	@echo -en "\\r		➜  ${BCYAN}ft_printf${DEFCL}...    » $@\033[K"
 	@gcc $(FLAGS) $(INCLUDES) -c $< -o $@
 	@ar -rc $(LIB_DIR)$(NAME) $@
 
@@ -60,23 +60,14 @@ create_dirs:
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(LIB_DIR)
 
-.INTERMEDIATE: message
-
-message:
-	@echo -n " 		➜ ${LBLUE}ft_printf${DEFCL}..."
-
 clean:
-	@if [[ -n `find $(OBJ_DIR) -type f -name '*.o'` ]]; then \
+	@if [[ -n `find $(OBJ_DIR) -type f -name '*.o'` ]] > /dev/null 2>&1; then \
 		echo -n "		  ft_printf..."; \
-		find $(OBJ_DIR) -type f -name '*.o' -delete; \
-		echo -e "\\r${DEFCL}		  ft_printf   	   »  ${RED}${PRINT_OBJ_DIR}${DEFCL}     ➜ 🗑\033[K"; \
+		find $(OBJ_DIR) -type f -name '*.o' -delete > /dev/null 2>&1; \
+		echo -e "\\r${DEFCL}		  ft_printf   	   🗑  ${RED}${PRINT_OBJ_DIR}${DEFCL}\033[K"; \
 	fi
 
 fclean: clean
-	@if [ -f "$(LIB_DIR)libftprintf.a" ]; then \
-		echo "${PURPLE}removing ${LBLUE}ft_printf${PURPLE} library file...${DEFCL}"; \
-		rm -f $(LIB_DIR)libftprintf.a; \
-	fi
 
 re: fclean all
 
