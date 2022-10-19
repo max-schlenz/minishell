@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/19 12:48:45 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/19 17:38:16 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,9 @@ BBLUE	=	$(shell echo -e "\033[1;34m")
 PURPLE	=	$(shell echo -e "\033[0;35m")
 CYAN	=	$(shell echo -e "\033[0;36m")
 BCYAN	=	$(shell echo -e "\033[1;36m")
+GRAY	=	$(shell echo -e "\033[0m\033[38;5;239m")
 # ---------------------------------------#
+PRINT_OBJ_DIR = $(shell echo "$$PWD/$(OBJ_DIR)" | sed -e 's/^.*src/src/g')
 
 NAME 		= 	libft.a
 
@@ -48,11 +50,12 @@ INCLUDES	=	-I $(INC_DIR)
 all: create_dirs $(OBJ_PATH) $(NAME)
 
 obj/%.o : src/%.c message
+	@echo -en "\\r		➜ ${CYAN}libft${DEFCL}...         »  $@\033[K"
 	@cc $(FLAGS) $(INCLUDES) -c $< -o $@
 	@ar -rc $(LIB_DIR)$(NAME) $@
 
 $(NAME): $(OBJ_PATH)
-	@echo -e "\\r${DEFCL}		  libft   	   ✅ "
+	@echo -e "\\r${DEFCL}		  libft\033[K   	   »  ${GRAY}libft.a${DEFCL}\t\t     ➜ ✅\033[K"
 	@make -C src/ft_printf
 	@make -C src/get_next_line
 
@@ -69,7 +72,7 @@ clean:
 	@if [[ -n `find $(OBJ_DIR) -type f -name '*.o'` ]]; then \
 		echo -en "\\r		➜ ${LBLUE}libft${DEFCL}..."; \
 		find $(OBJ_DIR) -type f -name '*.o' -delete; \
-		echo -e "\\r${DEFCL}		  libft   	   ✅ "; \
+		echo -e "\\r${DEFCL}		  libft\t\t   »  ${RED}${PRINT_OBJ_DIR}${DEFCL}\t     ➜ 🗑\033[K"; \
 	fi
 	@make clean -C src/ft_printf
 	@make clean -C src/get_next_line
@@ -77,6 +80,7 @@ clean:
 fclean: clean
 	@if [ -f "$(LIB_DIR)libft.a" ]; then \
 		rm -f $(LIB_DIR)libft.a; \
+		echo -e "\\r		  libft   	   »  ${RED}lib/$(NAME)${DEFCL}\033[K\t     ➜ 🗑\n"; 	\
 	fi
 	@make fclean -C src/ft_printf
 	@make fclean -C src/get_next_line

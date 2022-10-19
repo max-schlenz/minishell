@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/19 11:21:56 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/19 14:41:48 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	free_array(char **array)
 {
 	int	i;
 
-	if (!array || !*array)
+	if (!array)
 		return ;
 	i = 0;
 	while (array[i])

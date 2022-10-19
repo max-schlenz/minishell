@@ -37,6 +37,8 @@ static void	clear_buffers(t_data *data)
 
 static void	init_prompt(t_data *data)
 {
+	data->fd_stdout = dup(1);
+	data->fd_stdin = dup(0);
 	data->flags->error = false;
 	data->flags->pipe = false;
 	data->flags->redir_out = false;

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 10:27:33 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 22:38:46 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/19 16:19:40 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static void	color_prompt(t_data *data, char *cfg)
 bool	builtin_color(t_data *data, char *cfg)
 {
 	data->color.prompt[1] = ft_strdup("mini");
-	data->color.prompt[3]
+	data->color.prompt[3] 
 		= ft_strdup("shell\x01\033[0m\x02\x01\033[38;5;239m\x02 > [");
 	if (!cfg)
 		color_help();

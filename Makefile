@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/19 13:00:02 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/19 17:25:30 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ BBLUE	=	$(shell echo -e "\033[1;34m")
 PURPLE	=	$(shell echo -e "\033[0;35m")
 CYAN	=	$(shell echo -e "\033[0;36m")
 BCYAN	=	$(shell echo -e "\033[1;36m")
+GRAY	=	$(shell echo -e "\033[0m\033[38;5;239m")
 # ---------------------------------------#
 
 MAKEFLAGS 		=	--no-print-directory
@@ -108,7 +109,7 @@ all: $(NAME)
 
 $(LIB_FILES): header
 	@touch .libft
-	@echo -n "compiling:"
+	@echo -n "compile:"
 	@make -C src/libft
 
 $(OBJ_DIR):
@@ -135,13 +136,13 @@ $(OBJ_DIR):
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES) header_c message
 	@gcc $(FLAGS) $(INCLUDES) -c $< -o $@
-#	@echo -en "\033[2K"
-	@echo -en "\\r		➜ ${CYAN}$(NAME)${DEFCL}...     - $@\033[K"
+	@echo -en "\\r		➜ ${CYAN}$(NAME)${DEFCL}...     »  $@\033[K"
 	
 $(NAME): $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES) $(INC_FILES) 
 	@gcc $(FLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(LINKER)
 	@echo -en "\033[1K"
-	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}   	   ✅\n\n"
+#	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}   	     ➜ ${BGREEN}./$(NAME)${DEFCL}\033[K ✅\n\n"
+	@echo -e "\\r		  ${BGREEN}$(NAME)${DEFCL}        »  ${BGREEN}./$(NAME)${DEFCL}\t     ➜ ✅\033[K\n\n"
 	
 $(BREWFL):
 	@if [ ! -f $(BREW) ]; then \
@@ -153,7 +154,7 @@ $(BREWFL):
 
 message:
 	@if	[ ! -f ".libft" ]; then													\
-		echo -en "\ncompiling:";												\
+		echo -en "\ncompile:";												\
 	fi
 	@rm -f .libft
 	@echo -en "\\r		➜ ${CYAN}$(NAME)${DEFCL}... - "
@@ -161,23 +162,23 @@ message:
 clean: header
 	@echo
 	@rm -f .header
-	@echo -en "\ncleaning:";
+	@echo -en "clean (obj):";
 	@make clean -C src/libft
 	@if find $(OBJ_DIR) -type f -name '*.o' -delete > /dev/null 2>&1; then		\
-		echo -e "\\r		  $(NAME)   	   ✅"; 		                       	\
+		echo -e "\\r		  $(NAME)   	   »  ${RED}$(OBJ_DIR)/${DEFCL}\t\t     ➜ 🗑\033[K\n"; 		                       	\
 	fi
 	@if find $(OBJ_DIR) -type d -empty -delete > /dev/null 2>&1; then	\
 		echo -n;	\
 	fi
-	@echo																			
 	@if [ -f ".brew" ]; then 													\
 		rm -f .brew;															\
 	fi
 
 fclean: clean header
-	
+	@echo -en "clean (bin/lib):";
 	@if [ -f "${NAME}" ]; then													\
  		rm -f ${NAME};															\
+		echo -e "\\r		  $(NAME)   	   »  ${RED}./$(NAME)${DEFCL}\033[K\t     ➜ 🗑"; 															\
 	fi
 	@make fclean -C src/libft
 	@find $(LIB_DIR) -type d -empty -delete > /dev/null 2>&1
@@ -190,6 +191,7 @@ header:
 		echo 	"$(BLUE)| |  | | | | | | \$(CYAN)__ \ | | |  __/ | |";			\
 		echo 	"$(BLUE)|_|  |_|$(CYAN)_|_| |_|_|___/_| |_|\___|_|_|";			\
 		echo	"$(BCYAN)	    	       by Talea & Max$(DEFCL)";				\
+		echo	"";																\
 		touch .header;															\
 	fi
 

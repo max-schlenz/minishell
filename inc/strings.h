@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:28:41 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/19 11:51:50 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/19 16:16:26 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@
 # define BLUE "\x01\033[34;1m\x02"
 # define MAGENTA "\x01\033[35;1m\x02"
 # define CYAN "\x01\033[36;1m\x02"
+# define GRAY "\x01\033[0m\x02\x01\033[38;5;239m\x02"
 
 #endif

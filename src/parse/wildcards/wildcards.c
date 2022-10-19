@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:26:31 by tdehne            #+#    #+#             */
-/*   Updated: 2022/10/19 11:26:54 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/19 14:41:16 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,6 @@ void	get_all_names(t_data *data)
 			files = match_files(data, to_be_extended, indexes);
 			ext_wildcards(data, to_be_extended, files, i);
 			free_array(files);
-			if (files)
-				free(files);
-			files = NULL;
 			free(to_be_extended);
 		}
 		free(indexes);

@@ -294,5 +294,6 @@ bool			builtin_error(t_data *data, char *err);
 
 bool			builtin_where(t_data *data);
 // bool			err_msg(t_data *data, char *setv, int err);
+char			last_char(char *str);
 
 #endif

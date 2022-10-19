@@ -42,3 +42,5 @@ echo |&
 > lol echo test lol; cat lol
 ls > "out file"
 ls > out;file
+ > lul | echo lol
+match.c:110 (files = calloc number)

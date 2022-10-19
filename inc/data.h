@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/19 11:30:06 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/19 16:19:51 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,8 @@ typedef struct s_data
 	int			exit_code;
 	long long	exit_status;
 	int			fd;
+	int			fd_stdout;
+	int			fd_stdin;
 	int			mscfg;
 	int			heredoc_index;
 	pid_t		pid;
