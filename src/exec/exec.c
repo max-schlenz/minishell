@@ -68,7 +68,10 @@ static void	exec_program_child(t_data *data, char *abs_path)
 	signal(SIGQUIT, SIG_DFL);
 	redirs_pipes(data);
 	if (!access(abs_path, F_OK))
-		execve(abs_path, data->argv, data->envp);
+	{
+		if (!execve(abs_path, data->argv, data->envp))
+			exec_error(data, 3, abs_path, WEXITSTATUS(data->exit_code));
+	}
 	exit(0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/15 17:15:26 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/19 11:21:56 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	ms_exit(t_status flag, int exit_status)
 		printf("%s", E_MEM_MSG);
 	else if (flag == E_FORK)
 		printf("%s", E_FORK_MSG);
+	else if (flag == E_EXECVE)
+		printf("%s", E_EXECVE_MSG);
 	exit (exit_status);
 }
 
@@ -43,6 +45,9 @@ void	free_array(char **array)
 	i = 0;
 	while (array[i])
 		free(array[i++]);
+	if (array)
+		free(array);
+	array = NULL;
 }
 
 void	close_pipes(t_data *data)
@@ -63,9 +68,7 @@ void	cleanup(t_data *data, int flag)
 
 	exit_status = data->exit_status;
 	free_array(data->envp);
-	free(data->envp);
 	free_array(data->path);
-	free(data->path);
 	free (data->prompt);
 	free (data->last_cmd);
 	free (data->flags);

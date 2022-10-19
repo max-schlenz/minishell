@@ -79,7 +79,7 @@ bool	count_pipes(t_data *data, char *cmd)
 	return (false);
 }
 
-static void	c_switch(t_data *data, int argc, char **argv)
+static void	switches(t_data *data, int argc, char **argv)
 {
 	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
 	{
@@ -88,6 +88,8 @@ static void	c_switch(t_data *data, int argc, char **argv)
 		clear_buffers(data);
 		cleanup(data, 0);
 	}
+	if (argc >= 2 && !ft_strncmp(argv[1], "-r", 3))
+		unlink(CFG);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -104,7 +106,7 @@ int	main(int argc, char **argv, char **envp)
 		envp[0] = NULL;
 	}
 	parse_envp(data, envp);
-	c_switch(data, argc, argv);
+	switches(data, argc, argv);
 	read_cfg(data);
 	while (1)
 	{

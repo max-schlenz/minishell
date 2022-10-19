@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/09/05 12:06:12 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/19 12:48:45 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ obj/%.o : src/%.c message
 	@ar -rc $(LIB_DIR)$(NAME) $@
 
 $(NAME): $(OBJ_PATH)
-	@echo -e "\\r${DEFCL}		  libft   	   ✅ ";
+	@echo -e "\\r${DEFCL}		  libft   	   ✅ "
 	@make -C src/ft_printf
 	@make -C src/get_next_line
 
@@ -67,7 +67,7 @@ message:
 	
 clean:
 	@if [[ -n `find $(OBJ_DIR) -type f -name '*.o'` ]]; then \
-		echo -n "cleaning:	  libft..."; \
+		echo -en "\\r		➜ ${LBLUE}libft${DEFCL}..."; \
 		find $(OBJ_DIR) -type f -name '*.o' -delete; \
 		echo -e "\\r${DEFCL}		  libft   	   ✅ "; \
 	fi

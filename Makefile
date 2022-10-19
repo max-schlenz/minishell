@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/18 13:37:13 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/19 13:00:02 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,57 +37,57 @@ INC_DIR			=	inc
 
 SRC				= 	${NAME}								\
 					debug								\
-					parse/envp							\
-					parse/utils							\
-					parse/expvar/expand_vars			\
-					parse/expvar/special_cases			\
-					parse/expvar/utils					\
-					parse/expvar/get_var				\
 					exec/builtins/cd/cd					\
 					exec/builtins/cd/cd_cleanup			\
 					exec/builtins/cd/cd_utils			\
 					exec/builtins/echo/echo				\
 					exec/builtins/env/env				\
+					exec/builtins/exit/exit				\
 					exec/builtins/export/export			\
 					exec/builtins/export/utils			\
 					exec/builtins/pwd/pwd				\
 					exec/builtins/unset/unset			\
-					exec/builtins/exit/exit				\
 					exec/builtins/where/where			\
-					exec/pipes							\
-					exec/exec							\
-					exec/utils							\
 					exec/error							\
-					utils/prompt/prompt					\
-					utils/prompt/prio					\
-					utils/prompt/utils					\
-					utils/init							\
-					utils/cleanup						\
-					utils/signal						\
-					utils/history						\
-					utils/utils							\
-					utils/config						\
-					utils/color/utils					\
-					utils/color/color					\
-					utils/merge_str						\
+					exec/exec							\
+					exec/pipes							\
+					exec/utils							\
 					parse/argv/argv						\
-					parse/argv/utils					\
 					parse/argv/modifiers				\
+					parse/argv/ops						\
 					parse/argv/quote_escape				\
 					parse/argv/redir					\
-					parse/argv/ops						\
+					parse/argv/utils					\
+					parse/envp							\
+					parse/expvar/expand_vars			\
+					parse/expvar/get_var				\
+					parse/expvar/special_cases			\
+					parse/expvar/utils					\
+					parse/heredoc/cleanup				\
+					parse/heredoc/heredoc				\
+					parse/heredoc/prompt				\
+					parse/heredoc/utils					\
 					parse/pre_parse/pre_parse			\
 					parse/pre_parse/utils				\
 					parse/syntax/syntax					\
 					parse/syntax/utils					\
-					parse/wildcards/wildcards			\
+					parse/utils							\
 					parse/wildcards/cases				\
-					parse/wildcards/utils				\
 					parse/wildcards/match				\
-					parse/heredoc/heredoc				\
-					parse/heredoc/utils					\
-					parse/heredoc/cleanup				\
-					parse/heredoc/prompt				
+					parse/wildcards/utils				\
+					parse/wildcards/wildcards			\
+					prompt/color/color					\
+					prompt/color/utils					\
+					prompt/history						\
+					prompt/prio							\
+					prompt/prompt						\
+					prompt/utils						\
+					utils/cleanup						\
+					utils/config						\
+					utils/init							\
+					utils/merge_str						\
+					utils/signal						\
+					utils/utils							
 
 INC				=	libft						\
 					${NAME}
@@ -112,34 +112,36 @@ $(LIB_FILES): header
 	@make -C src/libft
 
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)/exec
 	@mkdir -p $(OBJ_DIR)/exec/builtins
 	@mkdir -p $(OBJ_DIR)/exec/builtins/cd
 	@mkdir -p $(OBJ_DIR)/exec/builtins/echo
 	@mkdir -p $(OBJ_DIR)/exec/builtins/env
+	@mkdir -p $(OBJ_DIR)/exec/builtins/exit
 	@mkdir -p $(OBJ_DIR)/exec/builtins/export
 	@mkdir -p $(OBJ_DIR)/exec/builtins/pwd
 	@mkdir -p $(OBJ_DIR)/exec/builtins/unset
-	@mkdir -p $(OBJ_DIR)/exec/builtins/exit
 	@mkdir -p $(OBJ_DIR)/exec/builtins/where
 	@mkdir -p $(OBJ_DIR)/parse
-	@mkdir -p $(OBJ_DIR)/parse/expvar
 	@mkdir -p $(OBJ_DIR)/parse/argv
+	@mkdir -p $(OBJ_DIR)/parse/expvar
 	@mkdir -p $(OBJ_DIR)/parse/heredoc
 	@mkdir -p $(OBJ_DIR)/parse/pre_parse
 	@mkdir -p $(OBJ_DIR)/parse/syntax
 	@mkdir -p $(OBJ_DIR)/parse/wildcards
+	@mkdir -p $(OBJ_DIR)/prompt
+	@mkdir -p $(OBJ_DIR)/prompt/color
 	@mkdir -p $(OBJ_DIR)/utils
-	@mkdir -p $(OBJ_DIR)/utils/color
-	@mkdir -p $(OBJ_DIR)/utils/prompt
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES) header_c message
 	@gcc $(FLAGS) $(INCLUDES) -c $< -o $@
-
-$(NAME): $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES) $(INC_FILES) header_c message
+#	@echo -en "\033[2K"
+	@echo -en "\\r		➜ ${CYAN}$(NAME)${DEFCL}...     - $@\033[K"
+	
+$(NAME): $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES) $(INC_FILES) 
 	@gcc $(FLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(LINKER)
-	@echo -e "\\r		  ${BGREEN}$(NAME)${DEFCL}   	   ✅\n"
+	@echo -en "\033[1K"
+	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}   	   ✅\n\n"
 	
 $(BREWFL):
 	@if [ ! -f $(BREW) ]; then \
@@ -154,22 +156,26 @@ message:
 		echo -en "\ncompiling:";												\
 	fi
 	@rm -f .libft
-	@echo -en "\\r		➜ ${CYAN}$(NAME)${DEFCL}..."
+	@echo -en "\\r		➜ ${CYAN}$(NAME)${DEFCL}... - "
 
 clean: header
 	@echo
 	@rm -f .header
+	@echo -en "\ncleaning:";
 	@make clean -C src/libft
 	@if find $(OBJ_DIR) -type f -name '*.o' -delete > /dev/null 2>&1; then		\
 		echo -e "\\r		  $(NAME)   	   ✅"; 		                       	\
 	fi
-	@find $(OBJ_DIR) -type d -empty -delete > /dev/null 2>&1
+	@if find $(OBJ_DIR) -type d -empty -delete > /dev/null 2>&1; then	\
+		echo -n;	\
+	fi
 	@echo																			
 	@if [ -f ".brew" ]; then 													\
 		rm -f .brew;															\
 	fi
 
 fclean: clean header
+	
 	@if [ -f "${NAME}" ]; then													\
  		rm -f ${NAME};															\
 	fi

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/18 17:26:47 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/19 11:18:13 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	prompt_exec(t_data *data)
 	}
 	data->flags->prompt_exec = false;
 	free_array(data->argv);
-	free(data->argv);
+	data->argv = NULL;
 }
 
 static void	prompt_iter(t_data *data, char *tmp_cmd)
@@ -85,7 +85,6 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 		if (!i)
 		{
 			free_array(data->argv);
-			free(data->argv);
 			break ;
 		}
 		expand_vars(data);
@@ -94,7 +93,6 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 		if (!data->argv[0])
 		{
 			free_array(data->argv);
-			free(data->argv);
 			continue ;
 		}
 		prompt_exec(data);

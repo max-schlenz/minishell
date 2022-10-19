@@ -40,4 +40,5 @@ echo <|
 echo |&
 
 > lol echo test lol; cat lol
-afdsf ||
+ls > "out file"
+ls > out;file

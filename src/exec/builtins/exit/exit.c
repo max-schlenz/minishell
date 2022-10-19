@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 11:22:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 11:05:13 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/19 11:18:38 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ bool	builtin_exit(t_data *data)
 	if (data->argv[1] && !strnum(data->argv[1]))
 		exit_err(data);
 	free_array(data->argv);
-	free(data->argv);
 	cleanup(data, 0);
 	return (true);
 }

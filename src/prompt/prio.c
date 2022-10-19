@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 13:49:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/15 13:51:25 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/19 11:18:18 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static char	last_char(char *str)
 static void	prio_free_argv(t_data *data)
 {
 	free_array(data->argv);
-	free(data->argv);
 	data->argv = ft_calloc(1, sizeof(char **));
 	data->argv[0] = NULL;
 }

@@ -2,6 +2,16 @@ minishell
 debug
 out
 tmp
+.heredoc_tmp*
+*/heredoc_tmp*
+minishell_tester/
+minishell-tester/
+obj/
+lib/
+.debug
+*/.debug
+*/.mscfg
+.mscfg
 # Prerequisites
 *.d
 *.txt
