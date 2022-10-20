@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:19:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/20 17:35:52 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/20 21:09:28 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ bool	parse_or(t_data *data, char *cmd, int *i, int start_args)
 	(*i) += 3;
 	data->fd_i = 0;
 	wait_for_childs(data);
-	// count_pipes(data, cmd + (*i));
 	return (true);
 }
 
@@ -48,7 +47,6 @@ bool	parse_and(t_data *data, char *cmd, int *i, int start_args)
 	(*i) += 3;
 	data->fd_i = 0;
 	wait_for_childs(data);
-	// count_pipes(data, cmd + (*i));
 	return (true);
 }
 

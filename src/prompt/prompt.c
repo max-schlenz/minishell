@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/20 17:33:33 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/20 21:46:24 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,8 @@ static void	show_prompt(t_data *data)
 	while (cwd[ft_strlen(cwd) - i] != '/')
 		i++;
 	prompt_cwd = ft_strjoin(data->prompt, cwd + ft_strlen(cwd) - i + 1);
-	free (cwd);
 	prompt = ft_strjoin(prompt_cwd, PROMPT_SUFFIX);
-	free (prompt_cwd);
+	free_str (2, prompt_cwd, cwd);
 	data->cmd = readline(prompt);
 	free (prompt);
 }
@@ -45,7 +44,6 @@ static bool	prompt_prep(t_data *data, char **tmp_cmd)
 		*tmp_cmd = NULL;
 		return (false);
 	}
-	// count_pipes(data, *tmp_cmd);
 	*tmp_cmd = handle_heredoc(data, *tmp_cmd);
 	return (true);
 }
@@ -111,7 +109,7 @@ int	prompt(t_data *data, char *cmd, int flag)
 		show_prompt(data);
 	if (!data->cmd)
 		data->cmd = ft_strdup("exit");
-	if (data->cmd[0] && data->cmd[0] != '\n')
+	else if (data->cmd[0] && data->cmd[0] != '\n')
 	{
 		if (!prompt_prep(data, &tmp_cmd))
 			return (data->exit_status);

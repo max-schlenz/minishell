@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:28:41 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/19 16:16:26 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/20 20:54:17 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 # define E_MEM_MSG	"Failed to allocate memory."
 # define E_FORK_MSG	"Failed to create Forks."
-# define E_EXECVE_MSG "Failed to call execve."
 # define E_NC_QUOTE "Error: unclosed quotes!\n"
 # define E_TM_ARG "Error: too many arguments\n"
 # define E_EXIT_REQNO "Error: exit: numeric argument required: "
@@ -26,6 +25,9 @@
 # define E_EXPORT_INVOPT "Error: export: invalid option: "
 # define E_ENV_IDENT "Error: env: not a valid identifier: "
 # define E_ENV_INVOPT "Error: env: invalid option: "
+# define E_EXECVE_MSG "Failed to call execve."
+# define E_EXEC_ISDIR ": is a directory"
+# define E_EXEC_NOTFOUND ": command not found"
 
 # define PROMPT_SUFFIX "] \x01\033[0;1m\x02#\x01\033[0m\x02 "
 

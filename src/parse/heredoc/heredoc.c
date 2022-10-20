@@ -6,11 +6,17 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/18 15:52:06 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/20 21:13:03 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+void	heredoc_set_flags(t_data *data)
+{
+	data->heredoc_index++;
+	data->flags->heredoc = false;
+}
 
 static void	heredoc_begin(t_data *data, char *cmd, int i)
 {

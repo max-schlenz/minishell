@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 21:40:07 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/20 15:02:48 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/20 21:09:18 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ bool	split_pipe(t_data *data, char *cmd, int *i)
 	data->flags->redir_out = false;
 	if (!data->flags->f_dquote && !data->flags->f_squote && !data->flags->f_esc
 		&& cmd[*i] == '|')
-		{
-			data->counter_pipes++;
-			return (parse_pipes(data, i));
-		}
+	{
+		data->counter_pipes++;
+		return (parse_pipes(data, i));
+	}
 	return (false);
 }
 

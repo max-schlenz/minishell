@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 12:13:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/20 13:55:32 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/20 21:13:12 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,24 +60,25 @@ void	exec_set_flags(t_data *data)
 	if (data->flags->pipe)
 		data->fd_i++;
 	if (data->flags->redir_out)
+	{
+		free_str(1, data->file_name2);
+		data->file_name2 = NULL;
 		data->flags->redir_out = false;
+	}
 	if (data->flags->redir_in)
 	{
-		free(data->file_name);
+		free_str(1, data->file_name);
 		data->file_name = NULL;
 		data->flags->redir_in = false;
 	}
 	if (data->flags->redir_append)
 	{
-		free(data->file_name_append);
+		free_str(1, data->file_name_append);
 		data->file_name_append = NULL;
 		data->flags->redir_append = false;
 	}
 	if (data->flags->heredoc)
-	{
-		data->heredoc_index++;
-		data->flags->heredoc = false;
-	}
+		heredoc_set_flags(data);
 	if (data->flags->pipe && (data->flags->redir_out || data->flags->redir_in))
 		data->flags->pipe = false;
 }
@@ -102,7 +103,7 @@ void	builtin_fork(t_data *data, bool flag)
 	{
 		if (data->flags->pipe)
 			pipe(data->pipes->pipefd[data->fd_i]);
-		exec_program_create_fork(data);
+		exec_program_create_fork(data, NULL);
 	}
 	else if (flag)
 	{

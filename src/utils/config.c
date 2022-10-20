@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:17:45 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/19 12:01:50 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/20 21:35:17 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	create_cfg(void)
 	int	fd;
 
 	fd = open(".mscfg", O_CREAT | O_RDWR, 0644);
-	write(fd, "COLOR=bc\nDEBUG=0\n", 17);
+	write(fd, "COLOR=bc\n", 9);
 	close (fd);
 }
 
@@ -51,8 +51,6 @@ void	read_cfg(t_data *data)
 				continue ;
 			else if (read_buf && !ft_strncmp(read_buf, "COLOR", 5))
 				builtin_color(data, read_buf + strlen_var(read_buf) + 1);
-			else if (read_buf && !ft_strncmp(read_buf, "DEBUG=1", 7))
-				data->flags->debug = true;
 			else if (read_buf && !ft_strncmp(read_buf, "HISTORY", 7))
 				read_cfg_history(data, read_buf);
 			else

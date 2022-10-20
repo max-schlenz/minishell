@@ -287,7 +287,7 @@ char			**realloc_argv(t_data *data, int argv_i, char *file, bool repl);
 //parse/wildcards/match
 char			**match_files(t_data *data, char *to_be_extended, int *indexes);
 
-void			exec_program_create_fork(t_data *data);
+void			exec_program_create_fork(t_data *data, char *abs_path);
 void			exec_error(t_data *data, int err, char *info, int exit);
 bool			builtin_error_invalid_op(char *err);
 bool			builtin_error(t_data *data, char *err);
@@ -295,5 +295,6 @@ bool			builtin_error(t_data *data, char *err);
 bool			builtin_where(t_data *data);
 // bool			err_msg(t_data *data, char *setv, int err);
 char			last_char(char *str);
+void			heredoc_set_flags(t_data *data);
 
 #endif

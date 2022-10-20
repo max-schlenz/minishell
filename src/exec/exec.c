@@ -32,34 +32,36 @@ char	*get_path(t_data *data, char *cmd)
 		free (abs_path);
 		i++;
 	}
-	return (NULL);
+	return (ft_strdup(cmd));
 }
 
-static bool	exec_err(t_data *data, DIR *tmp, char *abs_path)
+static bool	exec_err(t_data *data, char *abs_path, bool isdir, DIR *dir)
 {
+	char	*msg;
+
 	if (data->flags->pipe)
 	{
 		exec_close_pipes(data);
 		exec_set_flags(data);
 	}
-	perror("Error ");
-	if (tmp)
+	if (dir)
+		closedir(dir);
+	if (isdir)
 	{
-		closedir(tmp);
+		msg = E_EXEC_ISDIR;
 		data->exit_status = 126;
 	}
 	else
+	{
+		msg = E_EXEC_NOTFOUND;
 		data->exit_status = 127;
-	free (abs_path);
-	return (true);
-}
-
-void	exec_program_create_fork(t_data *data)
-{
-	signal(SIGINT, SIG_IGN);
-	data->pid = fork();
-	if (data->pid == -1)
-		ms_exit(2, WEXITSTATUS(data->exit_code));
+	}
+	write(2, "Error: ", 8);
+	write(2, abs_path, ft_strlen(abs_path));
+	write(2, msg, ft_strlen(msg));
+	write(2, "\n", 1);
+	data->flags->pipe = false;
+	return (free (abs_path), true);
 }
 
 static void	exec_program_child(t_data *data, char *abs_path)
@@ -75,6 +77,16 @@ static void	exec_program_child(t_data *data, char *abs_path)
 	exit(0);
 }
 
+void	exec_program_create_fork(t_data *data, char *abs_path)
+{
+	signal(SIGINT, SIG_IGN);
+	data->pid = fork();
+	if (data->pid == 0 && abs_path)
+		exec_program_child(data, abs_path);
+	else if (data->pid == -1)
+		ms_exit(2, WEXITSTATUS(data->exit_code));
+}
+
 bool	exec_program(t_data *data)
 {
 	char		*abs_path;
@@ -83,22 +95,18 @@ bool	exec_program(t_data *data)
 	data->pid = 1;
 	data->flags->error = false;
 	abs_path = get_path(data, data->argv[0]);
-	if (!abs_path && data->argv[0])
-		abs_path = ft_strdup(data->argv[0]);
 	dir = opendir(abs_path);
-	if (data->flags->pipe)
-		pipe(data->pipes->pipefd[data->fd_i]);
-	if (!dir && (!access(abs_path, F_OK)))
-		exec_program_create_fork(data);
+	if (abs_path[0] && abs_path[1] && abs_path[1] == '/' && dir)
+		return (exec_err(data, abs_path, true, dir));
+	if (!access(abs_path, F_OK) && !dir)
+	{
+		if (data->flags->pipe)
+			pipe(data->pipes->pipefd[data->fd_i]);
+		exec_program_create_fork(data, abs_path);
+	}
 	else
-		data->flags->error = true;
-	if (data->pid == 0)
-		exec_program_child(data, abs_path);
-	if (data->flags->error)
-		return (exec_err(data, dir, abs_path));
+		return (exec_err(data, abs_path, false, dir));
 	free (abs_path);
-	if (dir)
-		closedir(dir);
 	exec_close_pipes(data);
 	exec_set_flags(data);
 	return (true);

@@ -32,7 +32,7 @@ static void	clear_buffers(t_data *data)
 	rm_tmp_files(data);
 	data->flags->and = false;
 	data->flags->or = false;
-	data->flags->pipe = 0;
+	data->flags->pipe = false;
 }
 
 static void	init_prompt(t_data *data)
