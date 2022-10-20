@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/19 22:48:39 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/20 14:56:39 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -105,7 +105,7 @@ INC_FILES		=	$(addsuffix .h, $(addprefix $(INC_DIR)/, $(INC)))
 
 READLINE		=	/usr/include/readline/readline.h
 INCLUDES		= 	-I ${INC_DIR}
-LINKER			=	-Llib -lft -lreadline
+LINKER			=	-L lib -l ft -l readline
 
 MAC_BREW		=	/Users/${USER}/.brewconfig.zsh
 MAC_READLINE	=	~/.brew/opt/readline
@@ -117,7 +117,7 @@ all: $(NAME)
 $(LIB_FILES): header
 	@echo -n "compiling:"
 	@touch .tmp
-	@make -C src/libft
+	@$(MAKE) -C src/libft
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
@@ -148,17 +148,17 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES) header_c
 		touch .tmp;\
 	fi
 	@echo -en "\\r		➜  ${BCYAN}$(NAME)${DEFCL}...    »  $@\033[K"
-	@gcc $(FLAGS) $(INCLUDES) $(MAC_INCLUDES) -c $< -o $@
+	@$(CC) $(FLAGS) $(INCLUDES) $(MAC_INCLUDES) -c $< -o $@
 	
 ifeq ($(UNAME), Darwin)
-$(NAME): $(MAC_BREW) $(MAC_READLINE) $(LIB_FILES) $(INC_FILES) $(MAC_INCLUDES) $(OBJ_DIR) $(OBJ_FILES)
+$(NAME): $(MAC_BREW) $(MAC_READLINE) $(LIB_FILES) $(INC_FILES) $(OBJ_DIR) $(OBJ_FILES)
 	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}        ✔  ${BGREEN}./$(NAME)${DEFCL}\033[K\n"
-	@gcc $(FLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(LINKER) $(MAC_LINKER)
+	@$(CC) $(FLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(MAC_INCLUDES) $(LINKER) $(MAC_LINKER)
 	@rm -f .tmp
 else
 $(NAME): $(READLINE) $(LIB_FILES) $(INC_FILES) $(OBJ_DIR) $(OBJ_FILES)
 	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}        ✔  ${BGREEN}./$(NAME)${DEFCL}\033[K\n"
-	@gcc $(FLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(LINKER)
+	@$(CC) $(FLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(LINKER)
 	@rm -f .tmp
 endif
 
@@ -178,7 +178,7 @@ $(MAC_READLINE):
 clean: header
 	@rm -f .header
 	@echo -en "cleaning objs:";
-	@make clean -C src/libft
+	@$(MAKE) clean -C src/libft
 	@if find $(OBJ_DIR) -type f -name '*.o' -delete > /dev/null 2>&1; then		\
 		echo -e "\\r		  $(NAME)   	   🗑  ${RED}$(OBJ_DIR)/${DEFCL}\033[K";\
 	fi
@@ -186,13 +186,10 @@ clean: header
 	@if find $(OBJ_DIR) -type d -empty -delete > /dev/null 2>&1; then			\
 		:;	\
 	fi
-	@if [ -f ".brew" ]; then 													\
-		rm -f .brew;															\
-	fi
 
 fclean: clean header
 	@echo -en "cleaning bins:"
-	@make fclean -C src/libft
+	@$(MAKE) fclean -C src/libft
 	@if [ -f "${NAME}" ]; then													\
  		rm -f ${NAME};															\
 		echo -e "\\r		  $(NAME)   	   🗑  ${RED}./$(NAME)${DEFCL}\033[K"; \

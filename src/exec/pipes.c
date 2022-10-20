@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 15:52:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/19 15:56:11 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/20 15:44:01 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,11 @@ void	wait_for_childs(t_data *data)
 	if (data->flags->redir_out)
 	{
 		open(data->file_name2, O_CREAT, 0644);
-		dup2(data->fd_stdout, STDOUT_FILENO);
-		close (data->fd_stdout);
 		data->flags->redir_out = false;
 	}
 	while (wait(&data->exit_code) > 0)
 		data->exit_status = WEXITSTATUS(data->exit_code);
+	data->counter_pipes = 0;
+	dup2(data->fd_stdout, STDOUT_FILENO);
+	close (data->fd_stdout);
 }

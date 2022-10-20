@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/19 21:46:23 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/20 11:20:32 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,13 +51,13 @@ all: create_dirs $(OBJ_PATH) $(NAME)
 
 obj/%.o : src/%.c 
 	@echo -en "\\r		➜  $(BCYAN)libft${DEFCL}...        »  $@\033[K"
-	@cc $(FLAGS) $(INCLUDES) -c $< -o $@
+	@$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
 	@ar -rc $(LIB_DIR)$(NAME) $@
 
 $(NAME): $(OBJ_PATH)
 	@echo -e "\\r${DEFCL}		  libft\033[K   	   ✔  ${GRAY}lib/$(NAME)${DEFCL}\t\t\033[K"
-	@make -C src/ft_printf
-	@make -C src/get_next_line
+	@$(MAKE) -C src/ft_printf
+	@$(MAKE) -C src/get_next_line
 
 create_dirs:
 	@mkdir -p $(OBJ_DIR)
@@ -69,16 +69,16 @@ clean:
 		find $(OBJ_DIR) -type f -name '*.o' -delete > /dev/null 2>&1; \
 		echo -e "\\r${DEFCL}		  libft\t\t   🗑  ${RED}${PRINT_OBJ_DIR}${DEFCL}\033[K"; \
 	fi
-	@make clean -C src/ft_printf
-	@make clean -C src/get_next_line
+	@$(MAKE) clean -C src/ft_printf
+	@$(MAKE) clean -C src/get_next_line
 
 fclean: clean
 	@if [ -f "$(LIB_DIR)libft.a" ]; then \
 		rm -f $(LIB_DIR)libft.a; \
 		echo -e "\\r		  libft   	   🗑  ${RED}lib/$(NAME)${DEFCL}\033[K"; 	\
 	fi
-	@make fclean -C src/ft_printf
-	@make fclean -C src/get_next_line
+	@$(MAKE) fclean -C src/ft_printf
+	@$(MAKE) fclean -C src/get_next_line
 	
 re: fclean $(NAME)
 

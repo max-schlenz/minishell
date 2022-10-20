@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/19 15:53:05 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/20 15:11:45 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static bool	prompt_prep(t_data *data, char **tmp_cmd)
 		*tmp_cmd = NULL;
 		return (false);
 	}
-	count_pipes(data, *tmp_cmd);
+	// count_pipes(data, *tmp_cmd);
 	*tmp_cmd = handle_heredoc(data, *tmp_cmd);
 	return (true);
 }

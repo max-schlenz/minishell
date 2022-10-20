@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 14:33:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/19 16:58:02 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/20 13:29:32 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 size_t	is_in_set(char c, char const *set);
+
 // FT_PRINTF
 
 int		ft_printf(const char *format, ...);
@@ -77,11 +78,6 @@ int		print_pointer(va_list args);
 int		print_int(va_list args);
 int		print_uint(va_list args);
 int		print_hex(va_list args, size_t lcase);
-size_t	ft_strlen(const char *c);
-int		ft_tolower(int c);
-void	ft_putchar_fd(char c, int fd);
-void	ft_putstr_fd(char *s, int fd);
-char	*ft_itoa(int n);
 
 // GET_NEXT_LINE
 
@@ -91,8 +87,6 @@ char	*ft_itoa(int n);
 
 char	*get_next_line(int fd);
 int		p_nl(const char *c);
-size_t	ft_strlen(const char *c);
-char	*ft_strdup(const char *s1);
 char	*ft_strjoin_dup(char *s1, char *s2);
 char	*substr(char const *s, unsigned int start, size_t len, int flag);
 
