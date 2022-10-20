@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/20 15:46:24 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/20 17:40:11 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	init_vars(t_data *data)
 	data->flags->rndcl = false;
 	data->hdoc.andor = false;
 	data->hdoc.hd = false;
-	data->flags->debug = false;
+	data->flags->debug = true;
 	data->flags->macos = true;
 	data->flags->pipe = false;
 	data->flags->error = false;

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/20 15:11:45 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/20 17:33:33 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 	i = 0;
 	while (tmp_cmd[i] && tmp_cmd[0])
 	{
-		while (tmp_cmd[i] == ' ' || tmp_cmd[i] == ';' || tmp_cmd[i] == '&')
+		while (tmp_cmd[i] == ' ' || tmp_cmd[i] == ';')
 			i++;
 		split_quotes(data, tmp_cmd, &i);
 		if (!i)

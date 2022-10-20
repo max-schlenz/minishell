@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:19:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/20 15:48:20 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/20 17:35:52 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ bool	parse_string(t_data *data, char *cmd, int i, bool end)
 
 bool	parse_or(t_data *data, char *cmd, int *i, int start_args)
 {
-	data->flags->or = true;
 	if ((*i) != start_args)
 		return (true);
+	data->flags->or = true;
 	data->flags->and = false;
 	(*i) += 3;
 	data->fd_i = 0;
@@ -40,9 +40,9 @@ bool	parse_or(t_data *data, char *cmd, int *i, int start_args)
 
 bool	parse_and(t_data *data, char *cmd, int *i, int start_args)
 {
-	data->flags->and = true;
 	if ((*i) != start_args)
 		return (true);
+	data->flags->and = true;
 	data->flags->or = false;
 	data->flags->pipe = false;
 	(*i) += 3;
