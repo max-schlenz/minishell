@@ -93,9 +93,13 @@ bool	exec_program(t_data *data)
 	DIR			*dir;
 
 	data->pid = 1;
-	data->flags->error = false;
+	dir = NULL;
 	abs_path = get_path(data, data->argv[0]);
+	if (!abs_path)
+		return (exec_err(data, abs_path, true, dir));
 	dir = opendir(abs_path);
+	if (dir)
+		return (exec_err(data, abs_path, true, dir));
 	if (abs_path[0] && abs_path[1] && abs_path[1] == '/' && dir)
 		return (exec_err(data, abs_path, true, dir));
 	if (!access(abs_path, F_OK) && !dir)

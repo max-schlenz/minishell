@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:23:56 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/19 09:16:49 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/22 15:55:08 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,16 @@ void	split_qflags(t_data *data, char *cmd, int *i)
 	}
 }
 
+static void	set_filenames_free(t_data *data, int flag)
+{
+	if (!flag && data->file_name)
+		free (data->file_name);
+	else if (flag == 1 && data->file_name2)
+		free (data->file_name2);
+	else if (flag == 2 && data->file_name_append)
+		free (data->file_name_append);
+}
+
 bool	set_filenames(t_data *data, int *i, char *cmd, int flag)
 {
 	size_t	start;
@@ -73,6 +83,7 @@ bool	set_filenames(t_data *data, int *i, char *cmd, int flag)
 	}
 	while (cmd[*i] && cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<')
 		(*i)++;
+	set_filenames_free(data, flag);
 	if (!flag)
 		data->file_name = ft_substr(cmd, start, *i - start);
 	else if (flag == 1)

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:19:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/22 12:52:47 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/22 18:02:02 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,29 @@ bool	parse_string(t_data *data, char *cmd, int i, bool end)
 
 bool	parse_or(t_data *data, char *cmd, int *i, int start_args)
 {
+	// while (waitpid(-1, &data->exit_code, 0) != -1)
+	// {
+	// 	if (WIFEXITED(data->exit_code))
+	// 		data->exit_status = WEXITSTATUS(data->exit_code);
+	// }
 	if ((*i) != start_args)
 		return (true);
 	data->flags->or = true;
 	data->flags->and = false;
+	data->flags->pipe = false;
 	(*i) += 3;
 	data->fd_i = 0;
 	data->counter_pipes = 0;
-	// dup2(data->fd_stdout, STDOUT_FILENO);
-	// close (data->fd_stdout);
-	// wait_for_childs(data);
 	return (true);
 }
 
 bool	parse_and(t_data *data, char *cmd, int *i, int start_args)
 {
+	// while (waitpid(-1, &data->exit_code, 0) != -1)
+	// {
+	// 	if (WIFEXITED(data->exit_code))
+	// 		data->exit_status = WEXITSTATUS(data->exit_code);
+	// }
 	if ((*i) != start_args)
 		return (true);
 	data->flags->and = true;
@@ -50,9 +58,6 @@ bool	parse_and(t_data *data, char *cmd, int *i, int start_args)
 	(*i) += 3;
 	data->fd_i = 0;
 	data->counter_pipes = 0;
-	// dup2(data->fd_stdout, STDOUT_FILENO);
-	// close (data->fd_stdout);
-	// wait_for_childs(data);
 	return (true);
 }
 

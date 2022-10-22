@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   argv_redir.c                                       :+:      :+:    :+:   */
+/*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 21:31:35 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 22:54:37 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/22 17:46:24 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ static bool	split_redir_util(t_data *data, char *cmd, int *i)
 		return (true);
 	(*i)++;
 	if (cmd[*i] && cmd[*i] == '|')
-		data->flags->pipe = true;
+	{
+		if (split_pipe(data, cmd, i))
+			return (true);
+	}
 	if (cmd[*i] && cmd[*i] == '>')
 	{
 		split_redir_redir_out(data);

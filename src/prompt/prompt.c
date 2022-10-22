@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/22 12:49:00 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/22 12:27:50 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	prompt(t_data *data, char *cmd, int flag)
 		show_prompt(data);
 	if (!data->cmd)
 		data->cmd = ft_strdup("exit");
-	else if (data->cmd[0] && data->cmd[0] != '\n')
+	if (data->cmd[0] && data->cmd[0] != '\n')
 	{
 		if (!prompt_prep(data, &tmp_cmd))
 			return (data->exit_status);

@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/20 14:56:39 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/22 13:09:09 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -184,7 +184,7 @@ clean: header
 	fi
 	@echo -en "\n";
 	@if find $(OBJ_DIR) -type d -empty -delete > /dev/null 2>&1; then			\
-		:;	\
+		:;																		\
 	fi
 
 fclean: clean header
