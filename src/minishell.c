@@ -37,8 +37,8 @@ static void	clear_buffers(t_data *data)
 
 static void	init_prompt(t_data *data)
 {
-	data->fd_stdout = dup(1);
 	data->fd_stdin = dup(0);
+	data->fd_stdout = dup(1);
 	data->flags->error = false;
 	data->flags->pipe = false;
 	data->flags->redir_out = false;
@@ -101,12 +101,12 @@ int	main(int argc, char **argv, char **envp)
 	data = allocate_mem();
 	signals(false);
 	init_vars(data);
-	if (!*envp)
-	{
-		data->flags->noenv = true;
-		envp = ft_calloc(1, sizeof(char **));
-		envp[0] = NULL;
-	}
+	// if (!*envp)
+	// {
+	// 	data->flags->noenv = true;
+	// 	envp = ft_calloc(1, sizeof(char **));
+	// 	envp[0] = NULL;
+	// }
 	parse_envp(data, envp);
 	switches(data, argc, argv);
 	read_cfg(data);

@@ -39,11 +39,6 @@ static bool	exec_err(t_data *data, char *abs_path, bool isdir, DIR *dir)
 {
 	char	*msg;
 
-	if (data->flags->pipe)
-	{
-		exec_close_pipes(data);
-		exec_set_flags(data);
-	}
 	if (dir)
 		closedir(dir);
 	if (isdir)
@@ -56,11 +51,16 @@ static bool	exec_err(t_data *data, char *abs_path, bool isdir, DIR *dir)
 		msg = E_EXEC_NOTFOUND;
 		data->exit_status = 127;
 	}
+	if (data->flags->pipe)
+	{
+		exec_close_pipes(data);
+		exec_set_flags(data);
+		data->flags->pipe = false;
+	}
 	write(2, "Error: ", 8);
 	write(2, abs_path, ft_strlen(abs_path));
 	write(2, msg, ft_strlen(msg));
 	write(2, "\n", 1);
-	data->flags->pipe = false;
 	return (free (abs_path), true);
 }
 
