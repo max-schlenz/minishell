@@ -74,7 +74,7 @@ static void	exec_program_child(t_data *data, char *abs_path)
 		if (!execve(abs_path, data->argv, data->envp))
 			exec_error(data, 3, abs_path, WEXITSTATUS(data->exit_code));
 	}
-	exit(0);
+	exit(data->exit_status);
 }
 
 void	exec_program_create_fork(t_data *data, char *abs_path)
