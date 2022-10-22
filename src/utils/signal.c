@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 13:02:06 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/20 21:27:08 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/22 12:30:41 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void	signals(bool in_child)
 	ft_memset(&sa, 0, sizeof(sa));
 	ft_memset(&sa_child, 0, sizeof(sa_child));
 	ft_memset(&sa_ignore, 0, sizeof(sa_ignore));
-	sa.sa_flags = SA_SIGINFO;
-	sa_child.sa_flags = SA_SIGINFO;
+	sa.sa_flags = SA_RESTART | SA_SIGINFO;
+	sa_child.sa_flags = SA_RESTART | SA_SIGINFO;
 	sa.sa_sigaction = &signal_handler;
 	sa_child.sa_sigaction = &signal_handler_child;
 	sa_ignore.sa_handler = SIG_IGN;

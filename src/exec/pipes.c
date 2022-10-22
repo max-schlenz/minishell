@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 15:52:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/22 11:26:52 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/22 12:48:07 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,14 @@ void	wait_for_childs(t_data *data)
 		open(data->file_name2, O_CREAT, 0644);
 		data->flags->redir_out = false;
 	}
+	// data->fd_i = 0;
 	while (waitpid(-1, &data->exit_code, 0) != -1)
 	{
 		if (WIFEXITED(data->exit_code))
 			data->exit_status = WEXITSTATUS(data->exit_code);
 	}
 	data->counter_pipes = 0;
+	data->flags->pipe = false;
 	dup2(data->fd_stdout, STDOUT_FILENO);
 	close (data->fd_stdout);
 }
