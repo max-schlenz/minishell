@@ -49,7 +49,3 @@ export lol=lol && env | grep lol
 ls && env | grep lol
 env | grep lol | echo lol && < x.txt cat | echo lol
 echo lol | ls | ls | grep t |  grep m | grep d && echo badusch -> falsch herum?
-
-file permissions
-export PATH=/usr/bin/ (path not (re)set)
-cd -

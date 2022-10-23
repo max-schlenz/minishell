@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/19 14:41:48 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 09:21:17 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	ms_exit(t_status flag, int exit_status)
 		printf("%s", E_FORK_MSG);
 	else if (flag == E_EXECVE)
 		printf("%s", E_EXECVE_MSG);
+	else if (flag == E_RW)
+		printf("%s", E_RW_MSG);
 	exit (exit_status);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 09:37:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/17 15:14:36 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 10:28:09 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ void	init_cd(t_data *data, int *index_pwd)
 
 bool	cd_err(t_data *data)
 {
-	perror("Error");
+	if (!data->cd.oldpwd_err)
+		perror("Error");
+	else
+		write(2, E_CD_OLDPWD_MSG, 27);
 	free_cd(data);
 	if (data->cd.new_pwd_tmp)
 		free_str(1, data->cd.new_pwd_tmp);

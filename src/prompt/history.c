@@ -6,13 +6,13 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 10:13:35 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/15 13:19:03 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 09:31:48 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	history_clear(int fd)
+static void	history_clear(t_data *data, int fd)
 {
 	char	tmp_cl[9];
 
@@ -21,6 +21,8 @@ static void	history_clear(int fd)
 	tmp_cl[8] = '\0';
 	close (fd);
 	fd = open(CFG, O_RDWR | O_TRUNC);
+	if (!fd)
+		cleanup(data, E_RW);
 	write(fd, tmp_cl, 8);
 	write(fd, "\n", 1);
 	close (fd);
@@ -55,8 +57,10 @@ bool	builtin_history(t_data *data)
 	int		fd;
 
 	fd = open(CFG, O_RDONLY);
+	if (!fd)
+		cleanup(data, E_RW);
 	if (data->argv[1] && !ft_strncmp(data->argv[1], "-c", 2))
-		history_clear(fd);
+		history_clear(data, fd);
 	else
 		history_print(fd);
 	close (fd);

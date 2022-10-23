@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/20 22:45:07 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 10:04:30 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ void	parse_path(t_data *data)
 	}
 	else
 		data->path = ft_split(data->envp[i], ':');
+	if (data->path && data->path[0] && !ft_strncmp(data->path[0], "PATH=", 5))
+		data->path[0] = str_realloc(data->path[0],
+				ft_strtrim(data->path[0], "PATH="), true);
 }
 
 int	strcmp_alnum(const char *s1, const char *s2)
@@ -110,8 +113,6 @@ void	parse_envp(t_data *data, char **envp)
 
 	while (envp[data->counter_env])
 		data->counter_env++;
-	// if (data->flags->noenv)
-	// 	data->counter_env = 3;
 	data->envp = ft_calloc(data->counter_env + 1, sizeof(char *));
 	i = 0;
 	while (envp[i])

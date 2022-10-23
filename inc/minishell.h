@@ -106,7 +106,6 @@ void			signal_handler(int signal, siginfo_t *info, void *context);
 void			signals(bool inter_active);
 
 //utils/config.c
-void			create_cfg(void);
 void			read_cfg(t_data *data);
 
 //parse/wildcard.c
@@ -297,5 +296,6 @@ bool			builtin_where(t_data *data);
 // bool			err_msg(t_data *data, char *setv, int err);
 char			last_char(char *str);
 void			heredoc_set_flags(t_data *data);
+int				redirs_pipes_fopen(t_data *data, char *filename, int flags);
 
 #endif

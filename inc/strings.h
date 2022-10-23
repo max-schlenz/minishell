@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:28:41 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/20 20:54:17 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 10:11:12 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 # define E_MEM_MSG	"Failed to allocate memory."
 # define E_FORK_MSG	"Failed to create Forks."
+# define E_RW_MSG "Error: R/W not permitted\n"
 # define E_NC_QUOTE "Error: unclosed quotes!\n"
 # define E_TM_ARG "Error: too many arguments\n"
 # define E_EXIT_REQNO "Error: exit: numeric argument required: "
@@ -28,6 +29,7 @@
 # define E_EXECVE_MSG "Failed to call execve."
 # define E_EXEC_ISDIR ": is a directory"
 # define E_EXEC_NOTFOUND ": command not found"
+# define E_CD_OLDPWD_MSG "Error: cd: OLDPWD not set\n"
 
 # define PROMPT_SUFFIX "] \x01\033[0;1m\x02#\x01\033[0m\x02 "
 

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:12:40 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/18 17:44:10 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 09:21:25 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	heredoc_prompt(t_data *data)
 	hd_tmp_i = ft_itoa(data->heredoc_index);
 	hd_tmp = ft_strjoin(".heredoc_tmp", hd_tmp_i);
 	hd_fd = open(hd_tmp, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (!hd_fd)
+		cleanup(data, E_RW);
 	free(hd_tmp);
 	free(hd_tmp_i);
 	line = ft_strdup("42");

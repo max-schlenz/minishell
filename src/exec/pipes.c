@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 15:52:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/22 15:01:11 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 09:31:00 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,21 @@ void	pipes(t_data *data)
 	}
 }
 
+int	redirs_pipes_fopen(t_data *data, char *filename, int flags)
+{
+	int	fd;
+
+	if (!flags)
+		fd = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	else if (flags == 1)
+		fd = open(filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	else if (flags == 2)
+		fd = open(filename, O_RDONLY);
+	if (!fd)
+		cleanup(data, E_RW);
+	return (fd);
+}
+
 void	redirs_pipes(t_data *data)
 {
 	int		fd;
@@ -41,19 +56,19 @@ void	redirs_pipes(t_data *data)
 		pipes(data);
 	if (data->flags->redir_out)
 	{
-		fd = open(data->file_name2, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+		fd = redirs_pipes_fopen(data, data->file_name2, 0);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
 	if (data->flags->redir_append)
 	{
-		fd = open(data->file_name_append, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		fd = redirs_pipes_fopen(data, data->file_name_append, 1);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
 	if (data->flags->redir_in)
 	{
-		fd = open(data->file_name, O_RDONLY);
+		fd = redirs_pipes_fopen(data, data->file_name, 2);
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
@@ -65,7 +80,8 @@ void	wait_for_childs(t_data *data)
 
 	if (data->flags->redir_out)
 	{
-		open(data->file_name2, O_CREAT, 0644);
+		if (!open(data->file_name2, O_CREAT, 0644))
+			cleanup(data, E_RW);
 		data->flags->redir_out = false;
 	}
 	data->fd_i = 0;

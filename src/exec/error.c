@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 19:33:48 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/20 21:09:42 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 10:11:09 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	exec_error(t_data *data, int err, char *info, int exit)
 		msg = E_ENV_IDENT;
 	else if (err == 6)
 		msg = E_EXECVE_MSG;
+	else if (err == 7)
+		msg = E_CD_OLDPWD_MSG;
 	else
 		msg = "";
 	write(2, msg, ft_strlen(msg));

@@ -51,6 +51,7 @@ static void	init_prompt(t_data *data)
 	data->flags->pipe = false;
 	data->flags->bracket = false;
 	data->flags->prio = false;
+	data->cd.oldpwd_err = false;
 	data->counter_pipes = 0;
 	data->parser.array_index = 0;
 	data->parser.arg_start = 0;

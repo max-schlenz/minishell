@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/19 16:19:51 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 10:27:35 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_cd
 	char	*path_tmp;
 	char	*path_tmp2;
 	char	*new_pwd_tmp;
+	bool	oldpwd_err;
 }	t_cd;
 
 typedef struct s_heredoc
@@ -203,6 +204,7 @@ typedef enum s_status
 	E_MEM,
 	E_FORK,
 	E_EXECVE,
+	E_RW,
 }	t_status;
 
 #endif

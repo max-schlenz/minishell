@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 21:31:35 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/22 17:46:24 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 09:31:11 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static bool	split_redir_redir_out(t_data *data)
 	data->flags->redir_append = false;
 	if (data->file_name2)
 	{
-		tmp_fd = open(data->file_name2, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+		redirs_pipes_fopen(data, data->file_name2, 0);
 		close(tmp_fd);
 	}
 	return (false);

@@ -6,17 +6,19 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:17:45 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/20 21:35:17 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 09:37:22 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	create_cfg(void)
+static void	create_cfg(t_data *data)
 {
 	int	fd;
 
 	fd = open(".mscfg", O_CREAT | O_RDWR, 0644);
+	if (!fd)
+		cleanup(data, E_RW);
 	write(fd, "COLOR=bc\n", 9);
 	close (fd);
 }
@@ -38,10 +40,12 @@ void	read_cfg(t_data *data)
 	char	*read_buf;
 
 	if (access(".mscfg", F_OK))
-		create_cfg();
+		create_cfg(data);
 	if (!access(".mscfg", F_OK))
 	{
 		data->mscfg = open(".mscfg", O_RDWR | O_APPEND, 0644);
+		if (!data->mscfg)
+			cleanup(data, E_RW);
 		read_buf = ft_strdup("42");
 		while (read_buf != NULL)
 		{
@@ -58,6 +62,8 @@ void	read_cfg(t_data *data)
 		}
 		return ;
 	}
+	else
+		cleanup(data, E_RW);
 }
 
 bool	builtin_dbg(t_data *data)
