@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:19:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/22 18:02:02 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 14:53:14 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,16 @@ bool	parse_string(t_data *data, char *cmd, int i, bool end)
 	return (true);
 }
 
-bool	parse_or(t_data *data, char *cmd, int *i, int start_args)
+// while (waitpid(-1, &data->exit_code, 0) != -1)
+// {
+// 	if (WIFEXITED(data->exit_code))
+// 		data->exit_status = WEXITSTATUS(data->exit_code);
+// }
+	// data->flags->redir_out = false;
+	// data->flags->redir_append = false;
+	// data->flags->redir_in = false;
+bool	parse_or(t_data *data, int *i, int start_args)
 {
-	// while (waitpid(-1, &data->exit_code, 0) != -1)
-	// {
-	// 	if (WIFEXITED(data->exit_code))
-	// 		data->exit_status = WEXITSTATUS(data->exit_code);
-	// }
 	if ((*i) != start_args)
 		return (true);
 	data->flags->or = true;
@@ -43,13 +46,17 @@ bool	parse_or(t_data *data, char *cmd, int *i, int start_args)
 	return (true);
 }
 
-bool	parse_and(t_data *data, char *cmd, int *i, int start_args)
+// while (waitpid(-1, &data->exit_code, 0) != -1)
+// {
+// 	if (WIFEXITED(data->exit_code))
+// 		data->exit_status = WEXITSTATUS(data->exit_code);
+// }
+	// data->file_name2 = NULL;
+	// data->flags->redir_out = false;
+	// data->flags->redir_append = false;
+	// data->flags->redir_in = false;
+bool	parse_and(t_data *data, int *i, int start_args)
 {
-	// while (waitpid(-1, &data->exit_code, 0) != -1)
-	// {
-	// 	if (WIFEXITED(data->exit_code))
-	// 		data->exit_status = WEXITSTATUS(data->exit_code);
-	// }
 	if ((*i) != start_args)
 		return (true);
 	data->flags->and = true;

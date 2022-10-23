@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 14:36:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/15 14:58:14 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 11:03:22 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	**match_files(t_data *data, char *to_be_extended, int *indexes)
 	struct dirent	*dirent;
 
 	dirp = opendir(".");
-	files = (char **)ft_calloc(sizeof(char *), 100);
+	files = (char **)ft_calloc(sizeof(char *), enum_files("."));
 	i = 0;
 	dirent = readdir(dirp);
 	while (dirent)

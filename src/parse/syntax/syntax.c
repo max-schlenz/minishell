@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:51 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/18 18:22:15 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 14:53:41 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,21 +91,23 @@ static bool	syntax_err_consecutive(t_data *data, char *cmd, int *i, int *j)
 
 	ops = "|&><";
 	k = 0;
-	if (!ft_strncmp(cmd + (*i), "<<", 3))
+	if (!ft_strncmp(cmd + (*i), "<<", 2))
 	{
 		(*i)++;
 		return (true);
 	}
-	while (ops[(k)])
+	if (!ft_strncmp(cmd + (*i), ";;", 2))
+		return (err_msg(err_type(data, ';', 2, 0)));
+	while (ops[k])
 	{
 		if ((cmd[(*i)] == '&' || cmd[(*i)] == '|')
 			&& cmd[(*i) + 2] == ops[(*j)])
 			return (err_msg(err_type(data, ops[(*j)], 2, 0)));
 		else if ((cmd[(*i)] == '&' || cmd[(*i)] == '|'))
 			return (true);
-		else if (cmd[(*i) + 2] == ops[(k)])
-			return (err_msg(err_type(data, ops[(k)], 2, 0)));
-		(k)++;
+		else if (cmd[(*i) + 2] == ops[k])
+			return (err_msg(err_type(data, ops[k], 2, 0)));
+		k++;
 	}
 	return (true);
 }
@@ -114,12 +116,10 @@ bool	syntax_err(t_data *data, char *cmd)
 {
 	int		i;
 	int		j;
-	int		k;
 	char	*ops;
 
 	i = 0;
 	j = 0;
-	k = 0;
 	ops = "|&><";
 	while (cmd[i] && cmd[i + 1] && cmd[i + 2])
 	{

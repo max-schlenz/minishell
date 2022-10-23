@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 12:13:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/22 14:47:51 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 11:21:43 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,7 @@ void	exec_close_pipes(t_data *data)
 		if (data->fd_i == 0)
 			close (data->pipes->pipefd[0][1]);
 		else if (data->fd_i < data->counter_pipes)
-		{
 			close (data->pipes->pipefd[data->fd_i - 1][0]);
-			// close (data->pipes->pipefd[data->fd_i - 1][0]);
-		}
 		else
 		{
 			i = 0;

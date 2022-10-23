@@ -6,14 +6,14 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/23 09:36:09 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 14:53:29 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// data->cmd = get_next_line(0);
-// data->cmd = ft_strtrim(data->cmd, "\n");
+	// data->cmd = get_next_line(0);
+	// data->cmd = ft_strtrim(data->cmd, "\n");
 static void	show_prompt(t_data *data)
 {
 	char	*cwd;
@@ -36,6 +36,8 @@ static bool	prompt_prep(t_data *data, char **tmp_cmd)
 {
 	history(data);
 	*tmp_cmd = pre_parse(data, data->cmd);
+	if (!(*tmp_cmd))
+		return (false);
 	if (!check_syntax(data, *tmp_cmd)
 		|| !syntax_err(data, *tmp_cmd)
 		|| !check_syntax_first_char(data, *tmp_cmd))
@@ -77,7 +79,9 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 	i = 0;
 	while (tmp_cmd[i] && tmp_cmd[0])
 	{
-		while (tmp_cmd[i] == ' ' || tmp_cmd[i] == ';')// || tmp_cmd[i] == '&')
+		while (tmp_cmd[i] == ' ' || tmp_cmd[i] == ';'
+			|| (tmp_cmd[i] && tmp_cmd[i + 1]
+				&& tmp_cmd[i] == '&' && tmp_cmd[i + 1] != '&'))
 			i++;
 		split_quotes(data, tmp_cmd, &i);
 		if (!i)

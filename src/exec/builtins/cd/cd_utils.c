@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 09:37:25 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/18 12:49:41 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 11:22:04 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,13 @@ void	cd_root(t_data *data)
 	chdir(home);
 	data->cd.new_pwd_tmp = ft_strdup("PWD=/root");
 	free(home);
+}
+
+void	cd_set_oldpwd(t_data *data)
+{
+	char	*oldpwd;
+
+	oldpwd = merge_str(2, ft_strdup("OLDPWD="), getcwd(NULL, 0));
+	builtin_export(data, oldpwd);
+	free_str(1, oldpwd);
 }

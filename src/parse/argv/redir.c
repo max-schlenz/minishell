@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 21:31:35 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/23 09:31:11 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 14:55:19 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static bool	split_redir_redir_out(t_data *data)
 	data->flags->redir_append = false;
 	if (data->file_name2)
 	{
-		redirs_pipes_fopen(data, data->file_name2, 0);
+		tmp_fd = redirs_pipes_fopen(data, data->file_name2, 0);
 		close(tmp_fd);
 	}
 	return (false);
@@ -80,4 +80,14 @@ int	split_redir(t_data *data, char *cmd, int *i)
 			return (2);
 	}
 	return (0);
+}
+
+void	free_filenames(t_data *data)
+{
+	if (data->file_name)
+		free_str(1, data->file_name);
+	if (data->file_name2)
+		free_str(1, data->file_name2);
+	if (data->file_name_append)
+		free_str(1, data->file_name_append);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:32:27 by tdehne            #+#    #+#             */
-/*   Updated: 2022/10/18 15:02:52 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/23 14:35:19 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,5 +122,7 @@ char	*pre_parse(t_data *data, char *cmd)
 		}
 		ops++;
 	}
+	if (i > 2 && !ft_strncmp(cmd + i - 2, ";;", 2))
+		return (err_msg(err_type(data, ';', 2, 0)), free(cmd), NULL);
 	return (cmd);
 }

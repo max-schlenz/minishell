@@ -6,21 +6,24 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:17:45 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/23 09:37:22 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 11:17:27 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	create_cfg(t_data *data)
+static void	check_cfg(t_data *data)
 {
 	int	fd;
 
-	fd = open(".mscfg", O_CREAT | O_RDWR, 0644);
-	if (!fd)
-		cleanup(data, E_RW);
-	write(fd, "COLOR=bc\n", 9);
-	close (fd);
+	if (access(CFG, F_OK))
+	{
+		fd = open(CFG, O_CREAT | O_RDWR, 0644);
+		if (!fd || access(CFG, F_OK))
+			cleanup(data, E_RW);
+		write(fd, "COLOR=bc\n", 9);
+		close (fd);
+	}
 }
 
 void	read_cfg_history(t_data *data, char *read_buf)
@@ -39,12 +42,11 @@ void	read_cfg(t_data *data)
 {
 	char	*read_buf;
 
-	if (access(".mscfg", F_OK))
-		create_cfg(data);
-	if (!access(".mscfg", F_OK))
+	check_cfg(data);
+	if (!access(CFG, F_OK))
 	{
-		data->mscfg = open(".mscfg", O_RDWR | O_APPEND, 0644);
-		if (!data->mscfg)
+		data->mscfg = open(CFG, O_RDWR | O_APPEND, 0644);
+		if (!data->mscfg || access(CFG, F_OK))
 			cleanup(data, E_RW);
 		read_buf = ft_strdup("42");
 		while (read_buf != NULL)
@@ -60,7 +62,6 @@ void	read_cfg(t_data *data)
 			else
 				continue ;
 		}
-		return ;
 	}
 	else
 		cleanup(data, E_RW);
@@ -75,7 +76,7 @@ bool	builtin_dbg(t_data *data)
 	data->flags->debug = !data->flags->debug;
 	if (data->flags->debug)
 	{
-		fd = open(".mscfg", O_RDWR, 0644);
+		fd = open(CFG, O_RDWR, 0644);
 		while (buf[0] != '\n')
 			read(fd, buf, 1);
 		write(fd, "DEBUG=1", 7);
@@ -83,7 +84,7 @@ bool	builtin_dbg(t_data *data)
 	}
 	else
 	{
-		fd = open(".mscfg", O_RDWR, 0644);
+		fd = open(CFG, O_RDWR, 0644);
 		while (buf[0] != '\n')
 			read(fd, buf, 1);
 		write(fd, "DEBUG=0", 7);

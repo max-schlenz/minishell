@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:29 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/17 21:20:53 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 11:33:41 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 bool	builtin_env(t_data *data)
 {
 	int		i;
-	char	*err;
 
 	i = 0;
 	if (!data->argv[1])

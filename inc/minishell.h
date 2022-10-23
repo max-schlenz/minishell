@@ -197,8 +197,8 @@ char			*get_var_content(t_data *data, char *var);
 
 //parse/argv/modifiers.c
 bool			parse_string(t_data *data, char *cmd, int i, bool end);
-bool			parse_or(t_data *data, char *cmd, int *i, int start_args);
-bool			parse_and(t_data *data, char *cmd, int *i, int start_args);
+bool			parse_or(t_data *data, int *i, int start_args);
+bool			parse_and(t_data *data, int *i, int start_args);
 bool			parse_pipes(t_data *data, int *i);
 bool			parse_redir_out(t_data *data, char *cmd, int *i);
 
@@ -297,5 +297,8 @@ bool			builtin_where(t_data *data);
 char			last_char(char *str);
 void			heredoc_set_flags(t_data *data);
 int				redirs_pipes_fopen(t_data *data, char *filename, int flags);
+int				enum_files(char *dir);
+void			cd_set_oldpwd(t_data *data);
+void			free_filenames(t_data *data);
 
 #endif

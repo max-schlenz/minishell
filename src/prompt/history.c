@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 10:13:35 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/23 09:31:48 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 11:38:05 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	history_clear(t_data *data, int fd)
 	tmp_cl[8] = '\0';
 	close (fd);
 	fd = open(CFG, O_RDWR | O_TRUNC);
-	if (!fd)
+	if (!fd || access(CFG, F_OK))
 		cleanup(data, E_RW);
 	write(fd, tmp_cl, 8);
 	write(fd, "\n", 1);
@@ -57,7 +57,7 @@ bool	builtin_history(t_data *data)
 	int		fd;
 
 	fd = open(CFG, O_RDONLY);
-	if (!fd)
+	if (!fd || access(CFG, F_OK))
 		cleanup(data, E_RW);
 	if (data->argv[1] && !ft_strncmp(data->argv[1], "-c", 2))
 		history_clear(data, fd);

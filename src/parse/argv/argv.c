@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/22 17:45:31 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 11:21:16 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@ static bool	split_parse(t_data *data, char *cmd, int *i, int start_args)
 		if (flag_redir == 2)
 			continue ;
 		if (split_pipe(data, cmd, i))
-		{
-			// write(2, "!", 1);
 			return (true);
-		}
 		split_esc(data, cmd, i);
 		split_qflags(data, cmd, i);
 		if (split_col(data, cmd, i))

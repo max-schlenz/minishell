@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:12:40 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/23 09:21:25 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 11:37:03 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char	*heredoc_get_cmd(char *str)
 {
-	int		i;
+	size_t		i;
 
 	i = ft_strlen(str) - 1;
 	while (i)
@@ -72,7 +72,7 @@ void	heredoc_prompt(t_data *data)
 	hd_tmp_i = ft_itoa(data->heredoc_index);
 	hd_tmp = ft_strjoin(".heredoc_tmp", hd_tmp_i);
 	hd_fd = open(hd_tmp, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (!hd_fd)
+	if (!hd_fd || access(hd_tmp, F_OK))
 		cleanup(data, E_RW);
 	free(hd_tmp);
 	free(hd_tmp_i);

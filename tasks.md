@@ -43,7 +43,6 @@ echo |&
 ls > "out file"
 ls > out;file
  > lul | echo lol
-match.c:110 (files = calloc number)
 
 export lol=lol && env | grep lol
 ls && env | grep lol

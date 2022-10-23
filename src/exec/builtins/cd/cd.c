@@ -6,29 +6,20 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/23 10:39:01 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 11:33:13 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static bool	cd_minus(t_data *data, int i)
+static bool	cd_minus(t_data *data)
 {
-	int		j;
 	char	*oldpwd;
 
 	oldpwd = get_var_content(data, "$OLDPWD");
 	if (ft_strlen(oldpwd) < 1)
 		return (data->cd.oldpwd_err = true, free(oldpwd), false);
 	data->argv[1] = str_realloc(data->argv[1], oldpwd, true);
-	// j = ft_strlen(data->envp[i] + 4);
-	// while (j && data->envp[i][j] != '/')
-	// 	j--;
-	// data->cd.path_tmp = ft_strdup("");
-	// data->cd.path_tmp_bs = ft_strdup("");
-	// // data->cd.path = ft_substr(data->envp[i], 4, j - 4);
-	// data->cd.path_tmp2 = ft_strdup(oldpwd);
-	// data->cd.new_pwd_tmp = ft_strjoin("PWD=", data->cd.path);
 	return (true);
 }
 
@@ -46,15 +37,6 @@ static void	cd_build_path(t_data *data, int i, bool absolute)
 		data->cd.path = ft_strjoin(data->cd.path_tmp_bs, data->cd.path_tmp2);
 		data->cd.new_pwd_tmp = ft_strjoin("PWD=", data->cd.path);
 	}
-}
-
-static void	cd_set_oldpwd(t_data *data)
-{
-	char	*oldpwd;
-
-	oldpwd = merge_str(2, ft_strdup("OLDPWD="), getcwd(NULL, 0));
-	builtin_export(data, oldpwd);
-	free_str(1, oldpwd);
 }
 
 static void	cd_chdir(t_data *data, int i)
@@ -85,7 +67,7 @@ static void	cd_chdir(t_data *data, int i)
 
 static bool	cd_def(t_data *data, int i)
 {
-	if (!ft_strncmp(data->argv[1], "-", 2) && !cd_minus(data, i))
+	if (!ft_strncmp(data->argv[1], "-", 2) && !cd_minus(data))
 		return (false);
 	data->cd.path_tmp2 = ft_strtrim(data->argv[1], " ");
 	if (data->argv[1][0] != '/')

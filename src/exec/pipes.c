@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 15:52:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/23 09:31:00 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 14:51:54 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,14 @@ int	redirs_pipes_fopen(t_data *data, char *filename, int flags)
 {
 	int	fd;
 
+	fd = 0;
 	if (!flags)
 		fd = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	else if (flags == 1)
 		fd = open(filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	else if (flags == 2)
 		fd = open(filename, O_RDONLY);
-	if (!fd)
+	if (!fd || access(filename, F_OK))
 		cleanup(data, E_RW);
 	return (fd);
 }
@@ -77,7 +78,6 @@ void	redirs_pipes(t_data *data)
 void	wait_for_childs(t_data *data)
 {
 	data->exit_code = 0;
-
 	if (data->flags->redir_out)
 	{
 		if (!open(data->file_name2, O_CREAT, 0644))

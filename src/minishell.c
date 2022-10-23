@@ -59,6 +59,7 @@ static void	init_prompt(t_data *data)
 	data->fd_i = 0;
 	data->pid = 1;
 	data->flags->f_esc = false;
+	free_filenames(data);
 }
 
 bool	count_pipes(t_data *data, char *cmd)

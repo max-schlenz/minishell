@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/23 10:25:27 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 13:29:07 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,11 @@ void	export_setv(t_data *data, char *setv)
 		while (data->envp[data->export.index_envp])
 		{
 			if (!ft_strncmp(data->envp[data->export.index_envp], \
-							setv, data->export.len))
+					setv, data->export.len))
+			{
 				export_set_existing(data, setv);
+				break ;
+			}
 			data->export.index_envp++;
 		}
 		if (!data->export.set && !data->envp[data->export.index_envp])
@@ -81,9 +84,9 @@ void	export_setv(t_data *data, char *setv)
 bool	builtin_export(t_data *data, char *setv)
 {
 	data->export.index_arg = 1;
-	data->export.set = false;
 	while (data->argc > 0 || setv)
 	{
+		data->export.set = false;
 		data->export.free_set = false;
 		if (!setv)
 		{

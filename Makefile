@@ -6,13 +6,14 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/22 13:09:09 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/23 13:04:27 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SHELL 			=	/bin/bash
 UNAME			=	$(shell uname)
 MAKEFLAGS 		=	--no-print-directory
+CFLAGS			=	-g -Wall -Wextra -Werror #-fsanitize=address 
 
 #FORMAT----------------------------------#
 DEFCL			=	$(shell echo -e "\033[0m")
@@ -27,8 +28,6 @@ CYAN			=	$(shell echo -e "\033[0;36m")
 BCYAN			=	$(shell echo -e "\033[1;36m")
 GRAY			=	$(shell echo -e "\033[0m\033[38;5;239m")
 # ---------------------------------------#
-
-FLAGS			= 	-g #-Wall -Wextra -Werror #-fsanitize=address 
 
 NAME			=	minishell
 
@@ -75,6 +74,7 @@ SRC				= 	${NAME}								\
 					parse/syntax/utils					\
 					parse/utils							\
 					parse/wildcards/cases				\
+					parse/wildcards/enum_files			\
 					parse/wildcards/match				\
 					parse/wildcards/utils				\
 					parse/wildcards/wildcards			\
@@ -115,7 +115,7 @@ MAC_LINKER		=	-L $(MAC_READLINE)/lib
 all: $(NAME)
 
 $(LIB_FILES): header
-	@echo -n "compiling:"
+	@echo -n "compiling..."
 	@touch .tmp
 	@$(MAKE) -C src/libft
 
@@ -144,21 +144,21 @@ $(OBJ_DIR):
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES) header_c 
 	@if [ ! -f .tmp ]; then														\
-		echo -n "compiling:";													\
+		echo -n "compiling...";												\
 		touch .tmp;\
 	fi
 	@echo -en "\\r		➜  ${BCYAN}$(NAME)${DEFCL}...    »  $@\033[K"
-	@$(CC) $(FLAGS) $(INCLUDES) $(MAC_INCLUDES) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDES) $(MAC_INCLUDES) -c $< -o $@
 	
 ifeq ($(UNAME), Darwin)
 $(NAME): $(MAC_BREW) $(MAC_READLINE) $(LIB_FILES) $(INC_FILES) $(OBJ_DIR) $(OBJ_FILES)
 	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}        ✔  ${BGREEN}./$(NAME)${DEFCL}\033[K\n"
-	@$(CC) $(FLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(MAC_INCLUDES) $(LINKER) $(MAC_LINKER)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(MAC_INCLUDES) $(LINKER) $(MAC_LINKER)
 	@rm -f .tmp
 else
 $(NAME): $(READLINE) $(LIB_FILES) $(INC_FILES) $(OBJ_DIR) $(OBJ_FILES)
 	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}        ✔  ${BGREEN}./$(NAME)${DEFCL}\033[K\n"
-	@$(CC) $(FLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(LINKER)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(LINKER)
 	@rm -f .tmp
 endif
 
@@ -177,27 +177,27 @@ $(MAC_READLINE):
 
 clean: header
 	@rm -f .header
-	@echo -en "cleaning objs:";
+	@echo -en "cleaning objs...";
 	@$(MAKE) clean -C src/libft
 	@if find $(OBJ_DIR) -type f -name '*.o' -delete > /dev/null 2>&1; then		\
-		echo -e "\\r		  $(NAME)   	   🗑  ${RED}$(OBJ_DIR)/${DEFCL}\033[K";\
+		echo -en "\\r		  $(NAME)   	   🗑  ${RED}$(OBJ_DIR)/${DEFCL}\033[K";\
 	fi
-	@echo -en "\n";
+	@echo -e "\n";
 	@if find $(OBJ_DIR) -type d -empty -delete > /dev/null 2>&1; then			\
 		:;																		\
 	fi
 
 fclean: clean header
-	@echo -en "cleaning bins:"
+	@echo -en "cleaning bins..."
 	@$(MAKE) fclean -C src/libft
+	@if find $(LIB_DIR) -type d -empty -delete > /dev/null 2>&1; then			\
+		:; \
+	fi
 	@if [ -f "${NAME}" ]; then													\
  		rm -f ${NAME};															\
-		echo -e "\\r		  $(NAME)   	   🗑  ${RED}./$(NAME)${DEFCL}\033[K"; \
+		echo -e "\\r		  $(NAME)   	   🗑  ${RED}$(NAME)${DEFCL}\033[K"; \
 	fi
-	@echo -en "\n"
-	@if find $(LIB_DIR) -type d -empty -delete > /dev/null 2>&1; then			\
-		:;																		\
-	fi
+	@echo -en "\n";
 
 header:
 	@if [ ! -f ".header" ]; then												\

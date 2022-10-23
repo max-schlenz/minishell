@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 23:32:59 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/18 11:36:57 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/23 11:34:24 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,8 @@ static void	*where_get_path(t_data *data, char *cmd)
 
 bool	builtin_where(t_data *data)
 {
-	int	i;
 	int	index_arg;
 
-	i = 0;
 	index_arg = 1;
 	while (data->argv[index_arg])
 		where_get_path(data, data->argv[index_arg++]);
