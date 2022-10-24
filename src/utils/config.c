@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:17:45 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/23 11:17:27 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/24 16:46:34 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,32 +67,32 @@ void	read_cfg(t_data *data)
 		cleanup(data, E_RW);
 }
 
-bool	builtin_dbg(t_data *data)
-{
-	int		fd;
-	char	buf[1];
+// bool	builtin_dbg(t_data *data)
+// {
+// 	int		fd;
+// 	char	buf[1];
 
-	buf[0] = '\0';
-	data->flags->debug = !data->flags->debug;
-	if (data->flags->debug)
-	{
-		fd = open(CFG, O_RDWR, 0644);
-		while (buf[0] != '\n')
-			read(fd, buf, 1);
-		write(fd, "DEBUG=1", 7);
-		printf("debug mode enabled\n");
-	}
-	else
-	{
-		fd = open(CFG, O_RDWR, 0644);
-		while (buf[0] != '\n')
-			read(fd, buf, 1);
-		write(fd, "DEBUG=0", 7);
-		printf("debug mode disabled\n");
-	}
-	close(fd);
-	return (true);
-}
+// 	buf[0] = '\0';
+// 	data->flags->debug = !data->flags->debug;
+// 	if (data->flags->debug)
+// 	{
+// 		fd = open(CFG, O_RDWR, 0644);
+// 		while (buf[0] != '\n')
+// 			read(fd, buf, 1);
+// 		write(fd, "DEBUG=1", 7);
+// 		printf("debug mode enabled\n");
+// 	}
+// 	else
+// 	{
+// 		fd = open(CFG, O_RDWR, 0644);
+// 		while (buf[0] != '\n')
+// 			read(fd, buf, 1);
+// 		write(fd, "DEBUG=0", 7);
+// 		printf("debug mode disabled\n");
+// 	}
+// 	close(fd);
+// 	return (true);
+// }
 
 int	strdiff(const char *s1, const char *s2)
 {

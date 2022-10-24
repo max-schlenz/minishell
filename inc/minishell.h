@@ -300,5 +300,6 @@ int				redirs_pipes_fopen(t_data *data, char *filename, int flags);
 int				enum_files(char *dir);
 void			cd_set_oldpwd(t_data *data);
 void			free_filenames(t_data *data);
+void			init_prompt(t_data *data);
 
 #endif

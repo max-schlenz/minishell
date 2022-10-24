@@ -44,9 +44,6 @@ ls > "out file"
 ls > out;file
  > lul | echo lol
 
-export lol=lol && env | grep lol
-ls && env | grep lol
-env | grep lol | echo lol && < x.txt cat | echo lol
-echo lol | ls | ls | grep t |  grep m | grep d && echo badusch -> falsch herum?
-
-from 70d4651 to 55fb419 -> redirs broken (but also fixed lul)
+< not_existing_infile cat
+ls > out && | 
+ls > out && x.txt < out
