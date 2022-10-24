@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 15:52:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/23 14:51:54 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/24 15:52:25 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,5 @@ void	wait_for_childs(t_data *data)
 	data->flags->pipe = false;
 	dup2(data->fd_stdout, STDOUT_FILENO);
 	close (data->fd_stdout);
+	close_pipes(data);
 }
