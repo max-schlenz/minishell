@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/20 11:20:32 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/24 13:48:18 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ all: create_dirs $(OBJ_PATH)
 obj/%.o : src/%.c 
 	@echo -en "\\r		➜  ${BCYAN}$(NAME)${DEFCL}...» $@\033[K"
 	@$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
-	@ar -rc $(LIBFT) $@
+#	@ar -rc $(LIBFT) $@
 
 create_dirs:
 	@mkdir -p $(OBJ_DIR)

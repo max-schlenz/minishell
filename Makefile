@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/23 13:04:27 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/24 13:52:09 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -117,7 +117,10 @@ all: $(NAME)
 $(LIB_FILES): header
 	@echo -n "compiling..."
 	@touch .tmp
-	@$(MAKE) -C src/libft
+	@$(MAKE) MAKEFLAGS+=-j8 CFLAGS+="$(CFLAGS)" -C src/libft
+	@$(MAKE) MAKEFLAGS+=-j8 CFLAGS+="$(CFLAGS)" -C src/libft/src/ft_printf
+	@$(MAKE) MAKEFLAGS+=-j8 CFLAGS+="$(CFLAGS)" -C src/libft/src/get_next_line
+	@ar -rc $(LIB_FILES) $$(find ./src/libft -type f -name '*.o')
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)

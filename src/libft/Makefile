@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/23 12:59:21 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/24 13:48:03 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,12 +52,12 @@ all: create_dirs $(OBJ_PATH) $(NAME)
 obj/%.o : src/%.c 
 	@echo -en "\\r		➜  $(BCYAN)libft${DEFCL}...        »  $@\033[K"
 	@$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
-	@ar -rc $(LIB_DIR)$(NAME) $@
+#	@ar -rc $(LIB_DIR)$(NAME) $@
 
 $(NAME): $(OBJ_PATH)
 	@echo -e "\\r${DEFCL}		  libft\033[K   	   ✔  ${GRAY}lib/$(NAME)${DEFCL}\t\t\033[K"
-	@$(MAKE) -C src/ft_printf
-	@$(MAKE) -C src/get_next_line
+# @$(MAKE) -C src/ft_printf
+# @$(MAKE) -C src/get_next_line
 
 create_dirs:
 	@mkdir -p $(OBJ_DIR)
