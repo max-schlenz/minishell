@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:19:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/24 16:53:06 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/24 18:37:19 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ bool	parse_string(t_data *data, char *cmd, int i, bool end)
 	// data->flags->redir_out = false;
 	// data->flags->redir_append = false;
 	// data->flags->redir_in = false;
+	// while (waitpid(-1, &data->exit_code, 0) != -1)
+	// {
+	// 	if (WIFEXITED(data->exit_code))
+	// 		data->exit_status = WEXITSTATUS(data->exit_code);
+	// }
 bool	parse_or(t_data *data, int *i, int start_args)
 {
 	if ((*i) != start_args)
@@ -37,11 +42,6 @@ bool	parse_or(t_data *data, int *i, int start_args)
 	data->flags->pipe = false;
 	(*i) += 3;
 	data->fd_i = 0;
-	// while (waitpid(-1, &data->exit_code, 0) != -1)
-	// {
-	// 	if (WIFEXITED(data->exit_code))
-	// 		data->exit_status = WEXITSTATUS(data->exit_code);
-	// }
 	wait_for_childs(data);
 	init_prompt(data);
 	data->counter_pipes = 0;
@@ -52,6 +52,11 @@ bool	parse_or(t_data *data, int *i, int start_args)
 	// data->flags->redir_out = false;
 	// data->flags->redir_append = false;
 	// data->flags->redir_in = false;
+	// while (waitpid(-1, &data->exit_code, 0) != -1)
+	// {
+	// 	if (WIFEXITED(data->exit_code))
+	// 		data->exit_status = WEXITSTATUS(data->exit_code);
+	// }
 bool	parse_and(t_data *data, int *i, int start_args)
 {
 	if ((*i) != start_args)
@@ -61,11 +66,6 @@ bool	parse_and(t_data *data, int *i, int start_args)
 	data->flags->pipe = false;
 	(*i) += 3;
 	data->fd_i = 0;
-	// while (waitpid(-1, &data->exit_code, 0) != -1)
-	// {
-	// 	if (WIFEXITED(data->exit_code))
-	// 		data->exit_status = WEXITSTATUS(data->exit_code);
-	// }
 	wait_for_childs(data);
 	init_prompt(data);
 	data->counter_pipes = 0;

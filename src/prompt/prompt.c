@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/24 16:35:07 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/25 02:19:14 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static bool	prompt_prep(t_data *data, char **tmp_cmd)
 		return (false);
 	if (!check_syntax(data, *tmp_cmd)
 		|| !syntax_err(data, *tmp_cmd)
-		|| !check_syntax_first_char(data, *tmp_cmd))
+		|| !check_syntax_first_char(data, *tmp_cmd)
+		|| !syntax_check_pipes_redirs(data, *tmp_cmd))
 	{
 		free(*tmp_cmd);
 		*tmp_cmd = NULL;

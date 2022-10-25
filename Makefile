@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/24 16:44:06 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/24 20:35:30 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -145,7 +145,7 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)/prompt/color
 	@mkdir -p $(OBJ_DIR)/utils
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES) header_c 
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c header_c 
 	@if [ ! -f .tmp ]; then														\
 		echo -n "compiling...";												\
 		touch .tmp;\
@@ -154,12 +154,12 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES) header_c
 	@$(CC) $(CFLAGS) $(INCLUDES) $(MAC_INCLUDES) -c $< -o $@
 	
 ifeq ($(UNAME), Darwin)
-$(NAME): $(MAC_BREW) $(MAC_READLINE) $(LIB_FILES) $(INC_FILES) $(OBJ_DIR) $(OBJ_FILES)
+$(NAME): $(MAC_BREW) $(MAC_READLINE) $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
 	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}        ✔  ${BGREEN}./$(NAME)${DEFCL}\033[K\n"
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(MAC_INCLUDES) $(LINKER) $(MAC_LINKER)
 	@rm -f .tmp
 else
-$(NAME): $(READLINE) $(LIB_FILES) $(INC_FILES) $(OBJ_DIR) $(OBJ_FILES)
+$(NAME): $(READLINE) $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
 	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}        ✔  ${BGREEN}./$(NAME)${DEFCL}\033[K\n"
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(LINKER)
 	@rm -f .tmp

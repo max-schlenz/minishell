@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 15:52:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/24 16:56:56 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/24 18:48:19 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	redirs_pipes(t_data *data)
 	}
 }
 
+	// dup2(data->fd_stdin, STDIN_FILENO);
+	// close (data->fd_stdin);
 void	wait_for_childs(t_data *data)
 {
 	data->exit_code = 0;
@@ -95,7 +97,5 @@ void	wait_for_childs(t_data *data)
 	data->flags->pipe = false;
 	dup2(data->fd_stdout, STDOUT_FILENO);
 	close (data->fd_stdout);
-	// dup2(data->fd_stdin, STDIN_FILENO);
-	// close (data->fd_stdin);
 	close_pipes(data);
 }

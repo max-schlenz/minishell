@@ -301,5 +301,6 @@ int				enum_files(char *dir);
 void			cd_set_oldpwd(t_data *data);
 void			free_filenames(t_data *data);
 void			init_prompt(t_data *data);
+bool			syntax_check_pipes_redirs(t_data *data, char *cmd);
 
 #endif

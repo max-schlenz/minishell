@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:51 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/23 14:53:41 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/24 20:51:53 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,37 @@ bool	syntax_err(t_data *data, char *cmd)
 		}
 		j = 0;
 		i++;
+	}
+	return (true);
+}
+
+bool	syntax_check_pipes_redirs(t_data *data, char *cmd)
+{
+	int		i;
+	int		j;
+	int		k;
+	char	*ops;
+	
+	i = 0;
+	j = 0;
+	k = 0;
+	ops = "|><";
+	while (ops[j])
+	{
+		while (cmd[i])
+		{
+			if (cmd[i] == ops[j])
+			{
+				k = i + 1;
+				while (cmd[k] && cmd[k] == ' ')
+					k++;
+				if (!cmd[k])
+					return (err_msg(err_type(data, *ops, 2, 0)));
+			}
+			i++;
+		}
+		i = 0;
+		j++;
 	}
 	return (true);
 }
