@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:23:56 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/22 15:55:08 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/25 08:28:47 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ bool	alloc_mem_array(t_data *data, char *cmd)
 	{
 		split_esc(data, cmd, &i);
 		split_qflags(data, cmd, &i);
+		split_subshell(data, cmd, &i);
 		if (!data->flags->f_dquote && !data->flags->f_squote
 			&& cmd[i] == ' ' && cmd[i + 1] && cmd[i + 1] != ' '
 			&& cmd[i + 1] != '|' && cmd[i + 1] != '&')
@@ -44,8 +45,7 @@ bool	alloc_mem_array(t_data *data, char *cmd)
 		return (true);
 	}
 	else
-		printf(E_NC_QUOTE);
-	return (false);
+		return (printf(E_NC_QUOTE), false);
 }
 
 void	split_qflags(t_data *data, char *cmd, int *i)

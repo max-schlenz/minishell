@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/24 20:35:30 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/25 08:03:45 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRC				= 	${NAME}								\
 					exec/builtins/exit/exit				\
 					exec/builtins/export/export			\
 					exec/builtins/export/utils			\
+					exec/builtins/export/subshell		\
 					exec/builtins/pwd/pwd				\
 					exec/builtins/unset/unset			\
 					exec/builtins/where/where			\
@@ -118,8 +119,6 @@ $(LIB_FILES): header
 	@echo -n "compiling..."
 	@touch .tmp
 	@$(MAKE) MAKEFLAGS+=-j8 CFLAGS+="$(CFLAGS)" -C src/libft
-	@$(MAKE) MAKEFLAGS+=-j8 CFLAGS+="$(CFLAGS)" -C src/libft/src/ft_printf
-	@$(MAKE) MAKEFLAGS+=-j8 CFLAGS+="$(CFLAGS)" -C src/libft/src/get_next_line
 	@ar -rc $(LIB_FILES) $$(find ./src/libft -type f -name '*.o')
 
 $(OBJ_DIR):

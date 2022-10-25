@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/23 13:29:07 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/25 07:55:22 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	export_setv(t_data *data, char *setv)
 	data->export.len = strlen_var(setv);
 	if (setv[data->export.len] == '=' && data->export.len < ft_strlen(setv) - 1)
 	{
+		if (export_subshell(data, setv))
+			return ;
 		while (data->envp[data->export.index_envp])
 		{
 			if (!ft_strncmp(data->envp[data->export.index_envp], \

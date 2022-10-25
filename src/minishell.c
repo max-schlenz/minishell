@@ -14,7 +14,7 @@
 
 // if (data->flags->pipe)
 // 	close_pipes(data);
-static void	clear_buffers(t_data *data)
+void	clear_buffers(t_data *data)
 {
 	data->argc = 0;
 	if (data->cmd)

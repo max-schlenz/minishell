@@ -302,5 +302,11 @@ void			cd_set_oldpwd(t_data *data);
 void			free_filenames(t_data *data);
 void			init_prompt(t_data *data);
 bool			syntax_check_pipes_redirs(t_data *data, char *cmd);
+void			clear_buffers(t_data *data);
+bool			export_subshell(t_data *data, char *setv);
+void			split_subshell(t_data *data, char *cmd, int *i);
+void			export_subshell_init(t_data *data);
+void			signal_handler_heredoc(int sig, siginfo_t *info, void *context);
+void			heredoc_sig(void);
 
 #endif

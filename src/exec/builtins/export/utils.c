@@ -6,11 +6,21 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 11:19:40 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 20:30:56 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/25 08:27:59 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+void	export_subshell_init(t_data *data)
+{
+	data->subshell.buf = NULL;
+	data->subshell.vcontent = NULL;
+	data->subshell.vname = NULL;
+	data->subshell.vname_eq = NULL;
+	data->subshell.var_tmp = NULL;
+	data->subshell.var = NULL;
+}
 
 bool	export_check_str(char *str)
 {

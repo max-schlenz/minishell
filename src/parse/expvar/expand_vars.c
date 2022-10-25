@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 09:46:57 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/17 22:31:22 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/25 08:30:28 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,21 @@ static bool	do_expand(t_data *data)
 	return (true);
 }
 
+static bool	expand_vars_or_no(t_data *data)
+{
+	if ((!data->flags->noenv
+			&& data->argv[data->expvar.i_arg][0] == '~'
+		&& (!ft_isalnum(data->argv[data->expvar.i_arg][1])
+		&& !data->expvar.f_dquote && !data->expvar.f_squote))
+		|| (data->argv[data->expvar.i_arg][data->expvar.i_char] == '$'
+		&& (data->argv[data->expvar.i_arg][data->expvar.i_char + 1])
+		&& (data->argv[data->expvar.i_arg][data->expvar.i_char + 1] != ' ')
+		&& (data->argv[data->expvar.i_arg][data->expvar.i_char + 1] != '(')
+	&& (!data->expvar.f_squote)))
+		return (true);
+	return (false);
+}
+
 static bool	expand_vars_handle_arg(t_data *data)
 {
 	if (data->argv[data->expvar.i_arg][data->expvar.i_char] == '\"')
@@ -96,14 +111,7 @@ static bool	expand_vars_handle_arg(t_data *data)
 			return (data->expvar.i_char += 2, true);
 		return (false);
 	}
-	if ((!data->flags->noenv
-			&& data->argv[data->expvar.i_arg][0] == '~'
-		&& (!ft_isalnum(data->argv[data->expvar.i_arg][1])
-		&& !data->expvar.f_dquote && !data->expvar.f_squote))
-		|| (data->argv[data->expvar.i_arg][data->expvar.i_char] == '$'
-		&& (data->argv[data->expvar.i_arg][data->expvar.i_char + 1])
-		&& (data->argv[data->expvar.i_arg][data->expvar.i_char + 1] != ' ')
-	&& (!data->expvar.f_squote)))
+	if (expand_vars_or_no(data))
 		return (do_expand(data));
 	if (data->argv[data->expvar.i_arg][data->expvar.i_char]
 		&& data->argv[data->expvar.i_arg][data->expvar.i_char + 1])

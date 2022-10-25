@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:51 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/24 20:51:53 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/25 08:44:38 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ bool	syntax_check_pipes_redirs(t_data *data, char *cmd)
 	int		j;
 	int		k;
 	char	*ops;
-	
+
 	i = 0;
 	j = 0;
 	k = 0;
