@@ -48,6 +48,4 @@ ls > out;file
 ls > out && | 
 ls > out && x.txt < out
 
-heredoc
-export/hd/in path var exp
-unset / path
+

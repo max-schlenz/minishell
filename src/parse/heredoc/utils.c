@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/25 09:37:39 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/25 16:16:15 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	wr_tmp_file(t_data *data)
 	{
 		data->hdoc.cmd_done
 			= ft_strjoin(data->hdoc.cmd_redir_file, data->hdoc.cmd_end);
+		printf("cmd:%s\n", data->hdoc.cmd_done);
 	}
 	data->hdoc.andor = false;
 }

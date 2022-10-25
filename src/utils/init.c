@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/25 08:46:01 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/25 14:41:56 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static void	init_dbg(t_data *data)
 void	init_vars(t_data *data)
 {
 	data->hdoc.quote = false;
-	data->flags->rndcl = false;
 	data->hdoc.andor = false;
 	data->hdoc.hd = false;
 	data->flags->debug = false;

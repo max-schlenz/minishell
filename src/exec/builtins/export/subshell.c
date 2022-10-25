@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 07:55:07 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/25 08:44:09 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/25 11:05:41 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ static void	export_subshell_fork(t_data *data, char *setv)
 
 bool	export_subshell(t_data *data, char *setv)
 {
-	int		fd;
 	int		fd_tmp;
 	pid_t	pid;
 	char	*var;

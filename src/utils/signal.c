@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 13:02:06 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/25 10:32:38 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/25 11:06:10 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	heredoc_sig(void)
 void	signal_handler_heredoc(int sig, siginfo_t *info, void *context)
 {
 	(void)context;
+	(void)info;
 	if (sig == SIGINT)
 	{
 		write(2, "\n", 1);
