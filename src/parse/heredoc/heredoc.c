@@ -6,11 +6,32 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/20 21:13:03 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/25 10:49:23 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+char	*heredoc_get_cmd(char *str)
+{
+	size_t		i;
+
+	i = ft_strlen(str) - 1;
+	while (i)
+	{
+		if (str[i] == '&' || str[i] == '|' || str[i] == '<' || str[i] == '>'
+			|| str[i] == ';' )
+		{
+			i += 2;
+			break ;
+		}
+		i--;
+	}
+	if (i <= ft_strlen(str))
+		return (ft_strdup(str + i));
+	else
+		return (NULL);
+}
 
 void	heredoc_set_flags(t_data *data)
 {

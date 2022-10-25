@@ -308,5 +308,6 @@ void			split_subshell(t_data *data, char *cmd, int *i);
 void			export_subshell_init(t_data *data);
 void			signal_handler_heredoc(int sig, siginfo_t *info, void *context);
 void			heredoc_sig(void);
+char			*heredoc_get_cmd(char *str);
 
 #endif

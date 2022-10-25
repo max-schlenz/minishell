@@ -6,32 +6,11 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:12:40 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/25 10:32:28 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/25 10:53:17 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-static char	*heredoc_get_cmd(char *str)
-{
-	size_t		i;
-
-	i = ft_strlen(str) - 1;
-	while (i)
-	{
-		if (str[i] == '&' || str[i] == '|' || str[i] == '<' || str[i] == '>'
-			|| str[i] == ';' )
-		{
-			i += 2;
-			break ;
-		}
-		i--;
-	}
-	if (i <= ft_strlen(str))
-		return (ft_strdup(str + i));
-	else
-		return (NULL);
-}
 
 static size_t	hd_strlen(char *str)
 {
@@ -62,9 +41,32 @@ static void	heredoc_prompt_output(t_data *data)
 	free_str (1, cmd);
 }
 
+static int	heredoc_prompt_create_tmp(t_data *data)
+{
+	char	*hd_tmp_i;
+	char	*hd_tmp;
+	int		hd_fd;
+
+	hd_tmp_i = ft_itoa(data->heredoc_index);
+	hd_tmp = ft_strjoin(".heredoc_tmp", hd_tmp_i);
+	hd_fd = open(hd_tmp, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (!hd_fd || access(hd_tmp, F_OK))
+	{
+		free_str (2, hd_tmp, hd_tmp_i);
+		cleanup(data, E_RW);
+	}
+	free_str (2, hd_tmp, hd_tmp_i);
+	return (hd_fd);
+}
+
 static void	heredoc_prompt_fork(t_data *data)
 {
+	char	*line;
+	int		hd_fd;
+
 	heredoc_sig();
+	hd_fd = heredoc_prompt_create_tmp(data);
+	line = ft_strdup("42");
 	while (ft_strncmp(data->hdoc.delim, line, ft_strlen(data->hdoc.delim)))
 	{
 		free(line);
@@ -76,30 +78,19 @@ static void	heredoc_prompt_fork(t_data *data)
 		if (ft_strncmp(data->hdoc.delim, line, ft_strlen(line)))
 			write(hd_fd, line, ft_strlen(line));
 	}
+	free_str(1, line);
+	close (hd_fd);
 	exit(0);
 }
 
 void	heredoc_prompt(t_data *data)
 {
-	char	*hd_tmp;
-	char	*hd_tmp_i;
-	int		hd_fd;
-	char	*line;
 	pid_t	pid;
 
-	hd_tmp_i = ft_itoa(data->heredoc_index);
-	hd_tmp = ft_strjoin(".heredoc_tmp", hd_tmp_i);
-	hd_fd = open(hd_tmp, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (!hd_fd || access(hd_tmp, F_OK))
-		cleanup(data, E_RW);
-	free_str (2, hd_tmp, hd_tmp_i);
-	line = ft_strdup("42");
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (!pid)
 		heredoc_prompt_fork(data);
-	waitpid(-1, NULL, 0);
+	waitpid(-1, &data->exit_code, 0);
 	signals(false);
-	free(line);
-	close (hd_fd);
 }
