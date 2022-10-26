@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 12:13:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/23 11:21:43 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/26 13:17:31 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ void	exec_set_flags(t_data *data)
 		data->file_name_append = NULL;
 		data->flags->redir_append = false;
 	}
-	if (data->flags->heredoc)
-		heredoc_set_flags(data);
 	if (data->flags->pipe && (data->flags->redir_out || data->flags->redir_in))
 		data->flags->pipe = false;
 }

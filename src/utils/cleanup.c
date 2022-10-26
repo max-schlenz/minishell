@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/23 09:21:17 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/26 13:11:29 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void	cleanup(t_data *data, int flag)
 	rl_clear_history();
 	if (data->pipes)
 		free(data->pipes);
-	free_hd(data);
 	if (data)
 		free(data);
 	ms_exit(flag, exit_status);

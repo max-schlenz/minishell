@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/25 16:16:15 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/26 13:12:08 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,36 +16,9 @@ void	wr_tmp_file(t_data *data)
 {
 	heredoc_prompt(data);
 	data->hdoc.hd_tmp_i = ft_itoa(data->heredoc_index);
-	data->hdoc.hd_tmp = ft_strjoin(".heredoc_tmp", data->hdoc.hd_tmp_i);
-	if (data->hdoc.andor)
-		data->hdoc.cmd_redir = ft_strjoin(data->hdoc.cmd, " < ");
-	else
-		data->hdoc.cmd_redir = ft_strjoin(data->hdoc.cmd_begin, " < ");
-	data->hdoc.cmd_redir_file
-		= ft_strjoin(data->hdoc.cmd_redir, data->hdoc.hd_tmp);
-	if (data->hdoc.andor)
-	{
-		data->hdoc.cmd_done1
-			= ft_strjoin(data->hdoc.cmd_redir_file, data->hdoc.cmd_end);
-		data->hdoc.cmd_done
-			= ft_strjoin(data->hdoc.cmd_begin, data->hdoc.cmd_done1);
-	}
-	else
-	{
-		data->hdoc.cmd_done
-			= ft_strjoin(data->hdoc.cmd_redir_file, data->hdoc.cmd_end);
-		printf("cmd:%s\n", data->hdoc.cmd_done);
-	}
-	data->hdoc.andor = false;
-}
-
-void	wr_new_cmd(t_data *data, char **cmd, int *i)
-{
-	free (*cmd);
-	*cmd = ft_strdup(data->hdoc.cmd_done);
+	data->hdoc.hd_tmp = ft_strjoin("< .heredoc_tmp", data->hdoc.hd_tmp_i);
 	data->heredoc_index++;
-	*i = 0;
-	data->hdoc.hd = false;
+	free_str(2, data->hdoc.delim, data->hdoc.hd_tmp_i);
 }
 
 void	init_hd(t_data *data)

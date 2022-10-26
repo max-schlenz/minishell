@@ -6,14 +6,14 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/25 11:05:08 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/26 13:22:00 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SHELL 			=	/bin/bash
 UNAME			=	$(shell uname)
 MAKEFLAGS 		=	--no-print-directory
-CFLAGS			=	-Wall -Wextra -Werror #-fsanitize=address 
+CFLAGS			=	-g -Wall -Wextra -Werror #-fsanitize=address 
 
 #FORMAT----------------------------------#
 DEFCL			=	$(shell echo -e "\033[0m")
@@ -65,7 +65,6 @@ SRC				= 	${NAME}								\
 					parse/expvar/get_var				\
 					parse/expvar/special_cases			\
 					parse/expvar/utils					\
-					parse/heredoc/cleanup				\
 					parse/heredoc/heredoc				\
 					parse/heredoc/prompt				\
 					parse/heredoc/utils					\
