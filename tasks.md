@@ -48,4 +48,4 @@ ls > out;file
 ls > out && | 
 ls > out && x.txt < out
 
-
+expand vars: $? could be way simpler.

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/25 07:46:28 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/26 16:32:43 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,6 @@ static bool	split_iter(char *cmd, int *i)
 	}
 	else
 		return (false);
-}
-
-void	split_subshell(t_data *data, char *cmd, int *i)
-{
-	size_t	popen;
-
-	popen = 0;
-	if (!data->flags->f_dquote && !data->flags->f_squote
-		&& cmd[*i] == '$' && cmd[(*i) + 1] && cmd[(*i) + 1] == '(')
-	{
-		(*i)++;
-		while (cmd[*i])
-		{
-			if (cmd[*i] == '(')
-				popen++;
-			if (cmd[*i] == ')')
-				popen--;
-			if (!popen)
-				break ;
-			(*i)++;
-		}
-	}
 }
 
 static bool	split_parse(t_data *data, char *cmd, int *i, int start_args)

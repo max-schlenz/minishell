@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:51 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/25 11:08:07 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/26 16:34:16 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ bool	check_syntax(t_data *data, char *cmd)
 	return (true);
 }
 
-static bool	syntax_err_consecutive(t_data *data, char *cmd, int *i, int *j)
+bool	syntax_err_consecutive(t_data *data, char *cmd, int *i, int *j)
 {
 	char	*ops;
 	int		k;
@@ -112,32 +112,6 @@ static bool	syntax_err_consecutive(t_data *data, char *cmd, int *i, int *j)
 	return (true);
 }
 
-bool	syntax_err(t_data *data, char *cmd)
-{
-	int		i;
-	int		j;
-	char	*ops;
-
-	i = 0;
-	j = 0;
-	ops = "|&><";
-	while (cmd[i] && cmd[i + 1] && cmd[i + 2])
-	{
-		while (ops[j])
-		{
-			if (cmd[i] == ops[j])
-			{
-				if (!syntax_err_consecutive(data, cmd, &i, &j))
-					return (false);
-			}
-			j++;
-		}
-		j = 0;
-		i++;
-	}
-	return (true);
-}
-
 bool	syntax_check_pipes_redirs(t_data *data, char *cmd)
 {
 	int		i;
@@ -145,12 +119,11 @@ bool	syntax_check_pipes_redirs(t_data *data, char *cmd)
 	int		k;
 	char	*ops;
 
-	i = 0;
 	j = 0;
-	k = 0;
 	ops = "|><";
 	while (ops[j])
 	{
+		i = 0;
 		while (cmd[i])
 		{
 			if (cmd[i] == ops[j])
@@ -163,7 +136,6 @@ bool	syntax_check_pipes_redirs(t_data *data, char *cmd)
 			}
 			i++;
 		}
-		i = 0;
 		j++;
 	}
 	return (true);

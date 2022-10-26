@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/26 16:08:52 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/26 16:33:04 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,10 +60,12 @@ SRC				= 	${NAME}								\
 					parse/argv/quote_escape				\
 					parse/argv/redir					\
 					parse/argv/utils					\
+					parse/argv/subshell					\
 					parse/envp							\
 					parse/expvar/expand_vars			\
 					parse/expvar/get_var				\
 					parse/expvar/special_cases			\
+					parse/expvar/check_var				\
 					parse/expvar/utils					\
 					parse/heredoc/heredoc				\
 					parse/heredoc/prompt				\
@@ -72,6 +74,7 @@ SRC				= 	${NAME}								\
 					parse/pre_parse/pre_parse			\
 					parse/pre_parse/utils				\
 					parse/syntax/syntax					\
+					parse/syntax/error					\
 					parse/syntax/utils					\
 					parse/utils							\
 					parse/wildcards/cases				\
