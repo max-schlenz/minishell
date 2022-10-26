@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/26 14:27:44 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/26 14:53:26 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static void	show_prompt(t_data *data)
 	prompt_cwd = ft_strjoin(data->prompt, cwd + ft_strlen(cwd) - i + 1);
 	prompt = ft_strjoin(prompt_cwd, PROMPT_SUFFIX);
 	free_str (2, prompt_cwd, cwd);
-	data->cmd = get_next_line(0);
-	data->cmd = ft_strtrim(data->cmd, "\n");
-	// data->cmd = readline(prompt);
+	// data->cmd = get_next_line(0);
+	// data->cmd = ft_strtrim(data->cmd, "\n");
+	data->cmd = readline(prompt);
 	free (prompt);
 }
 
@@ -50,7 +50,7 @@ static bool	prompt_prep(t_data *data, char **tmp_cmd)
 	*tmp_cmd = handle_heredoc(data, *tmp_cmd);
 	return (true);
 }
-
+	
 static void	prompt_exec(t_data *data)
 {
 	if ((data->flags->prompt_exec)

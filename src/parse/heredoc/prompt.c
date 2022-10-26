@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:12:40 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/26 13:16:53 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/26 15:35:31 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,30 @@ static int	heredoc_prompt_create_tmp(t_data *data)
 	return (hd_fd);
 }
 
+static char	*get_var_name(t_data *data, char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] && line[i] != ' ')
+		i++;
+	return (get_var_content(data, ft_substr(line, 0, i - 1)));
+}
+
+static char  *here_doc_get_var(t_data *data, char *line)
+{
+	char *var_name;
+
+	var_name = NULL;
+	while (*line)
+	{
+		if (*line == '$')
+			return(get_var_name(data, line));
+		line++;
+	}
+	return (var_name);
+}
+
 static void	heredoc_prompt_fork(t_data *data)
 {
 	char	*line;
@@ -52,6 +76,7 @@ static void	heredoc_prompt_fork(t_data *data)
 		line = get_next_line(0);
 		if (!line)
 			break ;
+		printf("%s\n",here_doc_get_var(data, line));
 		line[ft_strlen(line)] = '\0';
 		if (ft_strncmp(data->hdoc.delim, line, ft_strlen(line)))
 			write(hd_fd, line, ft_strlen(line));

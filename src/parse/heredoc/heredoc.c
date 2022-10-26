@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/26 13:21:53 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/26 14:58:28 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,26 @@ void	rm_tmp_files(t_data *data)
 	}
 }
 
-char	*heredoc_get_cmd(char *str)
-{
-	size_t		i;
+// char	*heredoc_get_cmd(char *str)
+// {
+// 	size_t		i;
 
-	i = ft_strlen(str) - 1;
-	while (i)
-	{
-		if (str[i] == '&' || str[i] == '|' || str[i] == '<' || str[i] == '>'
-			|| str[i] == ';' )
-		{
-			i += 2;
-			break ;
-		}
-		i--;
-	}
-	if (i <= ft_strlen(str))
-		return (ft_strdup(str + i));
-	else
-		return (NULL);
-}
+// 	i = ft_strlen(str) - 1;
+// 	while (i)
+// 	{
+// 		if (str[i] == '&' || str[i] == '|' || str[i] == '<' || str[i] == '>'
+// 			|| str[i] == ';' )
+// 		{
+// 			i += 2;
+// 			break ;
+// 		}
+// 		i--;
+// 	}
+// 	if (i <= ft_strlen(str))
+// 		return (ft_strdup(str + i));
+// 	else
+// 		return (NULL);
+// }
 
 char	*handle_heredoc(t_data *data, char *cmd)
 {
