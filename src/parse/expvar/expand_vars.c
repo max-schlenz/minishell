@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 09:46:57 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/25 08:30:28 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/26 14:21:11 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ static bool	expand_vars_or_no(t_data *data)
 		&& (data->argv[data->expvar.i_arg][data->expvar.i_char + 1])
 		&& (data->argv[data->expvar.i_arg][data->expvar.i_char + 1] != ' ')
 		&& (data->argv[data->expvar.i_arg][data->expvar.i_char + 1] != '(')
+		&& (data->argv[data->expvar.i_arg][data->expvar.i_char + 1] != '=')
+		&& (data->argv[data->expvar.i_arg][data->expvar.i_char + 1] != '"')
 	&& (!data->expvar.f_squote)))
 		return (true);
 	return (false);
