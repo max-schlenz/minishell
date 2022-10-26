@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/26 13:22:00 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/26 16:08:52 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,7 @@ SRC				= 	${NAME}								\
 					parse/expvar/utils					\
 					parse/heredoc/heredoc				\
 					parse/heredoc/prompt				\
+					parse/heredoc/vars					\
 					parse/heredoc/utils					\
 					parse/pre_parse/pre_parse			\
 					parse/pre_parse/utils				\
