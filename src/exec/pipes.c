@@ -17,14 +17,14 @@ void	pipes(t_data *data)
 	int	i;
 
 	if (data->fd_i == 0)
-		dup2(data->pipes->pipefd[0][1], 1);
+		dup2(data->pipes->pipefd[0][1], STDOUT_FILENO);
 	else if (data->fd_i < data->counter_pipes)
 	{
-		dup2(data->pipes->pipefd[data->fd_i - 1][0], 0);
-		dup2(data->pipes->pipefd[data->fd_i][1], 1);
+		dup2(data->pipes->pipefd[data->fd_i - 1][0], STDIN_FILENO);
+		dup2(data->pipes->pipefd[data->fd_i][1], STDOUT_FILENO);
 	}
 	else
-		dup2(data->pipes->pipefd[data->fd_i - 1][0], 0);
+		dup2(data->pipes->pipefd[data->fd_i - 1][0], STDIN_FILENO);
 	i = 0;
 	while (i <= data->fd_i)
 	{
@@ -76,8 +76,6 @@ void	redirs_pipes(t_data *data)
 	}
 }
 
-	// dup2(data->fd_stdin, STDIN_FILENO);
-	// close (data->fd_stdin);
 void	wait_for_childs(t_data *data)
 {
 	data->exit_code = 0;

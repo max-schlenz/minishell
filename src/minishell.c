@@ -18,14 +18,11 @@ void	clear_buffers(t_data *data)
 {
 	data->argc = 0;
 	if (data->cmd)
-		free (data->cmd);
-	data->cmd = NULL;
+		free_str(1, data->cmd);
 	if (data->file_name)
-		free (data->file_name);
-	data->file_name = NULL;
+		free_str(1, data->file_name);
 	if (data->file_name2)
-		free (data->file_name2);
-	data->file_name2 = NULL;
+		free_str(1, data->file_name2);
 	rm_tmp_files(data);
 	data->flags->and = false;
 	data->flags->or = false;
@@ -90,7 +87,10 @@ static void	switches(t_data *data, int argc, char **argv)
 		cleanup(data, 0);
 	}
 	if (argc >= 2 && !ft_strncmp(argv[1], "-r", 3))
+	{
 		unlink(CFG);
+		cleanup(data, 0);
+	}
 }
 
 int	main(int argc, char **argv, char **envp)

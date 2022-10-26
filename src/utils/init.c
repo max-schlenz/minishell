@@ -59,12 +59,12 @@ t_data	*allocate_mem(void)
 
 	data = ft_calloc(1, sizeof(t_data));
 	if (!data)
-		ms_exit(1, 1);
+		ms_exit(E_MEM, 1);
 	data->pipes = ft_calloc(1, sizeof(t_pipes));
 	if (!data->pipes)
-		ms_exit(1, 1);
+		ms_exit(E_MEM, 1);
 	data->flags = ft_calloc(1, sizeof(t_flags));
 	if (!data->flags)
-		ms_exit(1, 1);
+		ms_exit(E_MEM, 1);
 	return (data);
 }

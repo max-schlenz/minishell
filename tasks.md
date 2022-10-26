@@ -47,5 +47,3 @@ ls > out;file
 < not_existing_infile cat
 ls > out && | 
 ls > out && x.txt < out
-
-expand vars: $? could be way simpler.
