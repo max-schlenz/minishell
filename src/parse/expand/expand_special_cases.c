@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   special_cases.c                                    :+:      :+:    :+:   */
+/*   expand_special_cases.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:04:39 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 16:20:37 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/27 17:43:37 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	expand_vars_exit(t_data *data)
 	data->expvar.vcontent = ft_itoa(data->exit_status);
 }
 
-void	expand_vars_shl(t_data *data)
+void	expand_vars_shell(t_data *data)
 {
 	data->expvar.i_char++;
 	free (data->expvar.vname);
@@ -30,7 +30,7 @@ void	expand_vars_shl(t_data *data)
 		data->expvar.vcontent = ft_strdup("");
 }
 
-void	expand_vars_ne(t_data *data)
+void	expand_vars_not_exist(t_data *data)
 {
 	data->expvar.str_after_v
 		= ft_strdup(data->argv[data->expvar.i_arg]

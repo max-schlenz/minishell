@@ -6,14 +6,14 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/26 16:33:04 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/27 17:26:05 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SHELL 			=	/bin/bash
 UNAME			=	$(shell uname)
 MAKEFLAGS 		=	--no-print-directory
-CFLAGS			=	-g -Wall -Wextra -Werror #-fsanitize=address 
+CFLAGS			=	-g #-Wall -Wextra -Werror #-fsanitize=address 
 
 #FORMAT----------------------------------#
 DEFCL			=	$(shell echo -e "\033[0m")
@@ -36,64 +36,65 @@ OBJ_DIR			=	obj
 LIB_DIR			=	lib
 INC_DIR			=	inc
 
-SRC				= 	${NAME}								\
-					debug								\
-					exec/builtins/cd/cd					\
-					exec/builtins/cd/cd_cleanup			\
-					exec/builtins/cd/cd_utils			\
-					exec/builtins/echo/echo				\
-					exec/builtins/env/env				\
-					exec/builtins/exit/exit				\
-					exec/builtins/export/export			\
-					exec/builtins/export/utils			\
-					exec/builtins/export/subshell		\
-					exec/builtins/pwd/pwd				\
-					exec/builtins/unset/unset			\
-					exec/builtins/where/where			\
-					exec/error							\
-					exec/exec							\
-					exec/pipes							\
-					exec/utils							\
-					parse/argv/argv						\
-					parse/argv/modifiers				\
-					parse/argv/ops						\
-					parse/argv/quote_escape				\
-					parse/argv/redir					\
-					parse/argv/utils					\
-					parse/argv/subshell					\
-					parse/envp							\
-					parse/expvar/expand_vars			\
-					parse/expvar/get_var				\
-					parse/expvar/special_cases			\
-					parse/expvar/check_var				\
-					parse/expvar/utils					\
-					parse/heredoc/heredoc				\
-					parse/heredoc/prompt				\
-					parse/heredoc/vars					\
-					parse/heredoc/utils					\
-					parse/pre_parse/pre_parse			\
-					parse/pre_parse/utils				\
-					parse/syntax/syntax					\
-					parse/syntax/error					\
-					parse/syntax/utils					\
-					parse/utils							\
-					parse/wildcards/cases				\
-					parse/wildcards/enum_files			\
-					parse/wildcards/match				\
-					parse/wildcards/utils				\
-					parse/wildcards/wildcards			\
-					prompt/color/color					\
-					prompt/color/utils					\
-					prompt/history						\
-					prompt/prio							\
-					prompt/prompt						\
-					prompt/utils						\
-					utils/cleanup						\
-					utils/config						\
-					utils/init							\
-					utils/merge_str						\
-					utils/signal						\
-					utils/utils							
+SRC				= 	${NAME}													\
+					debug													\
+					exec/builtins/cd/cd										\
+					exec/builtins/cd/cd_cleanup								\
+					exec/builtins/cd/cd_utils								\
+					exec/builtins/echo/echo									\
+					exec/builtins/env/env									\
+					exec/builtins/exit/exit									\
+					exec/builtins/export/export								\
+					exec/builtins/export/export_subshell					\
+					exec/builtins/export/export_utils						\
+					exec/builtins/pwd/pwd									\
+					exec/builtins/unset/unset								\
+					exec/builtins/where/where								\
+					exec/exec												\
+					exec/exec_error											\
+					exec/exec_pipes											\
+					exec/exec_utils											\
+					parse/expand/expand_check_var							\
+					parse/expand/expand_get_var								\
+					parse/expand/expand_special_cases						\
+					parse/expand/expand_utils								\
+					parse/expand/expand_vars								\
+					parse/parse_envp										\
+					parse/parse_utils										\
+					parse/setup/setup										\
+					parse/setup/setup_modifiers								\
+					parse/setup/setup_ops									\
+					parse/setup/setup_quote_escape							\
+					parse/setup/setup_redir									\
+					parse/setup/setup_subshell								\
+					parse/setup/setup_utils									\
+					parse/wildcards/wild_cases								\
+					parse/wildcards/wild_enum_files							\
+					parse/wildcards/wild_match								\
+					parse/wildcards/wild_utils								\
+					parse/wildcards/wildcards								\
+					pre_parse/heredoc/heredoc								\
+					pre_parse/heredoc/heredoc_prompt						\
+					pre_parse/heredoc/heredoc_utils							\
+					pre_parse/heredoc/heredoc_vars							\
+					pre_parse/pre_parse										\
+					pre_parse/pre_parse_utils								\
+					pre_parse/syntax/syntax									\
+					pre_parse/syntax/syntax_error							\
+					pre_parse/syntax/syntax_utils							\
+					prompt/color/color										\
+					prompt/color/color_utils								\
+					prompt/prompt											\
+					prompt/prompt_history									\
+					prompt/prompt_prio										\
+					prompt/prompt_utils										\
+					utils/cleanup											\
+					utils/config											\
+					utils/init												\
+					utils/merge_str											\
+					utils/signal											\
+					utils/utils												\
+
 
 INC				=	${NAME}								\
 					data								\
@@ -137,12 +138,12 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)/exec/builtins/unset
 	@mkdir -p $(OBJ_DIR)/exec/builtins/where
 	@mkdir -p $(OBJ_DIR)/parse
-	@mkdir -p $(OBJ_DIR)/parse/argv
-	@mkdir -p $(OBJ_DIR)/parse/expvar
-	@mkdir -p $(OBJ_DIR)/parse/heredoc
-	@mkdir -p $(OBJ_DIR)/parse/pre_parse
-	@mkdir -p $(OBJ_DIR)/parse/syntax
+	@mkdir -p $(OBJ_DIR)/parse/setup
+	@mkdir -p $(OBJ_DIR)/parse/expand
 	@mkdir -p $(OBJ_DIR)/parse/wildcards
+	@mkdir -p $(OBJ_DIR)/pre_parse
+	@mkdir -p $(OBJ_DIR)/pre_parse/heredoc
+	@mkdir -p $(OBJ_DIR)/pre_parse/syntax
 	@mkdir -p $(OBJ_DIR)/prompt
 	@mkdir -p $(OBJ_DIR)/prompt/color
 	@mkdir -p $(OBJ_DIR)/utils
@@ -218,6 +219,9 @@ header:
 
 header_c:
 	@rm -f .header
+
+test:
+	@cd tests && bash tester.sh a
 
 re: fclean all
 

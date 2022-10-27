@@ -79,9 +79,9 @@ size_t			strlen_var(const char *c);
 int				strdiff(const char *s1, const char *s2);
 
 //parse/argv.c
-bool			split_quotes(t_data *data, char *cmd, int *i);
+bool			setup_argv(t_data *data, char *cmd, int *i);
 bool			expand_vars(t_data *data);
-void			split_reset_flags(t_data *data);
+void			setup_reset_flags(t_data *data);
 
 //parse/syntax.c
 bool			check_syntax(t_data *data, char *cmd);
@@ -196,7 +196,7 @@ bool			check_var_exists(t_data *data, char *var);
 char			*get_var_content(t_data *data, char *var);
 
 //parse/argv/modifiers.c
-bool			parse_string(t_data *data, char *cmd, int i, bool end);
+bool			setup_argv_parse_arg(t_data *data, char *cmd, int i, bool end);
 bool			parse_or(t_data *data, int *i, int start_args);
 bool			parse_and(t_data *data, int *i, int start_args);
 bool			parse_pipes(t_data *data, int *i);
@@ -242,17 +242,17 @@ void			exec_close_pipes(t_data *data);
 void			exec_set_flags(t_data *data);
 
 //parse/argv/argv_redir
-int				split_redir(t_data *data, char *cmd, int *i);
+int				setup_redir(t_data *data, char *cmd, int *i);
 
 //parse/argv/argv_ops
-bool			split_andor(t_data *data, char *cmd, int *i, int start_args);
-bool			split_esc(t_data *data, char *cmd, int *i);
-bool			split_pipe(t_data *data, char *cmd, int *i);
-bool			split_col(t_data *data, char *cmd, int *i);
-bool			split_semicolon(t_data *data, char *cmd, int *i);
+bool			setup_andor(t_data *data, char *cmd, int *i, int start_args);
+bool			setup_esc(t_data *data, char *cmd, int *i);
+bool			setup_pipe(t_data *data, char *cmd, int *i);
+bool			setup_col(t_data *data, char *cmd, int *i);
+bool			setup_semicolon(t_data *data, char *cmd, int *i);
 
 //parse/argv/argv_utils
-void			split_qflags(t_data *data, char *cmd, int *i);
+void			setup_qflags(t_data *data, char *cmd, int *i);
 bool			alloc_mem_array(t_data *data, char *cmd);
 
 //parse/pre_parse/pre_parse
@@ -290,7 +290,7 @@ void			exec_program_create_fork(t_data *data, char *abs_path);
 // void			exec_program_create_fork(t_data *data);
 void			exec_error(t_data *data, int err, char *info, int exit);
 bool			builtin_error_invalid_op(char *err);
-bool			builtin_error(t_data *data, char *err);
+void			builtin_error(t_data *data, int err, char *info, int exit);
 
 bool			builtin_where(t_data *data);
 // bool			err_msg(t_data *data, char *setv, int err);
@@ -304,7 +304,7 @@ void			init_prompt(t_data *data);
 bool			syntax_check_pipes_redirs(t_data *data, char *cmd);
 void			clear_buffers(t_data *data);
 bool			export_subshell(t_data *data, char *setv);
-void			split_subshell(t_data *data, char *cmd, int *i);
+void			setup_subshell(t_data *data, char *cmd, int *i);
 void			export_subshell_init(t_data *data);
 void			signal_handler_heredoc(int sig, siginfo_t *info, void *context);
 void			heredoc_sig(void);

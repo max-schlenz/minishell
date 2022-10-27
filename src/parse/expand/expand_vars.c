@@ -48,7 +48,7 @@ static bool	do_expand(t_data *data)
 		expand_vars_exit(data);
 	else if (data->argv[data->expvar.i_arg][data->expvar.i_char + 1]
 		&& isnumeric(data->argv[data->expvar.i_arg][data->expvar.i_char + 1]))
-		expand_vars_shl(data);
+		expand_vars_shell(data);
 	else
 		data->expvar.vcontent = get_var_content(data, data->expvar.vname);
 	if (data->expvar.vcontent)

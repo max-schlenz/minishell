@@ -6,14 +6,12 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/26 16:28:41 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/27 17:06:24 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-	// data->cmd = get_next_line(0);
-	// data->cmd = ft_strtrim(data->cmd, "\n");
 static void	show_prompt(t_data *data)
 {
 	char	*cwd;
@@ -28,6 +26,8 @@ static void	show_prompt(t_data *data)
 	prompt_cwd = ft_strjoin(data->prompt, cwd + ft_strlen(cwd) - i + 1);
 	prompt = ft_strjoin(prompt_cwd, PROMPT_SUFFIX);
 	free_str (2, prompt_cwd, cwd);
+	// data->cmd = get_next_line(0);
+	// data->cmd = ft_strtrim(data->cmd, "\n");
 	data->cmd = readline(prompt);
 	free (prompt);
 }
@@ -84,7 +84,7 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 			|| (tmp_cmd[i] && tmp_cmd[i + 1]
 				&& tmp_cmd[i] == '&' && tmp_cmd[i + 1] != '&'))
 			i++;
-		split_quotes(data, tmp_cmd, &i);
+		setup_argv(data, tmp_cmd, &i);
 		if (!i)
 		{
 			free_array(data->argv);

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 12:13:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/26 13:17:31 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/27 17:35:26 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-bool	is_builtin(t_data *data)
+bool	exec_is_builtin(t_data *data)
 {
 	if (!ft_strncmp(data->argv[0], "exit", 5) \
 	|| !ft_strncmp(data->argv[0], "cd", 3) \
@@ -58,19 +58,19 @@ void	exec_set_flags(t_data *data)
 		data->fd_i++;
 	if (data->flags->redir_out)
 	{
-		free_str(1, data->file_name2);
+		free (data->file_name2);
 		data->file_name2 = NULL;
 		data->flags->redir_out = false;
 	}
 	if (data->flags->redir_in)
 	{
-		free_str(1, data->file_name);
+		free (data->file_name);
 		data->file_name = NULL;
 		data->flags->redir_in = false;
 	}
 	if (data->flags->redir_append)
 	{
-		free_str(1, data->file_name_append);
+		free (data->file_name_append);
 		data->file_name_append = NULL;
 		data->flags->redir_append = false;
 	}
@@ -78,7 +78,7 @@ void	exec_set_flags(t_data *data)
 		data->flags->pipe = false;
 }
 
-bool	check_path(char *cmd)
+bool	exec_check_path(char *cmd)
 {
 	int	i;
 
@@ -92,13 +92,13 @@ bool	check_path(char *cmd)
 	return (true);
 }
 
-void	builtin_fork(t_data *data, bool flag)
+void	exec_builtin_fork(t_data *data, bool flag)
 {
 	if (!flag)
 	{
 		if (data->flags->pipe)
 			pipe(data->pipes->pipefd[data->fd_i]);
-		exec_program_create_fork(data, NULL);
+		exec_create_fork(data, NULL);
 	}
 	else if (flag)
 	{

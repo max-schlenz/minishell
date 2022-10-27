@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_var.c                                          :+:      :+:    :+:   */
+/*   expand_get_var.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:21:43 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/26 16:40:34 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/27 17:33:35 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char	*get_var_content(t_data *data, char *var)
+char	*expand_get_var_content(t_data *data, char *var)
 {
 	int			i;
 	size_t		len_var;

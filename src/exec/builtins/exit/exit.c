@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 11:22:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/19 11:18:38 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/27 15:01:58 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static bool	exit_err(t_data *data)
 
 bool	builtin_exit(t_data *data)
 {
-	write(2, "exit\n", 5);
+	// write(2, "exit\n", 6);
 	if (data->argc > 1)
 	{
 		write(2, E_TM_ARG, 27);

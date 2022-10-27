@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   modifiers.c                                        :+:      :+:    :+:   */
+/*   setup_modifiers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:19:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/24 18:37:19 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/27 17:46:13 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-bool	parse_string(t_data *data, char *cmd, int i, bool end)
+bool	setup_argv_parse_arg(t_data *data, char *cmd, int i, bool end)
 {
 	free(data->argv[data->parser.array_index]);
 	data->argv[data->parser.array_index] = NULL;
@@ -33,7 +33,7 @@ bool	parse_string(t_data *data, char *cmd, int i, bool end)
 	// 	if (WIFEXITED(data->exit_code))
 	// 		data->exit_status = WEXITSTATUS(data->exit_code);
 	// }
-bool	parse_or(t_data *data, int *i, int start_args)
+bool	setup_argv_is_or(t_data *data, int *i, int start_args)
 {
 	if ((*i) != start_args)
 		return (true);
@@ -42,7 +42,7 @@ bool	parse_or(t_data *data, int *i, int start_args)
 	data->flags->pipe = false;
 	(*i) += 3;
 	data->fd_i = 0;
-	wait_for_childs(data);
+	exec_wait_for_childs(data);
 	init_prompt(data);
 	data->counter_pipes = 0;
 	return (true);
@@ -57,7 +57,7 @@ bool	parse_or(t_data *data, int *i, int start_args)
 	// 	if (WIFEXITED(data->exit_code))
 	// 		data->exit_status = WEXITSTATUS(data->exit_code);
 	// }
-bool	parse_and(t_data *data, int *i, int start_args)
+bool	setup_argv_is_and(t_data *data, int *i, int start_args)
 {
 	if ((*i) != start_args)
 		return (true);
@@ -66,20 +66,20 @@ bool	parse_and(t_data *data, int *i, int start_args)
 	data->flags->pipe = false;
 	(*i) += 3;
 	data->fd_i = 0;
-	wait_for_childs(data);
+	exec_wait_for_childs(data);
 	init_prompt(data);
 	data->counter_pipes = 0;
 	return (true);
 }
 
-bool	parse_pipes(t_data *data, int *i)
+bool	setup_argv_is_pipes(t_data *data, int *i)
 {
 	data->flags->pipe = true;
 	(*i) += 2;
 	return (true);
 }
 
-bool	parse_redir_out(t_data *data, char *cmd, int *i)
+bool	setup_argv_is_redir_out(t_data *data, char *cmd, int *i)
 {
 	(*i) += 3;
 	data->flags->redir_append = true;

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:29 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/23 11:33:41 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/27 17:32:43 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ bool	builtin_env(t_data *data)
 		data->exit_status = 0;
 	}
 	else
-		builtin_error(data, data->argv[1]);
+		builtin_error(data, 4, data->argv[1], 2);
 	return (true);
 }

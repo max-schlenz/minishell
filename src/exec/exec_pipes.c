@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipes.c                                            :+:      :+:    :+:   */
+/*   exec_pipes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 15:52:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/24 18:48:19 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/27 17:27:09 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	pipes(t_data *data)
+void	exec_pipes(t_data *data)
 {
 	int	i;
 
@@ -33,7 +33,7 @@ void	pipes(t_data *data)
 	}
 }
 
-int	redirs_pipes_fopen(t_data *data, char *filename, int flags)
+int	exec_redirs_pipes_fopen(t_data *data, char *filename, int flags)
 {
 	int	fd;
 
@@ -50,7 +50,7 @@ int	redirs_pipes_fopen(t_data *data, char *filename, int flags)
 	return (fd);
 }
 
-void	redirs_pipes(t_data *data)
+void	exec_redirs_pipes(t_data *data)
 {
 	int		fd;
 
@@ -76,7 +76,7 @@ void	redirs_pipes(t_data *data)
 	}
 }
 
-void	wait_for_childs(t_data *data)
+void	exec_wait_for_childs(t_data *data)
 {
 	data->exit_code = 0;
 	if (data->flags->redir_out)

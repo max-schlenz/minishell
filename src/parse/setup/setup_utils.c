@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:23:56 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/25 08:28:47 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/27 16:59:47 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ bool	alloc_mem_array(t_data *data, char *cmd)
 
 	mem = 1;
 	i = 0;
-	split_reset_flags(data);
+	setup_reset_flags(data);
 	while (cmd[i])
 	{
-		split_esc(data, cmd, &i);
-		split_qflags(data, cmd, &i);
-		split_subshell(data, cmd, &i);
+		setup_esc(data, cmd, &i);
+		setup_qflags(data, cmd, &i);
+		setup_subshell(data, cmd, &i);
 		if (!data->flags->f_dquote && !data->flags->f_squote
 			&& cmd[i] == ' ' && cmd[i + 1] && cmd[i + 1] != ' '
 			&& cmd[i + 1] != '|' && cmd[i + 1] != '&')
@@ -48,7 +48,7 @@ bool	alloc_mem_array(t_data *data, char *cmd)
 		return (printf(E_NC_QUOTE), false);
 }
 
-void	split_qflags(t_data *data, char *cmd, int *i)
+void	setup_qflags(t_data *data, char *cmd, int *i)
 {
 	if (!data->flags->f_esc)
 	{
@@ -57,16 +57,6 @@ void	split_qflags(t_data *data, char *cmd, int *i)
 		if (cmd[*i] == '\'' && !data->flags->f_dquote)
 			data->flags->f_squote = !data->flags->f_squote;
 	}
-}
-
-static void	set_filenames_free(t_data *data, int flag)
-{
-	if (!flag && data->file_name)
-		free (data->file_name);
-	else if (flag == 1 && data->file_name2)
-		free (data->file_name2);
-	else if (flag == 2 && data->file_name_append)
-		free (data->file_name_append);
 }
 
 bool	set_filenames(t_data *data, int *i, char *cmd, int flag)
@@ -83,7 +73,6 @@ bool	set_filenames(t_data *data, int *i, char *cmd, int flag)
 	}
 	while (cmd[*i] && cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<')
 		(*i)++;
-	set_filenames_free(data, flag);
 	if (!flag)
 		data->file_name = ft_substr(cmd, start, *i - start);
 	else if (flag == 1)

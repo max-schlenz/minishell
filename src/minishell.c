@@ -20,9 +20,15 @@ void	clear_buffers(t_data *data)
 	if (data->cmd)
 		free_str(1, data->cmd);
 	if (data->file_name)
-		free_str(1, data->file_name);
+	{
+		free (data->file_name);
+		data->file_name = NULL;
+	}
 	if (data->file_name2)
-		free_str(1, data->file_name2);
+	{
+		free (data->file_name2);
+		data->file_name2 = NULL;
+	}
 	rm_tmp_files(data);
 	data->flags->and = false;
 	data->flags->or = false;

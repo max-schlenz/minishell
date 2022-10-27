@@ -1,35 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   subshell.c                                         :+:      :+:    :+:   */
+/*   expand_check_var.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/26 16:32:50 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/26 16:33:12 by mschlenz         ###   ########.fr       */
+/*   Created: 2022/10/26 16:31:50 by mschlenz          #+#    #+#             */
+/*   Updated: 2022/10/27 17:33:28 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	split_subshell(t_data *data, char *cmd, int *i)
+bool	expand_check_var_exists(t_data *data, char *var)
 {
-	size_t	popen;
+	int		i;
+	char	*tmp;
 
-	popen = 0;
-	if (!data->flags->f_dquote && !data->flags->f_squote
-		&& cmd[*i] == '$' && cmd[(*i) + 1] && cmd[(*i) + 1] == '(')
+	i = 0;
+	if ((var && (var[0] == '~' || !ft_strncmp(var, "$?", 2)))
+		|| (var && var[0] && var[1] && isnumeric(var[1])))
+		return (true);
+	tmp = ft_strjoin(var + 1, "=");
+	while (data->envp[i])
 	{
-		(*i)++;
-		while (cmd[*i])
+		if (!ft_strncmp(tmp, data->envp[i], ft_strlen(tmp)))
 		{
-			if (cmd[*i] == '(')
-				popen++;
-			if (cmd[*i] == ')')
-				popen--;
-			if (!popen)
-				break ;
-			(*i)++;
+			free(tmp);
+			return (true);
 		}
+		i++;
 	}
+	free(tmp);
+	return (false);
 }

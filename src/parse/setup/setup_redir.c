@@ -6,13 +6,13 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 21:31:35 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/27 13:25:36 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/27 16:59:47 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static bool	split_redir_files(t_data *data, char *cmd, int *i)
+static bool	setup_redir_files(t_data *data, char *cmd, int *i)
 {
 	if (!data->flags->redir_out)
 	{
@@ -28,7 +28,7 @@ static bool	split_redir_files(t_data *data, char *cmd, int *i)
 }
 
 // data->flags->redir_in = false;
-static bool	split_redir_redir_out(t_data *data)
+static bool	setup_redir_redir_out(t_data *data)
 {
 	int		tmp_fd;
 
@@ -42,7 +42,7 @@ static bool	split_redir_redir_out(t_data *data)
 	return (false);
 }
 
-static bool	split_redir_util(t_data *data, char *cmd, int *i)
+static bool	setup_redir_util(t_data *data, char *cmd, int *i)
 {
 	if (!data->flags->f_dquote && !data->flags->f_squote
 		&& !ft_strncmp(cmd + (*i), ">>", 2))
@@ -53,28 +53,28 @@ static bool	split_redir_util(t_data *data, char *cmd, int *i)
 		data->flags->redir_in = true;
 	(*i) += 2;
 	data->argv[data->parser.array_index] = NULL;
-	if (split_redir_files(data, cmd, i))
+	if (setup_redir_files(data, cmd, i))
 		return (true);
 	(*i)++;
 	if (cmd[*i] && cmd[*i] == '|')
 	{
-		if (split_pipe(data, cmd, i))
+		if (setup_pipe(data, cmd, i))
 			return (true);
 	}
 	if (cmd[*i] && cmd[*i] == '>')
 	{
-		split_redir_redir_out(data);
+		setup_redir_redir_out(data);
 		return (false);
 	}
 	return (true);
 }
 
-int	split_redir(t_data *data, char *cmd, int *i)
+int	setup_redir(t_data *data, char *cmd, int *i)
 {
 	if (!data->flags->f_dquote && !data->flags->f_squote && !data->flags->f_esc
 		&& (cmd[*i] == '>' || cmd[*i] == '<'))
 	{
-		if (split_redir_util(data, cmd, i))
+		if (setup_redir_util(data, cmd, i))
 			return (1);
 		else
 			return (2);
