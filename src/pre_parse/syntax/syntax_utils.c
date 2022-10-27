@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   syntax_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 22:03:49 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/25 11:08:04 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/27 22:51:30 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-bool	check_syntax_iter(char *cmd, int *i)
+bool	syntax_check_iter(char *cmd, int *i)
 {
 	if (cmd[(*i)] == '\'' || cmd[(*i)++] == '\"')
 	{
@@ -34,7 +34,7 @@ bool	*err_msg(char *err_c)
 	return (false);
 }
 
-char	*err_type(t_data *data, char c, int exit_status, int flag)
+char	*syntax_err_type(t_data *data, char c, int exit_status, int flag)
 {
 	char	err_c[3];
 
@@ -67,7 +67,7 @@ bool	syntax_err_msg(t_data *data, char *ops, int i)
 	return (false);
 }
 
-bool	check_syntax_helper(char *cmd, char *ops, int i)
+bool	syntax_check_helper(char *cmd, char *ops, int i)
 {
 	if (cmd[i] && cmd[i + 1] && cmd[i + 2] && cmd[i] == *ops
 		&& cmd[i + 1] == *ops && cmd[i + 2] == *ops)

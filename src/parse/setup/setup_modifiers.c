@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_modifiers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:19:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/27 17:46:13 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/27 23:33:08 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,8 @@ bool	setup_argv_is_redir_out(t_data *data, char *cmd, int *i)
 	(*i) += 3;
 	data->flags->redir_append = true;
 	setup_filenames(data, i, cmd, 2);
+	(*i)++;
+	if (cmd[*i] && cmd[*i] == '|')
+		setup_pipe(data, cmd, i);
 	return (true);
 }

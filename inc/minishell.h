@@ -261,8 +261,8 @@ bool		syntax_err(t_data *data, char *cmd);
 
 //pre_parse/syntax/syntax_utils.c
 bool		*err_msg(char *err_c);
-bool		check_syntax_helper(char *cmd, char *ops, int i);
-bool		check_syntax_iter(char *cmd, int *i);
+bool		syntax_check_helper(char *cmd, char *ops, int i);
+bool		syntax_check_iter(char *cmd, int *i);
 bool		syntax_err_msg(t_data *data, char *ops, int i);
 
 //prompt/color/color.c
@@ -310,7 +310,7 @@ char		*pre_parse_insert_space(t_data *data, char *cmd, int index);
 char		*pre_parse_skip_d(t_data *data, char *cmd, char delim);
 
 //pre_parse/syntax/syntax_utils.c
-char		*err_type(t_data *data, char c, int exit_status, int flag);
+char		*syntax_err_type(t_data *data, char c, int exit_status, int flag);
 
 //prompt/prompt_prio.c
 char		last_char(char *str);
@@ -591,11 +591,11 @@ t_data		*allocate_mem(void);
 // void			pre_parse_check_ops(t_data *data, char **cmd, char op, int i);
 
 // //parse/syntax/utils
-// bool			check_syntax_iter(char *cmd, int *i);
+// bool			syntax_check_iter(char *cmd, int *i);
 // bool			*err_msg(char *err_c);
-// char			*err_type(t_data *data, char c, int exit_status, int flag);
+// char			*syntax_err_type(t_data *data, char c, int exit_status, int flag);
 // bool			syntax_err_msg(t_data *data, char *ops, int i);
-// bool			check_syntax_helper(char *cmd, char *ops, int i);
+// bool			syntax_check_helper(char *cmd, char *ops, int i);
 
 // //utils/color/utils
 // void			color_cleanup(t_data *data);
