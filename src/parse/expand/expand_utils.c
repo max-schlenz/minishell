@@ -33,13 +33,13 @@ void	expand_vars_weird_special_case(t_data *data, bool flag)
 
 bool	v_ex(t_data *data)
 {
-	if (!check_var_exists(data, data->expvar.vname)
+	if (!expand_check_var_exists(data, data->expvar.vname)
 		&& data->argv[data->expvar.i_arg][data->expvar.i_char]
 		&& data->argv[data->expvar.i_arg][data->expvar.i_char + 1]
 		&& ft_strncmp(data->argv[data->expvar.i_arg]
 		+ data->expvar.i_char, "$?", 2))
 	{
-		expand_vars_ne(data);
+		expand_vars_not_exist(data);
 		return (true);
 	}
 	return (false);

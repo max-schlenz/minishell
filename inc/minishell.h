@@ -36,280 +36,611 @@
 # define CFG ".mscfg"
 # define DBG ".debug"
 
-//	init.c
-void			init_vars(t_data *data);
-t_data			*allocate_mem(void);
-void			open_pipes(t_data *data);
+//debug.c
+void		dbg(t_data *data);
 
-//parse/envp.c
-void			parse_envp(t_data *data, char **envp);
-void			parse_path(t_data *data);
-void			sort_array(t_data *data);
-int				strcmp_alnum(const char *s1, const char *s2);
+//exec/builtins/builtin_error.c
+void		builtin_error(t_data *data, int err, char *info, int exit);
 
-//utils/cleanup.c
-void			cleanup(t_data *data, int flag);
-void			ms_exit(t_status flag, int exit_status);
-void			free_array(char **array);
-void			close_pipes(t_data *data);
+//exec/builtins/cd/cd_cleanup.c
+void		free_cd(t_data *data);
+void		init_cd(t_data *data, int *index_pwd);
 
-//utils/utils.c
-void			history(t_data *data);
+//exec/builtins/cd/cd_utils.c
+void		cd_root(t_data *data);
+void		cd_set_oldpwd(t_data *data);
 
-// this shouldn't even be in here but has to be for some reason
-void			rl_replace_line(const char *text, int clear_undo);
+//exec/builtins/export/export.c
+void		export_setv(t_data *data, char *setv);
 
-bool			exec_program(t_data *data);
-
-size_t			strlen_path(const char *c);
-bool			builtins(t_data *data);
-
-//parsing
-void			prioritization(t_data *data);
-void			make_btree(t_data *data);
-char			*check_esc_var_quo(const char *s);
-void			parse_args(t_data *data, int cmd_index);
-
-//parse/utils.c
-char			*get_next_special_char(char *str);
-size_t			strlen_path(const char *c);
-char			*check_esc_var_quo(const char *s);
-void			realloc_envp(t_data *data, char *newv, int flag);
-size_t			strlen_var(const char *c);
-int				strdiff(const char *s1, const char *s2);
-
-//parse/argv.c
-bool			setup_argv(t_data *data, char *cmd, int *i);
-bool			expand_vars(t_data *data);
-void			setup_reset_flags(t_data *data);
-
-//parse/syntax.c
-bool			check_syntax(t_data *data, char *cmd);
-bool			syntax_err(t_data *data, char *cmd);
-bool			check_syntax_first_char(t_data *data, char *cmd);
-
-//exec/builtins.c
-bool			builtin(t_data *data);
-bool			builtin_cd(t_data *data);
-bool			builtin_echo(t_data *data);
-bool			builtin_export(t_data *data, char *setv);
-bool			builtin_env(t_data *data);
-bool			builtin_pwd(t_data *data);
-bool			builtin_unset(t_data *data);
-bool			builtin_color(t_data *data, char *cfg);
+//exec/builtins/export/export_utils.c
+void		export_output(int len, char *name, char *val);
+void		export_subshell_init(t_data *data);
 
 //exec/exec.c
-void			pipes(t_data *data);
+void		exec_create_fork(t_data *data, char *abs_path);
 
-//utils/signal.c
-void			signal_handler(int signal, siginfo_t *info, void *context);
-void			signals(bool inter_active);
+//exec/exec_pipes.c
+void		exec_pipes(t_data *data);
+void		exec_redirs_pipes(t_data *data);
+void		exec_wait_for_childs(t_data *data);
+
+//exec/exec_utils.c
+void		exec_builtin_fork(t_data *data, bool flag);
+void		exec_close_pipes(t_data *data);
+void		exec_set_flags(t_data *data);
+
+//minishell.c
+void		clear_buffers(t_data *data);
+void		init_prompt(t_data *data);
+
+//parse/expand/expand_special_cases.c
+void		expand_vars_exit(t_data *data);
+void		expand_vars_not_exist(t_data *data);
+void		expand_vars_shell(t_data *data);
+
+//parse/expand/expand_utils.c
+void		expand_vars_init(t_data *data, bool flag);
+void		expand_vars_reset_flags(t_data *data);
+void		expand_vars_rm_mod(t_data *data);
+void		expand_vars_weird_special_case(t_data *data, bool flag);
+
+//parse/parse_envp.c
+void		init_envp(t_data *data);
+void		parse_envp(t_data *data, char **envp);
+void		parse_path(t_data *data);
+void		sort_array(t_data *data);
+
+//parse/parse_utils.c
+void		realloc_envp(t_data *data, char *newv, int flag);
+
+//parse/setup/setup.c
+void		setup_reset_flags(t_data *data);
+
+//parse/setup/setup_quote_escape.c
+void		remove_backslashes(t_data *data, int i_arg);
+void		remove_quotes(t_data *data, int i_arg);
+
+//parse/setup/setup_quote_escape.c
+void		remove_quotes_write_argv(t_data *data, int i_arg, char *tmp);
+
+//parse/setup/setup_redir.c
+void		free_filenames(t_data *data);
+
+//parse/setup/setup_subshell.c
+void		setup_subshell(t_data *data, char *cmd, int *i);
+
+//parse/setup/setup_utils.c
+void		remove_quotes_init(t_data *data);
+void		setup_qflags(t_data *data, char *cmd, int *i);
+
+//parse/wildcards/wildcards.c
+void		get_all_names(t_data *data);
+
+//pre_parse/heredoc/heredoc.c
+void		rm_tmp_files(t_data *data);
+
+//pre_parse/heredoc/heredoc_prompt.c
+void		heredoc_prompt(t_data *data);
+
+//pre_parse/heredoc/heredoc_utils.c
+void		heredoc_free(t_data *data);
+void		heredoc_init(t_data *data);
+void		heredoc_wr_tmp_file(t_data *data);
+
+//pre_parse/pre_parse_utils.c
+void		pre_parse_check_ops(t_data *data, char **cmd, char op, int i);
+
+//prompt/color/color_utils.c
+void		color_cleanup(t_data *data);
+void		color_help(void);
+
+//prompt/prompt_history.c
+void		history(t_data *data);
+
+//prompt/prompt_prio.c
+void		prio(t_data *data, char *cmd, int *i);
+
+//prompt/prompt_utils.c
+void		priorities(t_data *data, char **tmp_cmd, int *i);
+
+//utils/cleanup.c
+void		cleanup(t_data *data, int flag);
+void		close_pipes(t_data *data);
+void		free_argv(t_data *data, char **array);
+void		free_array(char **array);
+void		ms_exit(t_status flag, int exit_status);
 
 //utils/config.c
-void			read_cfg(t_data *data);
+void		read_cfg(t_data *data);
+void		read_cfg_history(t_data *data, char *read_buf);
+//utils/init.c
+void		init_vars(t_data *data);
+void		open_pipes(t_data *data);
 
-//parse/wildcard.c
-char			*find_wc(t_data *data, char *cmd);
+//utils/merge_str.c
+void		free_str(int index, ...);
 
-//parse/pre parse
+//utils/signal.c
+void		heredoc_sig(void);
+void		signal_handler(int sig, siginfo_t *info, void *context);
+void		signal_handler_child(int sig, siginfo_t *info, void *context);
+void		signal_handler_heredoc(int sig, siginfo_t *info, void *context);
+void		signals(bool in_child);
 
-char			*pre_parse(t_data *data, char *cmd);
-char			*skip_d(t_data *data, char *cmd, char delim);
+//exec/builtins/cd/cd.c
+bool		builtin_cd(t_data *data);
 
-bool			count_pipes(t_data *data, char *cmd);
-char			*strrepc(char *cmd, char to_rep, char rep_with);
-char			*get_var_content(t_data *data, char *var);
-void			free_argv(t_data *data, char **array);
-int				isnumeric(int c);
-size_t			strlen_expv(const char *c);
+//exec/builtins/cd/cd_cleanup.c
+bool		cd_err(t_data *data);
+bool		cd_success(t_data *data, int i);
 
-int				*get_indexes(char *str);
+//exec/builtins/echo/echo.c
+bool		builtin_echo(t_data *data);
 
-void			get_all_names(t_data *data);
-void			redirs_pipes(t_data *data);
-void			reset_pipes_flags(t_data *data);
-int				isidentifier(int c);
-void			dbg(t_data *data);
-void			heredoc(t_data *data);
-long long		ms_atoll(t_data *data, const char *str);
-char			*strjoin_nl(char const *s1, char const *s2);
-void			wait_for_childs(t_data *data);
-bool			builtin_dbg(t_data *data);
-char			*get_path(t_data *data, char *cmd);
-bool			random_cl(t_data *data);
-bool			builtin_rcl(t_data *data);
-char			*handle_heredoc(t_data *data, char *cmd);
-void			heredoc_prompt(t_data *data);
-void			wr_tmp_file(t_data *data);
-void			wr_new_cmd(t_data *data, char **cmd, int *i);
-void			rm_tmp_files(t_data *data);
-void			init_hd(t_data *data);
-void			free_hd(t_data *data);
-char			*merge_str(int index, ...);
-void			free_str(int index, ...);
-char			*heredoc_delim(char *cmd, int i, int j);
-void			prio(t_data *data, char *cmd, int *i);
-void			builtin_fork(t_data *data, bool flag);
+//exec/builtins/env/env.c
+bool		builtin_env(t_data *data);
 
-char			*str_realloc(char *ptr, char *new, bool free_new);
-char			*strmv(char *new);
+//exec/builtins/exit/exit.c
+bool		builtin_exit(t_data *data);
 
-// utils/prompt.c
+//exec/builtins/export/export.c
+bool		builtin_export(t_data *data, char *setv);
 
-int				prompt(t_data *data, char *cmd, int flag);
+//exec/builtins/export/export_subshell.c
+bool		export_subshell(t_data *data, char *setv);
 
-// exec/builtins/cd/cd.c
-bool			builtin_cd(t_data *data);
-void			free_cd(t_data *data);
+//exec/builtins/export/export_utils.c
+bool		export_check_str(char *str);
+bool		export_var(t_data *data, char *setv);
 
-// exec/builtins/cd/cd_cleanup.c
-bool			cd_success(t_data *data, int i);
-void			init_cd(t_data *data, int *index_pwd);
-void			free_cd(t_data *data);
-bool			cd_err(t_data *data);
+//exec/builtins/pwd/pwd.c
+bool		builtin_pwd(t_data *data);
 
-// exec/builtins/cd/cd_utils.c
-size_t			cd_find_pwd(t_data *data);
-void			cd_root(t_data *data);
+//exec/builtins/unset/unset.c
+bool		builtin_unset(t_data *data);
 
-// exec/builtins/echo/echo.c
-bool			builtin_echo(t_data *data);
-void			remove_quotes(t_data *data, int i_arg);
-void			remove_backslashes(t_data *data, int i_arg);
+//exec/builtins/where/where.c
+bool		builtin_where(t_data *data);
 
-// parse/expvar/utils.c
-void			expand_vars_init(t_data *data, bool flag);
-void			expand_vars_rm_mod(t_data *data);
-void			expand_vars_reset_flags(t_data *data);
-void			expand_vars_weird_special_case(t_data *data, bool flag);
-bool			v_ex(t_data *data);
+//exec/exec.c
+bool		exec_program(t_data *data);
 
-// parse/expvar/special_cases.c
-void			expand_vars_ne(t_data *data);
-void			expand_vars_exit(t_data *data);
-void			expand_vars_shl(t_data *data);
+//exec/exec_utils.c
+bool		exec_check_path(char *cmd);
 
-//parse/expvar/expand_vars.c
-bool			check_var_exists(t_data *data, char *var);
+//exec/exec_utils.c
+bool		exec_is_builtin(t_data *data);
 
-//parse/expvar/get_var.c
-char			*get_var_content(t_data *data, char *var);
+//minishell.c
+bool		count_pipes(t_data *data, char *cmd);
 
-//parse/argv/modifiers.c
-bool			setup_argv_parse_arg(t_data *data, char *cmd, int i, bool end);
-bool			parse_or(t_data *data, int *i, int start_args);
-bool			parse_and(t_data *data, int *i, int start_args);
-bool			parse_pipes(t_data *data, int *i);
-bool			parse_redir_out(t_data *data, char *cmd, int *i);
+//parse/expand/expand_check_var.c
+bool		expand_check_var_exists(t_data *data, char *var);
 
-//parse/argv/quote_escape.c
-char			*rm_quotes_start(t_data *data, int *i, int i_arg, char *tmp);
-void			rm_quotes_wr_argv(t_data *data, int i_arg, char *tmp);
-char			*rm_quotes_mid(t_data *data, int *i, int i_arg, char *argv);
-void			remove_quotes(t_data *data, int i_arg);
-void			remove_backslashes(t_data *data, int i_arg);
+//parse/expand/expand_utils.c
+bool		v_ex(t_data *data);
 
-//parse/argv/utils.c
-bool			set_filenames(t_data *data, int *i, char *cmd, int flag);
-void			rm_quotes_init(t_data *data);
+//parse/expand/expand_vars.c
+bool		expand_vars(t_data *data);
 
-//utils/history.c
-bool			builtin_history(t_data *data);
+//parse/setup/setup.c
+bool		setup_argv(t_data *data, char *cmd, int *i);
 
-//src/exec/builtins/export/error.c
-bool			export_err_inv(t_data *data, char *setv);
-bool			export_err_con(t_data *data, char *setv);
-bool			export_err_op(t_data *data, char *setv);
+//parse/setup/setup_modifiers.c
+bool		setup_argv_is_and(t_data *data, int *i, int start_args);
+bool		setup_argv_is_or(t_data *data, int *i, int start_args);
+bool		setup_argv_is_pipe(t_data *data, int *i);
+bool		setup_argv_is_redir_out(t_data *data, char *cmd, int *i);
+bool		setup_argv_parse_arg(t_data *data, char *cmd, int i, bool end);
 
-//builtins/export/utils.c
-bool			export_check_str(char *str);
-bool			export_var(t_data *data, char *setv);
-void			export_output(int len, char *name, char *val);
+//parse/setup/setup_ops.c
+bool		setup_andor(t_data *data, char *cmd, int *i, int start_args);
+bool		setup_col(t_data *data, char *cmd, int *i);
+bool		setup_esc(t_data *data, char *cmd, int *i);
+bool		setup_pipe(t_data *data, char *cmd, int *i);
+bool		setup_semicolon(t_data *data, char *cmd, int *i);
 
-//builtins/export/export.c
-void			export_setv(t_data *data, char *setv);
+//parse/setup/setup_utils.c
+bool		setup_alloc_argv(t_data *data, char *cmd);
+bool		setup_filenames(t_data *data, int *i, char *cmd, int flag);
 
-//builtins/exit/exit.c
-bool			builtin_exit(t_data *data);
+//parse/wildcards/wild_cases.c
+bool		match_end(t_data *data, char *str, char *pattern);
+bool		match_inbetween(t_data *data, char *str, char *pattern);
+bool		match_start(t_data *data, char *str, char *pattern);
 
-//debug.c 							!REMOVE!
-void			dbg(t_data *data);
+//pre_parse/syntax/syntax.c
+bool		check_syntax(t_data *data, char *cmd);
+bool		check_syntax_first_char(t_data *data, char *cmd);
+bool		syntax_check_pipes_redirs(t_data *data, char *cmd);
+bool		syntax_err_consecutive(t_data *data, char *cmd, int *i, int *j);
 
-//exec/utils.c
-bool			is_builtin(t_data *data);
-bool			check_path(char *cmd);
-void			exec_close_pipes(t_data *data);
-void			exec_set_flags(t_data *data);
+//pre_parse/syntax/syntax_error.c
+bool		syntax_err(t_data *data, char *cmd);
 
-//parse/argv/argv_redir
-int				setup_redir(t_data *data, char *cmd, int *i);
+//pre_parse/syntax/syntax_utils.c
+bool		*err_msg(char *err_c);
+bool		check_syntax_helper(char *cmd, char *ops, int i);
+bool		check_syntax_iter(char *cmd, int *i);
+bool		syntax_err_msg(t_data *data, char *ops, int i);
 
-//parse/argv/argv_ops
-bool			setup_andor(t_data *data, char *cmd, int *i, int start_args);
-bool			setup_esc(t_data *data, char *cmd, int *i);
-bool			setup_pipe(t_data *data, char *cmd, int *i);
-bool			setup_col(t_data *data, char *cmd, int *i);
-bool			setup_semicolon(t_data *data, char *cmd, int *i);
+//prompt/color/color.c
+bool		builtin_color(t_data *data, char *cfg);
 
-//parse/argv/argv_utils
-void			setup_qflags(t_data *data, char *cmd, int *i);
-bool			alloc_mem_array(t_data *data, char *cmd);
+//prompt/prompt_history.c
+bool		builtin_history(t_data *data);
 
-//parse/pre_parse/pre_parse
-char			*insert_space(t_data *data, char *cmd, int index);
+//utils/utils.c
+bool		builtin(t_data *data);
 
-//parse/pre_parse/utils
-void			pre_parse_check_ops(t_data *data, char **cmd, char op, int i);
+//exec/exec.c
+char		*exec_get_path(t_data *data, char *cmd);
 
-//parse/syntax/utils
-bool			check_syntax_iter(char *cmd, int *i);
-bool			*err_msg(char *err_c);
-char			*err_type(t_data *data, char c, int exit_status, int flag);
-bool			syntax_err_msg(t_data *data, char *ops, int i);
-bool			check_syntax_helper(char *cmd, char *ops, int i);
+//parse/expand/expand_get_var.c
+char		*expand_get_var_content(t_data *data, char *var);
 
-//utils/color/utils
-void			color_cleanup(t_data *data);
-void			color_help(void);
+//parse/parse_utils.c
+char		*strjoin_nl(char const *s1, char const *s2);
 
-//utils/prompt/utils
-void			priorities(t_data *data, char **tmp_cmd, int *i);
+//parse/setup/setup_quote_escape.c
+char		*remove_quotes_mid(t_data *data, int *i, int i_arg, char *argv);
+char		*remove_quotes_start(t_data *data, int *i, int i_arg, char *tmp);
 
-//parse/wildcards/cases
-bool			match_end(t_data *data, char *str, char *pattern);
-bool			match_inbetween(t_data *data, char *str, char *pattern);
-bool			match_start(t_data *data, char *str, char *pattern);
+//parse/wildcards/wild_match.c
+char		**match_files(t_data *data, char *to_be_extended, int *indexes);
 
-//parse/wildcards/utils
-char			**realloc_argv(t_data *data, int argv_i, char *file, bool repl);
+//parse/wildcards/wild_utils.c
+char		**realloc_argv(t_data *data, int argv_i, char *file, bool repl);
+char		*delete_str(char *cmd, size_t start, size_t end);
 
-//parse/wildcards/match
-char			**match_files(t_data *data, char *to_be_extended, int *indexes);
+//pre_parse/heredoc/heredoc.c
+char		*handle_heredoc(t_data *data, char *cmd);
 
-void			exec_program_create_fork(t_data *data, char *abs_path);
-// void			exec_program_create_fork(t_data *data);
-void			exec_error(t_data *data, int err, char *info, int exit);
-bool			builtin_error_invalid_op(char *err);
-void			builtin_error(t_data *data, int err, char *info, int exit);
+//pre_parse/heredoc/heredoc_utils.c
+char		*heredoc_delim(char *cmd, int i, int j);
 
-bool			builtin_where(t_data *data);
-// bool			err_msg(t_data *data, char *setv, int err);
-char			last_char(char *str);
-void			heredoc_set_flags(t_data *data);
-int				redirs_pipes_fopen(t_data *data, char *filename, int flags);
-int				enum_files(char *dir);
-void			cd_set_oldpwd(t_data *data);
-void			free_filenames(t_data *data);
-void			init_prompt(t_data *data);
-bool			syntax_check_pipes_redirs(t_data *data, char *cmd);
-void			clear_buffers(t_data *data);
-bool			export_subshell(t_data *data, char *setv);
-void			setup_subshell(t_data *data, char *cmd, int *i);
-void			export_subshell_init(t_data *data);
-void			signal_handler_heredoc(int sig, siginfo_t *info, void *context);
-void			heredoc_sig(void);
-char			*heredoc_get_cmd(char *str);
-char			*heredoc_vars(t_data *data, char *line);
-bool			syntax_err_consecutive(t_data *data, char *cmd, int *i, int *j);
+//pre_parse/heredoc/heredoc_vars.c
+char		*heredoc_vars(t_data *data, char *line);
+
+//pre_parse/pre_parse.c
+char		*pre_parse(t_data *data, char *cmd);
+char		*pre_parse_rm_delim(t_data *data, char *cmd, int start, int end);
+char		*pre_parse_insert_space(t_data *data, char *cmd, int index);
+char		*pre_parse_skip_d(t_data *data, char *cmd, char delim);
+
+//pre_parse/syntax/syntax_utils.c
+char		*err_type(t_data *data, char c, int exit_status, int flag);
+
+//prompt/prompt_prio.c
+char		last_char(char *str);
+
+//utils/merge_str.c
+char		*merge_str(int index, ...);
+char		*str_realloc(char *ptr, char *new, bool free_new);
+
+//utils/utils.c
+char		*strmv(char *new);
+
+//exec/exec_pipes.c
+int			exec_redirs_pipes_fopen(t_data *data, char *filename, int flags);
+
+//minishell.c
+int			main(int argc, char **argv, char **envp);
+
+//parse/parse_utils.c
+int			strcmp_alnum(const char *s1, const char *s2);
+
+//parse/setup/setup_redir.c
+int			setup_redir(t_data *data, char *cmd, int *i);
+
+//parse/wildcards/wild_enum_files.c
+int			enum_files(char *dir);
+
+//parse/wildcards/wild_utils.c
+int			*get_indexes(char *str);
+int			len_argv(char **argv);
+int			num_wildcards(char *str);
+
+//prompt/prompt.c
+int			prompt(t_data *data, char *cmd, int flag);
+
+//utils/config.c
+int			strdiff(const char *s1, const char *s2);
+
+//utils/utils.c
+int			isidentifier(int c);
+int			isnumeric(int c);
+
+//exec/builtins/exit/exit.c
+long long	ms_atoll(t_data *data, const char *str);
+
+//exec/builtins/cd/cd_utils.c
+size_t		cd_find_pwd(t_data *data);
+
+//parse/parse_utils.c
+size_t		strlen_path(const char *c);
+size_t		strlen_var(const char *c);
+
+//utils/init.c
+t_data		*allocate_mem(void);
+
+// //	init.c
+// void			init_vars(t_data *data);
+// t_data			*allocate_mem(void);
+// void			open_pipes(t_data *data);
+
+// //parse/envp.c
+// void			parse_envp(t_data *data, char **envp);
+// void			parse_path(t_data *data);
+// void			sort_array(t_data *data);
+// int				strcmp_alnum(const char *s1, const char *s2);
+
+// //utils/cleanup.c
+// void			cleanup(t_data *data, int flag);
+// void			ms_exit(t_status flag, int exit_status);
+// void			free_array(char **array);
+// void			close_pipes(t_data *data);
+
+// //utils/utils.c
+// void			history(t_data *data);
+
+// // this shouldn't even be in here but has to be for some reason
+// void			rl_replace_line(const char *text, int clear_undo);
+
+// bool			exec_program(t_data *data);
+
+// size_t			strlen_path(const char *c);
+// bool			builtins(t_data *data);
+
+// //parsing
+// void			prioritization(t_data *data);
+// void			make_btree(t_data *data);
+// char			*check_esc_var_quo(const char *s);
+// void			parse_args(t_data *data, int cmd_index);
+
+// //parse/utils.c
+// char			*get_next_special_char(char *str);
+// size_t			strlen_path(const char *c);
+// char			*check_esc_var_quo(const char *s);
+// void			realloc_envp(t_data *data, char *newv, int flag);
+// size_t			strlen_var(const char *c);
+// int				strdiff(const char *s1, const char *s2);
+
+// //parse/argv.c
+// bool			setup_argv(t_data *data, char *cmd, int *i);
+// bool			expand_vars(t_data *data);
+// void			setup_reset_flags(t_data *data);
+
+// //parse/syntax.c
+// bool			check_syntax(t_data *data, char *cmd);
+// bool			syntax_err(t_data *data, char *cmd);
+// bool			check_syntax_first_char(t_data *data, char *cmd);
+
+// //exec/builtins.c
+// bool			builtin(t_data *data);
+// bool			builtin_cd(t_data *data);
+// bool			builtin_echo(t_data *data);
+// bool			builtin_export(t_data *data, char *setv);
+// bool			builtin_env(t_data *data);
+// bool			builtin_pwd(t_data *data);
+// bool			builtin_unset(t_data *data);
+// bool			builtin_color(t_data *data, char *cfg);
+
+// //exec/exec.c
+// void			pipes(t_data *data);
+
+// //utils/signal.c
+// void			signal_handler(int signal, siginfo_t *info, void *context);
+// void			signals(bool inter_active);
+
+// //utils/config.c
+// void			read_cfg(t_data *data);
+
+// //parse/wildcard.c
+// char			*find_wc(t_data *data, char *cmd);
+
+// //parse/pre parse
+
+// char			*pre_parse(t_data *data, char *cmd);
+// char			*skip_d(t_data *data, char *cmd, char delim);
+
+// bool			count_pipes(t_data *data, char *cmd);
+// char			*strrepc(char *cmd, char to_rep, char rep_with);
+// char			*get_var_content(t_data *data, char *var);
+// void			free_argv(t_data *data, char **array);
+// int				isnumeric(int c);
+// size_t			strlen_expv(const char *c);
+
+// int				*get_indexes(char *str);
+
+// void			get_all_names(t_data *data);
+// void			redirs_pipes(t_data *data);
+// void			reset_pipes_flags(t_data *data);
+// int				isidentifier(int c);
+// void			dbg(t_data *data);
+// void			heredoc(t_data *data);
+// long long		ms_atoll(t_data *data, const char *str);
+// char			*strjoin_nl(char const *s1, char const *s2);
+// void			wait_for_childs(t_data *data);
+// bool			builtin_dbg(t_data *data);
+// char			*get_path(t_data *data, char *cmd);
+// bool			random_cl(t_data *data);
+// bool			builtin_rcl(t_data *data);
+// char			*handle_heredoc(t_data *data, char *cmd);
+// void			heredoc_prompt(t_data *data);
+// void			wr_tmp_file(t_data *data);
+// void			wr_new_cmd(t_data *data, char **cmd, int *i);
+// void			rm_tmp_files(t_data *data);
+// void			init_hd(t_data *data);
+// void			free_hd(t_data *data);
+// char			*merge_str(int index, ...);
+// void			free_str(int index, ...);
+// char			*heredoc_delim(char *cmd, int i, int j);
+// void			prio(t_data *data, char *cmd, int *i);
+// void			builtin_fork(t_data *data, bool flag);
+
+// char			*str_realloc(char *ptr, char *new, bool free_new);
+// char			*strmv(char *new);
+
+// // utils/prompt.c
+
+// int				prompt(t_data *data, char *cmd, int flag);
+
+// // exec/builtins/cd/cd.c
+// bool			builtin_cd(t_data *data);
+// void			free_cd(t_data *data);
+
+// // exec/builtins/cd/cd_cleanup.c
+// bool			cd_success(t_data *data, int i);
+// void			init_cd(t_data *data, int *index_pwd);
+// void			free_cd(t_data *data);
+// bool			cd_err(t_data *data);
+
+// // exec/builtins/cd/cd_utils.c
+// size_t			cd_find_pwd(t_data *data);
+// void			cd_root(t_data *data);
+
+// // exec/builtins/echo/echo.c
+// bool			builtin_echo(t_data *data);
+// void			remove_quotes(t_data *data, int i_arg);
+// void			remove_backslashes(t_data *data, int i_arg);
+
+// // parse/expvar/utils.c
+// void			expand_vars_init(t_data *data, bool flag);
+// void			expand_vars_rm_mod(t_data *data);
+// void			expand_vars_reset_flags(t_data *data);
+// void			expand_vars_weird_special_case(t_data *data, bool flag);
+// bool			v_ex(t_data *data);
+
+// // parse/expvar/special_cases.c
+// void			expand_vars_ne(t_data *data);
+// void			expand_vars_exit(t_data *data);
+// void			expand_vars_shl(t_data *data);
+
+// //parse/expvar/expand_vars.c
+// bool			check_var_exists(t_data *data, char *var);
+
+// //parse/expvar/get_var.c
+// char			*get_var_content(t_data *data, char *var);
+
+// //parse/argv/modifiers.c
+// bool			setup_argv_parse_arg(t_data *data, char *cmd, int i, bool end);
+// bool			parse_or(t_data *data, int *i, int start_args);
+// bool			parse_and(t_data *data, int *i, int start_args);
+// bool			parse_pipes(t_data *data, int *i);
+// bool			parse_redir_out(t_data *data, char *cmd, int *i);
+
+// //parse/argv/quote_escape.c
+// char			*rm_quotes_start(t_data *data, int *i, int i_arg, char *tmp);
+// void			rm_quotes_wr_argv(t_data *data, int i_arg, char *tmp);
+// char			*rm_quotes_mid(t_data *data, int *i, int i_arg, char *argv);
+// void			remove_quotes(t_data *data, int i_arg);
+// void			remove_backslashes(t_data *data, int i_arg);
+
+// //parse/argv/utils.c
+// bool			set_filenames(t_data *data, int *i, char *cmd, int flag);
+// void			rm_quotes_init(t_data *data);
+
+// //utils/history.c
+// bool			builtin_history(t_data *data);
+
+// //src/exec/builtins/export/error.c
+// bool			export_err_inv(t_data *data, char *setv);
+// bool			export_err_con(t_data *data, char *setv);
+// bool			export_err_op(t_data *data, char *setv);
+
+// //builtins/export/utils.c
+// bool			export_check_str(char *str);
+// bool			export_var(t_data *data, char *setv);
+// void			export_output(int len, char *name, char *val);
+
+// //builtins/export/export.c
+// void			export_setv(t_data *data, char *setv);
+
+// //builtins/exit/exit.c
+// bool			builtin_exit(t_data *data);
+
+// //debug.c 							!REMOVE!
+// void			dbg(t_data *data);
+
+// //exec/utils.c
+// bool			is_builtin(t_data *data);
+// bool			check_path(char *cmd);
+// void			exec_close_pipes(t_data *data);
+// void			exec_set_flags(t_data *data);
+
+// //parse/argv/argv_redir
+// int				setup_redir(t_data *data, char *cmd, int *i);
+
+// //parse/argv/argv_ops
+// bool			setup_andor(t_data *data, char *cmd, int *i, int start_args);
+// bool			setup_esc(t_data *data, char *cmd, int *i);
+// bool			setup_pipe(t_data *data, char *cmd, int *i);
+// bool			setup_col(t_data *data, char *cmd, int *i);
+// bool			setup_semicolon(t_data *data, char *cmd, int *i);
+
+// //parse/argv/argv_utils
+// void			setup_qflags(t_data *data, char *cmd, int *i);
+// bool			alloc_mem_array(t_data *data, char *cmd);
+
+// //parse/pre_parse/pre_parse
+// char			*insert_space(t_data *data, char *cmd, int index);
+
+// //parse/pre_parse/utils
+// void			pre_parse_check_ops(t_data *data, char **cmd, char op, int i);
+
+// //parse/syntax/utils
+// bool			check_syntax_iter(char *cmd, int *i);
+// bool			*err_msg(char *err_c);
+// char			*err_type(t_data *data, char c, int exit_status, int flag);
+// bool			syntax_err_msg(t_data *data, char *ops, int i);
+// bool			check_syntax_helper(char *cmd, char *ops, int i);
+
+// //utils/color/utils
+// void			color_cleanup(t_data *data);
+// void			color_help(void);
+
+// //utils/prompt/utils
+// void			priorities(t_data *data, char **tmp_cmd, int *i);
+
+// //parse/wildcards/cases
+// bool			match_end(t_data *data, char *str, char *pattern);
+// bool			match_inbetween(t_data *data, char *str, char *pattern);
+// bool			match_start(t_data *data, char *str, char *pattern);
+
+// //parse/wildcards/utils
+// char			**realloc_argv(t_data *data, int argv_i, char *file, bool repl);
+
+// //parse/wildcards/match
+// char			**match_files(t_data *data, char *to_be_extended, int *indexes);
+
+// void			exec_program_create_fork(t_data *data, char *abs_path);
+// // void			exec_program_create_fork(t_data *data);
+// void			exec_error(t_data *data, int err, char *info, int exit);
+// bool			builtin_error_invalid_op(char *err);
+// void			builtin_error(t_data *data, int err, char *info, int exit);
+
+// bool			builtin_where(t_data *data);
+// // bool			err_msg(t_data *data, char *setv, int err);
+// char			last_char(char *str);
+// void			heredoc_set_flags(t_data *data);
+// int				redirs_pipes_fopen(t_data *data, char *filename, int flags);
+// int				enum_files(char *dir);
+// void			cd_set_oldpwd(t_data *data);
+// void			free_filenames(t_data *data);
+// void			init_prompt(t_data *data);
+// bool			syntax_check_pipes_redirs(t_data *data, char *cmd);
+// void			clear_buffers(t_data *data);
+// bool			export_subshell(t_data *data, char *setv);
+// void			setup_subshell(t_data *data, char *cmd, int *i);
+// void			export_subshell_init(t_data *data);
+// void			signal_handler_heredoc(int sig, siginfo_t *info, void *context);
+// void			heredoc_sig(void);
+// char			*heredoc_get_cmd(char *str);
+// char			*heredoc_vars(t_data *data, char *line);
+// bool			syntax_err_consecutive(t_data *data, char *cmd, int *i, int *j);
+// bool			exec_check_path(char *cmd);
+// void			exec_redirs_pipes(t_data *data);
 
 #endif

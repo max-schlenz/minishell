@@ -67,7 +67,7 @@ bool	export_var(t_data *data, char *setv)
 	else if (setv && !isidentifier(setv[0]))
 		err = 3;
 	if (err)
-		exec_error(data, err, setv, exit);
+		builtin_error(data, err, setv, exit);
 	else
 		export_setv(data, setv);
 	if (data->export.free_set)

@@ -27,7 +27,7 @@ static void	*where_get_path(t_data *data, char *cmd)
 		abs_path_tmp = ft_strjoin(data->path[i], "/");
 		cmd_trim = ft_strtrim(cmd, " ");
 		abs_path = merge_str(2, abs_path_tmp, cmd_trim);
-		if (!access(abs_path, F_OK) && check_path(abs_path))
+		if (!access(abs_path, F_OK) && exec_check_path(abs_path))
 			printf("%s\n", abs_path);
 		free (abs_path);
 		i++;

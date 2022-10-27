@@ -34,23 +34,6 @@ void	parse_path(t_data *data)
 				ft_strtrim(data->path[0], "PATH="), true);
 }
 
-int	strcmp_alnum(const char *s1, const char *s2)
-{
-	size_t	i;
-
-	i = 0;
-	if (!s1 || !s2)
-		return (0);
-	while (s1[i] != '\0' && s2[i] != '\0'
-		&& ft_isalnum(s1[i]) && ft_isalnum(s2[i]))
-	{
-		if (s1[i] != s2[i])
-			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
-	i++;
-	}
-	return (0);
-}
-
 void	sort_array(t_data *data)
 {
 	char	*tmp;
@@ -80,14 +63,14 @@ void	sort_array(t_data *data)
 	}
 }
 
-void	set_shlvl_env(t_data *data)
+void	init_envp(t_data *data)
 {
 	int		shlvl;
 	char	*shlvl_new;
 	char	*envv;
 	char	*pwd;
 
-	envv = get_var_content(data, "$SHLVL");
+	envv = expand_get_var_content(data, "$SHLVL");
 	shlvl = ft_atoi(envv) + 1;
 	free (envv);
 	shlvl_new = ft_itoa(shlvl);
@@ -122,6 +105,6 @@ void	parse_envp(t_data *data, char **envp)
 	}
 	data->envp[i] = NULL;
 	parse_path(data);
-	set_shlvl_env(data);
+	init_envp(data);
 	sort_array(data);
 }

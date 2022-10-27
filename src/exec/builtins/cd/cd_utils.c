@@ -26,7 +26,7 @@ void	cd_root(t_data *data)
 {
 	char	*home;
 
-	home = get_var_content(data, "$HOME");
+	home = expand_get_var_content(data, "$HOME");
 	chdir(home);
 	data->cd.new_pwd_tmp = ft_strdup("PWD=/root");
 	free(home);

@@ -55,22 +55,22 @@ void	exec_redirs_pipes(t_data *data)
 	int		fd;
 
 	if (data->counter_pipes > 0 && data->flags->pipe)
-		pipes(data);
+		exec_pipes(data);
 	if (data->flags->redir_out)
 	{
-		fd = redirs_pipes_fopen(data, data->file_name2, 0);
+		fd = exec_redirs_pipes_fopen(data, data->file_name2, 0);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
 	if (data->flags->redir_append)
 	{
-		fd = redirs_pipes_fopen(data, data->file_name_append, 1);
+		fd = exec_redirs_pipes_fopen(data, data->file_name_append, 1);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
 	if (data->flags->redir_in)
 	{
-		fd = redirs_pipes_fopen(data, data->file_name, 2);
+		fd = exec_redirs_pipes_fopen(data, data->file_name, 2);
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}

@@ -12,6 +12,8 @@
 
 #include <minishell.h>
 
+// data->cmd = get_next_line(0);
+// data->cmd = ft_strtrim(data->cmd, "\n");
 static void	show_prompt(t_data *data)
 {
 	char	*cwd;
@@ -26,8 +28,6 @@ static void	show_prompt(t_data *data)
 	prompt_cwd = ft_strjoin(data->prompt, cwd + ft_strlen(cwd) - i + 1);
 	prompt = ft_strjoin(prompt_cwd, PROMPT_SUFFIX);
 	free_str (2, prompt_cwd, cwd);
-	// data->cmd = get_next_line(0);
-	// data->cmd = ft_strtrim(data->cmd, "\n");
 	data->cmd = readline(prompt);
 	free (prompt);
 }
@@ -122,7 +122,7 @@ int	prompt(t_data *data, char *cmd, int flag)
 	else
 		return (0);
 	prompt_iter(data, tmp_cmd);
-	wait_for_childs(data);
+	exec_wait_for_childs(data);
 	signals(false);
 	free_str(1, tmp_cmd);
 	return (data->exit_status);

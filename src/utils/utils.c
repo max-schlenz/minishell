@@ -29,7 +29,7 @@ int	isidentifier(int c)
 static void	builtin_exec(t_data *data)
 {
 	if (!data->pid && data->flags->pipe)
-		redirs_pipes(data);
+		exec_redirs_pipes(data);
 	if (!ft_strncmp(data->argv[0], "exit", 5))
 		builtin_exit(data);
 	else if (!ft_strncmp(data->argv[0], "cd", 3))
@@ -54,15 +54,15 @@ static void	builtin_exec(t_data *data)
 
 bool	builtin(t_data *data)
 {
-	if (!is_builtin(data))
+	if (!exec_is_builtin(data))
 		return (false);
 	data->pid = 1;
 	if (data->argv[0])
 	{
 		if (data->flags->pipe)
-			builtin_fork(data, false);
+			exec_builtin_fork(data, false);
 		if (data->flags->redir_out)
-			redirs_pipes(data);
+			exec_redirs_pipes(data);
 		if ((data->flags->pipe && !data->pid) \
 		|| (!data->flags->pipe && data->pid))
 			builtin_exec(data);
@@ -70,7 +70,7 @@ bool	builtin(t_data *data)
 		{
 			if (!data->pid)
 				exit(0);
-			builtin_fork(data, true);
+			exec_builtin_fork(data, true);
 		}
 	}
 	return (true);

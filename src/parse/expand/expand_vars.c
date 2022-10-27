@@ -32,7 +32,7 @@ static void	expand_vars_join(t_data *data)
 		data->expvar.str_after_v, data->expvar.vcontent);
 }
 
-static bool	do_expand(t_data *data)
+static bool	expand(t_data *data)
 {
 	data->expvar.str_before_v
 		= ft_substr(data->argv[data->expvar.i_arg], 0, data->expvar.i_char);
@@ -50,7 +50,8 @@ static bool	do_expand(t_data *data)
 		&& isnumeric(data->argv[data->expvar.i_arg][data->expvar.i_char + 1]))
 		expand_vars_shell(data);
 	else
-		data->expvar.vcontent = get_var_content(data, data->expvar.vname);
+		data->expvar.vcontent
+			= expand_get_var_content(data, data->expvar.vname);
 	if (data->expvar.vcontent)
 		expand_vars_join(data);
 	free_str(2, data->expvar.str_before_v, data->expvar.vname);
@@ -61,16 +62,21 @@ static bool	do_expand(t_data *data)
 
 static bool	expand_vars_or_no(t_data *data)
 {
+	int		i;
+	char	*arg;
+
+	i = data->expvar.i_char;
+	arg = data->argv[data->expvar.i_arg];
 	if ((!data->flags->noenv
-			&& data->argv[data->expvar.i_arg][0] == '~'
-		&& (!ft_isalnum(data->argv[data->expvar.i_arg][1])
+		&& arg[0] == '~'
+		&& (!ft_isalnum(arg[1])
 		&& !data->expvar.f_dquote && !data->expvar.f_squote))
-		|| (data->argv[data->expvar.i_arg][data->expvar.i_char] == '$'
-		&& (data->argv[data->expvar.i_arg][data->expvar.i_char + 1])
-		&& (data->argv[data->expvar.i_arg][data->expvar.i_char + 1] != ' ')
-		&& (data->argv[data->expvar.i_arg][data->expvar.i_char + 1] != '(')
-		&& (data->argv[data->expvar.i_arg][data->expvar.i_char + 1] != '=')
-		&& (data->argv[data->expvar.i_arg][data->expvar.i_char + 1] != '"')
+		|| (arg[i] == '$'
+		&& (arg[i + 1])
+		&& (arg[i + 1] != ' ')
+		&& (arg[i + 1] != '(')
+		&& (arg[i + 1] != '=')
+		&& (arg[i + 1] != '"')
 	&& (!data->expvar.f_squote)))
 		return (true);
 	return (false);
@@ -78,22 +84,24 @@ static bool	expand_vars_or_no(t_data *data)
 
 static bool	expand_vars_handle_arg(t_data *data)
 {
-	if (data->argv[data->expvar.i_arg][data->expvar.i_char] == '\"')
+	size_t	i;
+	char	*arg;
+
+	i = data->expvar.i_char;
+	arg = data->argv[data->expvar.i_arg];
+	if (arg[i] == '\"')
 		data->expvar.f_dquote = !data->expvar.f_dquote;
-	if (data->argv[data->expvar.i_arg][data->expvar.i_char] == '\''
-		&& !data->expvar.f_dquote)
+	if (arg[i] == '\'' && !data->expvar.f_dquote)
 		data->expvar.f_squote = !data->expvar.f_squote;
-	if (data->argv[data->expvar.i_arg][data->expvar.i_char] == '\\')
+	if (arg[i] == '\\')
 	{
-		if (data->argv[data->expvar.i_arg][data->expvar.i_char + 1]
-		&& data->argv[data->expvar.i_arg][data->expvar.i_char + 2])
+		if (arg[i + 1] && arg[i + 2])
 			return (data->expvar.i_char += 2, true);
 		return (false);
 	}
 	if (expand_vars_or_no(data))
-		return (do_expand(data));
-	if (data->argv[data->expvar.i_arg][data->expvar.i_char]
-		&& data->argv[data->expvar.i_arg][data->expvar.i_char + 1])
+		return (expand(data));
+	if (arg[i] && arg[i + 1])
 		return (data->expvar.i_char++, true);
 	return (false);
 }

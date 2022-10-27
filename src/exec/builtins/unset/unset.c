@@ -34,21 +34,21 @@ static bool	builtin_unset_parse(t_data *data, int index_arg)
 
 	if (data->argv[index_arg][0] == '-')
 	{
-		exec_error(data, 4, data->argv[index_arg], 2);
+		builtin_error(data, 4, data->argv[index_arg], 2);
 		return (false);
 	}
 	i = 0;
 	if (!isidentifier(data->argv[index_arg][0])
 		|| ft_strchr(data->argv[index_arg], '='))
 	{
-		exec_error(data, 5, data->argv[index_arg], 1);
+		builtin_error(data, 5, data->argv[index_arg], 1);
 		return (false);
 	}
 	while (data->argv[index_arg][i])
 	{
 		if (!export_check_str(data->argv[index_arg]))
 		{
-			exec_error(data, 5, data->argv[index_arg], 1);
+			builtin_error(data, 5, data->argv[index_arg], 1);
 			return (false);
 		}
 		i++;

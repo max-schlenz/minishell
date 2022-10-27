@@ -39,7 +39,7 @@ void	init_vars(t_data *data)
 	data->path = NULL;
 	data->debug = NULL;
 	data->exit.max = 922337203685477580;
-	init_hd(data);
+	heredoc_init(data);
 	if (data->flags->debug)
 		init_dbg(data);
 }

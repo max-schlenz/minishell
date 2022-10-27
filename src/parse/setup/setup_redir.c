@@ -16,19 +16,19 @@ static bool	setup_redir_files(t_data *data, char *cmd, int *i)
 {
 	if (!data->flags->redir_out)
 	{
-		if (!set_filenames(data, i, cmd, 0))
+		if (!setup_filenames(data, i, cmd, 0))
 			return (true);
 	}
 	else
 	{
-		if (!set_filenames(data, i, cmd, 1))
+		if (!setup_filenames(data, i, cmd, 1))
 			return (true);
 	}
 	return (false);
 }
 
 // data->flags->redir_in = false;
-static bool	setup_redir_redir_out(t_data *data)
+static bool	setup_redir_out(t_data *data)
 {
 	int		tmp_fd;
 
@@ -36,7 +36,7 @@ static bool	setup_redir_redir_out(t_data *data)
 	data->flags->redir_append = false;
 	if (data->file_name2)
 	{
-		tmp_fd = redirs_pipes_fopen(data, data->file_name2, 0);
+		tmp_fd = exec_redirs_pipes_fopen(data, data->file_name2, 0);
 		close(tmp_fd);
 	}
 	return (false);
@@ -46,7 +46,7 @@ static bool	setup_redir_util(t_data *data, char *cmd, int *i)
 {
 	if (!data->flags->f_dquote && !data->flags->f_squote
 		&& !ft_strncmp(cmd + (*i), ">>", 2))
-		return (parse_redir_out(data, cmd, i));
+		return (setup_argv_is_redir_out(data, cmd, i));
 	else if (cmd[*i] == '>')
 		data->flags->redir_out = true;
 	else if (cmd[*i] == '<')
@@ -63,7 +63,7 @@ static bool	setup_redir_util(t_data *data, char *cmd, int *i)
 	}
 	if (cmd[*i] && cmd[*i] == '>')
 	{
-		setup_redir_redir_out(data);
+		setup_redir_out(data);
 		return (false);
 	}
 	return (true);

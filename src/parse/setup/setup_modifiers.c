@@ -72,7 +72,7 @@ bool	setup_argv_is_and(t_data *data, int *i, int start_args)
 	return (true);
 }
 
-bool	setup_argv_is_pipes(t_data *data, int *i)
+bool	setup_argv_is_pipe(t_data *data, int *i)
 {
 	data->flags->pipe = true;
 	(*i) += 2;
@@ -83,6 +83,6 @@ bool	setup_argv_is_redir_out(t_data *data, char *cmd, int *i)
 {
 	(*i) += 3;
 	data->flags->redir_append = true;
-	set_filenames(data, i, cmd, 2);
+	setup_filenames(data, i, cmd, 2);
 	return (true);
 }

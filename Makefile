@@ -51,7 +51,7 @@ SRC				= 	${NAME}													\
 					exec/builtins/unset/unset								\
 					exec/builtins/where/where								\
 					exec/exec												\
-					exec/exec_error											\
+					exec/builtins/builtin_error								\
 					exec/exec_pipes											\
 					exec/exec_utils											\
 					parse/expand/expand_check_var							\

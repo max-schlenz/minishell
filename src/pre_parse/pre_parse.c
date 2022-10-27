@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*insert_space(t_data *data, char *cmd, int index)
+char	*pre_parse_insert_space(t_data *data, char *cmd, int index)
 {
 	size_t	len;
 	char	*ret;
@@ -34,7 +34,7 @@ char	*insert_space(t_data *data, char *cmd, int index)
 	return (ret);
 }
 
-char	*delete_delim(t_data *data, char *cmd, int start_space, int end_space)
+char	*pre_parse_rm_delim(t_data *data, char *cmd, int start, int end)
 {
 	char	*ret;
 	int		len;
@@ -42,13 +42,13 @@ char	*delete_delim(t_data *data, char *cmd, int start_space, int end_space)
 	int		j;
 
 	len = ft_strlen(cmd);
-	ret = (char *)ft_calloc(sizeof(char), len - (start_space - end_space) + 1);
+	ret = (char *)ft_calloc(sizeof(char), len - (start - end) + 1);
 	i = 0;
 	j = 0;
 	while (cmd[i])
 	{
-		if (i == start_space)
-			i = end_space - 1;
+		if (i == start)
+			i = end - 1;
 		ret[j++] = cmd[i];
 		if (cmd[i] && cmd[i + 1])
 			i++;
@@ -61,7 +61,7 @@ char	*delete_delim(t_data *data, char *cmd, int start_space, int end_space)
 	return (ret);
 }
 
-static void	skip_delim(char *cmd, int *i, char delim)
+static void	pre_parse_skip_delim(char *cmd, int *i, char delim)
 {
 	while (cmd[*i] == delim)
 		(*i)++;
@@ -69,7 +69,7 @@ static void	skip_delim(char *cmd, int *i, char delim)
 		(*i)++;
 }
 
-char	*skip_d(t_data *data, char *cmd, char delim)
+char	*pre_parse_skip_d(t_data *data, char *cmd, char delim)
 {
 	char	*ret;
 
@@ -89,8 +89,8 @@ char	*skip_d(t_data *data, char *cmd, char delim)
 			&& !data->pparse.f_dquote && !data->pparse.f_squote)
 		{
 			data->pparse.j = data->pparse.i;
-			skip_delim(cmd, &data->pparse.j, delim);
-			cmd = delete_delim(data, cmd, data->pparse.i, data->pparse.j);
+			pre_parse_skip_delim(cmd, &data->pparse.j, delim);
+			cmd = pre_parse_rm_delim(data, cmd, data->pparse.i, data->pparse.j);
 		}
 		data->pparse.i++;
 	}
@@ -105,7 +105,7 @@ char	*pre_parse(t_data *data, char *cmd)
 
 	i = 0;
 	ops = "|&><";
-	cmd = skip_d(data, cmd, ' ');
+	cmd = pre_parse_skip_d(data, cmd, ' ');
 	data->cmd = NULL;
 	while (*ops)
 	{

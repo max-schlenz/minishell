@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-char	*rm_quotes_start(t_data *data, int *i, int i_arg, char *tmp)
+char	*remove_quotes_start(t_data *data, int *i, int i_arg, char *tmp)
 {
 	char	*str_before_q;
 	char	*str_wo_q;
@@ -41,7 +41,7 @@ char	*rm_quotes_start(t_data *data, int *i, int i_arg, char *tmp)
 	return (free_str(2, str_wo_q, str_before_q), ret);
 }
 
-void	rm_quotes_wr_argv(t_data *data, int i_arg, char *tmp)
+void	remove_quotes_write_argv(t_data *data, int i_arg, char *tmp)
 {
 	char	*argv;
 
@@ -56,7 +56,7 @@ void	rm_quotes_wr_argv(t_data *data, int i_arg, char *tmp)
 	free (argv);
 }
 
-char	*rm_quotes_mid(t_data *data, int *i, int i_arg, char *argv)
+char	*remove_quotes_mid(t_data *data, int *i, int i_arg, char *argv)
 {
 	char	*str_between;
 	char	*ret;
@@ -76,7 +76,7 @@ void	remove_quotes(t_data *data, int i_arg)
 	char	*argv;
 	int		i;
 
-	rm_quotes_init(data);
+	remove_quotes_init(data);
 	argv = NULL;
 	i = 0;
 	while (data->argv[i_arg][i] && data->argv[i_arg][i + 1])
@@ -87,16 +87,16 @@ void	remove_quotes(t_data *data, int i_arg)
 			&& (data->argv[i_arg][i] == '\"' || data->argv[i_arg][i] == '\''))
 		{
 			data->rmq.f_rmq = true;
-			argv = rm_quotes_start(data, &i, i_arg, argv);
+			argv = remove_quotes_start(data, &i, i_arg, argv);
 		}
 		else if (data->rmq.f_rmq)
-			argv = rm_quotes_mid(data, &i, i_arg, argv);
+			argv = remove_quotes_mid(data, &i, i_arg, argv);
 		data->rmq.start = 0;
 		if (data->argv[i_arg][i] && data->argv[i_arg][i + 1])
 			i++;
 	}
 	if (argv)
-		rm_quotes_wr_argv(data, i_arg, argv);
+		remove_quotes_write_argv(data, i_arg, argv);
 }
 
 void	remove_backslashes(t_data *data, int i_arg)

@@ -12,14 +12,7 @@
 
 #include <minishell.h>
 
-void	rm_quotes_init(t_data *data)
-{
-	data->rmq.start = 0;
-	data->rmq.end = 0;
-	data->rmq.f_rmq = false;
-}
-
-bool	alloc_mem_array(t_data *data, char *cmd)
+bool	setup_alloc_argv(t_data *data, char *cmd)
 {
 	int		mem;
 	int		i;
@@ -59,7 +52,7 @@ void	setup_qflags(t_data *data, char *cmd, int *i)
 	}
 }
 
-bool	set_filenames(t_data *data, int *i, char *cmd, int flag)
+bool	setup_filenames(t_data *data, int *i, char *cmd, int flag)
 {
 	size_t	start;
 
@@ -82,4 +75,11 @@ bool	set_filenames(t_data *data, int *i, char *cmd, int flag)
 	if (!cmd[*i])
 		return (false);
 	return (true);
+}
+
+void	remove_quotes_init(t_data *data)
+{
+	data->rmq.start = 0;
+	data->rmq.end = 0;
+	data->rmq.f_rmq = false;
 }

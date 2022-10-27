@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-void	wr_tmp_file(t_data *data)
+void	heredoc_wr_tmp_file(t_data *data)
 {
 	heredoc_prompt(data);
 	data->hdoc.hd_tmp_i = ft_itoa(data->heredoc_index);
@@ -21,7 +21,7 @@ void	wr_tmp_file(t_data *data)
 	free_str(2, data->hdoc.delim, data->hdoc.hd_tmp_i);
 }
 
-void	init_hd(t_data *data)
+void	heredoc_init(t_data *data)
 {
 	data->hdoc.cmd_begin = NULL;
 	data->hdoc.cmd = NULL;
@@ -35,7 +35,7 @@ void	init_hd(t_data *data)
 	data->hdoc.hd_tmp_i = NULL;
 }
 
-void	free_hd(t_data *data)
+void	heredoc_free(t_data *data)
 {
 	if (data->hdoc.cmd_begin)
 		free(data->hdoc.cmd_begin);
@@ -57,7 +57,7 @@ void	free_hd(t_data *data)
 		free(data->hdoc.hd_tmp);
 	if (data->hdoc.hd_tmp_i)
 		free(data->hdoc.hd_tmp_i);
-	init_hd(data);
+	heredoc_init(data);
 }
 
 char	*heredoc_delim(char *cmd, int i, int j)

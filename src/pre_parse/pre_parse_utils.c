@@ -16,8 +16,8 @@ void	pre_parse_check_ops(t_data *data, char **cmd, char op, int i)
 {
 	if ((*cmd) && (*cmd)[i] && (*cmd)[i + 1] && (*cmd)[i] != ' '
 		&& (*cmd)[i] != op && (*cmd)[i + 1] == op)
-		*cmd = insert_space(data, (*cmd), i);
+		*cmd = pre_parse_insert_space(data, (*cmd), i);
 	else if (*cmd && (*cmd)[i] && (*cmd)[i + 1] && (*cmd)[i + 1] != ' '
 		&& (*cmd)[i + 1] != op && (*cmd)[i] == op)
-		*cmd = insert_space(data, (*cmd), i);
+		*cmd = pre_parse_insert_space(data, (*cmd), i);
 }

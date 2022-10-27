@@ -16,7 +16,7 @@ static bool	cd_minus(t_data *data)
 {
 	char	*oldpwd;
 
-	oldpwd = get_var_content(data, "$OLDPWD");
+	oldpwd = expand_get_var_content(data, "$OLDPWD");
 	if (ft_strlen(oldpwd) < 1)
 		return (data->cd.oldpwd_err = true, free(oldpwd), false);
 	data->argv[1] = str_realloc(data->argv[1], oldpwd, true);
@@ -95,7 +95,7 @@ bool	builtin_cd(t_data *data)
 	else if ((data->flags->pipe && !data->pid) || !data->flags->pipe)
 	{
 		if (data->flags->pipe)
-			redirs_pipes(data);
+			exec_redirs_pipes(data);
 		index_pwd = cd_find_pwd(data);
 		if (data->argv[1] && !ft_strncmp(data->argv[1], ".", 2))
 		{

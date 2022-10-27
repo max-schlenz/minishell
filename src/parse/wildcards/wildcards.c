@@ -37,7 +37,7 @@ void	get_all_names(t_data *data)
 	i = 0;
 	while (data->argv[i])
 	{
-		data->argv[i] = skip_d(data, data->argv[i], '*');
+		data->argv[i] = pre_parse_skip_d(data, data->argv[i], '*');
 		indexes = get_indexes(data->argv[i]);
 		if (*indexes != -1)
 		{

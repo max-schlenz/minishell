@@ -31,7 +31,7 @@ static int	heredoc_prompt_create_tmp(t_data *data)
 	hd_fd = open(hd_tmp, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (!hd_fd || access(hd_tmp, F_OK))
 	{
-		home_tmp = get_var_content(data, "~");
+		home_tmp = expand_get_var_content(data, "~");
 		hd_tmp = str_realloc(hd_tmp, ft_strjoin(home_tmp, "/"), true);
 		hd_tmp = str_realloc(hd_tmp, ft_strjoin(hd_tmp, ".heredoc_tmp"), true);
 		hd_tmp = str_realloc(hd_tmp, ft_strjoin(hd_tmp, hd_tmp_i), true);

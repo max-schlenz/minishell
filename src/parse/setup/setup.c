@@ -72,7 +72,7 @@ bool	setup_argv(t_data *data, char *cmd, int *i)
 
 	start_args = 0;
 	setup_reset_flags(data);
-	if (alloc_mem_array(data, cmd))
+	if (setup_alloc_argv(data, cmd))
 	{
 		data->parser.arg_start = (*i);
 		start_args = (*i);

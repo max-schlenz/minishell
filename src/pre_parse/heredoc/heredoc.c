@@ -25,7 +25,7 @@ void	rm_tmp_files(t_data *data)
 	{
 		tmp_index = ft_itoa(i);
 		tmp_name = ft_strjoin(".heredoc_tmp", tmp_index);
-		tmp_home = get_var_content(data, "~");
+		tmp_home = expand_get_var_content(data, "~");
 		tmp_path = strmv(ft_strjoin(tmp_home, "/"));
 		tmp_path
 			= str_realloc(tmp_path, ft_strjoin(tmp_path, ".heredoc_tmp"), true);
@@ -57,7 +57,7 @@ char	*handle_heredoc(t_data *data, char *cmd)
 				j++;
 			data->hdoc.delim = ft_substr(cmd, i + 3, j - (i + 3));
 			cmd_after = ft_strdup(cmd + j);
-			wr_tmp_file(data);
+			heredoc_wr_tmp_file(data);
 			cmd = str_realloc(cmd,
 					merge_str(3, cmd_before, data->hdoc.hd_tmp, cmd_after), 1);
 		}

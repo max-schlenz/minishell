@@ -17,9 +17,9 @@ bool	setup_andor(t_data *data, char *cmd, int *i, int start_args)
 	if (!data->flags->f_dquote && !data->flags->f_squote && !data->flags->f_esc)
 	{
 		if (!ft_strncmp(cmd + (*i), "&&", 2))
-			return (parse_and(data, i, start_args));
+			return (setup_argv_is_and(data, i, start_args));
 		if (!ft_strncmp(cmd + (*i), "||", 2))
-			return (parse_or(data, i, start_args));
+			return (setup_argv_is_or(data, i, start_args));
 	}
 	return (false);
 }
@@ -42,7 +42,7 @@ bool	setup_pipe(t_data *data, char *cmd, int *i)
 		&& cmd[*i] == '|')
 	{
 		data->counter_pipes++;
-		return (parse_pipes(data, i));
+		return (setup_argv_is_pipe(data, i));
 	}
 	return (false);
 }

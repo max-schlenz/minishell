@@ -28,7 +28,7 @@ static char	*heredoc_expand_var(t_data *data, char *line, int start)
 	char	*var_content;
 
 	var_name = heredoc_get_var_name(line + start);
-	var_content = get_var_content(data, var_name);
+	var_content = expand_get_var_content(data, var_name);
 	free_str(1, var_name);
 	return (var_content);
 }
