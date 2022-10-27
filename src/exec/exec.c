@@ -22,7 +22,7 @@ char	*get_path(t_data *data, char *cmd)
 	i = 0;
 	while (data->path && data->path[i])
 	{
-		if (ft_strlen(cmd) > 2 && ft_strchr(cmd + 2, '/'))
+		if (ft_strlen(cmd) < 2 && ft_strchr(cmd + 2, '/'))
 			return (NULL);
 		abs_path_tmp = ft_strjoin(data->path[i], "/");
 		cmd_trim = ft_strtrim(cmd, " ");

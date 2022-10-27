@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:12:40 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/26 16:08:20 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/27 13:41:25 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	heredoc_prompt_create_tmp(t_data *data)
 {
 	char	*hd_tmp_i;
 	char	*hd_tmp;
+	char	*home_tmp;
 	int		hd_fd;
 
 	hd_tmp_i = ft_itoa(data->heredoc_index);
@@ -30,8 +31,17 @@ static int	heredoc_prompt_create_tmp(t_data *data)
 	hd_fd = open(hd_tmp, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (!hd_fd || access(hd_tmp, F_OK))
 	{
-		free_str (2, hd_tmp, hd_tmp_i);
-		cleanup(data, E_RW);
+		home_tmp = get_var_content(data, "~");
+		hd_tmp = str_realloc(hd_tmp, ft_strjoin(home_tmp, "/"), true);
+		hd_tmp = str_realloc(hd_tmp, ft_strjoin(hd_tmp, ".heredoc_tmp"), true);
+		hd_tmp = str_realloc(hd_tmp, ft_strjoin(hd_tmp, hd_tmp_i), true);
+		free_str (1, home_tmp);
+		hd_fd = open(hd_tmp, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if (!hd_fd || access(hd_tmp, F_OK))
+		{
+			free_str (2, hd_tmp, hd_tmp_i);
+			cleanup(data, E_RW);
+		}
 	}
 	free_str (2, hd_tmp, hd_tmp_i);
 	return (hd_fd);
