@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/25 07:55:22 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/28 12:44:59 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	export_print(t_data *data)
 		name = ft_substr(data->envp[i], 0, len_name);
 		val = ft_substr(data->envp[i], len_name + 1, len_val);
 		export_output(len_val, name, val);
-		free_str (2, name, val);
+		free_null (2, &name, &val);
 		i++;
 	}
 }
@@ -36,7 +36,7 @@ static void	export_print(t_data *data)
 static void	export_set_existing(t_data *data, char *setv)
 {
 	data->envp[data->export.index_envp]
-		= str_realloc(data->envp[data->export.index_envp], setv, 0);
+		= realloc_ptr(data->envp[data->export.index_envp], setv, 0);
 	data->export.set = true;
 }
 

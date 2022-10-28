@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 21:31:35 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/27 23:32:53 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/28 12:44:29 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ int	setup_redir(t_data *data, char *cmd, int *i)
 void	free_filenames(t_data *data)
 {
 	if (data->file_name)
-		free_str(1, data->file_name);
+		free_null(1, data->file_name);
 	if (data->file_name2)
-		free_str(1, data->file_name2);
+		free_null(1, data->file_name2);
 	if (data->file_name_append)
-		free_str(1, data->file_name_append);
+		free_null(1, data->file_name_append);
 }

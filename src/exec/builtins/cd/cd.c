@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/23 11:33:13 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/28 12:44:59 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static bool	cd_minus(t_data *data)
 	oldpwd = expand_get_var_content(data, "$OLDPWD");
 	if (ft_strlen(oldpwd) < 1)
 		return (data->cd.oldpwd_err = true, free(oldpwd), false);
-	data->argv[1] = str_realloc(data->argv[1], oldpwd, true);
+	data->argv[1] = realloc_ptr(data->argv[1], oldpwd, true);
 	return (true);
 }
 

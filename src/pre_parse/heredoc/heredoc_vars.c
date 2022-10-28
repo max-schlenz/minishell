@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vars.c                                             :+:      :+:    :+:   */
+/*   heredoc_vars.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:07:56 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/26 16:39:15 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/28 12:44:59 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char	*heredoc_expand_var(t_data *data, char *line, int start)
 
 	var_name = heredoc_get_var_name(line + start);
 	var_content = expand_get_var_content(data, var_name);
-	free_str(1, var_name);
+	free_null(1, var_name);
 	return (var_content);
 }
 
@@ -44,7 +44,7 @@ static bool	heredoc_do_expand(t_data *data, char **line, int *i)
 	while ((*line)[(*i)] && (*line)[(*i)] != ' ')
 		(*i)++;
 	str_after = ft_strdup((*line) + (*i));
-	(*line) = str_realloc((*line), merge_str(3, str_before, var, str_after), 1);
+	(*line) = realloc_ptr((*line), merge_str(3, str_before, var, str_after), 1);
 	(*i) = 0;
 	return (true);
 }
@@ -65,6 +65,6 @@ char	*heredoc_vars(t_data *data, char *line)
 		i++;
 	}
 	if (!line[i] && expanded)
-		line = str_realloc(line, ft_strjoin(line, "\n"), 1);
+		line = realloc_ptr(line, ft_strjoin(line, "\n"), 1);
 	return (line);
 }

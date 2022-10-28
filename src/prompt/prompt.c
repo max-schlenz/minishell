@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/27 17:06:24 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/28 13:23:52 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	show_prompt(t_data *data)
 		i++;
 	prompt_cwd = ft_strjoin(data->prompt, cwd + ft_strlen(cwd) - i + 1);
 	prompt = ft_strjoin(prompt_cwd, PROMPT_SUFFIX);
-	free_str (2, prompt_cwd, cwd);
+	free_null (2, &prompt_cwd, &cwd);
 	data->cmd = readline(prompt);
 	free (prompt);
 }
@@ -93,13 +93,17 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 		expand_vars(data);
 		get_all_names(data);
 		priorities(data, &tmp_cmd, &i);
-		if (!data->argv[0])
-		{
-			free_array(data->argv);
-			continue ;
-		}
+		// if (!data->argv[0])
+		// {
+		// 	free_array(data->argv);
+		// 	continue ;
+		// }
 		prompt_exec(data);
+		// if (!tmp_cmd[i])
+		// 	break ;
+		// // ft_putendl_fd("after exec", 2);
 	}
+	// printf("%d\n", i);
 }
 
 int	prompt(t_data *data, char *cmd, int flag)
@@ -124,6 +128,6 @@ int	prompt(t_data *data, char *cmd, int flag)
 	prompt_iter(data, tmp_cmd);
 	exec_wait_for_childs(data);
 	signals(false);
-	free_str(1, tmp_cmd);
+	free_null(1, &tmp_cmd);
 	return (data->exit_status);
 }

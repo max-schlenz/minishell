@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:04:39 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/27 17:43:37 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/28 12:44:29 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@ void	expand_vars_not_exist(t_data *data)
 	free(data->argv[data->expvar.i_arg]);
 	data->argv[data->expvar.i_arg]
 		= ft_strjoin_dup(data->expvar.str_before_v, data->expvar.str_after_v);
-	free_str(3, data->expvar.str_before_v,
+	free_null(3, data->expvar.str_before_v,
 		data->expvar.str_after_v, data->expvar.vname);
 }

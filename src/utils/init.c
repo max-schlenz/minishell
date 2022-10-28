@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/27 16:46:51 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/28 12:49:17 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	init_vars(t_data *data)
 	heredoc_init(data);
 	if (data->flags->debug)
 		init_dbg(data);
+	else
+		unlink(DBG);
 }
 
 void	open_pipes(t_data *data)

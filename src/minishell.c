@@ -18,16 +18,9 @@ void	clear_buffers(t_data *data)
 {
 	data->argc = 0;
 	if (data->cmd)
-		free_str(1, data->cmd);
-	if (data->file_name)
 	{
-		free (data->file_name);
-		data->file_name = NULL;
-	}
-	if (data->file_name2)
-	{
-		free (data->file_name2);
-		data->file_name2 = NULL;
+		free (data->cmd);
+		data->cmd = NULL;
 	}
 	rm_tmp_files(data);
 	data->flags->and = false;
@@ -101,6 +94,7 @@ static void	switches(t_data *data, int argc, char **argv)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
+	int			**a;
 
 	data = allocate_mem();
 	signals(false);

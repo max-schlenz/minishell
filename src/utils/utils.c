@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 11:23:55 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/27 14:00:44 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/28 12:44:29 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,6 @@ char	*strmv(char *new)
 	char	*ret;
 
 	ret = ft_strdup(new);
-	free_str(1, new);
+	free_null(1, &new);
 	return (ret);
 }

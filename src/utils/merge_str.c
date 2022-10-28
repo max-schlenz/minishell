@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 08:01:45 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/27 16:43:16 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/28 12:44:42 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,25 +72,24 @@ char	*merge_str(int index, ...)
 	return (ret);
 }
 
-void	free_str(int index, ...)
+void	free_null(int index, ...)
 {
 	va_list	args;
-	char	*tmp;
+	char	**tmp;
 
-	tmp = NULL;
 	va_start(args, index);
 	while (index)
 	{
-		tmp = va_arg(args, char *);
-		if (tmp)
-			free(tmp);
-		tmp = NULL;
+		tmp = va_arg(args, char **);
+		if (*tmp)
+			free (*tmp);
+		*tmp = NULL;
 		index--;
 	}	
 	va_end(args);
 }
 
-char	*str_realloc(char *ptr, char *new, bool free_new)
+char	*realloc_ptr(char *ptr, char *new, bool free_new)
 {
 	char	*ret;
 
@@ -122,7 +121,7 @@ char	*str_realloc(char *ptr, char *new, bool free_new)
 // 	// a = ft_strdup("test");
 // 	b = ft_strdup("test");
 // 	c = fu(a, &b);
-// 	// free_str(1, a);
+// 	// free_null(1, a);
 // 	printf("%s\n", b);
 // 	// d = merge_str(3, a, b, c);
 // 	// free (a);

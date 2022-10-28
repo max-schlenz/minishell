@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/27 23:31:56 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/28 13:12:04 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ bool	setup_argv(t_data *data, char *cmd, int *i)
 
 	start_args = 0;
 	setup_reset_flags(data);
+	// ft_putendl_fd("setup argv", 2);
 	if (setup_alloc_argv(data, cmd))
 	{
 		data->parser.arg_start = (*i);

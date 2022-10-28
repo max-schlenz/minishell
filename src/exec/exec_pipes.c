@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 15:52:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/27 17:27:09 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/28 12:15:48 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,14 @@ int	exec_redirs_pipes_fopen(t_data *data, char *filename, int flags)
 	fd = 0;
 	(void)data;
 	if (!flags)
-		fd = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+		fd = open((filename), O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	else if (flags == 1)
-		fd = open(filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		fd = open((filename), O_CREAT | O_WRONLY | O_APPEND, 0644);
 	else if (flags == 2)
-		fd = open(filename, O_RDONLY);
-	if (fd == -1 || access(filename, F_OK))
+		fd = open((filename), O_RDONLY);
+	if (fd == -1 || access((filename), F_OK))
 		cleanup(data, E_RW);
+	free (filename);
 	return (fd);
 }
 

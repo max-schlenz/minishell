@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/27 13:47:33 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/28 12:44:59 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void	rm_tmp_files(t_data *data)
 		tmp_home = expand_get_var_content(data, "~");
 		tmp_path = strmv(ft_strjoin(tmp_home, "/"));
 		tmp_path
-			= str_realloc(tmp_path, ft_strjoin(tmp_path, ".heredoc_tmp"), true);
-		tmp_path = str_realloc(tmp_path, ft_strjoin(tmp_path, tmp_index), true);
+			= realloc_ptr(tmp_path, ft_strjoin(tmp_path, ".heredoc_tmp"), true);
+		tmp_path = realloc_ptr(tmp_path, ft_strjoin(tmp_path, tmp_index), true);
 		unlink(tmp_name);
 		unlink(tmp_path);
-		free_str (4, tmp_name, tmp_index, tmp_path, tmp_home);
+		free_null (4, &tmp_name, &tmp_index, &tmp_path, &tmp_home);
 		i++;
 	}
 }
@@ -58,7 +58,7 @@ char	*handle_heredoc(t_data *data, char *cmd)
 			data->hdoc.delim = ft_substr(cmd, i + 3, j - (i + 3));
 			cmd_after = ft_strdup(cmd + j);
 			heredoc_wr_tmp_file(data);
-			cmd = str_realloc(cmd,
+			cmd = realloc_ptr(cmd,
 					merge_str(3, cmd_before, data->hdoc.hd_tmp, cmd_after), 1);
 		}
 		i++;

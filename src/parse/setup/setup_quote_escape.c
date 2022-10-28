@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:22:50 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/27 17:49:23 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/28 12:44:29 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*remove_quotes_start(t_data *data, int *i, int i_arg, char *tmp)
 	else
 		str_wo_q = ft_strdup("");
 	ret = ft_strjoin_dup(str_before_q, str_wo_q);
-	return (free_str(2, str_wo_q, str_before_q), ret);
+	return (free_null(2, str_wo_q, str_before_q), ret);
 }
 
 void	remove_quotes_write_argv(t_data *data, int i_arg, char *tmp)

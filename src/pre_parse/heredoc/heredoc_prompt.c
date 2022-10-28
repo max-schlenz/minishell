@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   heredoc_prompt.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:12:40 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/27 13:41:25 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/28 12:44:59 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,18 @@ static int	heredoc_prompt_create_tmp(t_data *data)
 	if (!hd_fd || access(hd_tmp, F_OK))
 	{
 		home_tmp = expand_get_var_content(data, "~");
-		hd_tmp = str_realloc(hd_tmp, ft_strjoin(home_tmp, "/"), true);
-		hd_tmp = str_realloc(hd_tmp, ft_strjoin(hd_tmp, ".heredoc_tmp"), true);
-		hd_tmp = str_realloc(hd_tmp, ft_strjoin(hd_tmp, hd_tmp_i), true);
-		free_str (1, home_tmp);
+		hd_tmp = realloc_ptr(hd_tmp, ft_strjoin(home_tmp, "/"), true);
+		hd_tmp = realloc_ptr(hd_tmp, ft_strjoin(hd_tmp, ".heredoc_tmp"), true);
+		hd_tmp = realloc_ptr(hd_tmp, ft_strjoin(hd_tmp, hd_tmp_i), true);
+		free_null (1, &home_tmp);
 		hd_fd = open(hd_tmp, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if (!hd_fd || access(hd_tmp, F_OK))
 		{
-			free_str (2, hd_tmp, hd_tmp_i);
+			free_null (2, &hd_tmp, &hd_tmp_i);
 			cleanup(data, E_RW);
 		}
 	}
-	free_str (2, hd_tmp, hd_tmp_i);
+	free_null (2, &hd_tmp, &hd_tmp_i);
 	return (hd_fd);
 }
 
@@ -67,7 +67,7 @@ static void	heredoc_prompt_fork(t_data *data)
 		if (ft_strncmp(data->hdoc.delim, line, ft_strlen(line)))
 			write(hd_fd, line, ft_strlen(line));
 	}
-	free_str(1, line);
+	free_null(1, line);
 	close (hd_fd);
 	exit(0);
 }

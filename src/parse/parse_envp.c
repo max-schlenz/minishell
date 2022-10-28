@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envp.c                                             :+:      :+:    :+:   */
+/*   parse_envp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/25 08:13:29 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/28 12:44:59 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	parse_path(t_data *data)
 	else
 		data->path = ft_split(data->envp[i], ':');
 	if (data->path && data->path[0] && !ft_strncmp(data->path[0], "PATH=", 5))
-		data->path[0] = str_realloc(data->path[0],
+		data->path[0] = realloc_ptr(data->path[0],
 				ft_strtrim(data->path[0], "PATH="), true);
 }
 

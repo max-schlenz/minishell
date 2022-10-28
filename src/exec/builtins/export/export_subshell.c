@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   subshell.c                                         :+:      :+:    :+:   */
+/*   export_subshell.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 07:55:07 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/25 11:05:41 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/28 12:44:29 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 static void	export_subshell_free(t_data *data)
 {
 	if (data->subshell.buf)
-		free_str (1, data->subshell.buf);
+		free_null (1, &data->subshell.buf);
 	if (data->subshell.vcontent)
-		free_str (1, data->subshell.vcontent);
+		free_null (1, &data->subshell.vcontent);
 	if (data->subshell.vname)
-		free_str (1, data->subshell.vname);
+		free_null (1, &data->subshell.vname);
 	if (data->subshell.vname_eq)
-		free_str (1, data->subshell.vname_eq);
+		free_null (1, &data->subshell.vname_eq);
 	if (data->subshell.var_tmp)
-		free_str (1, data->subshell.var_tmp);
+		free_null (1, &data->subshell.var_tmp);
 	if (data->subshell.var)
-		free_str (1, data->subshell.var);
+		free_null (1, &data->subshell.var);
 }
 
 static char	*export_subshell_join_var(t_data *data, char *setv)
@@ -58,7 +58,7 @@ static char	*export_subshell_store_stdout(t_data *data, char *setv)
 		data->subshell.vcontent
 			= ft_strjoin_dup(data->subshell.vcontent, data->subshell.buf);
 		if (tmp)
-			free_str(1, tmp);
+			free_null(1, tmp);
 	}
 	if (!data->subshell.vcontent)
 		return (NULL);

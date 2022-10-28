@@ -81,7 +81,7 @@ void	exec_create_fork(t_data *data, char *abs_path)
 {
 	signal(SIGINT, SIG_IGN);
 	data->pid = fork();
-	if (data->pid == 0 && abs_path)
+	if (!data->pid && abs_path)
 		exec_child(data, abs_path);
 	else if (data->pid == -1)
 		ms_exit(2, WEXITSTATUS(data->exit_code));
