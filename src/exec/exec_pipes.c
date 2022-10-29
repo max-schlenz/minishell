@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 15:52:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/28 12:15:48 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/29 12:57:50 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	exec_redirs_pipes_fopen(t_data *data, char *filename, int flags)
 		fd = open((filename), O_RDONLY);
 	if (fd == -1 || access((filename), F_OK))
 		cleanup(data, E_RW);
-	free (filename);
+	free_null (1, &filename);
 	return (fd);
 }
 
@@ -60,18 +60,21 @@ void	exec_redirs_pipes(t_data *data)
 	if (data->flags->redir_out)
 	{
 		fd = exec_redirs_pipes_fopen(data, data->file_name2, 0);
+		data->file_name2 = NULL;
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
 	if (data->flags->redir_append)
 	{
 		fd = exec_redirs_pipes_fopen(data, data->file_name_append, 1);
+		data->file_name_append = NULL;
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
 	if (data->flags->redir_in)
 	{
 		fd = exec_redirs_pipes_fopen(data, data->file_name, 2);
+		data->file_name = NULL;
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
@@ -80,7 +83,7 @@ void	exec_redirs_pipes(t_data *data)
 void	exec_wait_for_childs(t_data *data)
 {
 	data->exit_code = 0;
-	if (data->flags->redir_out)
+	if (data->flags->redir_out && data->file_name2)
 	{
 		if (!open(data->file_name2, O_CREAT, 0644))
 			cleanup(data, E_RW);

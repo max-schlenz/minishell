@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/28 13:23:52 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/29 12:58:24 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,10 @@ static void	prompt_exec(t_data *data)
 static void	prompt_iter(t_data *data, char *tmp_cmd)
 {
 	int		i;
+	int		len;
 
 	i = 0;
+	len = ft_strlen(tmp_cmd);
 	while (tmp_cmd[i] && tmp_cmd[0])
 	{
 		while (tmp_cmd[i] == ' ' || tmp_cmd[i] == ';'
@@ -93,17 +95,15 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 		expand_vars(data);
 		get_all_names(data);
 		priorities(data, &tmp_cmd, &i);
-		// if (!data->argv[0])
-		// {
-		// 	free_array(data->argv);
-		// 	continue ;
-		// }
+		if (!data->argv[0])
+		{
+			free_array(data->argv);
+			continue ;
+		}
 		prompt_exec(data);
-		// if (!tmp_cmd[i])
-		// 	break ;
-		// // ft_putendl_fd("after exec", 2);
+		if (i > len)
+			break ;
 	}
-	// printf("%d\n", i);
 }
 
 int	prompt(t_data *data, char *cmd, int flag)
@@ -112,6 +112,7 @@ int	prompt(t_data *data, char *cmd, int flag)
 
 	data->flags->prompt_exec = true;
 	data->cmd = NULL;
+	tmp_cmd = NULL;
 	if (flag)
 		data->cmd = ft_strdup(cmd);
 	else

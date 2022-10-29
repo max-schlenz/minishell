@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:23:56 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/28 12:52:27 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/29 12:34:48 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ bool	setup_alloc_argv(t_data *data, char *cmd)
 	}
 	if (!data->flags->f_dquote && !data->flags->f_squote)
 	{
+		// ft_putendl_fd("### allocated argv", 2);
 		data->argv = ft_calloc(mem + 2, (sizeof(char *)));
 		return (true);
 	}
