@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:23:56 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/29 12:34:48 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/29 16:32:21 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool	setup_alloc_argv(t_data *data, char *cmd)
 	}
 	if (!data->flags->f_dquote && !data->flags->f_squote)
 	{
-		// ft_putendl_fd("### allocated argv", 2);
+		ft_putendl_fd("### allocated argv", 2);
 		data->argv = ft_calloc(mem + 2, (sizeof(char *)));
 		return (true);
 	}
@@ -73,6 +73,10 @@ bool	setup_filenames(t_data *data, int *i, char *cmd, int flag)
 		data->file_name2 = ft_substr(cmd, start, *i - start);
 	else if (flag == 2)
 		data->file_name_append = ft_substr(cmd, start, *i - start);
+
+	// ft_putstr_fd("cmd:", 2);
+	// ft_putendl_fd(cmd + (*i), 2);
+	
 	if (!cmd[*i])
 		return (false);
 	return (true);

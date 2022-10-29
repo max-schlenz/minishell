@@ -97,7 +97,7 @@ int	main(int argc, char **argv, char **envp)
 	int			**a;
 
 	data = allocate_mem();
-	signals(false);
+	// signals(false);
 	init_vars(data);
 	parse_envp(data, envp);
 	switches(data, argc, argv);

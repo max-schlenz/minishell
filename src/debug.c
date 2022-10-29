@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 11:38:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/15 16:08:30 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/29 16:04:35 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	dbg(t_data *data)
 	int	i;
 
 	i = 0;
+	data->debug = fopen(DBG, "a+");
 	fprintf(data->debug, "\n------------------\n");
 	while (data->argv[i])
 	{
@@ -37,4 +38,5 @@ void	dbg(t_data *data)
 	fprintf(data->debug, "data->file_name2      : %s\n", data->file_name2);
 	fprintf(data->debug, "data->file_name_append: %s\n", data->file_name_append);
 	fprintf(data->debug, "data->exit_status (p) : %lld\n", data->exit_status);
+	fclose(data->debug);
 }

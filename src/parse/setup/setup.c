@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/28 13:12:04 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/29 16:32:06 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,17 @@ void	setup_reset_flags(t_data *data)
 	data->flags->f_esc = false;
 }
 
-bool	setup_argv(t_data *data, char *cmd, int *i)
+bool	setup_argv(t_data *data, char *cmd, int *i, bool alloc)
 {
 	int		start_args;
 
 	start_args = 0;
 	setup_reset_flags(data);
+	if (alloc)
+		setup_alloc_argv(data, cmd);
 	// ft_putendl_fd("setup argv", 2);
-	if (setup_alloc_argv(data, cmd))
-	{
+	// if (setup_alloc_argv(data, cmd))
+	// {
 		data->parser.arg_start = (*i);
 		start_args = (*i);
 		data->parser.array_index = 0;
@@ -88,6 +90,6 @@ bool	setup_argv(t_data *data, char *cmd, int *i)
 		else
 			data->argv[data->parser.array_index] = NULL;
 		return (true);
-	}
+	// }
 	return (false);
 }

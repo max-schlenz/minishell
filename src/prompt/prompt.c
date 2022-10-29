@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/29 12:58:24 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/29 16:43:47 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,9 @@ static void	prompt_exec(t_data *data)
 		|| (data->flags->or && data->exit_status))
 	{
 		if (data->flags->debug)
-		{
-			data->debug = fopen(DBG, "a+");
 			dbg(data);
-		}
 		if (!builtin(data))
 			exec_program(data);
-		if (data->flags->debug && data->debug)
-			fclose(data->debug);
 	}
 	data->flags->prompt_exec = false;
 	free_array(data->argv);
@@ -77,16 +72,18 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 {
 	int		i;
 	int		len;
+	bool	alloc;
 
 	i = 0;
 	len = ft_strlen(tmp_cmd);
+	alloc = true;
 	while (tmp_cmd[i] && tmp_cmd[0])
 	{
 		while (tmp_cmd[i] == ' ' || tmp_cmd[i] == ';'
 			|| (tmp_cmd[i] && tmp_cmd[i + 1]
 				&& tmp_cmd[i] == '&' && tmp_cmd[i + 1] != '&'))
 			i++;
-		setup_argv(data, tmp_cmd, &i);
+		setup_argv(data, tmp_cmd, &i, alloc);
 		if (!i)
 		{
 			free_array(data->argv);
@@ -97,12 +94,16 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 		priorities(data, &tmp_cmd, &i);
 		if (!data->argv[0])
 		{
-			free_array(data->argv);
+			printf("i:%d\n", i);
+			if (i > len)
+				free_array(data->argv);
+			alloc = false;
 			continue ;
 		}
-		prompt_exec(data);
-		if (i > len)
-			break ;
+		// prompt_exec(data);
+		alloc = true;
+		// if (i > len)
+		// 	break ;
 	}
 }
 
@@ -128,7 +129,7 @@ int	prompt(t_data *data, char *cmd, int flag)
 		return (0);
 	prompt_iter(data, tmp_cmd);
 	exec_wait_for_childs(data);
-	signals(false);
+	// signals(false);
 	free_null(1, &tmp_cmd);
 	return (data->exit_status);
 }

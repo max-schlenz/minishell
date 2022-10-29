@@ -227,7 +227,7 @@ bool		v_ex(t_data *data);
 bool		expand_vars(t_data *data);
 
 //parse/setup/setup.c
-bool		setup_argv(t_data *data, char *cmd, int *i);
+bool		setup_argv(t_data *data, char *cmd, int *i, bool alloc);
 
 //parse/setup/setup_modifiers.c
 bool		setup_argv_is_and(t_data *data, int *i, int start_args);
