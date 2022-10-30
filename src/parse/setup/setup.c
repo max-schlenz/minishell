@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/29 16:32:06 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 13:42:24 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ static void	setup_def(t_data *data, char *cmd, int *i)
 {
 	if (!data->flags->f_dquote && !data->flags->f_squote
 		&& cmd[*i] == ' ' && cmd[(*i) + 1] && cmd[(*i) + 1] != ' ')
-		setup_argv_parse_arg(data, cmd, (*i), false);
+		{
+			printf("in setip def %s\n", cmd + *i);
+			setup_argv_parse_arg(data, cmd, (*i), false);
+		}
 }
 
 static bool	setup_iter(char *cmd, int *i)
@@ -41,9 +44,12 @@ static bool	setup_argv_parse(t_data *data, char *cmd, int *i, int start_args)
 			return (true);
 		flag_redir = setup_redir(data, cmd, i);
 		if (flag_redir == 1)
+		{
 			return (true);
-		if (flag_redir == 2)
-			continue ;
+		}
+		printf(" i = %d cmd = %s\n", *i, cmd + *i);
+		// if (flag_redir == 2)
+		// 	continue ;
 		if (setup_pipe(data, cmd, i))
 			return (true);
 		setup_subshell(data, cmd, i);
@@ -53,8 +59,11 @@ static bool	setup_argv_parse(t_data *data, char *cmd, int *i, int start_args)
 			return (true);
 		setup_def(data, cmd, i);
 		data->flags->f_esc = false;
-		if (!setup_iter(cmd, i))
-			break ;
+		if (cmd[*i] && cmd[*i] != '<' && cmd[*i] != '>')
+		{
+			(*i)++;
+		}
+		//printf("in while loop\n");
 	}
 	return (false);
 }
@@ -66,14 +75,13 @@ void	setup_reset_flags(t_data *data)
 	data->flags->f_esc = false;
 }
 
-bool	setup_argv(t_data *data, char *cmd, int *i, bool alloc)
+bool	setup_argv(t_data *data, char *cmd, int *i)
 {
 	int		start_args;
 
 	start_args = 0;
 	setup_reset_flags(data);
-	if (alloc)
-		setup_alloc_argv(data, cmd);
+	setup_alloc_argv(data, cmd);
 	// ft_putendl_fd("setup argv", 2);
 	// if (setup_alloc_argv(data, cmd))
 	// {

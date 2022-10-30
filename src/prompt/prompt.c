@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/29 16:43:47 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 13:13:20 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static bool	prompt_prep(t_data *data, char **tmp_cmd)
 
 static void	prompt_exec(t_data *data)
 {
+	printf("in exec\n");
 	if ((data->flags->prompt_exec)
 		|| (!data->flags->and && !data->flags->or)
 		|| (data->flags->and && !data->exit_status)
@@ -83,7 +84,7 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 			|| (tmp_cmd[i] && tmp_cmd[i + 1]
 				&& tmp_cmd[i] == '&' && tmp_cmd[i + 1] != '&'))
 			i++;
-		setup_argv(data, tmp_cmd, &i, alloc);
+		setup_argv(data, tmp_cmd, &i);
 		if (!i)
 		{
 			free_array(data->argv);
@@ -100,7 +101,7 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 			alloc = false;
 			continue ;
 		}
-		// prompt_exec(data);
+		prompt_exec(data);
 		alloc = true;
 		// if (i > len)
 		// 	break ;

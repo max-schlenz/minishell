@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_modifiers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:19:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/29 12:44:14 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 12:51:33 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,34 @@ bool	setup_argv_is_pipe(t_data *data, int *i)
 	return (true);
 }
 
-bool	setup_argv_is_redir_out(t_data *data, char *cmd, int *i)
+// bool	setup_argv_is_redir_out(t_data *data, char *cmd, int *i)
+// {
+// 	(*i) += 3;
+// 	data->flags->redir_append = true;
+// 	//setup_filenames(data, i, cmd, 2);
+// 	return (true);
+// }
+
+bool	setup_argv_set_redir_flags(t_data *data, char *cmd, int *i)
 {
-	(*i) += 3;
-	data->flags->redir_append = true;
-	setup_filenames(data, i, cmd, 2);
-	if ((*i) < ft_strlen(cmd))
+	if (!data->flags->f_dquote && !data->flags->f_squote
+		&& !ft_strncmp(cmd + (*i), ">>", 2))
 	{
-		(*i)++;
-		if (cmd[*i] && cmd[*i] == '|')
-			setup_pipe(data, cmd, i);
+		(*i) += 3;
+		data->flags->redir_append = true;
+		return (setup_all_filenames(data, i, cmd, 2));
 	}
-	return (true);
+	else if (cmd[*i] == '>')
+	{
+		(*i) += 2;
+		data->flags->redir_out = true;
+		return (setup_all_filenames(data, i, cmd, 1));
+	}
+	else if (cmd[*i] == '<')
+	{
+		(*i) += 2;
+		data->flags->redir_in = true;
+		return (setup_all_filenames(data, i, cmd, 0));
+	}
+	return (false);
 }

@@ -3,29 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   setup_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 21:31:35 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/29 12:54:47 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 13:18:28 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static bool	setup_redir_files(t_data *data, char *cmd, int *i)
-{
-	if (!data->flags->redir_out)
-	{
-		if (!setup_filenames(data, i, cmd, 0))
-			return (true);
-	}
-	else
-	{
-		if (!setup_filenames(data, i, cmd, 1))
-			return (true);
-	}
-	return (false);
-}
+// static bool	setup_redir_files(t_data *data, char *cmd, int *i)
+// {
+// 	if (!data->flags->redir_out)
+// 	{
+// 		printf("hello\n");
+// 		if (!setup_filenames(data, i, cmd, 0))
+// 			return (true);
+// 	}
+// 	else
+// 	{
+// 		if (!setup_filenames(data, i, cmd, 1))
+// 			return (true);
+// 	}
+// 	return (false);
+// }
 
 // data->flags->redir_in = false;
 static bool	setup_redir_out(t_data *data)
@@ -44,29 +45,39 @@ static bool	setup_redir_out(t_data *data)
 
 static bool	setup_redir_util(t_data *data, char *cmd, int *i)
 {
-	if (!data->flags->f_dquote && !data->flags->f_squote
-		&& !ft_strncmp(cmd + (*i), ">>", 2))
-		return (setup_argv_is_redir_out(data, cmd, i));
-	else if (cmd[*i] == '>')
-		data->flags->redir_out = true;
-	else if (cmd[*i] == '<')
-		data->flags->redir_in = true;
-	(*i) += 2;
-	data->argv[data->parser.array_index] = NULL;
-	if (setup_redir_files(data, cmd, i))
-		return (true);
-	(*i)++;
-	if (cmd[*i] && cmd[*i] == '|')
+	
+	if (setup_argv_set_redir_flags(data, cmd, i))
 	{
+		printf("welll\n");
+		return (true);
+	}
+	// data->argv[data->parser.array_index] = NULL;
+	// if (setup_redir_files(data, cmd, i))
+	// 	return (true);
+	// (*i)++;
+	// if (cmd[*i] && cmd[*i] == '|')
+	// {
+	// 	if (setup_pipe(data, cmd, i))
+	// 		return (true);
+	// }
+	if ((*i) < ft_strlen(cmd))
+	{
+		(*i)++;
 		if (setup_pipe(data, cmd, i))
 			return (true);
 	}
+	// if (cmd[*i] && cmd[*i] == '<')
+	// {
+	// 	setup_redir_in(data);
+	// 	return (false);
+	// }
 	if (cmd[*i] && cmd[*i] == '>')
 	{
 		setup_redir_out(data);
 		return (false);
 	}
-	return (true);
+	printf("%d\n", *i);
+	return (false);
 }
 
 int	setup_redir(t_data *data, char *cmd, int *i)

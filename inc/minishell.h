@@ -227,7 +227,7 @@ bool		v_ex(t_data *data);
 bool		expand_vars(t_data *data);
 
 //parse/setup/setup.c
-bool		setup_argv(t_data *data, char *cmd, int *i, bool alloc);
+bool		setup_argv(t_data *data, char *cmd, int *i);
 
 //parse/setup/setup_modifiers.c
 bool		setup_argv_is_and(t_data *data, int *i, int start_args);
@@ -235,6 +235,7 @@ bool		setup_argv_is_or(t_data *data, int *i, int start_args);
 bool		setup_argv_is_pipe(t_data *data, int *i);
 bool		setup_argv_is_redir_out(t_data *data, char *cmd, int *i);
 bool		setup_argv_parse_arg(t_data *data, char *cmd, int i, bool end);
+bool		setup_argv_set_redir_flags(t_data *data, char *cmd, int *i);
 
 //parse/setup/setup_ops.c
 bool		setup_andor(t_data *data, char *cmd, int *i, int start_args);
@@ -245,7 +246,7 @@ bool		setup_semicolon(t_data *data, char *cmd, int *i);
 
 //parse/setup/setup_utils.c
 bool		setup_alloc_argv(t_data *data, char *cmd);
-bool		setup_filenames(t_data *data, int *i, char *cmd, int flag);
+bool		setup_all_filenames(t_data *data, int *i, char *cmd, int flag);
 
 //parse/wildcards/wild_cases.c
 bool		match_end(t_data *data, char *str, char *pattern);
