@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 21:31:35 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 14:18:58 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 16:45:47 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,7 @@ static bool	setup_redir_out(t_data *data)
 static bool	setup_redir_util(t_data *data, char *cmd, int *i)
 {
 	if (setup_argv_set_redir_flags(data, cmd, i))
-	{
 		return (true);
-	}
-	// data->argv[data->parser.array_index] = NULL;
 	if ((*i) < ft_strlen(cmd))
 	{
 		(*i)++;

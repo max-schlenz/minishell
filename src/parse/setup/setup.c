@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 14:17:29 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 14:56:37 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,7 @@ static void	setup_def(t_data *data, char *cmd, int *i)
 {
 	if (!data->flags->f_dquote && !data->flags->f_squote
 		&& cmd[*i] == ' ' && cmd[(*i) + 1] && cmd[(*i) + 1] != ' ')
-		{
-			printf("in setip def %s\n", cmd + *i);
-			setup_argv_parse_arg(data, cmd, (*i), false);
-		}
+		setup_argv_parse_arg(data, cmd, (*i), false);
 }
 
 static bool	setup_iter(char *cmd, int *i)

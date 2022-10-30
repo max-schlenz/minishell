@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 14:20:47 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 16:39:29 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static bool	prompt_prep(t_data *data, char **tmp_cmd)
 
 static void	prompt_exec(t_data *data)
 {
-	printf("in exec\n");
 	if ((data->flags->prompt_exec)
 		|| (!data->flags->and && !data->flags->or)
 		|| (data->flags->and && !data->exit_status)
@@ -72,10 +71,8 @@ static void	prompt_exec(t_data *data)
 static void	prompt_iter(t_data *data, char *tmp_cmd)
 {
 	int		i;
-	int		len;
 
 	i = 0;
-	len = ft_strlen(tmp_cmd);
 	while (tmp_cmd[i] && tmp_cmd[0])
 	{
 		while (tmp_cmd[i] == ' ' || tmp_cmd[i] == ';'
@@ -122,7 +119,7 @@ int	prompt(t_data *data, char *cmd, int flag)
 		return (0);
 	prompt_iter(data, tmp_cmd);
 	exec_wait_for_childs(data);
-	// signals(false);
+	signals(false);
 	free_null(1, &tmp_cmd);
 	return (data->exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/28 13:41:49 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 16:47:44 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,19 @@ typedef struct s_pparse
 	char	*ret;
 }	t_pparse;
 
-typedef struct s_expvar
+typedef struct s_variable
 {
-	char	*str_before_v;
-	char	*vname;
-	char	*vcontent;
-	char	*str_before_vplus_vcontent;
-	char	*str_after_v;
+	char	*name;
+	char	*value;
+	char	*pre;
+	char	*pre_and_value;
+	char	*rest;
 	int		i_arg;
 	size_t	i_char;
 	bool	f_dquote;
 	bool	f_squote;
 	bool	f_esc;
-}	t_expvar;
+}	t_variable;
 
 typedef struct s_export
 {
@@ -203,7 +203,7 @@ typedef struct s_data
 	t_rmq		rmq;
 	t_cd		cd;
 	t_echo		echo;
-	t_expvar	expvar;
+	t_variable	var;
 	t_pparse	pparse;
 	t_exit		exit;
 	t_wcmatch	wcmatch;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_modifiers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:19:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 12:51:33 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/30 17:04:48 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 bool	setup_argv_parse_arg(t_data *data, char *cmd, int i, bool end)
 {
-	free(data->argv[data->parser.array_index]);
-	data->argv[data->parser.array_index] = NULL;
-	data->argv[data->parser.array_index]
-		= ft_substr(cmd, data->parser.arg_start, i - data->parser.arg_start);
-	data->argc = data->parser.array_index;
-	data->parser.array_index++;
+	int	*i_array;
+	int	*start;
+
+	i_array = &data->parser.array_index;
+	start = &data->parser.arg_start;
+	free_null(1, &data->argv[(*i_array)]);
+	data->argv[(*i_array)]
+		= ft_substr(cmd, (*start), i - (*start));
+	data->argc = (*i_array)++;
 	if (!end)
 		data->parser.arg_start = i + 1;
 	return (true);

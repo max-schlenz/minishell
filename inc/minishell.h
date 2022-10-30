@@ -331,7 +331,7 @@ int			main(int argc, char **argv, char **envp);
 int			strcmp_alnum(const char *s1, const char *s2);
 
 //parse/setup/setup_redir.c
-bool	setup_redir(t_data *data, char *cmd, int *i);
+bool		setup_redir(t_data *data, char *cmd, int *i);
 
 //parse/wildcards/wild_enum_files.c
 int			enum_files(char *dir);

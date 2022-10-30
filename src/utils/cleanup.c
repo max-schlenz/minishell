@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/26 13:11:29 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 15:44:50 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	cleanup(t_data *data, int flag)
 	int	exit_status;
 
 	exit_status = data->exit_status;
+	free_filenames(data);
 	free_array(data->envp);
 	free_array(data->path);
 	free (data->prompt);

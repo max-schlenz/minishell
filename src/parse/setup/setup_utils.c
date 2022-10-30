@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:23:56 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 14:23:06 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 16:45:21 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ bool	setup_alloc_argv(t_data *data, char *cmd)
 	}
 	if (!data->flags->f_dquote && !data->flags->f_squote)
 	{
-		ft_putendl_fd("### allocated argv", 2);
 		data->argv = ft_calloc(mem + 2, (sizeof(char *)));
 		return (true);
 	}
@@ -60,10 +59,8 @@ bool	setup_all_filenames(t_data *data, int *i, char *cmd, int flag)
 	start = *i;
 	if (start > ft_strlen(cmd))
 	{
-		(*i) = ft_strlen(cmd);
 		write(2, "Syntax error\n", 14);
-		data->exit_status = 2;
-		return (false);
+		return (data->exit_status = 2, (*i) = ft_strlen(cmd), false);
 	}
 	while (cmd[*i] && cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<')
 		(*i)++;
@@ -71,21 +68,15 @@ bool	setup_all_filenames(t_data *data, int *i, char *cmd, int flag)
 	{
 		data->file_name = ft_substr(cmd, start, *i - start);
 		if (access((data->file_name), F_OK) == -1)
-		{
-			(*i) = ft_strlen(cmd);
-			builtin_error(data, 8, data->file_name, 1);
-			// free (data->file_name);
-			return (false);
-		}
+			return (builtin_error(data, 8, data->file_name, 1),
+				(*i) = ft_strlen(cmd), false);
 	}
 	else if (flag == 1)
 		data->file_name2 = ft_substr(cmd, start, *i - start);
 	else if (flag == 2)
 		data->file_name_append = ft_substr(cmd, start, *i - start);
 	if (!cmd[*i])
-	{
 		return (true);
-	}
 	return (false);
 }
 

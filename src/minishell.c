@@ -23,6 +23,7 @@ void	clear_buffers(t_data *data)
 		data->cmd = NULL;
 	}
 	rm_tmp_files(data);
+	free_filenames(data);
 	data->flags->and = false;
 	data->flags->or = false;
 	data->flags->pipe = false;
@@ -94,10 +95,10 @@ static void	switches(t_data *data, int argc, char **argv)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
-	int			**a;
+	char		*ptr;
 
 	data = allocate_mem();
-	// signals(false);
+	signals(false);
 	init_vars(data);
 	parse_envp(data, envp);
 	switches(data, argc, argv);
