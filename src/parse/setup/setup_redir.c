@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 21:31:35 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 18:02:30 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/30 18:20:38 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static bool	setup_redir_out(t_data *data)
 	data->flags->redir_append = false;
 	if (data->file_name2)
 	{
-		tmp_fd = exec_redirs_pipes_fopen(data, data->file_name2, 0);
+		tmp_fd = exec_redirs_pipes_fopen(data, &data->file_name2, 0);
 		close(tmp_fd);
 	}
 	return (false);
@@ -52,7 +52,8 @@ bool	setup_redir(t_data *data, char *cmd, int *i)
 	{
 		if (setup_redir_util(data, cmd, i))
 			return (true);
-		else if (!ft_strncmp(cmd + *i, "&&", 2) || !ft_strncmp(cmd + *i, "||", 2))
+		else if (!ft_strncmp(cmd + *i, "&&", 2)
+			|| !ft_strncmp(cmd + *i, "||", 2))
 			return (true);
 	}
 	return (false);

@@ -322,7 +322,7 @@ char		last_char(char *str);
 char		*strmv(char *new);
 
 //exec/exec_pipes.c
-int			exec_redirs_pipes_fopen(t_data *data, char *filename, int flags);
+int			exec_redirs_pipes_fopen(t_data *data, char **filename, int flags);
 
 //minishell.c
 int			main(int argc, char **argv, char **envp);

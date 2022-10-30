@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 15:52:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/29 12:57:50 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 18:20:45 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,21 @@ void	exec_pipes(t_data *data)
 	}
 }
 
-int	exec_redirs_pipes_fopen(t_data *data, char *filename, int flags)
+int	exec_redirs_pipes_fopen(t_data *data, char **filename, int flags)
 {
 	int	fd;
 
 	fd = 0;
 	(void)data;
 	if (!flags)
-		fd = open((filename), O_CREAT | O_TRUNC | O_WRONLY, 0644);
+		fd = open((*filename), O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	else if (flags == 1)
-		fd = open((filename), O_CREAT | O_WRONLY | O_APPEND, 0644);
+		fd = open((*filename), O_CREAT | O_WRONLY | O_APPEND, 0644);
 	else if (flags == 2)
-		fd = open((filename), O_RDONLY);
-	if (fd == -1 || access((filename), F_OK))
+		fd = open((*filename), O_RDONLY);
+	if (fd == -1 || access((*filename), F_OK))
 		cleanup(data, E_RW);
-	free_null (1, &filename);
+	free_null (1, filename);
 	return (fd);
 }
 
@@ -59,21 +59,21 @@ void	exec_redirs_pipes(t_data *data)
 		exec_pipes(data);
 	if (data->flags->redir_out)
 	{
-		fd = exec_redirs_pipes_fopen(data, data->file_name2, 0);
+		fd = exec_redirs_pipes_fopen(data, &data->file_name2, 0);
 		data->file_name2 = NULL;
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
 	if (data->flags->redir_append)
 	{
-		fd = exec_redirs_pipes_fopen(data, data->file_name_append, 1);
+		fd = exec_redirs_pipes_fopen(data, &data->file_name_append, 1);
 		data->file_name_append = NULL;
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
 	if (data->flags->redir_in)
 	{
-		fd = exec_redirs_pipes_fopen(data, data->file_name, 2);
+		fd = exec_redirs_pipes_fopen(data, &data->file_name, 2);
 		data->file_name = NULL;
 		dup2(fd, STDIN_FILENO);
 		close(fd);
