@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 14:01:25 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/30 14:20:47 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,9 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 {
 	int		i;
 	int		len;
-	bool	alloc;
 
 	i = 0;
 	len = ft_strlen(tmp_cmd);
-	alloc = true;
 	while (tmp_cmd[i] && tmp_cmd[0])
 	{
 		while (tmp_cmd[i] == ' ' || tmp_cmd[i] == ';'
@@ -95,15 +93,10 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 		priorities(data, &tmp_cmd, &i);
 		if (!data->argv[0])
 		{
-			if (i > len)
-				free_array(data->argv);
-			alloc = false;
+			free_array(data->argv);
 			continue ;
 		}
 		prompt_exec(data);
-		alloc = true;
-		// if (i > len)
-		// 	break ;
 	}
 }
 

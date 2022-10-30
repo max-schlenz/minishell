@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:23:56 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 13:58:13 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/30 14:23:06 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ bool	setup_all_filenames(t_data *data, int *i, char *cmd, int flag)
 		{
 			(*i) = ft_strlen(cmd);
 			builtin_error(data, 8, data->file_name, 1);
+			// free (data->file_name);
 			return (false);
 		}
 	}

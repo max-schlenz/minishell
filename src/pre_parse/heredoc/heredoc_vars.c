@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:07:56 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/28 12:44:59 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 14:15:13 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char	*heredoc_expand_var(t_data *data, char *line, int start)
 
 	var_name = heredoc_get_var_name(line + start);
 	var_content = expand_get_var_content(data, var_name);
-	free_null(1, var_name);
+	free_null(1, &var_name);
 	return (var_content);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 21:31:35 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 13:59:26 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/30 14:18:58 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static bool	setup_redir_out(t_data *data)
 
 static bool	setup_redir_util(t_data *data, char *cmd, int *i)
 {
-	
 	if (setup_argv_set_redir_flags(data, cmd, i))
 	{
 		return (true);
@@ -80,9 +79,9 @@ bool	setup_redir(t_data *data, char *cmd, int *i)
 void	free_filenames(t_data *data)
 {
 	if (data->file_name)
-		free_null(1, data->file_name);
+		free_null(1, &data->file_name);
 	if (data->file_name2)
-		free_null(1, data->file_name2);
+		free_null(1, &data->file_name2);
 	if (data->file_name_append)
-		free_null(1, data->file_name_append);
+		free_null(1, &data->file_name_append);
 }

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 11:19:40 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/28 12:44:29 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 14:15:13 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ bool	export_var(t_data *data, char *setv)
 	else
 		export_setv(data, setv);
 	if (data->export.free_set)
-		free_null(1, setv);
+		free_null(1, &setv);
 	if (data->export.index_arg++ < data->argc)
 		return (false);
 	return (true);

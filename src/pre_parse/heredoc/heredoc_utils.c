@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/28 12:44:29 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 14:15:46 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	heredoc_wr_tmp_file(t_data *data)
 	data->hdoc.hd_tmp_i = ft_itoa(data->heredoc_index);
 	data->hdoc.hd_tmp = ft_strjoin("< .heredoc_tmp", data->hdoc.hd_tmp_i);
 	data->heredoc_index++;
-	free_null(2, data->hdoc.delim, data->hdoc.hd_tmp_i);
+	free_null(2, &data->hdoc.delim, &data->hdoc.hd_tmp_i);
 }
 
 void	heredoc_init(t_data *data)

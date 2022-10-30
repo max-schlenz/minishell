@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 07:55:07 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/28 12:44:29 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 14:15:13 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char	*export_subshell_store_stdout(t_data *data, char *setv)
 		data->subshell.vcontent
 			= ft_strjoin_dup(data->subshell.vcontent, data->subshell.buf);
 		if (tmp)
-			free_null(1, tmp);
+			free_null(1, &tmp);
 	}
 	if (!data->subshell.vcontent)
 		return (NULL);

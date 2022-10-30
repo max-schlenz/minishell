@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:12:40 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/28 12:44:59 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 14:15:13 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	heredoc_prompt_fork(t_data *data)
 		if (ft_strncmp(data->hdoc.delim, line, ft_strlen(line)))
 			write(hd_fd, line, ft_strlen(line));
 	}
-	free_null(1, line);
+	free_null(1, &line);
 	close (hd_fd);
 	exit(0);
 }
