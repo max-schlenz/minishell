@@ -47,3 +47,5 @@ ls > out;file
 < not_existing_infile cat
 ls > out && | 
 ls > out && x.txt < out
+
+git add inc/ src/ && git commit -m "working on setup"
