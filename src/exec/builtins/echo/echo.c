@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:26 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 17:30:32 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 18:46:59 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,19 @@ static bool	echo_print(t_data *data, int i)
 	j = 0;
 	while (data->argv[i] && data->argv[i][j])
 	{
-		if (i <= data->argc
-			&& (!ft_strncmp(data->argv[i], "\'\'", 2)
-				|| !ft_strncmp(data->argv[i], "\"\"", 2)))
-		{
-			if (i == data->argc)
-				return (false);
-			else
-				j += 2;
-			if (j > ft_strlen(data->argv[i]) - 1)
-				break ;
-		}
-		else if (data->argv[i][j] != '\\')
+		// if (i <= data->argc
+		// 	&& (!ft_strncmp(data->argv[i], "\'\'", 2))
+		// 		|| !ft_strncmp(data->argv[i], "\"\"", 2))
+		// {
+		// 	if (i == data->argc)
+		// 		return (false);
+		// 	else
+		// 		j += 2;
+		// 	if (j > ft_strlen(data->argv[i]) - 1)
+		// 		break ;
+		// }
+		// else 
+		if (data->argv[i][j] != '\\')
 		{
 			printf("%c", data->argv[i][j]);
 			data->echo.f_fc = true;

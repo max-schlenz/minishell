@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 09:46:57 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 17:31:38 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 19:02:06 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,9 @@ bool	expand_vars(t_data *data)
 		}
 		if (!data->argv[data->var.i_arg])
 			break ;
-		if (ft_strlen(data->argv[data->var.i_arg]) > 2)
+		// if (ft_strlen(data->argv[data->var.i_arg]) > 2)
 			expand_vars_rm_mod(data);
-		else if (ft_strncmp(data->argv[0], "echo", 4)
+		 if (ft_strncmp(data->argv[0], "echo", 4)
 			&& (!ft_strncmp(data->argv[data->var.i_arg], "\'\'", 2)
 				|| !ft_strncmp(data->argv[data->var.i_arg], "\"\"", 2)))
 			expand_vars_weird_special_case(data, true);
