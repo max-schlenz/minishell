@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_error.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 19:33:48 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/27 17:32:40 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 13:56:22 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	builtin_error(t_data *data, int err, char *info, int exit)
 		msg = E_EXECVE_MSG;
 	else if (err == 7)
 		msg = E_CD_OLDPWD_MSG;
+	else if (err == 8)
+		msg = E_FILE_NOT_FOUND;
 	else
 		msg = "";
 	write(2, msg, ft_strlen(msg));

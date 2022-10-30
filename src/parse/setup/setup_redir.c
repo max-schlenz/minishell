@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 21:31:35 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 13:18:28 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/30 13:59:26 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,49 +48,33 @@ static bool	setup_redir_util(t_data *data, char *cmd, int *i)
 	
 	if (setup_argv_set_redir_flags(data, cmd, i))
 	{
-		printf("welll\n");
 		return (true);
 	}
 	// data->argv[data->parser.array_index] = NULL;
-	// if (setup_redir_files(data, cmd, i))
-	// 	return (true);
-	// (*i)++;
-	// if (cmd[*i] && cmd[*i] == '|')
-	// {
-	// 	if (setup_pipe(data, cmd, i))
-	// 		return (true);
-	// }
 	if ((*i) < ft_strlen(cmd))
 	{
 		(*i)++;
 		if (setup_pipe(data, cmd, i))
 			return (true);
 	}
-	// if (cmd[*i] && cmd[*i] == '<')
-	// {
-	// 	setup_redir_in(data);
-	// 	return (false);
-	// }
+	data->parser.arg_start = (*i);
 	if (cmd[*i] && cmd[*i] == '>')
 	{
 		setup_redir_out(data);
 		return (false);
 	}
-	printf("%d\n", *i);
 	return (false);
 }
 
-int	setup_redir(t_data *data, char *cmd, int *i)
+bool	setup_redir(t_data *data, char *cmd, int *i)
 {
 	if (!data->flags->f_dquote && !data->flags->f_squote && !data->flags->f_esc
 		&& (cmd[*i] == '>' || cmd[*i] == '<'))
 	{
 		if (setup_redir_util(data, cmd, i))
-			return (1);
-		else
-			return (2);
+			return (true);
 	}
-	return (0);
+	return (false);
 }
 
 void	free_filenames(t_data *data)

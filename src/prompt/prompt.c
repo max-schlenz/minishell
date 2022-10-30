@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 13:13:20 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/30 14:01:25 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 		priorities(data, &tmp_cmd, &i);
 		if (!data->argv[0])
 		{
-			printf("i:%d\n", i);
 			if (i > len)
 				free_array(data->argv);
 			alloc = false;

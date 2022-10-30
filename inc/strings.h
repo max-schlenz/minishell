@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strings.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:28:41 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/23 10:11:12 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 13:58:04 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define E_EXEC_ISDIR ": is a directory"
 # define E_EXEC_NOTFOUND ": command not found"
 # define E_CD_OLDPWD_MSG "Error: cd: OLDPWD not set\n"
+# define E_FILE_NOT_FOUND "Error: No such file or directory "
 
 # define PROMPT_SUFFIX "] \x01\033[0;1m\x02#\x01\033[0m\x02 "
 

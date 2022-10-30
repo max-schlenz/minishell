@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 13:42:24 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/30 14:00:39 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,14 @@ static bool	setup_iter(char *cmd, int *i)
 
 static bool	setup_argv_parse(t_data *data, char *cmd, int *i, int start_args)
 {
-	int	flag_redir;
-
-	flag_redir = 0;
 	while (cmd[*i])
 	{
 		if (setup_andor(data, cmd, i, start_args))
 			return (true);
-		flag_redir = setup_redir(data, cmd, i);
-		if (flag_redir == 1)
+		if (setup_redir(data, cmd, i))
 		{
 			return (true);
 		}
-		printf(" i = %d cmd = %s\n", *i, cmd + *i);
-		// if (flag_redir == 2)
-		// 	continue ;
 		if (setup_pipe(data, cmd, i))
 			return (true);
 		setup_subshell(data, cmd, i);
@@ -63,7 +56,6 @@ static bool	setup_argv_parse(t_data *data, char *cmd, int *i, int start_args)
 		{
 			(*i)++;
 		}
-		//printf("in while loop\n");
 	}
 	return (false);
 }

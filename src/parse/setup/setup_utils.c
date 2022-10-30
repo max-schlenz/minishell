@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:23:56 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 13:32:23 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/30 13:58:13 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,28 +70,21 @@ bool	setup_all_filenames(t_data *data, int *i, char *cmd, int flag)
 	if (!flag)
 	{
 		data->file_name = ft_substr(cmd, start, *i - start);
-		printf("filename %s\n", data->file_name);
-		// if (access((data->file_name), F_OK) == -1)
-		// {
-		// 	(*i) = ft_strlen(cmd);
-		// 	builtin_error(data, 7, "test", data->exit_status);
-		// 	free_array(data->argv);
-		// 	return (false);
-		// }
+		if (access((data->file_name), F_OK) == -1)
+		{
+			(*i) = ft_strlen(cmd);
+			builtin_error(data, 8, data->file_name, 1);
+			return (false);
+		}
 	}
 	else if (flag == 1)
 		data->file_name2 = ft_substr(cmd, start, *i - start);
 	else if (flag == 2)
 		data->file_name_append = ft_substr(cmd, start, *i - start);
-
-	// ft_putstr_fd("cmd:", 2);
-	// ft_putendl_fd(cmd + (*i), 2);
 	if (!cmd[*i])
 	{
-		printf("end of cmd\n");
 		return (true);
 	}
-	printf("not end of cmd i = %d\n", *i);
 	return (false);
 }
 
