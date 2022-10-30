@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 21:31:35 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 17:34:46 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 18:02:30 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ bool	setup_redir(t_data *data, char *cmd, int *i)
 		&& (cmd[*i] == '>' || cmd[*i] == '<'))
 	{
 		if (setup_redir_util(data, cmd, i))
+			return (true);
+		else if (!ft_strncmp(cmd + *i, "&&", 2) || !ft_strncmp(cmd + *i, "||", 2))
 			return (true);
 	}
 	return (false);
