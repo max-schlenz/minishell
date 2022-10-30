@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:31:50 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/27 17:33:28 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 17:41:46 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ bool	expand_check_var_exists(t_data *data, char *var)
 	{
 		if (!ft_strncmp(tmp, data->envp[i], ft_strlen(tmp)))
 		{
-			free(tmp);
+			free_null(1, &tmp);
 			return (true);
 		}
 		i++;
 	}
-	free(tmp);
+	free_null(1, &tmp);
 	return (false);
 }

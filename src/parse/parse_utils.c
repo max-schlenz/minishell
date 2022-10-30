@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:12:51 by tdehne            #+#    #+#             */
-/*   Updated: 2022/10/15 12:14:40 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 17:43:47 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ void	realloc_envp(t_data *data, char *newv, int flag)
 	while (data->envp[i])
 	{
 		new[i] = ft_strdup(data->envp[i]);
-		free(data->envp[i]);
+		free_null(1, &data->envp[i]);
 		i++;
 	}
-	free(data->envp);
+	free_null(1, &data->envp);
 	new[i] = ft_strdup(newv);
 	new[i + 1] = NULL;
 	data->envp = new;

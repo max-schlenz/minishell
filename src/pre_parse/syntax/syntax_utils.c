@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 22:03:49 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/27 22:51:30 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/30 17:45:46 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ bool	*err_msg(char *err_c)
 
 	err = strjoin_nl("Syntax error: ", err_c);
 	write (2, err, ft_strlen(err));
-	free (err);
-	free (err_c);
+	free_null (2, &err, &err_c);
 	return (false);
 }
 
@@ -63,7 +62,7 @@ bool	syntax_err_msg(t_data *data, char *ops, int i)
 	err_c[1] = '\0';
 	err = strjoin_nl("Syntax error: ", err_c);
 	write (2, err, ft_strlen(err));
-	free (err);
+	free_null (1, &err);
 	return (false);
 }
 

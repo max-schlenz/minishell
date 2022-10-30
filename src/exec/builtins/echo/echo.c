@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:26 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/16 14:56:24 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 17:30:32 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,9 @@ bool	builtin_echo(t_data *data)
 			break ;
 		if (data->argv[i])
 			i++;
-		if (data->echo.f_fc && data->argv[i]
-			&& ft_strlen(data->argv[i]) > 0 && (!(echo_n && i < 3)))
+		if ((i <= data->argc && ft_strlen(data->argv[i]) > 1)
+			|| (data->echo.f_fc && data->argv[i] && ft_strlen(data->argv[i]) > 0
+				&& (!(echo_n && i < 3))))
 			printf(" ");
 	}
 	if (!echo_n)

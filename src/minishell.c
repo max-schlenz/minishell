@@ -95,7 +95,6 @@ static void	switches(t_data *data, int argc, char **argv)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
-	char		*ptr;
 
 	data = allocate_mem();
 	signals(false);

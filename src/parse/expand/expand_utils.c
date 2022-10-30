@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:01:41 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 16:47:01 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 17:40:54 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,23 @@ void	expand_vars_init(t_data *data, bool flag)
 
 void	expand_vars_weird_special_case(t_data *data, bool flag)
 {
-	free(data->argv[data->var.i_arg]);
+	free_null (1, &data->argv[data->var.i_arg]);
 	if (flag)
 		data->argv[data->var.i_arg] = ft_strdup("");
-	else
-		data->argv[data->var.i_arg] = NULL;
 }
 
 bool	v_ex(t_data *data)
 {
+	int	i_arg;
+	int	i_char;
+
+	i_arg = data->var.i_arg;
+	i_char = data->var.i_char;
+	data->var.name = data->var.name;
 	if (!expand_check_var_exists(data, data->var.name)
-		&& data->argv[data->var.i_arg][data->var.i_char]
-		&& data->argv[data->var.i_arg][data->var.i_char + 1]
-		&& ft_strncmp(data->argv[data->var.i_arg]
-		+ data->var.i_char, "$?", 2))
+		&& data->argv[i_arg][i_char]
+		&& data->argv[i_arg][i_char + 1]
+		&& ft_strncmp(data->argv[i_arg] + i_char, "$?", 2))
 	{
 		expand_vars_not_exist(data);
 		return (true);

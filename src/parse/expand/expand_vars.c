@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 09:46:57 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 16:56:45 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/30 17:31:38 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static void	expand_vars_join(t_data *data)
 
 static bool	expand(t_data *data)
 {
-	int	i_arg;
-	int	i_char;
+	int		i_arg;
+	size_t	i_char;
 
 	i_arg = data->var.i_arg;
 	i_char = data->var.i_char;
