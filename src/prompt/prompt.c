@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 16:39:29 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/31 11:10:28 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,31 @@ static void	show_prompt(t_data *data)
 	free (prompt);
 }
 
+static bool	prompt_syntax_check(t_data *data, char **tmp_cmd)
+{
+	if (!check_syntax(data, *tmp_cmd) \
+	|| !syntax_err(data, *tmp_cmd) \
+	|| !check_syntax_first_char(data, *tmp_cmd) \
+	|| !syntax_check_pipes_redirs(data, *tmp_cmd))
+	{
+		free_null(1, tmp_cmd);
+		return (false);
+	}
+	return (true);
+}
+
 static bool	prompt_prep(t_data *data, char **tmp_cmd)
 {
 	history(data);
 	*tmp_cmd = pre_parse(data, data->cmd);
 	if (!(*tmp_cmd))
 		return (false);
-	if (!check_syntax(data, *tmp_cmd)
-		|| !syntax_err(data, *tmp_cmd)
-		|| !check_syntax_first_char(data, *tmp_cmd)
-		|| !syntax_check_pipes_redirs(data, *tmp_cmd))
+	if (prompt_syntax_check(data, tmp_cmd))
 	{
-		free(*tmp_cmd);
-		*tmp_cmd = NULL;
-		return (false);
+		*tmp_cmd = handle_heredoc(data, *tmp_cmd);
+		return (true);
 	}
-	*tmp_cmd = handle_heredoc(data, *tmp_cmd);
-	return (true);
+	return (false);
 }
 
 static void	prompt_exec(t_data *data)
