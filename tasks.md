@@ -55,3 +55,6 @@ echo $USER'$USER'text oui oui oui oui $USER oui $USER '' | cat -e
 echo "''$USER"
 echo '""$USER'
 echo ' ' ' '
+
+echo $USER$12USER$USER=4$USER12
+echo $USER $USER9999 $USER8888 $USER7777 "$USER"
