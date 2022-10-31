@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:04:39 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 14:52:51 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/31 14:56:21 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	expand_vars_shell(t_data *data)
 		data->var.value = ft_strdup("");
 }
 
-static char **expand_realloc_argv(t_data *data, int i)
+static char	**expand_realloc_argv(t_data *data, int i)
 {
-	char **ret;
+	char	**ret;
 	int		j;
 	int		k;
 
@@ -53,7 +53,7 @@ static char **expand_realloc_argv(t_data *data, int i)
 	}
 	ret[k] = NULL;
 	free_null(1, &data->argv);
-	return(ret);
+	return (ret);
 }
 
 void	expand_vars_not_exist(t_data *data)
