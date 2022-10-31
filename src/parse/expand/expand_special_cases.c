@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_special_cases.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:04:39 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 14:12:56 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/31 14:52:51 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,27 @@ void	expand_vars_shell(t_data *data)
 		data->var.value = ft_strdup("");
 }
 
-static void	expand_realloc_argv(t_data *data, int i)
+static char **expand_realloc_argv(t_data *data, int i)
 {
+	char **ret;
+	int		j;
+	int		k;
+
+	j = 0;
+	k = 0;
+	ret = (char **)ft_calloc(data->argc + 1, sizeof(char *));
 	data->argc--;
 	data->var.i_arg--;
 	data->var.i_char = 0;
-	while (data->argv[i + 1])
+	while (data->argv[j])
 	{
-		data->argv[i] = data->argv[i + 1];
-		i++;
+		if (i != j)
+			ret[k++] = ft_strdup(data->argv[j]);
+		free(data->argv[j++]);
 	}
-	data->argv[i] = NULL;
-	free(data->argv[data->argc + 1]);
+	ret[k] = NULL;
+	free_null(1, &data->argv);
+	return(ret);
 }
 
 void	expand_vars_not_exist(t_data *data)
@@ -59,7 +68,7 @@ void	expand_vars_not_exist(t_data *data)
 	data->var.rest
 		= ft_strdup(arg + i_char + ft_strlen(data->var.name));
 	if (!*data->var.rest && !*data->var.pre)
-		expand_realloc_argv(data, i);
+		data->argv = expand_realloc_argv(data, i);
 	else
 	{
 		free_null(1, &data->argv[i]);
