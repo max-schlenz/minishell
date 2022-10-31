@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:19:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 17:42:31 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/31 16:45:36 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ bool	setup_argv_is_or(t_data *data, int *i, int start_args)
 	(*i) += 3;
 	exec_wait_for_childs(data);
 	init_prompt(data);
+	data->flags->or = true;
 	data->counter_pipes = 0;
 	return (true);
 }
@@ -51,6 +52,7 @@ bool	setup_argv_is_and(t_data *data, int *i, int start_args)
 	(*i) += 3;
 	exec_wait_for_childs(data);
 	init_prompt(data);
+	data->flags->and = true;
 	data->counter_pipes = 0;
 	return (true);
 }

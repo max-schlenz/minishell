@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 14:09:10 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/31 17:12:07 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 	while (tmp_cmd[i] && tmp_cmd[0])
 	{
 		while (tmp_cmd[i] == ' ' || tmp_cmd[i] == ';'
-			|| (tmp_cmd[i] && tmp_cmd[i + 1]
-				&& tmp_cmd[i] == '&' && tmp_cmd[i + 1] != '&'))
-			i++;
+			|| (tmp_cmd[i] && tmp_cmd[i + 1] \
+			&& tmp_cmd[i] == '&' && tmp_cmd[i + 1] != '&'))
+				i++;
 		setup_argv(data, tmp_cmd, &i);
 		if (!i)
 		{

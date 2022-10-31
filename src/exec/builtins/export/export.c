@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/28 12:44:59 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/31 16:42:28 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	export_print(t_data *data)
 static void	export_set_existing(t_data *data, char *setv)
 {
 	data->envp[data->export.index_envp]
-		= realloc_ptr(data->envp[data->export.index_envp], setv, 0);
+		= realloc_ptr(data->envp[data->export.index_envp], setv, false);
 	data->export.set = true;
 }
 
