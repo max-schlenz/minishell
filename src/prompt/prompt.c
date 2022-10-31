@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 14:02:26 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/31 14:09:10 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,6 @@ static void	show_prompt(t_data *data)
 	free_null (2, &prompt_cwd, &cwd);
 	data->cmd = readline(prompt);
 	free (prompt);
-}
-
-static bool	prompt_syntax_check(t_data *data, char **tmp_cmd)
-{
-	if (!check_syntax(data, *tmp_cmd) \
-	|| !syntax_err(data, *tmp_cmd) \
-	|| !check_syntax_first_char(data, *tmp_cmd) \
-	|| !syntax_check_pipes_redirs(data, *tmp_cmd))
-	{
-		free_null(1, tmp_cmd);
-		return (false);
-	}
-	return (true);
 }
 
 static bool	prompt_prep(t_data *data, char **tmp_cmd)

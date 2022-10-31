@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:26 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 13:20:46 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/31 14:08:40 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,6 @@ static bool	echo_print(t_data *data, int i)
 	j = 0;
 	while (data->argv[i] && data->argv[i][j])
 	{
-		// if (i <= data->argc
-		// 	&& (!ft_strncmp(data->argv[i], "\'\'", 2))
-		// 		|| !ft_strncmp(data->argv[i], "\"\"", 2))
-		// {
-		// 	if (i == data->argc)
-		// 		return (false);
-		// 	else
-		// 		j += 2;
-		// 	if (j > ft_strlen(data->argv[i]) - 1)
-		// 		break ;
-		// }
-		// else 
 		if (data->argv[i][j] != '\\')
 		{
 			printf("%c", data->argv[i][j]);
@@ -76,7 +64,6 @@ bool	builtin_echo(t_data *data)
 		echo_n = echo_n_flag(data);
 	while (data->argv[i])
 	{
-		//printf("%s\n", data->argv[i]);
 		while (echo_n && data->argv[i] && !ft_strncmp(data->argv[i], "-n", 2))
 			i++;
 		if (!echo_print(data, i))
@@ -85,10 +72,6 @@ bool	builtin_echo(t_data *data)
 			printf(" ");
 		if (data->argv[i])
 			i++;
-		// if ((i <= data->argc && ft_strlen(data->argv[i]) > 1)
-		// 	|| (data->echo.f_fc && data->argv[i] && ft_strlen(data->argv[i]) > 0
-		// 		&& (!(echo_n && i < 3))))
-		// 	printf(" ");
 	}
 	if (!echo_n)
 		printf("\n");

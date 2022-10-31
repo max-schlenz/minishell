@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_quote_escape.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:22:50 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 18:59:44 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/31 14:07:58 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,8 @@ void	remove_quotes(t_data *data, int i_arg)
 	remove_quotes_init(data);
 	argv = NULL;
 	i = 0;
-	// exit(0);
 	while (data->argv[i_arg][i] && data->argv[i_arg][i + 1])
 	{
-		// printf("%s i_arg: %d\n", data->argv[i_arg], i_arg);
-		// if (!ft_strncmp(data->argv[i_arg] + i, "\'\'", 2))
-		// 	write(2, "EEEE", 4);
 		if (data->argv[i_arg][i] == '\\')
 			i++;
 		else if (!data->rmq.start

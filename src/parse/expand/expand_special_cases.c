@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_special_cases.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:04:39 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 14:05:48 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/31 14:08:17 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	expand_vars_shell(t_data *data)
 		data->var.value = ft_strdup("");
 }
 
-static void expand_realloc_argv(t_data *data, int i)
+static void	expand_realloc_argv(t_data *data, int i)
 {
 	data->argc--;
 	data->var.i_arg--;

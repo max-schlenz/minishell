@@ -143,6 +143,7 @@ void		prio(t_data *data, char *cmd, int *i);
 
 //prompt/prompt_utils.c
 void		priorities(t_data *data, char **tmp_cmd, int *i);
+bool		prompt_syntax_check(t_data *data, char **tmp_cmd);
 
 //utils/cleanup.c
 void		cleanup(t_data *data, int flag);
