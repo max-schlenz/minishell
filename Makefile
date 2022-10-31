@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/31 11:46:04 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/31 13:09:52 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,9 +94,9 @@ SRC				= 	${NAME}													\
 					utils/signal											\
 					utils/utils												\
 
-INC				=	${NAME}								\
-					data								\
-					strings								\
+INC				=	${NAME}													\
+					data													\
+					strings													\
 					libft								
 
 LIB				=	libft 
@@ -124,31 +124,11 @@ $(LIB_FILES): header
 	@ar -rc $(LIB_FILES) $$(find ./src/libft -type f -name '*.o')
 
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)
-	@mkdir -p $(OBJ_DIR)/exec
-	@mkdir -p $(OBJ_DIR)/exec/builtins
-	@mkdir -p $(OBJ_DIR)/exec/builtins/cd
-	@mkdir -p $(OBJ_DIR)/exec/builtins/echo
-	@mkdir -p $(OBJ_DIR)/exec/builtins/env
-	@mkdir -p $(OBJ_DIR)/exec/builtins/exit
-	@mkdir -p $(OBJ_DIR)/exec/builtins/export
-	@mkdir -p $(OBJ_DIR)/exec/builtins/pwd
-	@mkdir -p $(OBJ_DIR)/exec/builtins/unset
-	@mkdir -p $(OBJ_DIR)/exec/builtins/where
-	@mkdir -p $(OBJ_DIR)/parse
-	@mkdir -p $(OBJ_DIR)/parse/setup
-	@mkdir -p $(OBJ_DIR)/parse/expand
-	@mkdir -p $(OBJ_DIR)/parse/wildcards
-	@mkdir -p $(OBJ_DIR)/pre_parse
-	@mkdir -p $(OBJ_DIR)/pre_parse/heredoc
-	@mkdir -p $(OBJ_DIR)/pre_parse/syntax
-	@mkdir -p $(OBJ_DIR)/prompt
-	@mkdir -p $(OBJ_DIR)/prompt/color
-	@mkdir -p $(OBJ_DIR)/utils
+	@mkdir -p $(shell find src -type d | sed \s/src/obj/g)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c header_c 
 	@if [ ! -f .tmp ]; then														\
-		echo -n "compiling...";												\
+		echo -n "compiling...";													\
 		touch .tmp;\
 	fi
 	@echo -en "\\r		➜  ${BCYAN}$(NAME)${DEFCL}...    »  $@\033[K"
