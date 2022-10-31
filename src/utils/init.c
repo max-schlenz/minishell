@@ -22,7 +22,7 @@ void	init_vars(t_data *data)
 {
 	data->hdoc.quote = false;
 	data->hdoc.hd = false;
-	data->flags->debug = true;
+	data->flags->debug = false;
 	data->flags->macos = true;
 	data->flags->pipe = false;
 	data->flags->error = false;

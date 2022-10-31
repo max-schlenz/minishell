@@ -72,7 +72,7 @@ void		exec_set_flags(t_data *data);
 
 //minishell.c
 void		clear_buffers(t_data *data);
-void		init_prompt(t_data *data);
+void		init_prompt(t_data *data, bool execution);
 
 //parse/expand/expand_special_cases.c
 void		expand_vars_exit(t_data *data);
@@ -108,11 +108,11 @@ void		remove_quotes_write_argv(t_data *data, int i_arg, char *tmp);
 void		free_filenames(t_data *data);
 
 //parse/setup/setup_subshell.c
-void		setup_subshell(t_data *data, char *cmd, int *i);
+void		subshell(t_data *data, char *cmd, int *i);
 
 //parse/setup/setup_utils.c
 void		remove_quotes_init(t_data *data);
-void		setup_qflags(t_data *data, char *cmd, int *i);
+void		quote_flags(t_data *data, char *cmd, int *i);
 
 //parse/wildcards/wildcards.c
 void		get_all_names(t_data *data);
@@ -225,19 +225,19 @@ bool		expand_vars(t_data *data);
 bool		setup_argv(t_data *data, char *cmd, int *i);
 
 //parse/setup/setup_modifiers.c
-bool		setup_argv_is_and(t_data *data, int *i, int start_args);
-bool		setup_argv_is_or(t_data *data, int *i, int start_args);
-bool		setup_argv_is_pipe(t_data *data, int *i);
-bool		setup_argv_is_redir_out(t_data *data, char *cmd, int *i);
-bool		setup_argv_parse_arg(t_data *data, char *cmd, int i, bool end);
+bool		setup_argv_parse_and(t_data *data, int *i, int start_args);
+bool		setup_argv_parse_or(t_data *data, int *i, int start_args);
+bool		setup_argv_parse_pipe(t_data *data, int *i);
+bool		setup_argv_parse_redir_out(t_data *data, char *cmd, int *i);
+bool		setup_argv_write_arg(t_data *data, char *cmd, int i, bool end);
 bool		setup_argv_set_redir_flags(t_data *data, char *cmd, int *i);
 
 //parse/setup/setup_ops.c
-bool		setup_andor(t_data *data, char *cmd, int *i, int start_args);
-bool		setup_col(t_data *data, char *cmd, int *i);
-bool		setup_esc(t_data *data, char *cmd, int *i);
-bool		setup_pipe(t_data *data, char *cmd, int *i);
-bool		setup_semicolon(t_data *data, char *cmd, int *i);
+bool		andor(t_data *data, char *cmd, int *i, int start_args);
+bool		col(t_data *data, char *cmd, int *i);
+bool		escape(t_data *data, char *cmd, int *i);
+bool		pipe_(t_data *data, char *cmd, int *i);
+bool		semicolon(t_data *data, char *cmd, int *i);
 
 //parse/setup/setup_utils.c
 bool		setup_alloc_argv(t_data *data, char *cmd);
@@ -326,7 +326,7 @@ int			main(int argc, char **argv, char **envp);
 int			strcmp_alnum(const char *s1, const char *s2);
 
 //parse/setup/setup_redir.c
-bool		setup_redir(t_data *data, char *cmd, int *i);
+bool		redir(t_data *data, char *cmd, int *i);
 
 //parse/wildcards/wild_enum_files.c
 int			enum_files(char *dir);
@@ -358,5 +358,8 @@ size_t		strlen_var(const char *c);
 
 //utils/init.c
 t_data		*allocate_mem(void);
+
+void	setup_reset_flags(t_data *data);
+void	setup_def(t_data *data, char *cmd, int *i);
 
 #endif

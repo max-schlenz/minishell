@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-bool	setup_argv_parse_arg(t_data *data, char *cmd, int i, bool end)
+bool	setup_argv_write_arg(t_data *data, char *cmd, int i, bool end)
 {
 	int	*i_array;
 	int	*start;
@@ -27,22 +27,20 @@ bool	setup_argv_parse_arg(t_data *data, char *cmd, int i, bool end)
 	return (true);
 }
 
-bool	setup_argv_is_or(t_data *data, int *i, int start_args)
+bool	setup_argv_parse_or(t_data *data, int *i, int start_args)
 {
 	if ((*i) != start_args)
 		return (true);
-	data->flags->or = true;
 	data->flags->and = false;
+	data->flags->or = true;
 	data->flags->pipe = false;
 	(*i) += 3;
 	exec_wait_for_childs(data);
-	init_prompt(data);
-	data->flags->or = true;
-	data->counter_pipes = 0;
+	init_prompt(data, true);
 	return (true);
 }
 
-bool	setup_argv_is_and(t_data *data, int *i, int start_args)
+bool	setup_argv_parse_and(t_data *data, int *i, int start_args)
 {
 	if ((*i) != start_args)
 		return (true);
@@ -51,13 +49,11 @@ bool	setup_argv_is_and(t_data *data, int *i, int start_args)
 	data->flags->pipe = false;
 	(*i) += 3;
 	exec_wait_for_childs(data);
-	init_prompt(data);
-	data->flags->and = true;
-	data->counter_pipes = 0;
+	init_prompt(data, true);
 	return (true);
 }
 
-bool	setup_argv_is_pipe(t_data *data, int *i)
+bool	setup_argv_parse_pipe(t_data *data, int *i)
 {
 	data->flags->pipe = true;
 	(*i) += 2;

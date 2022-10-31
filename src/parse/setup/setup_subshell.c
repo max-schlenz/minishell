@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-void	setup_subshell(t_data *data, char *cmd, int *i)
+void	subshell(t_data *data, char *cmd, int *i)
 {
 	size_t	popen;
 

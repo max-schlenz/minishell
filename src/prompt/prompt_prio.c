@@ -29,6 +29,7 @@ static void	prio_free_argv(t_data *data)
 	data->argv[0] = NULL;
 }
 
+//	evaluates if execution should take place
 void	prio(t_data *data, char *cmd, int *i)
 {
 	int		j;
@@ -36,12 +37,12 @@ void	prio(t_data *data, char *cmd, int *i)
 
 	j = 0;
 	data->flags->bracket = true;
-	if ((data->flags->and && data->exit_status)
-		|| (data->flags->or && !data->exit_status))
+	if ((data->flags->and && data->exit_status) \
+	|| (data->flags->or && !data->exit_status))
 	{
 		data->flags->prio = true;
 		prio_free_argv(data);
-		while (cmd[*i] && cmd[*i] != ')')
+		while (cmd[*i] && cmd[*i] != ')' && cmd[*i] != '|' && cmd[*i] != '&')
 			(*i)++;
 	}
 	else

@@ -12,12 +12,14 @@
 
 #include <minishell.h>
 
+//	check if prio is necessary
 void	priorities(t_data *data, char **tmp_cmd, int *i)
 {
 	if (data->argv[0] && (data->argv[0][0] == '(' || data->flags->bracket))
 		prio(data, *tmp_cmd, i);
 }
 
+//	check syntax of the command
 bool	prompt_syntax_check(t_data *data, char **tmp_cmd)
 {
 	if (!check_syntax(data, *tmp_cmd) \

@@ -12,6 +12,7 @@
 
 #include <minishell.h>
 
+//	clears the history and removes them from the config file
 static void	history_clear(t_data *data, int fd)
 {
 	char	tmp_cl[9];
@@ -27,6 +28,7 @@ static void	history_clear(t_data *data, int fd)
 	close (fd);
 }
 
+//	prints all history entries
 static void	history_print(int fd)
 {
 	bool	flag_hist;
@@ -51,6 +53,9 @@ static void	history_print(int fd)
 	}
 }
 
+//	builtin history command
+//	history			print history
+//	history -c		clear history
 bool	builtin_history(t_data *data)
 {
 	int		fd;
@@ -66,6 +71,8 @@ bool	builtin_history(t_data *data)
 	return (true);
 }
 
+//	persistent history which also compares the current command with the previous
+//	one and only stores it if it's different
 void	history(t_data *data)
 {
 	if (strdiff(data->cmd, data->last_cmd))

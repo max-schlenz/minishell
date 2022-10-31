@@ -12,8 +12,7 @@
 
 #include <minishell.h>
 
-// if (data->flags->pipe)
-// 	close_pipes(data);
+//	clears buffers after execution
 void	clear_buffers(t_data *data)
 {
 	data->argc = 0;
@@ -29,7 +28,8 @@ void	clear_buffers(t_data *data)
 	data->flags->pipe = false;
 }
 
-void	init_prompt(t_data *data)
+//	resets variables inbetween and after execution
+void	init_prompt(t_data *data, bool execution)
 {
 	data->fd_stdin = dup(0);
 	data->fd_stdout = dup(1);
@@ -40,10 +40,7 @@ void	init_prompt(t_data *data)
 	data->flags->redir_in = false;
 	data->flags->heredoc = false;
 	data->flags->heredoc_begin = false;
-	data->flags->and = false;
-	data->flags->or = false;
 	data->flags->pipe = false;
-	data->flags->bracket = false;
 	data->flags->prio = false;
 	data->cd.oldpwd_err = false;
 	data->counter_pipes = 0;
@@ -53,8 +50,16 @@ void	init_prompt(t_data *data)
 	data->fd_i = 0;
 	data->pid = 1;
 	data->flags->f_esc = false;
+	if (!execution)
+	{
+		data->flags->and = false;
+		data->flags->or = false;
+		data->flags->bracket = false;
+	}
 }
 
+//	updates data->counter_pipes to reflect the number of pipes in the current 
+//	stage of execution.
 bool	count_pipes(t_data *data, char *cmd)
 {
 	int		i;
@@ -76,18 +81,28 @@ bool	count_pipes(t_data *data, char *cmd)
 	return (false);
 }
 
+//	executable launch switches
+//
+// ./minishell -c	commands are read from the following argument
+// ./minishell -r	remove config file and exit
 static void	switches(t_data *data, int argc, char **argv)
 {
 	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
 	{
-		init_prompt(data);
+		init_prompt(data, false);
 		data->exit_status = prompt(data, argv[2], 1);
 		clear_buffers(data);
 		cleanup(data, 0);
 	}
-	if (argc >= 2 && !ft_strncmp(argv[1], "-r", 3))
+	else if (argc >= 2 && !ft_strncmp(argv[1], "-r", 3))
 	{
-		unlink(CFG);
+		if (!access(CFG, F_OK))
+		{
+			unlink(CFG);
+			ft_putendl_fd("config file removed\nexit", 2);
+		}
+		else
+			ft_putendl_fd("config file not found\nexit", 2);
 		cleanup(data, 0);
 	}
 }
@@ -104,7 +119,7 @@ int	main(int argc, char **argv, char **envp)
 	read_cfg(data);
 	while (1)
 	{
-		init_prompt(data);
+		init_prompt(data, false);
 		prompt(data, NULL, 0);
 		clear_buffers(data);
 	}

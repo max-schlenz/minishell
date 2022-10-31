@@ -33,7 +33,7 @@ static bool	setup_redir_util(t_data *data, char *cmd, int *i)
 	if ((*i) < (int)ft_strlen(cmd))
 	{
 		(*i)++;
-		if (setup_pipe(data, cmd, i))
+		if (pipe_(data, cmd, i))
 			return (true);
 	}
 	data->parser.arg_start = (*i);
@@ -45,7 +45,7 @@ static bool	setup_redir_util(t_data *data, char *cmd, int *i)
 	return (false);
 }
 
-bool	setup_redir(t_data *data, char *cmd, int *i)
+bool	redir(t_data *data, char *cmd, int *i)
 {
 	if (!data->flags->f_dquote && !data->flags->f_squote && !data->flags->f_esc
 		&& (cmd[*i] == '>' || cmd[*i] == '<'))

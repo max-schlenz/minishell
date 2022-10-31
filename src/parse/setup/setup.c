@@ -12,30 +12,21 @@
 
 #include <minishell.h>
 
-static void	setup_def(t_data *data, char *cmd, int *i)
-{
-	if (!data->flags->f_dquote && !data->flags->f_squote
-		&& cmd[(*i)]
-		&& cmd[(*i) + 1]
-		&& cmd[(*i)] == ' '
-		&& cmd[(*i) + 1] != ' ')
-		setup_argv_parse_arg(data, cmd, (*i), false);
-}
 
 static bool	setup_argv_parse(t_data *data, char *cmd, int *i, int start_args)
 {
 	while (cmd[*i])
 	{
-		if (setup_andor(data, cmd, i, start_args))
+		if (andor(data, cmd, i, start_args))
 			return (true);
-		if (setup_redir(data, cmd, i))
+		if (redir(data, cmd, i))
 			return (true);
-		if (setup_pipe(data, cmd, i))
+		if (pipe_(data, cmd, i))
 			return (true);
-		setup_subshell(data, cmd, i);
-		setup_esc(data, cmd, i);
-		setup_qflags(data, cmd, i);
-		if (setup_col(data, cmd, i))
+		subshell(data, cmd, i);
+		escape(data, cmd, i);
+		quote_flags(data, cmd, i);
+		if (col(data, cmd, i))
 			return (true);
 		setup_def(data, cmd, i);
 		data->flags->f_esc = false;
@@ -43,13 +34,6 @@ static bool	setup_argv_parse(t_data *data, char *cmd, int *i, int start_args)
 			(*i)++;
 	}
 	return (false);
-}
-
-void	setup_reset_flags(t_data *data)
-{
-	data->flags->f_dquote = false;
-	data->flags->f_squote = false;
-	data->flags->f_esc = false;
 }
 
 bool	setup_argv(t_data *data, char *cmd, int *i)
@@ -66,7 +50,7 @@ bool	setup_argv(t_data *data, char *cmd, int *i)
 		if (setup_argv_parse(data, cmd, i, start_args))
 			return (true);
 		if (cmd[*i] || data->flags->heredoc || !data->flags->heredoc)
-			setup_argv_parse_arg(data, cmd, (*i), true);
+			setup_argv_write_arg(data, cmd, (*i), true);
 		data->argv[data->parser.array_index] = NULL;
 		return (true);
 	}

@@ -12,6 +12,23 @@
 
 #include <minishell.h>
 
+void	setup_reset_flags(t_data *data)
+{
+	data->flags->f_dquote = false;
+	data->flags->f_squote = false;
+	data->flags->f_esc = false;
+}
+
+void	setup_def(t_data *data, char *cmd, int *i)
+{
+	if (!data->flags->f_dquote && !data->flags->f_squote
+		&& cmd[(*i)]
+		&& cmd[(*i) + 1]
+		&& cmd[(*i)] == ' '
+		&& cmd[(*i) + 1] != ' ')
+		setup_argv_write_arg(data, cmd, (*i), false);
+}
+
 bool	setup_alloc_argv(t_data *data, char *cmd)
 {
 	int		mem;
@@ -22,13 +39,13 @@ bool	setup_alloc_argv(t_data *data, char *cmd)
 	setup_reset_flags(data);
 	while (cmd[i])
 	{
-		setup_esc(data, cmd, &i);
-		setup_qflags(data, cmd, &i);
-		setup_subshell(data, cmd, &i);
+		escape(data, cmd, &i);
+		quote_flags(data, cmd, &i);
+		subshell(data, cmd, &i);
 		if (!data->flags->f_dquote && !data->flags->f_squote
-			&& cmd[i] == ' ' && cmd[i + 1] && cmd[i + 1] != ' '
+			&& cmd[i] && cmd[i] == ' ' && cmd[i + 1] && cmd[i + 1] != ' ' 
 			&& cmd[i + 1] != '|' && cmd[i + 1] != '&')
-			mem++;
+				mem++;
 		i++;
 		data->flags->f_esc = false;
 	}
@@ -41,7 +58,7 @@ bool	setup_alloc_argv(t_data *data, char *cmd)
 		return (printf(E_NC_QUOTE), false);
 }
 
-void	setup_qflags(t_data *data, char *cmd, int *i)
+void	quote_flags(t_data *data, char *cmd, int *i)
 {
 	if (!data->flags->f_esc)
 	{

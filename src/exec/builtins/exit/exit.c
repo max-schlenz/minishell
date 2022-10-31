@@ -67,7 +67,8 @@ static bool	exit_err(t_data *data)
 
 bool	builtin_exit(t_data *data)
 {
-	write(2, "exit\n", 6);
+	if (!data->flags->pipe)
+		write(1, "exit\n", 6);
 	if (data->argc > 1)
 	{
 		write(2, E_TM_ARG, 27);

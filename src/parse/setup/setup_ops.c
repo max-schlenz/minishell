@@ -12,19 +12,19 @@
 
 #include <minishell.h>
 
-bool	setup_andor(t_data *data, char *cmd, int *i, int start_args)
+bool	andor(t_data *data, char *cmd, int *i, int start_args)
 {
 	if (!data->flags->f_dquote && !data->flags->f_squote && !data->flags->f_esc)
 	{
 		if (!ft_strncmp(cmd + (*i), "&&", 2))
-			return (setup_argv_is_and(data, i, start_args));
+			return (setup_argv_parse_and(data, i, start_args));
 		if (!ft_strncmp(cmd + (*i), "||", 2))
-			return (setup_argv_is_or(data, i, start_args));
+			return (setup_argv_parse_or(data, i, start_args));
 	}
 	return (false);
 }
 
-bool	setup_esc(t_data *data, char *cmd, int *i)
+bool	escape(t_data *data, char *cmd, int *i)
 {
 	if (cmd[*i] == '\\')
 	{
@@ -36,33 +36,33 @@ bool	setup_esc(t_data *data, char *cmd, int *i)
 	return (false);
 }
 
-bool	setup_pipe(t_data *data, char *cmd, int *i)
+bool	pipe_(t_data *data, char *cmd, int *i)
 {
 	if (!data->flags->f_dquote && !data->flags->f_squote && !data->flags->f_esc
 		&& cmd[*i] == '|')
 	{
 		data->counter_pipes++;
-		return (setup_argv_is_pipe(data, i));
+		return (setup_argv_parse_pipe(data, i));
 	}
 	return (false);
 }
 
-bool	setup_col(t_data *data, char *cmd, int *i)
+bool	col(t_data *data, char *cmd, int *i)
 {
 	if ((!data->flags->f_dquote && !data->flags->f_esc)
 		&& (cmd[*i] == ';' || (cmd[*i] == '&' && cmd[(*i) + 1])))
-		return (setup_semicolon(data, cmd, i));
+		return (semicolon(data, cmd, i));
 	return (false);
 }
 
-bool	setup_semicolon(t_data *data, char *cmd, int *i)
+bool	semicolon(t_data *data, char *cmd, int *i)
 {
 	while (waitpid(-1, &data->exit_code, 0) != -1)
 	{
 		if (WIFEXITED(data->exit_code))
 			data->exit_status = WEXITSTATUS(data->exit_code);
 	}
-	setup_argv_parse_arg(data, cmd, (*i), false);
+	setup_argv_write_arg(data, cmd, (*i), false);
 	(*i) += 1;
 	return (true);
 }

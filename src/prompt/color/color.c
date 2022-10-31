@@ -83,6 +83,8 @@ static void	color_prompt(t_data *data, char *cfg)
 	}
 }
 
+//	builtin prompt color settings
+//	color
 bool	builtin_color(t_data *data, char *cfg)
 {
 	data->color.prompt[1] = ft_strdup("mini");

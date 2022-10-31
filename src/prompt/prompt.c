@@ -14,6 +14,7 @@
 
 // data->cmd = get_next_line(0);
 // data->cmd = ft_strtrim(data->cmd, "\n");
+//	builds and displays the prompt
 static void	show_prompt(t_data *data)
 {
 	char	*cwd;
@@ -32,6 +33,7 @@ static void	show_prompt(t_data *data)
 	free (prompt);
 }
 
+//	pre-parsing of the command
 static bool	prompt_prep(t_data *data, char **tmp_cmd)
 {
 	history(data);
@@ -46,6 +48,7 @@ static bool	prompt_prep(t_data *data, char **tmp_cmd)
 	return (false);
 }
 
+//	evaluates if execution should take place and calls executor
 static void	prompt_exec(t_data *data)
 {
 	if ((data->flags->prompt_exec)
@@ -63,6 +66,7 @@ static void	prompt_exec(t_data *data)
 	data->argv = NULL;
 }
 
+//	parsing of the command, expanding variables and preparing for execution
 static void	prompt_iter(t_data *data, char *tmp_cmd)
 {
 	int		i;
@@ -71,8 +75,8 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 	while (tmp_cmd[i] && tmp_cmd[0])
 	{
 		while (tmp_cmd[i] == ' ' || tmp_cmd[i] == ';'
-			|| (tmp_cmd[i] && tmp_cmd[i + 1] \
-			&& tmp_cmd[i] == '&' && tmp_cmd[i + 1] != '&'))
+			 || (tmp_cmd[i] && tmp_cmd[i + 1] \
+			 && tmp_cmd[i] == '&' && tmp_cmd[i + 1] != '&'))
 				i++;
 		setup_argv(data, tmp_cmd, &i);
 		if (!i)
@@ -92,6 +96,7 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 	}
 }
 
+//	displays a prompt and waits for user input, or - if given - processes 'cmd'.
 int	prompt(t_data *data, char *cmd, int flag)
 {
 	char	*tmp_cmd;
