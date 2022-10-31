@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_special_cases.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:04:39 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 14:08:17 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/31 14:12:56 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	expand_vars_not_exist(t_data *data)
 	{
 		free_null(1, &data->argv[i]);
 		data->argv[i] = ft_strjoin_dup(data->var.pre, data->var.rest);
-		free_null(3, &data->var.pre,
-			&data->var.rest,
-			&data->var.name);
 	}
+	free_null(3, &data->var.pre,
+		&data->var.rest,
+		&data->var.name);
 }
