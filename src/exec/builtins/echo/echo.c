@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:26 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 18:46:59 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/31 13:20:46 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,16 +76,19 @@ bool	builtin_echo(t_data *data)
 		echo_n = echo_n_flag(data);
 	while (data->argv[i])
 	{
+		//printf("%s\n", data->argv[i]);
 		while (echo_n && data->argv[i] && !ft_strncmp(data->argv[i], "-n", 2))
 			i++;
 		if (!echo_print(data, i))
 			break ;
+		if (i < data->argc)
+			printf(" ");
 		if (data->argv[i])
 			i++;
-		if ((i <= data->argc && ft_strlen(data->argv[i]) > 1)
-			|| (data->echo.f_fc && data->argv[i] && ft_strlen(data->argv[i]) > 0
-				&& (!(echo_n && i < 3))))
-			printf(" ");
+		// if ((i <= data->argc && ft_strlen(data->argv[i]) > 1)
+		// 	|| (data->echo.f_fc && data->argv[i] && ft_strlen(data->argv[i]) > 0
+		// 		&& (!(echo_n && i < 3))))
+		// 	printf(" ");
 	}
 	if (!echo_n)
 		printf("\n");

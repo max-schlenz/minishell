@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_special_cases.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:04:39 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 16:47:30 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/31 13:51:52 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,22 @@ void	expand_vars_shell(t_data *data)
 		data->var.value = ft_strdup("");
 }
 
+static void expand_realloc_argv(t_data *data, int i)
+{
+	//char **ret;
+
+	//ret = (char **)ft_calloc(data->argc, sizeof(char *));
+	free(data->argv[data->argc + 1]);
+	printf("argc - 1 %s\n", data->argv[data->argc]);
+	data->argv[data->argc] = NULL;
+	data->argc--;
+	while (data->argv[i + 1])
+	{
+		data->argv[i] = data->argv[i + 1];
+		i++;
+	}
+}
+
 void	expand_vars_not_exist(t_data *data)
 {
 	int		i;
@@ -44,9 +60,15 @@ void	expand_vars_not_exist(t_data *data)
 	arg = data->argv[i];
 	data->var.rest
 		= ft_strdup(arg + i_char + ft_strlen(data->var.name));
-	free_null(1, &data->argv[i]);
-	data->argv[i] = ft_strjoin_dup(data->var.pre, data->var.rest);
-	free_null(3, &data->var.pre,
-		&data->var.rest,
-		&data->var.name);
+	printf("rest __%c__\n", *data->var.rest);
+	if (!*data->var.rest)
+		expand_realloc_argv(data, i);
+	else
+	{
+		free_null(1, &data->argv[i]);
+		data->argv[i] = ft_strjoin_dup(data->var.pre, data->var.rest);
+		free_null(3, &data->var.pre,
+			&data->var.rest,
+			&data->var.name);
+	}
 }

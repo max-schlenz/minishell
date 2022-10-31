@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:01:41 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 18:49:03 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/31 13:17:55 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ void	expand_vars_init(t_data *data, bool flag)
 void	expand_vars_weird_special_case(t_data *data, bool flag)
 {
 	free_null (1, &data->argv[data->var.i_arg]);
-	if (flag)
-		data->argv[data->var.i_arg] = ft_strdup("");
+	data->argv[data->var.i_arg] = ft_strdup("");
 }
 
 bool	v_ex(t_data *data)

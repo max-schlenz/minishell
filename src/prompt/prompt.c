@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 11:10:28 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/31 13:39:34 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,18 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 				&& tmp_cmd[i] == '&' && tmp_cmd[i + 1] != '&'))
 			i++;
 		setup_argv(data, tmp_cmd, &i);
+		int j = 0;
+		while (data->argv[j])
+			printf("data argv __%s__\n", data->argv[j++]);
 		if (!i)
 		{
 			free_array(data->argv);
 			break ;
 		}
 		expand_vars(data);
+		j = 0;
+		while (data->argv[j])
+			printf("data argv __%s__\n", data->argv[j++]);
 		get_all_names(data);
 		priorities(data, &tmp_cmd, &i);
 		if (!data->argv[0])

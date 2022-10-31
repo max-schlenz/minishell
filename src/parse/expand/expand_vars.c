@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 09:46:57 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 19:02:06 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/31 13:41:23 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,13 +119,13 @@ bool	expand_vars(t_data *data)
 			break ;
 		// if (ft_strlen(data->argv[data->var.i_arg]) > 2)
 			expand_vars_rm_mod(data);
-		 if (ft_strncmp(data->argv[0], "echo", 4)
+		 if (!ft_strncmp(data->argv[0], "echo", 4)
 			&& (!ft_strncmp(data->argv[data->var.i_arg], "\'\'", 2)
 				|| !ft_strncmp(data->argv[data->var.i_arg], "\"\"", 2)))
 			expand_vars_weird_special_case(data, true);
-		if (!data->argv[data->var.i_arg][0]
-			&& data->argc == data->var.i_arg)
-			expand_vars_weird_special_case(data, false);
+		// if (!data->argv[data->var.i_arg][0]
+		// 	&& data->argc == data->var.i_arg)
+		// 	expand_vars_weird_special_case(data, false);
 		expand_vars_init(data, false);
 	}
 	return (true);
