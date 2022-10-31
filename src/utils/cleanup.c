@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 18:10:06 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/31 11:27:31 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,6 @@ void	free_argv(t_data *data, char **array)
 	i = 0;
 	while (i <= data->argc)
 		free(array[i++]);
-}
-
-void	free_array(char **array)
-{
-	int	i;
-
-	if (!array)
-		return ;
-	i = 0;
-	while (array[i])
-		free(array[i++]);
-	if (array)
-		free(array);
-	array = NULL;
 }
 
 void	close_pipes(t_data *data)

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 13:16:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/07/02 11:26:28 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/31 11:32:35 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_bzero(void *s, size_t n)
 	i = 0;
 	while (i < n)
 	{
-	((char *)s)[i] = '\0';
-	i++;
+		((char *)s)[i] = '\0';
+		i++;
 	}
 }

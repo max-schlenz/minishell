@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   color_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 22:38:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 22:40:02 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/31 11:48:14 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 void	color_cleanup(t_data *data)
 {
-	free (data->color.prompt[0]);
-	free (data->color.prompt[1]);
-	free (data->color.prompt[2]);
-	free (data->color.prompt[3]);
-	free (data->color.prompt_tmp);
-	free (data->color.prompt_tmp2);
-	free (data->color.cfg_str_pf);
-	free (data->color.cfg_str_cl);
-	free (data->color.cfg_str);
+	free_null (9, &data->color.prompt[0],
+		&data->color.prompt[1],
+		&data->color.prompt[2],
+		&data->color.prompt[3],
+		&data->color.prompt_tmp,
+		&data->color.prompt_tmp2,
+		&data->color.cfg_str_pf,
+		&data->color.cfg_str_cl,
+		&data->color.cfg_str);
 }
 
 void	color_help(void)

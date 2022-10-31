@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   prompt_history.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 10:13:35 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/27 14:03:27 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/31 11:52:10 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ static void	history_clear(t_data *data, int fd)
 	fd = open(CFG, O_RDWR | O_TRUNC);
 	if (!fd || access(CFG, F_OK))
 		cleanup(data, E_RW);
-	write(fd, tmp_cl, 8);
-	write(fd, "\n", 1);
+	ft_putendl_fd(tmp_cl, 2);
 	close (fd);
 }
 
@@ -72,11 +71,10 @@ void	history(t_data *data)
 	if (strdiff(data->cmd, data->last_cmd))
 	{
 		add_history(data->cmd);
-		write(data->mscfg, "HISTORY=", 8);
-		write(data->mscfg, data->cmd, ft_strlen(data->cmd));
-		write(data->mscfg, "\n", 1);
+		ft_putstr_fd("HISTORY=", data->mscfg);
+		ft_putendl_fd(data->cmd, data->mscfg);
 	}
 	if (data->last_cmd)
-		free (data->last_cmd);
+		free_null (1, &data->last_cmd);
 	data->last_cmd = ft_strdup(data->cmd);
 }

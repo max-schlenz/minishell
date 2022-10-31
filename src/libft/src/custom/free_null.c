@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   free_null.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/28 17:39:37 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 11:33:18 by mschlenz         ###   ########.fr       */
+/*   Created: 2022/10/31 11:15:01 by mschlenz          #+#    #+#             */
+/*   Updated: 2022/10/31 11:16:07 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-void	*ft_memchr(const void *s, int c, size_t n)
+void	free_null(int index, ...)
 {
-	size_t	i;
+	va_list	args;
+	char	**tmp;
 
-	i = 0;
-	while (i < n)
+	va_start(args, index);
+	while (index)
 	{
-		if (((unsigned char *)s)[i] == (unsigned char)c)
-			return ((unsigned char *)s + i);
-		i++;
-	}
-	return (0);
+		tmp = va_arg(args, char **);
+		if (*tmp)
+			free (*tmp);
+		*tmp = NULL;
+		index--;
+	}	
+	va_end(args);
 }

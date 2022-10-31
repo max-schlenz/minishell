@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   free_array.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/28 17:39:37 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 11:33:18 by mschlenz         ###   ########.fr       */
+/*   Created: 2022/10/31 11:27:05 by mschlenz          #+#    #+#             */
+/*   Updated: 2022/10/31 11:30:45 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-void	*ft_memchr(const void *s, int c, size_t n)
+void	free_array(char **array)
 {
-	size_t	i;
+	int	i;
 
+	if (!array)
+		return ;
 	i = 0;
-	while (i < n)
-	{
-		if (((unsigned char *)s)[i] == (unsigned char)c)
-			return ((unsigned char *)s + i);
-		i++;
-	}
-	return (0);
+	while (array[i])
+		free(array[i++]);
+	if (array)
+		free(array);
+	array = NULL;
 }

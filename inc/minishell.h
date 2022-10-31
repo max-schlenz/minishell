@@ -148,7 +148,6 @@ void		priorities(t_data *data, char **tmp_cmd, int *i);
 void		cleanup(t_data *data, int flag);
 void		close_pipes(t_data *data);
 void		free_argv(t_data *data, char **array);
-void		free_array(char **array);
 void		ms_exit(t_status flag, int exit_status);
 
 //utils/config.c
@@ -157,11 +156,6 @@ void		read_cfg_history(t_data *data, char *read_buf);
 //utils/init.c
 void		init_vars(t_data *data);
 void		open_pipes(t_data *data);
-
-//utils/merge_str.c
-void		free_null(int index, ...);
-char		*merge_str(int index, ...);
-char		*realloc_ptr(char *ptr, char *new, bool free_new);
 
 //utils/signal.c
 void		heredoc_sig(void);

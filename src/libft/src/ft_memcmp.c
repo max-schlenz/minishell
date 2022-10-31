@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 17:39:37 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/05/27 15:14:09 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/31 11:33:23 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 	{
 		if (((unsigned char *)s1)[i] != ((unsigned char *)s2)[i])
 		{
-		c_s = (c_s + (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]));
+			c_s = (c_s + (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]));
 			return (c_s);
 		}
 		i++;

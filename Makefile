@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/30 18:17:46 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/10/31 11:46:04 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,10 +91,8 @@ SRC				= 	${NAME}													\
 					utils/cleanup											\
 					utils/config											\
 					utils/init												\
-					utils/merge_str											\
 					utils/signal											\
 					utils/utils												\
-
 
 INC				=	${NAME}								\
 					data								\

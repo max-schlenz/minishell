@@ -6,12 +6,11 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 08:01:45 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 15:09:49 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/10/31 11:17:18 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
-#include <stdio.h>
+#include <libft.h>
 
 static char	*build_str(char **strings, int len)
 {	
@@ -69,37 +68,6 @@ char	*merge_str(int index, ...)
 		len += ft_strlen(strings[i++]);
 	ret = build_str(strings, len);
 	free (strings);
-	return (ret);
-}
-
-void	free_null(int index, ...)
-{
-	va_list	args;
-	char	**tmp;
-
-	va_start(args, index);
-	while (index)
-	{
-		tmp = va_arg(args, char **);
-		if (*tmp)
-			free (*tmp);
-		*tmp = NULL;
-		index--;
-	}	
-	va_end(args);
-}
-
-char	*realloc_ptr(char *ptr, char *new, bool free_new)
-{
-	char	*ret;
-
-	free (ptr);
-	ret = ft_strdup(new);
-	if (free_new)
-	{
-		free (new);
-		new = NULL;
-	}
 	return (ret);
 }
 
