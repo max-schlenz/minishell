@@ -49,3 +49,9 @@ ls > out && |
 ls > out && x.txt < out
 
 git add inc/ src/ && git commit -m "working on setup"
+
+echo $USER $123456789USER $USER123456789 | cat -e
+echo $USER'$USER'text oui oui oui oui $USER oui $USER '' | cat -e
+echo "''$USER"
+echo '""$USER'
+echo ' ' ' '
