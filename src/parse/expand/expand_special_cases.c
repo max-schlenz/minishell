@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:04:39 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 13:51:52 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/10/31 13:54:21 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static void expand_realloc_argv(t_data *data, int i)
 	printf("argc - 1 %s\n", data->argv[data->argc]);
 	data->argv[data->argc] = NULL;
 	data->argc--;
+	data->var.i_arg--;
+	data->var.i_char = 0;
 	while (data->argv[i + 1])
 	{
 		data->argv[i] = data->argv[i + 1];
