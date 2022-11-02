@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/28 12:44:59 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/02 15:57:58 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	rm_tmp_files(t_data *data)
 		i++;
 	}
 }
-
+//	resolves heredoc
 char	*handle_heredoc(t_data *data, char *cmd)
 {
 	int		i;

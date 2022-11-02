@@ -6,12 +6,13 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:17:45 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 11:28:19 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/02 16:13:38 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+//	check if folder is writable for config file
 static void	check_cfg(t_data *data)
 {
 	int	fd;
@@ -26,6 +27,7 @@ static void	check_cfg(t_data *data)
 	}
 }
 
+//	parse persistent history
 void	read_cfg_history(t_data *data, char *read_buf)
 {
 	char	*history;
@@ -38,6 +40,7 @@ void	read_cfg_history(t_data *data, char *read_buf)
 	free (history);
 }
 
+//	reading and parsing of config file
 void	read_cfg(t_data *data)
 {
 	char	*read_buf;

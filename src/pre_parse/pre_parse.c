@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:32:27 by tdehne            #+#    #+#             */
-/*   Updated: 2022/10/29 12:30:47 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/02 15:57:39 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ char	*pre_parse_skip_d(t_data *data, char *cmd, char delim)
 	return (ret);
 }
 
+
+//	rewrite cmd into a better syntax for the parser
 char	*pre_parse(t_data *data, char *cmd)
 {
 	int		i;

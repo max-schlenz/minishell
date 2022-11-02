@@ -6,12 +6,13 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:01:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/28 12:44:59 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/02 15:58:45 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+//	parses envp path into minishell path array
 void	parse_path(t_data *data)
 {
 	int		i;
@@ -34,6 +35,7 @@ void	parse_path(t_data *data)
 				ft_strtrim(data->path[0], "PATH="), true);
 }
 
+//	sort array lexicographically
 void	sort_array(t_data *data)
 {
 	char	*tmp;
@@ -63,6 +65,7 @@ void	sort_array(t_data *data)
 	}
 }
 
+//	sets some default env variables
 void	init_envp(t_data *data)
 {
 	int		shlvl;
@@ -90,6 +93,8 @@ void	init_envp(t_data *data)
 	free(envv);
 }
 
+
+//	parse system envp into minishell envp array
 void	parse_envp(t_data *data, char **envp)
 {
 	int	i;

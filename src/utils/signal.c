@@ -6,12 +6,13 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 13:02:06 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/25 11:06:10 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/02 16:12:15 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+//	setup heredoc signal handler
 void	heredoc_sig(void)
 {
 	struct sigaction	sa;
@@ -25,6 +26,7 @@ void	heredoc_sig(void)
 	sigaction(SIGINT, &sa, NULL);
 }
 
+//	signal handler to make heredoc prompt interruptable
 void	signal_handler_heredoc(int sig, siginfo_t *info, void *context)
 {
 	(void)context;
@@ -35,7 +37,7 @@ void	signal_handler_heredoc(int sig, siginfo_t *info, void *context)
 		exit(1);
 	}
 }
-
+//	signal handler for execution of child
 void	signal_handler_child(int sig, siginfo_t *info, void *context)
 {
 	(void)context;
@@ -47,6 +49,7 @@ void	signal_handler_child(int sig, siginfo_t *info, void *context)
 		write(2, "\n", 1);
 }
 
+//	signal handler for idle shell
 void	signal_handler(int sig, siginfo_t *info, void *context)
 {
 	(void)context;
@@ -59,6 +62,7 @@ void	signal_handler(int sig, siginfo_t *info, void *context)
 	}
 }
 
+//	setup signal handlers
 void	signals(bool in_child)
 {
 	struct sigaction	sa;

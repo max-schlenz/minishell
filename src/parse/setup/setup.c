@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   setup.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 18:02:10 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/02 16:15:15 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-
+//	parse cmd, set parameters for execution and write argv
 static bool	setup_argv_parse(t_data *data, char *cmd, int *i, int start_args)
 {
 	while (cmd[*i])
@@ -36,6 +36,7 @@ static bool	setup_argv_parse(t_data *data, char *cmd, int *i, int start_args)
 	return (false);
 }
 
+//	setup command table for execution
 bool	setup_argv(t_data *data, char *cmd, int *i)
 {
 	int		start_args;

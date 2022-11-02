@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:23:56 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/02 14:34:23 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/02 16:16:26 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	setup_reset_flags(t_data *data)
 	data->flags->f_esc = false;
 }
 
+//	write command to argv
 void	setup_def(t_data *data, char *cmd, int *i)
 {
 	if (!data->flags->f_dquote && !data->flags->f_squote
@@ -29,6 +30,7 @@ void	setup_def(t_data *data, char *cmd, int *i)
 		setup_argv_write_arg(data, cmd, (*i), false);
 }
 
+//	allocates memory for argv and checks for unclosed quotes
 bool	setup_alloc_argv(t_data *data, char *cmd)
 {
 	int		mem;
@@ -58,6 +60,7 @@ bool	setup_alloc_argv(t_data *data, char *cmd)
 		return (printf(E_NC_QUOTE), false);
 }
 
+//	set quote flags
 void	quote_flags(t_data *data, char *cmd, int *i)
 {
 	if (!data->flags->f_esc)
@@ -69,6 +72,7 @@ void	quote_flags(t_data *data, char *cmd, int *i)
 	}
 }
 
+//	setup filenames for redirections
 bool	setup_all_filenames(t_data *data, int *i, char *cmd, int flag)
 {
 	size_t	start;
@@ -76,7 +80,7 @@ bool	setup_all_filenames(t_data *data, int *i, char *cmd, int flag)
 	start = *i;
 	if (start > ft_strlen(cmd))
 	{
-		write(2, "Syntax error\n", 14);
+		write(2, "Syntax error near\n", 14);
 		return (data->exit_status = 2, (*i) = ft_strlen(cmd), false);
 	}
 	while (cmd[*i] && cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<')

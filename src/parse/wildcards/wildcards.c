@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:26:31 by tdehne            #+#    #+#             */
-/*   Updated: 2022/10/19 14:41:16 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/02 15:58:57 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	ext_wildcards(t_data *data, char *to_ext, char **files, int argv_i)
 	}
 }
 
+//	expand wildcards
 void	get_all_names(t_data *data)
 {
 	int		i;

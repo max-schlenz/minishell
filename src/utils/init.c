@@ -6,23 +6,25 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/02 14:26:58 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/02 16:17:47 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+//	REMOVE!
 static void	init_dbg(t_data *data)
 {
 	data->debug = fopen(DBG, "w");
 	fclose(data->debug);
 }
 
+//	initializes/resets variables
 void	init_vars(t_data *data)
 {
 	data->hdoc.quote = false;
 	data->hdoc.hd = false;
-	data->flags->debug = 1;
+	data->flags->debug = false;
 	data->flags->macos = true;
 	data->flags->pipe = false;
 	data->flags->error = false;
@@ -56,6 +58,7 @@ void	open_pipes(t_data *data)
 		pipe(data->pipes->pipefd[i++]);
 }
 
+//	allocates memory for data struct
 t_data	*allocate_mem(void)
 {
 	t_data	*data;

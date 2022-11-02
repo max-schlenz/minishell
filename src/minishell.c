@@ -107,6 +107,7 @@ static void	switches(t_data *data, int argc, char **argv)
 	}
 }
 
+//	minishell project by Talea & Max
 int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
