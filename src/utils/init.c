@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/02 14:06:21 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/02 14:26:58 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ void	init_vars(t_data *data)
 {
 	data->hdoc.quote = false;
 	data->hdoc.hd = false;
-	data->flags->debug = false;
+	data->flags->debug = 1;
 	data->flags->macos = true;
 	data->flags->pipe = false;
 	data->flags->error = false;
+	data->flags->reset = false;
 	data->file_name = NULL;
 	data->file_name2 = NULL;
 	data->file_name_append = NULL;

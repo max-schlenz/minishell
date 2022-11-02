@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 16:47:44 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/02 14:20:17 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ typedef struct s_flags {
 	bool	debug;
 	bool	bracket;
 	bool	prio;
+	bool	reset;
 	bool	noenv;
 	bool	exit_code_of;
 	bool	macos;
