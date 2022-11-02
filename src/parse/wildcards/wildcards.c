@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:26:31 by tdehne            #+#    #+#             */
-/*   Updated: 2022/11/02 15:58:57 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/02 17:16:38 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	ext_wildcards(t_data *data, char *to_ext, char **files, int argv_i)
 		else
 		{
 			data->argv = realloc_argv(data, argv_i, *files, 0);
+			data->argc++;
 			argv_i++;
 		}
 		files++;
