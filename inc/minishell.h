@@ -359,7 +359,7 @@ size_t		strlen_var(const char *c);
 //utils/init.c
 t_data		*allocate_mem(void);
 
-void	setup_reset_flags(t_data *data);
-void	setup_def(t_data *data, char *cmd, int *i);
+void		setup_reset_flags(t_data *data);
+void		setup_def(t_data *data, char *cmd, int *i);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 13:02:06 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/02 16:12:15 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/02 16:46:29 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	signal_handler_heredoc(int sig, siginfo_t *info, void *context)
 		exit(1);
 	}
 }
+
 //	signal handler for execution of child
 void	signal_handler_child(int sig, siginfo_t *info, void *context)
 {

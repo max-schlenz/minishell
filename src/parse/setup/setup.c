@@ -3,14 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   setup.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/02 16:15:15 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/02 16:52:08 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+//	allocates memory for argv and checks for unclosed quotes
+bool	setup_alloc_argv(t_data *data, char *cmd)
+{
+	int		mem;
+	int		i;
+
+	mem = 1;
+	i = 0;
+	setup_reset_flags(data);
+	while (cmd[i])
+	{
+		escape(data, cmd, &i);
+		quote_flags(data, cmd, &i);
+		subshell(data, cmd, &i);
+		if (!data->flags->f_dquote && !data->flags->f_squote
+			&& cmd[i] && cmd[i] == ' ' && cmd[i + 1] && cmd[i + 1] != ' '
+			&& cmd[i + 1] != '|' && cmd[i + 1] != '&')
+				mem++;
+		i++;
+		data->flags->f_esc = false;
+	}
+	if (!data->flags->f_dquote && !data->flags->f_squote)
+	{
+		data->argv = ft_calloc(mem + 2, (sizeof(char *)));
+		return (true);
+	}
+	else
+		return (printf(E_NC_QUOTE), false);
+}
+
+//	write command to argv
+void	setup_def(t_data *data, char *cmd, int *i)
+{
+	if (!data->flags->f_dquote && !data->flags->f_squote
+		&& cmd[(*i)]
+		&& cmd[(*i) + 1]
+		&& cmd[(*i)] == ' '
+		&& cmd[(*i) + 1] != ' ')
+		setup_argv_write_arg(data, cmd, (*i), false);
+}
 
 //	parse cmd, set parameters for execution and write argv
 static bool	setup_argv_parse(t_data *data, char *cmd, int *i, int start_args)

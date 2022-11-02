@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:23:56 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/02 16:16:26 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/02 16:51:58 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,47 +19,6 @@ void	setup_reset_flags(t_data *data)
 	data->flags->f_esc = false;
 }
 
-//	write command to argv
-void	setup_def(t_data *data, char *cmd, int *i)
-{
-	if (!data->flags->f_dquote && !data->flags->f_squote
-		&& cmd[(*i)]
-		&& cmd[(*i) + 1]
-		&& cmd[(*i)] == ' '
-		&& cmd[(*i) + 1] != ' ')
-		setup_argv_write_arg(data, cmd, (*i), false);
-}
-
-//	allocates memory for argv and checks for unclosed quotes
-bool	setup_alloc_argv(t_data *data, char *cmd)
-{
-	int		mem;
-	int		i;
-
-	mem = 1;
-	i = 0;
-	setup_reset_flags(data);
-	while (cmd[i])
-	{
-		escape(data, cmd, &i);
-		quote_flags(data, cmd, &i);
-		subshell(data, cmd, &i);
-		if (!data->flags->f_dquote && !data->flags->f_squote
-			&& cmd[i] && cmd[i] == ' ' && cmd[i + 1] && cmd[i + 1] != ' ' 
-			&& cmd[i + 1] != '|' && cmd[i + 1] != '&')
-				mem++;
-		i++;
-		data->flags->f_esc = false;
-	}
-	if (!data->flags->f_dquote && !data->flags->f_squote)
-	{
-		data->argv = ft_calloc(mem + 2, (sizeof(char *)));
-		return (true);
-	}
-	else
-		return (printf(E_NC_QUOTE), false);
-}
-
 //	set quote flags
 void	quote_flags(t_data *data, char *cmd, int *i)
 {
@@ -70,6 +29,17 @@ void	quote_flags(t_data *data, char *cmd, int *i)
 		if (cmd[*i] == '\'' && !data->flags->f_dquote)
 			data->flags->f_squote = !data->flags->f_squote;
 	}
+}
+
+int	next_cmd(int *i, char *cmd)
+{
+	while (cmd[*i])
+	{
+		if (!ft_strncmp(cmd + *i, "&&", 2) || !ft_strncmp(cmd + *i, "||", 2))
+			return (*i);
+		(*i)++;
+	}
+	return (*i);
 }
 
 //	setup filenames for redirections
@@ -89,14 +59,15 @@ bool	setup_all_filenames(t_data *data, int *i, char *cmd, int flag)
 	{
 		data->file_name = ft_substr(cmd, start, *i - start);
 		if (access((data->file_name), F_OK) == -1)
-			return (builtin_error(data, 8, data->file_name, 1),
-				(*i) = ft_strlen(cmd), false);
+			return (builtin_error(data, 8, data->file_name, 1), \
+			(*i) = next_cmd(i, cmd), data->flags->prompt_exec = false, true);
 	}
 	else if (flag == 1)
 		data->file_name2 = ft_substr(cmd, start, *i - start);
 	else if (flag == 2)
 		data->file_name_append = ft_substr(cmd, start, *i - start);
-	if (!cmd[*i] || !ft_strncmp(cmd + (*i) + 1, "&&", 2) || !ft_strncmp(cmd + (*i) + 1, "||", 2))
+	if (!cmd[*i] || !ft_strncmp(cmd + (*i) + 1, "&&", 2)
+		|| !ft_strncmp(cmd + (*i) + 1, "||", 2))
 		return (true);
 	return (false);
 }
