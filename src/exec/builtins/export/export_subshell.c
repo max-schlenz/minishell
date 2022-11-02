@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 07:55:07 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 17:25:09 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/02 13:27:05 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	export_subshell_fork(t_data *data, char *setv)
 
 	subsh_data = allocate_mem();
 	init_vars(subsh_data);
-	init_prompt(subsh_data);
+	init_prompt(subsh_data, false);
 	parse_envp(subsh_data, data->envp);
 	data->exit_status = prompt(subsh_data, setv + strlen_var(setv) + 2, true);
 	clear_buffers(subsh_data);

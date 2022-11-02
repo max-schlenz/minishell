@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 11:22:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/27 15:01:58 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/02 13:36:11 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static bool	exit_err(t_data *data)
 bool	builtin_exit(t_data *data)
 {
 	if (!data->flags->pipe)
-		write(1, "exit\n", 6);
+		write(2, "exit\n", 6);
 	if (data->argc > 1)
 	{
 		write(2, E_TM_ARG, 27);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prio.c                                             :+:      :+:    :+:   */
+/*   prompt_prio.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 13:49:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/19 15:50:22 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/02 14:05:18 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	prio(t_data *data, char *cmd, int *i)
 	{
 		data->flags->prio = true;
 		prio_free_argv(data);
-		while (cmd[*i] && cmd[*i] != ')' && cmd[*i] != '|' && cmd[*i] != '&')
+		while (cmd[*i] && cmd[*i] != ')')// && cmd[*i] != '|' && cmd[*i] != '&')
 			(*i)++;
 	}
 	else

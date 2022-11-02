@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 10:13:07 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/04 17:17:47 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/01 13:28:02 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	**ft_split(char const *s, char c)
 	if (arr)
 		write_string(arr, buf_str, c);
 	else
-		return (0);
+		return (NULL);
 	free(buf_str);
 	return (arr);
 }
