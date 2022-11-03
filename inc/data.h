@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/03 12:35:38 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/03 13:38:08 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,6 @@
 # define DATA_H
 
 # include <minishell.h>
-
-typedef struct s_subshell
-{
-	char	*buf;
-	char	*vcontent;
-	char	*vname;
-	char	*vname_eq;
-	char	*var_tmp;
-	char	*var;
-	int		pipe[2];
-}	t_subshell;
 
 typedef struct s_wcmatch
 {
@@ -206,7 +195,6 @@ typedef struct s_data
 	t_pparse	pparse;
 	t_exit		exit;
 	t_wcmatch	wcmatch;
-	t_subshell	subshell;
 	t_flags		*flags;
 	t_pipes		*pipes;
 }	t_data;

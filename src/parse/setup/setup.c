@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/02 16:52:08 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/03 13:37:30 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ bool	setup_alloc_argv(t_data *data, char *cmd)
 	{
 		escape(data, cmd, &i);
 		quote_flags(data, cmd, &i);
-		subshell(data, cmd, &i);
 		if (!data->flags->f_dquote && !data->flags->f_squote
 			&& cmd[i] && cmd[i] == ' ' && cmd[i + 1] && cmd[i + 1] != ' '
 			&& cmd[i + 1] != '|' && cmd[i + 1] != '&')
@@ -64,7 +63,6 @@ static bool	setup_argv_parse(t_data *data, char *cmd, int *i, int start_args)
 			return (true);
 		if (pipe_(data, cmd, i))
 			return (true);
-		subshell(data, cmd, i);
 		escape(data, cmd, i);
 		quote_flags(data, cmd, i);
 		if (col(data, cmd, i))

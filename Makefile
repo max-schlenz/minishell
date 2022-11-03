@@ -6,7 +6,7 @@
 #    By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/11/03 12:29:27 by tdehne           ###   ########.fr        #
+#    Updated: 2022/11/03 13:37:10 by tdehne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,6 @@ SRC				= 	${NAME}													\
 					exec/builtins/env/env									\
 					exec/builtins/exit/exit									\
 					exec/builtins/export/export								\
-					exec/builtins/export/export_subshell					\
 					exec/builtins/export/export_utils						\
 					exec/builtins/pwd/pwd									\
 					exec/builtins/unset/unset								\
@@ -65,7 +64,6 @@ SRC				= 	${NAME}													\
 					parse/setup/setup_ops									\
 					parse/setup/setup_quote_escape							\
 					parse/setup/setup_redir									\
-					parse/setup/setup_subshell								\
 					parse/setup/setup_utils									\
 					parse/wildcards/wild_cases								\
 					parse/wildcards/wild_enum_files							\

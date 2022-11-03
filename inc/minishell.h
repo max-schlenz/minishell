@@ -51,7 +51,6 @@ void		export_setv(t_data *data, char *setv);
 
 //exec/builtins/export/export_utils.c
 void		export_output(int len, char *name, char *val);
-void		export_subshell_init(t_data *data);
 
 //exec/exec.c
 void		exec_create_fork(t_data *data, char *abs_path);
@@ -102,9 +101,6 @@ void		remove_quotes_write_argv(t_data *data, int i_arg, char *tmp);
 
 //parse/setup/setup_redir.c
 void		free_filenames(t_data *data);
-
-//parse/setup/setup_subshell.c
-void		subshell(t_data *data, char *cmd, int *i);
 
 //parse/setup/setup_utils.c
 void		remove_quotes_init(t_data *data);
@@ -179,9 +175,6 @@ bool		builtin_exit(t_data *data);
 
 //exec/builtins/export/export.c
 bool		builtin_export(t_data *data, char *setv);
-
-//exec/builtins/export/export_subshell.c
-bool		export_subshell(t_data *data, char *setv);
 
 //exec/builtins/export/export_utils.c
 bool		export_check_str(char *str);
