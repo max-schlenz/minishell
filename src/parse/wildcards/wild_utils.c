@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 14:00:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/03 14:06:46 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/03 14:07:58 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	**realloc_argv(t_data *data, int argv_i, char *file, bool repl)
 	return (new_argv);
 }
 
-char	*delete_str(char *cmd, size_t start, size_t end)
+char	*delete_str(t_data *data, char *cmd, size_t start, size_t end)
 {
 	char		*ret;
 	size_t		len;

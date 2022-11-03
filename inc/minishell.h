@@ -279,7 +279,7 @@ char		**match_files(t_data *data, char *to_be_extended, int *indexes);
 
 //parse/wildcards/wild_utils.c
 char		**realloc_argv(t_data *data, int argv_i, char *file, bool repl);
-char		*delete_str(char *cmd, size_t start, size_t end);
+char		*delete_str(t_data *data, char *cmd, size_t start, size_t end);
 
 //pre_parse/heredoc/heredoc.c
 char		*handle_heredoc(t_data *data, char *cmd);

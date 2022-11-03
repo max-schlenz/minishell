@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/03 12:46:50 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/03 14:11:26 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	heredoc_wr_tmp_file(t_data *data)
 	else
 	{
 		home = expand_get_var_content(data, "~");
-		home = realloc_ptr(path, ft_strjoin("< ", home), true);
+		home = realloc_ptr(home, ft_strjoin("< ", home), true);
 		path = realloc_ptr(path, ft_strjoin(home, "/"), true);
 		path = realloc_ptr(path, ft_strjoin(path, ".heredoc_tmp"), true);
 		data->hdoc.hd_tmp = ft_strjoin(path, data->hdoc.hd_tmp_i);
