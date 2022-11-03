@@ -107,7 +107,7 @@ void		remove_quotes_init(t_data *data);
 void		quote_flags(t_data *data, char *cmd, int *i);
 
 //parse/wildcards/wildcards.c
-void		get_all_names(t_data *data);
+void		resolve_wildcards(t_data *data);
 
 //pre_parse/heredoc/heredoc.c
 void		rm_tmp_files(t_data *data);

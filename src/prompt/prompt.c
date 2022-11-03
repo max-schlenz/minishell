@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/03 12:29:42 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/03 13:43:18 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 			break ;
 		}
 		expand_vars(data);
-		get_all_names(data);
+		resolve_wildcards(data);
 		priorities(data, &tmp_cmd, &i);
 		if (!data->argv[0])
 		{

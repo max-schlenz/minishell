@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:26:31 by tdehne            #+#    #+#             */
-/*   Updated: 2022/11/02 17:16:38 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/03 13:42:59 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static void	ext_wildcards(t_data *data, char *to_ext, char **files, int argv_i)
 	}
 }
 
-//	expand wildcards
-void	get_all_names(t_data *data)
+//	resolve wildcards
+void	resolve_wildcards(t_data *data)
 {
 	int		i;
 	int		*indexes;

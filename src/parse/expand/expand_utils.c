@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:01:41 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/01 16:11:16 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/03 13:43:40 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,6 @@ void	expand_vars_init(t_data *data, bool flag)
 		data->var.i_arg++;
 	data->var.i_char = 0;
 	data->var.name = NULL;
-}
-
-void	expand_vars_weird_special_case(t_data *data, bool flag)
-{
-	free_null (1, &data->argv[data->var.i_arg]);
-	if (flag)
-		data->argv[data->var.i_arg] = ft_strdup("");
 }
 
 bool	v_ex(t_data *data)

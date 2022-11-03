@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+         #
+#    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/11/03 13:37:10 by tdehne           ###   ########.fr        #
+#    Updated: 2022/11/03 13:43:54 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SHELL 			=	/bin/bash
 UNAME			=	$(shell uname)
 MAKEFLAGS 		=	--no-print-directory
-CFLAGS			=	-g #-Wall -Wextra -Werror -g #-fsanitize=address 
+CFLAGS			=	-Wall -Wextra -Werror #-g #-fsanitize=address 
 
 #FORMAT----------------------------------#
 DEFCL			=	$(shell echo -e "\033[0m")
