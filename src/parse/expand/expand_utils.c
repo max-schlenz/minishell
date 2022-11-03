@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:01:41 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/03 13:43:40 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/03 13:46:15 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	expand_vars_init(t_data *data, bool flag)
 	data->var.name = NULL;
 }
 
-bool	v_ex(t_data *data)
+bool	expand_check_var_exists_util(t_data *data)
 {
 	int	i_arg;
 	int	i_char;

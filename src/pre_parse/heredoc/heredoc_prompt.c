@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:12:40 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/03 12:31:24 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/03 13:53:28 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void	heredoc_prompt(t_data *data)
 	pid = fork();
 	if (!pid)
 		heredoc_prompt_fork(data);
+	if (pid == -1)
+		ms_exit(E_FORK, WEXITSTATUS(data->exit_code));
 	waitpid(-1, &data->exit_code, 0);
 	signals(false);
 }

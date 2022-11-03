@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_special_cases.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:04:39 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 14:56:21 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/03 13:58:30 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static char	**expand_realloc_argv(t_data *data, int i)
 	j = 0;
 	k = 0;
 	ret = (char **)ft_calloc(data->argc + 1, sizeof(char *));
+	if (!ret)
+		cleanup(data, E_MEM);
 	data->argc--;
 	data->var.i_arg--;
 	data->var.i_char = 0;

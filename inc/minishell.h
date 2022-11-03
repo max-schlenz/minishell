@@ -205,7 +205,7 @@ bool		count_pipes(t_data *data, char *cmd);
 bool		expand_check_var_exists(t_data *data, char *var);
 
 //parse/expand/expand_utils.c
-bool		v_ex(t_data *data);
+bool		expand_check_var_exists_util(t_data *data);
 
 //parse/expand/expand_vars.c
 bool		expand_vars(t_data *data);
@@ -321,7 +321,7 @@ bool		redir(t_data *data, char *cmd, int *i);
 int			enum_files(char *dir);
 
 //parse/wildcards/wild_utils.c
-int			*get_indexes(char *str);
+int			*get_indexes(t_data *data, char *str);
 int			len_argv(char **argv);
 int			num_wildcards(char *str);
 

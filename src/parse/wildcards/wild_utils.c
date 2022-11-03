@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wild_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 14:00:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/02 17:16:00 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/03 14:06:46 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char	**realloc_argv(t_data *data, int argv_i, char *file, bool repl)
 	int		j;
 
 	new_argv = (char **)ft_calloc(sizeof(char *), len_argv(data->argv) + 2);
+	if (!new_argv)
+		cleanup(data, E_MEM);
 	i = 0;
 	j = 0;
 	while (data->argv[i])
@@ -73,6 +75,8 @@ char	*delete_str(char *cmd, size_t start, size_t end)
 
 	len = ft_strlen(cmd);
 	ret = (char *)ft_calloc(sizeof(char), len - (start - end) + 1);
+	if (!ret)
+		cleanup(data, E_MEM);
 	i = 0;
 	j = 0;
 	while (cmd[i])
@@ -85,7 +89,7 @@ char	*delete_str(char *cmd, size_t start, size_t end)
 	return (ret);
 }
 
-int	*get_indexes(char *str)
+int	*get_indexes(t_data *data, char *str)
 {
 	int	i;
 	int	j;
@@ -95,6 +99,8 @@ int	*get_indexes(char *str)
 	i = 0;
 	j = 0;
 	indexes = (int *)ft_calloc(sizeof(int), num_wildcards(str) + 1);
+	if (!indexes)
+		cleanup(data, E_MEM);
 	while (str[i])
 	{
 		if (str[i] == '*')

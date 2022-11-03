@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 09:46:57 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 14:07:05 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/03 13:46:22 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static bool	expand(t_data *data)
 	data->var.pre = ft_substr(data->argv[i_arg], 0, i_char);
 	data->var.name = ft_substr(data->argv[i_arg], i_char,
 			strlen_path(data->argv[i_arg] + i_char));
-	if (v_ex(data))
+	if (expand_check_var_exists_util(data))
 		return (true);
 	if (data->argv[i_arg][i_char] && data->argv[i_arg][i_char + 1]
 		&& !ft_strncmp(data->argv[i_arg] + i_char, "$?", 2))

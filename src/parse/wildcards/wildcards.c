@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:26:31 by tdehne            #+#    #+#             */
-/*   Updated: 2022/11/03 13:42:59 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/03 13:59:45 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	resolve_wildcards(t_data *data)
 	while (data->argv[i])
 	{
 		data->argv[i] = pre_parse_skip_d(data, data->argv[i], '*');
-		indexes = get_indexes(data->argv[i]);
+		indexes = get_indexes(data, data->argv[i]);
 		if (*indexes != -1)
 		{
 			to_be_extended = ft_strdup(data->argv[i]);

@@ -84,7 +84,7 @@ void	exec_create_fork(t_data *data, char *abs_path)
 	if (!data->pid && abs_path)
 		exec_child(data, abs_path);
 	else if (data->pid == -1)
-		ms_exit(2, WEXITSTATUS(data->exit_code));
+		ms_exit(E_FORK, WEXITSTATUS(data->exit_code));
 }
 
 bool	exec_program(t_data *data)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/03 13:37:30 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/03 13:58:30 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ bool	setup_alloc_argv(t_data *data, char *cmd)
 	if (!data->flags->f_dquote && !data->flags->f_squote)
 	{
 		data->argv = ft_calloc(mem + 2, (sizeof(char *)));
+		if (!data->argv)
+			cleanup(data, E_MEM);
 		return (true);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 18:12:51 by tdehne            #+#    #+#             */
-/*   Updated: 2022/10/30 17:43:47 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/03 13:58:30 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	realloc_envp(t_data *data, char *newv, int flag)
 	else
 		data->counter_env--;
 	new = ft_calloc(data->counter_env + 1, sizeof(char *));
+	if (!new)
+		cleanup(data, E_MEM);
 	i = 0;
 	while (data->envp[i])
 	{

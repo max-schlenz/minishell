@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wild_match.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 14:36:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/03 12:48:00 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/03 13:58:30 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ char	**match_files(t_data *data, char *to_be_extended, int *indexes)
 
 	dirp = opendir(".");
 	files = (char **)ft_calloc(sizeof(char *), enum_files("."));
+	if (!files)
+		cleanup(data, E_MEM);
 	i = 0;
 	dirent = readdir(dirp);
 	while (dirent)

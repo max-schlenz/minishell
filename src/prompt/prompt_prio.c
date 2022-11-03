@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_prio.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 13:49:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/02 16:46:02 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/03 13:58:30 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static void	prio_free_argv(t_data *data)
 {
 	free_array(data->argv);
 	data->argv = ft_calloc(1, sizeof(char **));
+	if (!data->argv)
+		cleanup(data, E_MEM);
 	data->argv[0] = NULL;
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:32:27 by tdehne            #+#    #+#             */
-/*   Updated: 2022/11/02 16:47:41 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/03 13:58:30 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	*pre_parse_insert_space(t_data *data, char *cmd, int index)
 
 	len = ft_strlen(cmd) + 1;
 	ret = (char *)ft_calloc(sizeof(char), len + 1);
+	if (!ret)
+		cleanup(data, E_MEM);
 	i = 0;
 	j = 0;
 	while ((cmd)[i])
@@ -43,6 +45,8 @@ char	*pre_parse_rm_delim(t_data *data, char *cmd, int start, int end)
 
 	len = ft_strlen(cmd);
 	ret = (char *)ft_calloc(sizeof(char), len - (start - end) + 1);
+	if (!ret)
+		cleanup(data, E_MEM);
 	i = 0;
 	j = 0;
 	while (cmd[i])
