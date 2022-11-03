@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/11/03 13:43:54 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/11/03 14:23:01 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -146,15 +146,19 @@ endif
 $(READLINE):
 	@echo "$(CYAN)Installing readline...$(DEFCL)"
 	@pacman -Syu --noconfirm readline
+	@apt install -y libreadline-dev
+	@clear
 
 $(MAC_BREW):
 	@echo "$(CYAN)Installing brew...$(DEFCL)"
 	@curl -fsSL https://rawgit.com/kube/42homebrew/master/install.sh | zsh;
 	@source ~/.zshrc
+	@clear
 
 $(MAC_READLINE):
-	@echo "$(PURPLE)Installing readline...$(DEFCL)"
+	@echo "$(CYAN)Installing readline...$(DEFCL)"
 	@brew install readline
+	@clear
 
 clean: header
 	@rm -f .header
