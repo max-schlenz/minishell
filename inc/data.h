@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/02 14:20:17 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/03 12:29:19 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,6 @@ typedef struct s_flags {
 	bool	and;
 	bool	or;
 	bool	pipe;
-	bool	debug;
 	bool	bracket;
 	bool	prio;
 	bool	reset;
@@ -196,7 +195,6 @@ typedef struct s_data
 	int			heredoc_index;
 	int			arr[4][4];
 	pid_t		pid;
-	FILE		*debug;
 	t_heredoc	hdoc;
 	t_export	export;
 	t_parser	parser;

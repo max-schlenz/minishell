@@ -6,25 +6,17 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/02 17:10:41 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/03 12:30:05 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-//	REMOVE!
-static void	init_dbg(t_data *data)
-{
-	data->debug = fopen(DBG, "w");
-	fclose(data->debug);
-}
 
 //	initializes/resets variables
 void	init_vars(t_data *data)
 {
 	data->hdoc.quote = false;
 	data->hdoc.hd = false;
-	data->flags->debug = true;
 	data->flags->macos = true;
 	data->flags->pipe = false;
 	data->flags->error = false;
@@ -40,13 +32,8 @@ void	init_vars(t_data *data)
 	data->flags->exit_code_of = false;
 	data->flags->noenv = false;
 	data->path = NULL;
-	data->debug = NULL;
 	data->exit.max = 922337203685477580;
 	heredoc_init(data);
-	if (data->flags->debug)
-		init_dbg(data);
-	else
-		unlink(DBG);
 }
 
 void	open_pipes(t_data *data)

@@ -34,10 +34,6 @@
 # include <data.h>
 
 # define CFG ".mscfg"
-# define DBG ".debug"
-
-//debug.c
-void		dbg(t_data *data);
 
 //exec/builtins/builtin_error.c
 void		builtin_error(t_data *data, int err, char *info, int exit);

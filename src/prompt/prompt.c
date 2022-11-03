@@ -6,7 +6,7 @@
 /*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/02 16:38:09 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/03 12:29:42 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ static void	prompt_exec(t_data *data)
 		|| (data->flags->and && !data->exit_status)
 		|| (data->flags->or && data->exit_status))
 	{
-		if (data->flags->debug)
-			dbg(data);
 		if (!builtin(data))
 			exec_program(data);
 	}

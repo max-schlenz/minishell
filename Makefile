@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
+#    By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/11/02 15:05:39 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/11/03 12:29:27 by tdehne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,6 @@ LIB_DIR			=	lib
 INC_DIR			=	inc
 
 SRC				= 	${NAME}													\
-					debug													\
 					exec/builtins/cd/cd										\
 					exec/builtins/cd/cd_cleanup								\
 					exec/builtins/cd/cd_utils								\
