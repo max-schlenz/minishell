@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 10:13:35 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 11:52:10 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/03 11:59:57 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static void	history_clear(t_data *data, int fd)
 	read(fd, tmp_cl, 8);
 	tmp_cl[8] = '\0';
 	close (fd);
-	fd = open(CFG, O_RDWR | O_TRUNC);
-	if (!fd || access(CFG, F_OK))
+	fd = open(data->cfg, O_RDWR | O_TRUNC);
+	if (!fd || access(data->cfg, F_OK))
 		cleanup(data, E_RW);
 	ft_putendl_fd(tmp_cl, 2);
 	close (fd);
@@ -60,8 +60,8 @@ bool	builtin_history(t_data *data)
 {
 	int		fd;
 
-	fd = open(CFG, O_RDONLY);
-	if (!fd || access(CFG, F_OK))
+	fd = open(data->cfg, O_RDONLY);
+	if (!fd || access(data->cfg, F_OK))
 		cleanup(data, E_RW);
 	if (data->argv[1] && !ft_strncmp(data->argv[1], "-c", 2))
 		history_clear(data, fd);
@@ -78,7 +78,7 @@ void	history(t_data *data)
 	if (strdiff(data->cmd, data->last_cmd))
 	{
 		add_history(data->cmd);
-		ft_putstr_fd("HISTORY=", data->mscfg);
+		write(data->mscfg, "HISTORY=", 8);
 		ft_putendl_fd(data->cmd, data->mscfg);
 	}
 	if (data->last_cmd)

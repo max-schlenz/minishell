@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 08:01:45 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 11:17:18 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/03 09:42:27 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ static char	**str_arr(va_list args, int index)
 	{
 		tmp = va_arg(args, char *);
 		strings[i++] = ft_strdup(tmp);
-		free(tmp);
-		tmp = NULL;
+		free_null (1, &tmp);
 	}
 	return (strings);
 }

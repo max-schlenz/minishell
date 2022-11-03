@@ -99,10 +99,10 @@ static void	switches(t_data *data, int argc, char **argv)
 		if (!access(CFG, F_OK))
 		{
 			unlink(CFG);
-			ft_putendl_fd("config file removed\nexit", 2);
+			write(2, I_CFG_REMOVED, 24);
 		}
 		else
-			ft_putendl_fd("config file not found\nexit", 2);
+			write(2, E_CFG_NOT_FOUND, 26);
 		cleanup(data, 0);
 	}
 }

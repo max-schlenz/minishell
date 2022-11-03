@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 16:25:20 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 11:27:31 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/03 11:47:18 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	cleanup(t_data *data, int flag)
 	free (data->flags);
 	free (data->color.code[0]);
 	free (data->color.code[1]);
+	free (data->cfg);
 	if (data->cmd)
 		free (data->cmd);
 	rl_clear_history();

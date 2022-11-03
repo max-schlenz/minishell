@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/03 12:29:19 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/03 12:35:38 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ typedef struct s_data
 	int			fd_stdin;
 	int			mscfg;
 	int			heredoc_index;
-	int			arr[4][4];
+	char		*cfg;
 	pid_t		pid;
 	t_heredoc	hdoc;
 	t_export	export;

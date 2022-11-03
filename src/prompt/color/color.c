@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 10:27:33 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/23 11:15:52 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/03 11:51:40 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static void	build_prompt(t_data *data)
 {
 	int	fd;
 
-	fd = open(CFG, O_RDWR, 0644);
-	if (!fd || access(CFG, F_OK))
+	fd = open(data->cfg, O_RDWR, 0644);
+	if (!fd || access(data->cfg, F_OK))
 		cleanup(data, E_RW);
 	data->color.cfg_str_pf = ft_strdup("COLOR=");
 	data->color.cfg_str_cl

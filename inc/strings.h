@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strings.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:28:41 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 13:58:04 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/03 11:26:33 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # define E_EXEC_NOTFOUND ": command not found"
 # define E_CD_OLDPWD_MSG "Error: cd: OLDPWD not set\n"
 # define E_FILE_NOT_FOUND "Error: No such file or directory "
+# define I_CFG_REMOVED "config file removed\nexit\n"
+# define E_CFG_NOT_FOUND "config file not found\nexit\n"
 
 # define PROMPT_SUFFIX "] \x01\033[0;1m\x02#\x01\033[0m\x02 "
 

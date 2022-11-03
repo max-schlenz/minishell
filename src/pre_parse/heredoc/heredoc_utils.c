@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 14:15:46 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/03 12:46:50 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,22 @@
 
 void	heredoc_wr_tmp_file(t_data *data)
 {
+	char	*path;
+	char	*home;
+
 	heredoc_prompt(data);
 	data->hdoc.hd_tmp_i = ft_itoa(data->heredoc_index);
-	data->hdoc.hd_tmp = ft_strjoin("< .heredoc_tmp", data->hdoc.hd_tmp_i);
+	path = ft_strjoin(".heredoc_tmp", data->hdoc.hd_tmp_i);
+	if (!access(path, F_OK))
+		data->hdoc.hd_tmp = ft_strjoin("< .heredoc_tmp", data->hdoc.hd_tmp_i);
+	else
+	{
+		home = expand_get_var_content(data, "~");
+		home = realloc_ptr(path, ft_strjoin("< ", home), true);
+		path = realloc_ptr(path, ft_strjoin(home, "/"), true);
+		path = realloc_ptr(path, ft_strjoin(path, ".heredoc_tmp"), true);
+		data->hdoc.hd_tmp = ft_strjoin(path, data->hdoc.hd_tmp_i);
+	}
 	data->heredoc_index++;
 	free_null(2, &data->hdoc.delim, &data->hdoc.hd_tmp_i);
 }

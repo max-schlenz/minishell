@@ -6,22 +6,36 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:17:45 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/02 16:13:38 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/03 12:04:20 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-//	check if folder is writable for config file
-static void	check_cfg(t_data *data)
+//	check if folder is writable for config file and create file if neccessary
+static void	check_cfg(t_data *data, bool fallback)
 {
-	int	fd;
+	int		fd;
+	char	*home;
 
-	if (access(CFG, F_OK))
+	if (!fallback)
+		data->cfg = ft_strdup(CFG);
+	else
 	{
-		fd = open(CFG, O_CREAT | O_RDWR, 0644);
-		if (!fd || access(CFG, F_OK))
-			cleanup(data, E_RW);
+		home = expand_get_var_content(data, "$HOME");
+		data->cfg = realloc_ptr(data->cfg, ft_strjoin(home, "/.mscfg"), true);
+		free_null (1, &home);
+	}
+	if (access(data->cfg, F_OK))
+	{
+		fd = open(data->cfg, O_CREAT | O_RDWR, 0644);
+		if (!fd || access(data->cfg, F_OK))
+		{
+			if (!fallback)
+				check_cfg(data, true);
+			else
+				cleanup(data, E_RW);
+		}
 		write(fd, "COLOR=bc\n", 9);
 		close (fd);
 	}
@@ -45,11 +59,11 @@ void	read_cfg(t_data *data)
 {
 	char	*read_buf;
 
-	check_cfg(data);
-	if (!access(CFG, F_OK))
+	check_cfg(data, false);
+	if (!access(data->cfg, F_OK))
 	{
-		data->mscfg = open(CFG, O_RDWR | O_APPEND, 0644);
-		if (!data->mscfg || access(CFG, F_OK))
+		data->mscfg = open(data->cfg, O_RDWR | O_APPEND, 0644);
+		if (!data->mscfg || access(data->cfg, F_OK))
 			cleanup(data, E_RW);
 		read_buf = ft_strdup("42");
 		while (read_buf != NULL)

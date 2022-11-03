@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/03 12:30:05 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/03 12:35:22 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	init_vars(t_data *data)
 	data->flags->exit_code_of = false;
 	data->flags->noenv = false;
 	data->path = NULL;
+	data->cfg = NULL;
 	data->exit.max = 922337203685477580;
 	heredoc_init(data);
 }

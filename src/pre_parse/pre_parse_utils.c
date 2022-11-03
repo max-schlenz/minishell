@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   pre_parse_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 21:57:17 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/14 22:31:24 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/03 11:30:45 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 void	pre_parse_check_ops(t_data *data, char **cmd, char op, int i)
 {
-	if ((*cmd) && (*cmd)[i] && (*cmd)[i + 1] && (*cmd)[i] != ' '
-		&& (*cmd)[i] != op && (*cmd)[i + 1] == op)
-		*cmd = pre_parse_insert_space(data, (*cmd), i);
-	else if (*cmd && (*cmd)[i] && (*cmd)[i + 1] && (*cmd)[i + 1] != ' '
-		&& (*cmd)[i + 1] != op && (*cmd)[i] == op)
-		*cmd = pre_parse_insert_space(data, (*cmd), i);
+	if ((*cmd) && (*cmd)[i] && (*cmd)[i + 1])
+	{
+		if ((*cmd)[i] != ' ' && (*cmd)[i] != op && (*cmd)[i + 1] == op)
+			(*cmd) = pre_parse_insert_space(data, (*cmd), i);
+		else if ((*cmd)[i + 1] != ' ' && (*cmd)[i + 1] != op && (*cmd)[i] == op)
+			(*cmd) = pre_parse_insert_space(data, (*cmd), i);
+	}
 }
