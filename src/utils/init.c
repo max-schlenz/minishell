@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/03 13:58:42 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/03 14:35:24 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,6 @@ void	init_vars(t_data *data)
 	data->cfg = NULL;
 	data->exit.max = 922337203685477580;
 	heredoc_init(data);
-}
-
-void	open_pipes(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->counter_pipes)
-		pipe(data->pipes->pipefd[i++]);
 }
 
 //	allocates memory for data struct
