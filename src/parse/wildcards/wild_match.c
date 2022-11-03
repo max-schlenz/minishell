@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   match.c                                            :+:      :+:    :+:   */
+/*   wild_match.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 14:36:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/23 11:03:22 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/03 12:48:00 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	match_init(t_data *data, int *indexes)
 	data->wcmatch.i = 0;
 }
 
-static int	match_sub0(t_data *data, char *to_ext, int *indexes, char *file)
+static int	get_sub_word(t_data *data, char *to_ext, int *indexes, char *file)
 {
 	data->wcmatch.word_len = (*indexes) - data->wcmatch.prev_index - 1;
 	if (!data->wcmatch.prev_index)
@@ -45,7 +45,7 @@ static int	match_sub0(t_data *data, char *to_ext, int *indexes, char *file)
 	return (2);
 }
 
-static bool	match_sub1(t_data *data, int *indexes, char *file)
+static bool	match_helper(t_data *data, int *indexes, char *file)
 {
 	if (*(indexes + 1) == -1 && data->wcmatch.left)
 	{
@@ -77,12 +77,12 @@ static bool	match(t_data *data, char *to_ext, int *indexes, char *file)
 	match_init(data, indexes);
 	while (*indexes != -1)
 	{
-		flag = match_sub0(data, to_ext, indexes, file);
+		flag = get_sub_word(data, to_ext, indexes, file);
 		if (!flag)
 			return (false);
 		else if (flag == 1)
 			return (true);
-		else if (!match_sub1(data, indexes, file))
+		else if (!match_helper(data, indexes, file))
 			return (false);
 		data->wcmatch.prev_index = *indexes;
 		indexes++;
