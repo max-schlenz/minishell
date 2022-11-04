@@ -115,7 +115,7 @@ MAC_LINKER		=	-L $(MAC_READLINE)/lib
 all: $(NAME)
 
 $(LIB_FILES): header
-	@echo -n "compiling..."
+	@echo -n "compile..."
 	@touch .tmp
 	@$(MAKE) MAKEFLAGS+=-j8 CFLAGS+="$(CFLAGS)" -C src/libft
 	@ar -rc $(LIB_FILES) $$(find ./src/libft -type f -name '*.o')
@@ -125,44 +125,48 @@ $(OBJ_DIR):
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c header_c 
 	@if [ ! -f .tmp ]; then														\
-		echo -n "compiling...";													\
+		echo -n "compile...";													\
 		touch .tmp;\
 	fi
 	@echo -en "\\r		➜  ${BCYAN}$(NAME)${DEFCL}...    »  $@\033[K"
 	@$(CC) $(CFLAGS) $(INCLUDES) $(MAC_INCLUDES) -c $< -o $@
 	
 ifeq ($(UNAME), Darwin)
-$(NAME): $(MAC_BREW) $(MAC_READLINE) $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
+$(NAME): $(MAC_BREW) $(MAC_READLINE) header $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
 	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}        ✔  ${BGREEN}./$(NAME)${DEFCL}\033[K\n"
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(MAC_INCLUDES) $(LINKER) $(MAC_LINKER)
 	@rm -f .tmp
 else	
-$(NAME): $(READLINE) $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
+$(NAME): header $(READLINE) $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
 	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}        ✔  ${BGREEN}./$(NAME)${DEFCL}\033[K\n"
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(LINKER)
 	@rm -f .tmp
 endif
 
 $(READLINE):
-	@echo "$(CYAN)Installing readline...$(DEFCL)"
-	@pacman -Syu --noconfirm readline
-	@apt install -y libreadline-dev
-	@clear
+	@echo -n "install...	  readline	   "
+	@-if pacman -Sy --noconfirm readline &>/dev/null; then  \
+		echo -e "\\rinstall...	  readline	   ✔  $(GREEN)apt install libreadline-dev$(DEFCL)\n"; \
+	elif apt install -y libreadline-dev &>/dev/null; then \
+		echo -e "\\rinstall...	  readline	   ✔  $(GREEN)pacman -Sy readline$(DEFCL)\n"; \
+	fi
+	@sleep 1
 
 $(MAC_BREW):
-	@echo "$(CYAN)Installing brew...$(DEFCL)"
-	@curl -fsSL https://rawgit.com/kube/42homebrew/master/install.sh | zsh;
+	@echo "${CYAN}installing brew...${DEFCL}"
+	@curl -fsL https://rawgit.com/kube/42homebrew/master/install.sh | zsh;
 	@source ~/.zshrc
-	@clear
+	@brew install readline
+	@echo ""
 
 $(MAC_READLINE):
-	@echo "$(CYAN)Installing readline...$(DEFCL)"
+	@echo "${CYAN}installing readline...${DEFCL}"
 	@brew install readline
-	@clear
+	@echo ""
 
 clean: header
 	@rm -f .header
-	@echo -en "cleaning objs...";
+	@echo -en "clean objs";
 	@$(MAKE) clean -C src/libft
 	@if find $(OBJ_DIR) -type f -name '*.o' -delete > /dev/null 2>&1; then		\
 		echo -en "\\r		  $(NAME)   	   🗑  ${RED}$(OBJ_DIR)/${DEFCL}\033[K";\
@@ -173,7 +177,7 @@ clean: header
 	fi
 
 fclean: clean header
-	@echo -en "cleaning bins..."
+	@echo -en "clean bins"
 	@$(MAKE) fclean -C src/libft
 	@if find $(LIB_DIR) -type d -empty -delete > /dev/null 2>&1; then			\
 		:; \
@@ -199,11 +203,11 @@ header:
 header_c:
 	@rm -f .header
 
-test:
-	@cd tests && bash tester.sh a
+# test:
+# 	@cd tests && bash tester.sh a
 
 re: fclean all
 
-.INTERMEDIATE: header header_c
+.INTERMEDIATE: header_c
 
 .PHONY: all clean fclean re bonus
