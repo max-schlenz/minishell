@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/04 13:39:26 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/06 12:35:06 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static bool	setup_argv_parse(t_data *data, char *cmd, int *i, int start_args)
 			return (true);
 		setup_def(data, cmd, i);
 		data->flags->f_esc = false;
-		if (cmd[*i] && cmd[*i] != '<' && cmd[*i] != '>')
+		if (cmd[*i] && ((cmd[*i] != '<' && cmd[*i] != '>') || data->flags->f_dquote || data->flags->f_squote))
 			(*i)++;
 	}
 	return (false);

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+HIDE_OK=true
+
 DEFCL='\033[0m'
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -12,16 +14,20 @@ CYAN='\033[0;36m'
 BCYAN='\033[1;36m'
 GRAY='\033[0m\033[38;5;239m'
 
+i=0
 make -s -C ../
 cp ../minishell ./
 rm diffs.txt 2>/dev/null
-rm -rf ./tmp 2>/dev/null
-mkdir -p tmp
+# mkdir -p tmp
+rm -rf out* 2>/dev/null
 while read -r line;
 	do
+		let i++
 		BASH_STDOUT=$((bash -c "$line" | cat -e) 2>/dev/null);
+		rm -rf out* 2>/dev/null
 		BASH_EXIT=$?;
 		MS_STDOUT=$((./minishell -c "$line" | cat -e) 2>/dev/null);
+		rm -rf out* 2>/dev/null
 		MS_EXIT=$?;
 		if [ "$BASH_EXIT" == "$MS_EXIT" ]; then
 			EXIT_OK=true
@@ -39,13 +45,14 @@ while read -r line;
 		fi
 		if [ "$EXIT_OK" == false ] || [ "$OUT_OK" == false ]; then
 			echo -e "------------------"
-			echo -e "\\r\033[2K${RED}$line${DEFCL}"
-			echo -e "|${GREEN}$BASH_EXIT${DEFCL}| bash: \n ${GREEN}$BASH_STDOUT${DEFCL}"
-			echo -e "|${CL_EXIT}$MS_EXIT${DEFCL}| minishell:\n ${CL_STDOUT}$MS_STDOUT${DEFCL}"
+			echo -e "\\r\033[2K${i} ${RED}$line${DEFCL}"
+			echo -e "|${GREEN}$BASH_EXIT${DEFCL}| bash:\n${GREEN}$BASH_STDOUT${DEFCL}"
+			echo -e "|${CL_EXIT}$MS_EXIT${DEFCL}| minishell:\n${CL_STDOUT}$MS_STDOUT${DEFCL}"
 			echo $line >> diffs.txt
 			echo -e "------------------"
-		else
-			echo -e "\\r\033[2K${GREEN}$line${DEFCL}"
+		elif [ "$HIDE_OK" == false ]; then
+			echo -e "\\r\033[2K${i} ${GREEN}$line${DEFCL}"
 		fi
-		rm out* 2>/dev/null
-done < tests
+	done < tests
+rm -rf out* 2>/dev/null
+rm ? 2>/dev/null

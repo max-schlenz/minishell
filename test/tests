@@ -1,3 +1,481 @@
 echo lol
-!FILE_DIFF=1
-pwd >> ../pwdout
+ls
+echo $USER
+pwd
+echo $USER$12USER$USER=4$USER12
+echo $USER $USER9999 $USER8888 $USER7777 "$USER"
+echo $USER $123456789USER $USER123456789 | cat -e
+echo $USER'$USER'text oui oui oui oui $USER oui $USER '' | cat -e
+echo "''$USER"
+echo '""$USER'
+echo ' ' ' '
+ls > out && cat < out > out2
+< out cat
+cat /dev/random | head -c 50 | wc -c >> out && cat < out > out2 && cat out2
+export | grep USER > out && cat out
+ls > out && out < cat | grep m | wc -c >> out2 && cat out2
+ls | grep m | wc -l > out && cat out | grep x || ls && echo hello
+export ZZZ=123 && echo "$ZZZ" && echo '$ZZZ' && echo '"$ZZZ"' && echo """"'"$ZZZ"'""""
+echo $USER/lol
+echo ""'"$ZZZZ"'""
+echo "'"$ZZZZ"'"
+echo ''''''''''''''''''''''
+commandthatdoesnt$exist
+$USER
+//
+.
+/home
+ls | ls | ls | ls | ls
+true && ls || ls && ls
+true && ls || (ls && ls)
+true && ls || (ls && (ls || ls) || ls && (ls && ls)) || ls
+cat /dev/random | head -c 50 | wc -c
+((echo 1) | (echo 2) | (echo 3 | (echo 4)))
+(/bin/echo 1 | /bin/echo 2 && ((/bin/echo 3 | /bin/echo 3) | (/bin/echo 4 | /bin/echo 4)))
+(echo 1 | echo 2) | (exit 2)
+(echo 2 || echo 3 && echo 4)
+(exit 4)
+(sleep 0 && (exit 4))
+..
+./snjdg | grep E
+./src
+./src  | lol
+./src | grep E
+./src | lol
+/
+/bin/echo
+<
+< onte cat
+< out cat >> out2
+< out cat >> out2 | ls
+< |
+<|
+EXOT\
+\
+\  | ls
+\$
+\|
+\| ls
+a
+asdasfj && cat 
+asf | lol
+asgf | grep e
+cat
+cat  out3
+cat  out
+cat -e
+cat 
+cat out
+cat out1
+cat out2
+cat out2\
+cat out3
+cat lol \| lol
+cd 
+cd  ..
+cd "home"
+cd -
+cd ..
+cd .. | echo "something"
+cd /
+cd //
+cd /home/
+cd home/
+cd l
+cd lol
+cd minishell
+cd parse
+cd src
+cd src | ls
+cd user
+cd user/
+cd ~
+clear
+d
+dfg  |  sdfsd e
+dfg  |  sdfsd e\
+dfh | grep E && ls
+dfh | grep E || ls
+dfhdfh
+dskglg > out
+echo
+echo    $TEST lol $TEST
+echo  $?
+echo  lol
+echo " " " """ '''
+echo " '$USER' " | cat -e
+echo "$TEST$TEST$TEST"
+echo "$TEST$TEST=lol$TEST"
+echo "-n '-n'" bonjour
+echo "2"32"32"
+echo "a"bb"cc"
+echo "lol && asd"
+echo "lol"
+echo "lol$USER/" | grep l >> out1 && ls
+echo "lol$USER/" | grep l >> out1 && ls || ls && ls >> out2
+echo "lol$USER/" | grep l >> out1 && ls || ls && ls >> out2 > out
+echo "lol$USER/" | grep l >> out1 && ls || ls && ls >> out2 > out3
+echo "lol$USER/" | grep l >> out1 && ls || ls || ls >> out2
+echo "lol$USER/" | grep l >> out1 && ls || ls || ls >> out2 > out
+echo "test"
+echo $
+echo $0
+echo $1
+echo $?
+echo $P
+echo $PATH
+echo $PW
+echo $PWD
+echo $TEST
+echo $TEST $TEST$TEST
+echo $TEST lol
+echo $TEST$
+echo $TEST$TEST
+echo $TEST$TEST$TEST
+echo $TEST/lol
+echo $TESTlol
+echo $USER $USER9999 $USER8888 $USER7777 "$USER" | cat -e
+echo $USER '' $USER $USER '' $USER '' $USER -n $USER
+echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER ''
+echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER '' | cat -e
+echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER '' | cat -e\
+echo $USER'$USER'text oui oui oui oui $USER oui $USER ''
+echo $USER123
+echo $USER213
+echo $USER213 | cat -e
+echo ' ' ' ' | cat -e
+echo '" " " """ ''''
+echo '"lol"'
+echo '"lol"' 
+echo '"lol"' asd
+echo '"lol"' asd | cat -e
+echo '"lol"' asd | cat =e
+echo *
+echo *.md
+echo *here
+echo *m
+echo *m*
+echo *md
+echo -n lol
+echo .here*
+echo 1 | (echo 2 || echo 3 && echo 4) || echo 5 | echo 6
+echo 1 | (echo 2 || echo 3 || echo 4) || echo 5 | echo 6
+echo 1 | (grep 1) | cat | (wc -l)
+echo 2 || echo 3 && echo 4
+echo > <
+echo >>
+echo \" \" \" \"\"\" \'\'\'
+echo \" \"\"\" \'\'\'
+echo \"\"\"
+echo \"\"\" \'\'\'
+echo \$USER
+echo \> out
+echo i*
+echo i*c
+echo l
+echo l ol
+echo l ol "'$PWD'"
+echo l ol "'$USER'"
+echo l ol "'lol'"
+echo l ol "lol"
+echo l ol lol
+echo l*
+echo lo
+echo lol   
+echo lol        
+echo lol   | cat -e|cat -e
+echo lol & asd
+echo lol && asd
+echo lol && echo lul
+echo lol && ls
+echo lol , asd
+echo lol >> out
+echo lol \ asd
+echo lol \& asd
+echo lol \& asdD
+echo lol \& lol
+echo lol \&& asd
+echo lol \&& asdD
+echo lol \| asdD
+echo lol \| lol
+echo lol \| lol > out
+echo lol lol
+echo lol | asd
+echo lol | cat -e
+echo lol | cat -e    
+echo lol | cat -e | cat -e
+echo lol | cat -e|cat -e
+echo lol | grep l
+echo lol;echo loy
+echo lol\
+echo m*
+echo mi***shell
+echo o*
+echo ta*
+echo ta*k
+echo ta*k*
+echo ta*l
+echo ta*s
+echo tasks*
+echo test "" test "" test
+echo test | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e| cat -e| cat -e| cat -e| cat -e| cat -e| cat -e| cat -e| cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e
+echo ~
+ecsdj | grep E
+ehco lo
+env
+env asdfkjsdf
+env | grep "SHLVL"
+env | grep "_="
+env | grep SHLVL
+env | grep ZSH
+env | grep lol
+env | grep shlvl
+exi
+exir
+exirt
+exit
+exit 12
+exit 5555
+exit 9223372036854775807
+exit 9223372036854775808
+exit 92233720368547758080
+exit sdjfkldnfh
+exit | ls
+export 
+export -AIa134zZ353
+export -AIa134zZ35=3
+export -AIa134zZ=3
+export -AIa<134zZ353
+export -TEST=123
+export -a
+export 134zZ35_3
+export <134zZ353
+export =l;asd
+export =lasd
+export @134zZ353
+export AI*214=asd
+export AI.a14=asd
+export AI/a14%asd
+export AI/a14=/asd
+export AI/a14==asd
+export AI/a14=[asd
+export AI/a14=asd
+export AIa134
+export AIa134%asd
+export AIa134=3
+export AIa134z--Z=3
+export AIa134zZ35+3
+export AIa134zZ353
+export AIa134zZ35=3
+export AIa134zZ=3
+export AIa14%asd
+export AIa14=asd
+export AIa<134zZ353
+export E&ST=123
+export EST=123
+export EST=123 ZZZ=123
+export PATH=/bin/
+export TEST+=100
+export TEST=123
+export TEST=123 | cat -e
+export TEST=123 | cat -e | cat -e
+export Z=1 ZZZ=2
+export ZZ
+export ZZ34=;
+export ZZ34=lol
+export ZZ3:4=lol
+export ZZ=123
+export ZZ=123 ZZ@Z=1234
+export ZZ=123 ZZZ=123
+export ZZ=123 ZZZ=1234
+export ZZ=123 | ls
+export ZZ=Z=/
+export ZZZ
+export ZZZ=-0
+export ZZZ=/
+export ZZZ=123
+export ZZZ=123 | ls
+export ZZZ=2
+export ZZZZ=123
+export _134zZ353
+export _134zZ35_3
+export asdf-as
+export asdf-asd
+export asdf/asd
+export asdf/asd-as
+export asdfasd-as
+export lol
+export lol=lol && env
+export lol=lol && env | grep lol
+export |
+export | cat> out
+export | grep "SHLVL"
+export | grep SHLVL
+export | grep ZSH
+export | grep shlvl
+export | grep t
+export | ls
+export | wc -l
+export\
+ext
+exut
+f
+false && (true || ls)
+false && true || ls
+false || (false && (true || ls))
+false || (false || (false || true && ls)
+false || (false || (false || true && ls))
+false || (false || (false || true && ls))f
+false || (false || (true || ls))
+false || (false || true && ls)
+false || (false || true) && ls
+false || false || true && ls
+false || ls
+false || true && ls
+fsegkf | grep E
+fsegkf | grep c
+gsdg | grep  z
+ifconfig
+ifconfig | grep ":"
+jdsbnlkjgb > out
+jsdfgnjfkd | grep E
+killall minishell
+ksdflnf | ls
+ksdflnf | sdsdgsdfg
+l
+ld
+ll
+lol
+ls 
+ls       
+ls       | cat -e
+ls  |  grep  t
+ls  |  grep  t  | wc -c
+ls  |  grep s
+ls  |  grep x
+ls &
+ls & ls
+ls && & ls
+ls && &ls
+ls && (ls && ls)
+ls && (ls || ls)
+ls && ;s
+ls && 
+ls && cat 
+ls && ls
+ls && lw
+ls && |
+ls &&& ls
+ls -la
+ls -la | grep "."
+ls ; 
+ls ; ls
+ls > out
+ls > out && cat < out
+ls > out && cat < out | grep m > out2 && echo "" && cat out2
+ls > out && cat < out | grep m > out2 && echo "" && cat out2 && export VAR=endhere && cat 
+ls > out && cat < out | grep m > out2 && echo "-------" && cat out2 && rm out* && export VAR=endhere && cat 
+ls > out && x.txt < out
+ls > out && |
+ls > out > out2
+ls > out > out2 > out 3
+ls > out > out2 > out3
+ls > out >> out2 > out3 && ls
+ls > out >> out2 > out3 && ls | grep hjfdkgdfg
+ls > out >> out2 > out3 && ls | grep sjeghsjkdg && ls | grep t
+ls > out >> out2 > out3 && ls | grep sjeghsjkdg || ls | grep t
+ls > out >> out2 > out3 && ls | grep sjeghsjkdg || ls | grep t\
+ls > out >> out2> > out3 && ls | grep hjfdkgdfg
+ls >> out
+ls >> out && ls | grep t >> out
+ls \  ls
+ls |  grep t 
+ls | echo ls
+ls | exit
+ls | grep  t
+ls | grep SHLVL
+ls | grep d
+ls | grep d > out
+ls | grep d > out > out2
+ls | grep l
+ls | grep l && echo lol
+ls | grep l || echo lol
+ls | grep m > out
+ls | grep m > out > out2
+ls | grep m > out > out2\
+ls | grep t
+ls | grep t 
+ls | grep t > out
+ls | grep t >> out
+ls | grep z && echo lol
+ls | grep z && ls
+ls | grep z || ls
+ls || (ls && ls)
+ls || ls
+ls || ls && ls
+ls || ls || ls && echo lol | grep l
+ls; lul |  ls
+lsof -a -p 21431
+make
+make fclean; rm -rf minishell-tester minishell_tester/
+make re
+norminette
+norminette parse/heredoc_utils.c 
+out && cat < out | grep m > out2 && echo "" && cat out2 && export VAR=endhere && cat 
+out && cat < out | grep m > out2 && echo "-------" && cat out2 && rm out* && export VAR=endhere && cat 
+pacman -Sy nettools
+pacman -Syu net-tools
+ppppp
+ps
+sdfg
+sdfsdg
+sdg
+sdgdsgs
+sdgsdkg
+sdgsgsh
+sdjgn
+sdjgn | grep E
+sfkln | grep e
+sgsdfg
+sjkldg
+snjdg
+snjdg | grep E
+snlkg | grep E
+snlkg | ls
+src
+tdbg
+tdebug
+top
+true || ls
+type ls
+ufcibfug
+unset -L
+unset -LOL
+unset -T
+unset -TEST
+unset HOME
+unset OLDPWD
+unset PATH
+unset PWD
+unset TES-T
+unset V
+unset Z
+unset ZSH
+unset ZZ
+unset ZZ | ls
+unset ZZZ
+unset ZZZ ZZZZ
+unset ZZZ | ls
+unset ZZZ=
+unset ZZZZ
+unset lol
+where 
+where a
+where c
+where ls
+which ls
+| grep e
+|&
+|>
+||
+|||
