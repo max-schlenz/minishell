@@ -12,9 +12,11 @@ CYAN='\033[0;36m'
 BCYAN='\033[1;36m'
 GRAY='\033[0m\033[38;5;239m'
 
-make -C ../
+make -s -C ../
 cp ../minishell ./
 rm diffs.txt 2>/dev/null
+rm -rf ./tmp 2>/dev/null
+mkdir -p tmp
 while read -r line;
 	do
 		BASH_STDOUT=$((bash -c "$line" | cat -e) 2>/dev/null);
@@ -46,4 +48,4 @@ while read -r line;
 			echo -e "\\r\033[2K${GREEN}$line${DEFCL}"
 		fi
 		rm out* 2>/dev/null
-done < tests/tests.txt
+done < tests

@@ -1,0 +1,3 @@
+echo lol
+!FILE_DIFF=1
+pwd >> ../pwdout

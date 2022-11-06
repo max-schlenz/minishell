@@ -27,6 +27,7 @@ PURPLE			=	$(shell echo -e "\033[0;35m")
 CYAN			=	$(shell echo -e "\033[0;36m")
 BCYAN			=	$(shell echo -e "\033[1;36m")
 GRAY			=	$(shell echo -e "\033[0m\033[38;5;239m")
+DEL_R			=	\033[K
 # ---------------------------------------#
 
 NAME			=	minishell
@@ -112,9 +113,11 @@ MAC_READLINE	=	~/.brew/opt/readline
 MAC_INCLUDES	=	-I $(MAC_READLINE)/include
 MAC_LINKER		=	-L $(MAC_READLINE)/lib
 
+HEADER			=	./.header
+
 all: $(NAME)
 
-$(LIB_FILES): header
+$(LIB_FILES):
 	@echo -n "compile..."
 	@touch .tmp
 	@$(MAKE) MAKEFLAGS+=-j8 CFLAGS+="$(CFLAGS)" -C src/libft
@@ -128,17 +131,17 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c header_c
 		echo -n "compile...";													\
 		touch .tmp;\
 	fi
-	@echo -en "\\r		➜  ${BCYAN}$(NAME)${DEFCL}...    »  $@\033[K"
+	@echo -en "\\r		➜  ${BCYAN}$(NAME)${DEFCL}...    »  $@${DEL_R}"
 	@$(CC) $(CFLAGS) $(INCLUDES) $(MAC_INCLUDES) -c $< -o $@
 	
 ifeq ($(UNAME), Darwin)
-$(NAME): $(MAC_BREW) $(MAC_READLINE) header $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
-	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}        ✔  ${BGREEN}./$(NAME)${DEFCL}\033[K\n"
+$(NAME): $(MAC_BREW) $(MAC_READLINE) $(HEADER) $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
+	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}        ✔  ${BGREEN}./$(NAME)${DEFCL}\n"
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(MAC_INCLUDES) $(LINKER) $(MAC_LINKER)
 	@rm -f .tmp
 else	
-$(NAME): header $(READLINE) $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
-	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}        ✔  ${BGREEN}./$(NAME)${DEFCL}\033[K\n"
+$(NAME): $(HEADER) $(READLINE) $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
+	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}        ✔  ${BGREEN}./$(NAME)${DEFCL}${DEL_R}\n"
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(LINKER)
 	@rm -f .tmp
 endif
@@ -164,31 +167,7 @@ $(MAC_READLINE):
 	@brew install readline
 	@echo ""
 
-clean: header
-	@rm -f .header
-	@echo -en "clean objs";
-	@$(MAKE) clean -C src/libft
-	@if find $(OBJ_DIR) -type f -name '*.o' -delete > /dev/null 2>&1; then		\
-		echo -en "\\r		  $(NAME)   	   🗑  ${RED}$(OBJ_DIR)/${DEFCL}\033[K";\
-	fi
-	@echo -e "\n";
-	@if find $(OBJ_DIR) -type d -empty -delete > /dev/null 2>&1; then			\
-		:;																		\
-	fi
-
-fclean: clean header
-	@echo -en "clean bins"
-	@$(MAKE) fclean -C src/libft
-	@if find $(LIB_DIR) -type d -empty -delete > /dev/null 2>&1; then			\
-		:; \
-	fi
-	@if [ -f "${NAME}" ]; then													\
- 		rm -f ${NAME};															\
-		echo -e "\\r		  $(NAME)   	   🗑  ${RED}$(NAME)${DEFCL}\033[K"; \
-	fi
-	@echo -en "\n";
-
-header:
+${HEADER}:
 	@if [ ! -f ".header" ]; then												\
 		echo 	"$(BLUE) __  __ _       _     _          _ _ ";					\
 		echo 	"|  \/  (_)_ __ (_)___| |__   ___| | $(CYAN)|";					\
@@ -199,6 +178,31 @@ header:
 		echo	"";																\
 		touch .header;															\
 	fi
+
+clean: ${HEADER}
+	@rm -f .header
+	@echo -en "clean objs";
+	@$(MAKE) clean -C src/libft
+	@if find $(OBJ_DIR) -type f -name '*.o' -delete > /dev/null 2>&1; then		\
+		echo -en "\\r		  $(NAME)   	   🗑  ${RED}$(OBJ_DIR)/${DEFCL}${DEL_R}";\
+	fi
+	@echo -e "\n";
+	@if find $(OBJ_DIR) -type d -empty -delete > /dev/null 2>&1; then			\
+		:;																		\
+	fi
+
+fclean: clean ${HEADER}
+	@echo -en "clean bins"
+	@$(MAKE) fclean -C src/libft
+	@if find $(LIB_DIR) -type d -empty -delete > /dev/null 2>&1; then			\
+		:; \
+	fi
+	@if [ -f "${NAME}" ]; then													\
+ 		rm -f ${NAME};															\
+		echo -e "\\r		  $(NAME)   	   🗑  ${RED}$(NAME)${DEFCL}${DEL_R}"; \
+	fi
+	@echo -en "\n";
+
 
 header_c:
 	@rm -f .header
