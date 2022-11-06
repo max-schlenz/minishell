@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HIDE_OK=true
+HIDE_OK=false
 
 DEFCL='\033[0m'
 RED='\033[0;31m'
