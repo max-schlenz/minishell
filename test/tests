@@ -1,3 +1,5 @@
+ls && ls && ls
+ls && ls || ls
 echo lol
 ls
 echo $USER
@@ -27,15 +29,15 @@ $USER
 /home
 ls | ls | ls | ls | ls
 true && ls || ls && ls
-true && ls || (ls && ls)
-true && ls || (ls && (ls || ls) || ls && (ls && ls)) || ls
+true && ls || ls && ls
+true && ls || ls && ls || ls || ls && ls && ls || ls
 cat /dev/random | head -c 50 | wc -c
-((echo 1) | (echo 2) | (echo 3 | (echo 4)))
-(/bin/echo 1 | /bin/echo 2 && ((/bin/echo 3 | /bin/echo 3) | (/bin/echo 4 | /bin/echo 4)))
-(echo 1 | echo 2) | (exit 2)
-(echo 2 || echo 3 && echo 4)
-(exit 4)
-(sleep 0 && (exit 4))
+echo 1 | echo 2 | echo 3 | echo 4
+/bin/echo 1 | /bin/echo 2 && /bin/echo 3 | /bin/echo 3 | /bin/echo 4 | /bin/echo 4
+echo 1 | echo 2 | exit 2
+echo 2 || echo 3 && echo 4
+exit 4
+sleep 0 && exit 4
 ..
 ./snjdg | grep E
 ./src
@@ -102,7 +104,6 @@ echo
 echo    $TEST lol $TEST
 echo  $?
 echo  lol
-echo " " " """ '''
 echo " '$USER' " | cat -e
 echo "$TEST$TEST$TEST"
 echo "$TEST$TEST=lol$TEST"
@@ -119,7 +120,6 @@ echo "lol$USER/" | grep l >> out1 && ls || ls || ls >> out2
 echo "lol$USER/" | grep l >> out1 && ls || ls || ls >> out2 > out
 echo "test"
 echo $
-echo $0
 echo $1
 echo $?
 echo $P
@@ -144,7 +144,6 @@ echo $USER123
 echo $USER213
 echo $USER213 | cat -e
 echo ' ' ' ' | cat -e
-echo '" " " """ ''''
 echo '"lol"'
 echo '"lol"' 
 echo '"lol"' asd
@@ -158,9 +157,9 @@ echo *m*
 echo *md
 echo -n lol
 echo .here*
-echo 1 | (echo 2 || echo 3 && echo 4) || echo 5 | echo 6
-echo 1 | (echo 2 || echo 3 || echo 4) || echo 5 | echo 6
-echo 1 | (grep 1) | cat | (wc -l)
+echo 1 | echo 2 || echo 3 && echo 4 || echo 5 | echo 6
+echo 1 | echo 2 || echo 3 || echo 4 || echo 5 | echo 6
+echo 1 | grep 1 | cat | wc -l
 echo 2 || echo 3 && echo 4
 echo > <
 echo >>
@@ -319,15 +318,15 @@ export\
 ext
 exut
 f
-false && (true || ls)
 false && true || ls
-false || (false && (true || ls))
-false || (false || (false || true && ls)
-false || (false || (false || true && ls))
-false || (false || (false || true && ls))f
-false || (false || (true || ls))
-false || (false || true && ls)
-false || (false || true) && ls
+false && true || ls
+false || false && true || ls
+false || false || false || true && ls
+false || false || false || true && ls
+false || false || false || true && lsf
+false || false || true || ls
+false || false || true && ls
+false || false || true && ls
 false || false || true && ls
 false || ls
 false || true && ls
@@ -356,8 +355,6 @@ ls &
 ls & ls
 ls && & ls
 ls && &ls
-ls && (ls && ls)
-ls && (ls || ls)
 ls && ;s
 ls && 
 ls && cat 
@@ -409,21 +406,14 @@ ls | grep t >> out
 ls | grep z && echo lol
 ls | grep z && ls
 ls | grep z || ls
-ls || (ls && ls)
+ls || ls && ls
 ls || ls
 ls || ls && ls
 ls || ls || ls && echo lol | grep l
 ls; lul |  ls
 lsof -a -p 21431
-make
-make fclean; rm -rf minishell-tester minishell_tester/
-make re
-norminette
-norminette parse/heredoc_utils.c 
 out && cat < out | grep m > out2 && echo "" && cat out2 && export VAR=endhere && cat 
 out && cat < out | grep m > out2 && echo "-------" && cat out2 && rm out* && export VAR=endhere && cat 
-pacman -Sy nettools
-pacman -Syu net-tools
 ppppp
 ps
 sdfg
@@ -452,10 +442,10 @@ unset -L
 unset -LOL
 unset -T
 unset -TEST
-unset HOME
-unset OLDPWD
-unset PATH
-unset PWD
+unset HOME && cd ~
+unset OLDPWD && cd -
+unset PATH && env | grep PATH
+unset PWD && export | grep PWD
 unset TES-T
 unset V
 unset Z
@@ -478,3 +468,88 @@ which ls
 |>
 ||
 |||
+$?
+' '
+/bin/cd bloed
+/bin/ls
+/bin/ls -l
+/bin/ls -la
+/bin/ls -ls
+/usr/bin/find . -name *.c 
+/usr/bin/find . -name *.c -exec grep g_ {} +
+/usr/bin/find . -name *.c -exec grep g_ {}+
+/usr/bin/find . -name *.c -exec grep g_ {};
+<< test | wc -l
+cat
+cat < Makefile > out
+cat < Makefile >> out
+cat Makefile | sed "s/\\t/ /g" > out
+cat Makefile | sed "s/\t/ /g" > out
+cat | cat | ls
+cclea
+cd -
+cd ..
+cd ../inc/
+cd ./../src/
+cd src/
+cd ~
+diff env bash -c "env"
+echo
+echo "$$HOME"
+echo "$HOME"
+echo "$\$HOME"
+echo "Talea"
+echo "Talea" $USER
+echo "Talea" Max
+echo "cat lol.c cat > lol.c"
+echo "cat lol.c | cat > lol.c"
+echo "cat lol.c | cat"
+echo "cat lol.c"
+echo "cat"
+echo $PATH
+echo $PATH "$USER" "$HOME $PWD" 
+echo $PATH "$USER" "$HOME $PWD/Talea" 
+echo $PATH "$USER" "$HOME $PWDTalea" 
+echo $SHLVL
+echo $USER
+echo ' '
+echo ' t'
+echo '$HOME'
+echo 'cat lol.c | cat > lol.c'
+echo -n "Talea" Max
+echo -n "Talea\n" Max
+env
+exit
+exit 2
+exit 300
+exit f
+export PATH=/bin:/usr/bin
+export XPC_FLAGS=0x1
+export test=456
+expr $? + $?
+find . -name Make -type f -exec head -n 13 + | tail -n 1 | wc -c > out | cat < out ;
+grep lol
+head -n 13 Makefile | tail -n 1 | wc -c > out && cat out
+head -n 13 Makefile | tail -n 1 | wc -c > out | cat < out
+head -n 13 Makefile | tail -n 1 | wc -c > out | cat < out | wc -c
+head -n 13 Makefile | tail -n 1 | wc -c > out | cat out
+head -n 13 Makefile | tail -n 1 | wc -c > out | cat out | wc -c
+head -n 13 | tail -n 1 | wc -c > out | cat out | wc -c < out
+ls
+man sed
+nano out 
+ping 78.46.52.115
+pwd
+sed "s/Talea/Max/g" Makefile 
+sed "s/\t/ /g" Makefile 
+sed -i "s/Talea/Max/g" -f Makefile 
+sed -i "s/Talea/Max/g" Makefile 
+sed -i -f Makefile "s/Talea/Max/g"
+type find
+unset PATH
+unset USER
+unset test
+vlfladmgk;ew$HOMEkdsgklesfjal
+vlfladmgkew$HOMEkdsgklesfjal
+where bloed
+where ls
