@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 11:23:55 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 14:16:22 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/07 15:19:45 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ bool	builtin(t_data *data)
 	{
 		if (data->flags->pipe)
 			exec_builtin_fork(data, false);
-		if (data->flags->redir_out)
+		if (data->flags->redir_out || data->flags->redir_append)
 			exec_redirs_pipes(data);
 		if ((data->flags->pipe && !data->pid) \
 		|| (!data->flags->pipe && data->pid))
