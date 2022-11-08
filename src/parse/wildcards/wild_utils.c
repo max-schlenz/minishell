@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wild_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 14:00:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/03 14:07:58 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/08 16:56:10 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ char	**realloc_argv(t_data *data, int argv_i, char *file, bool repl)
 		}
 		else if (j == argv_i && !repl)
 			new_argv[++j] = ft_strdup(file);
-		free(data->argv[i]);
-		i++;
+		free(data->argv[i++]);
 		j++;
 	}
 	new_argv[j] = NULL;

@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   setup.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/08 13:42:35 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/08 17:05:46 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+static bool	alloc_argv(t_data *data, int mem)
+{
+	if (!data->flags->f_dquote && !data->flags->f_squote)
+	{
+		data->argv = ft_calloc(mem + 2, (sizeof(char *)));
+		if (!data->argv)
+			cleanup(data, E_MEM);
+		return (true);
+	}
+	return (false);
+}
 
 //	allocates memory for argv and checks for unclosed quotes
 bool	setup_alloc_argv(t_data *data, char *cmd)
@@ -32,13 +44,8 @@ bool	setup_alloc_argv(t_data *data, char *cmd)
 		i++;
 		data->flags->f_esc = false;
 	}
-	if (!data->flags->f_dquote && !data->flags->f_squote)
-	{
-		data->argv = ft_calloc(mem + 2, (sizeof(char *)));
-		if (!data->argv)
-			cleanup(data, E_MEM);
+	if (alloc_argv(data, mem))
 		return (true);
-	}
 	else
 		return (printf(E_NC_QUOTE), false);
 }
@@ -71,7 +78,8 @@ static bool	setup_argv_parse(t_data *data, char *cmd, int *i, int start_args)
 			return (true);
 		setup_def(data, cmd, i);
 		data->flags->f_esc = false;
-		if (cmd[*i] && ((cmd[*i] != '<' && cmd[*i] != '>') || data->flags->f_dquote || data->flags->f_squote))
+		if (cmd[*i] && ((cmd[*i] != '<' && cmd[*i] != '>')
+				|| data->flags->f_dquote || data->flags->f_squote))
 			(*i)++;
 	}
 	return (false);
