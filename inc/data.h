@@ -185,6 +185,7 @@ typedef struct s_data
 	int			heredoc_index;
 	char		*cfg;
 	pid_t		pid;
+	FILE		*debug;
 	t_heredoc	hdoc;
 	t_export	export;
 	t_parser	parser;

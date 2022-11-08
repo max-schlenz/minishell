@@ -58,7 +58,7 @@ bool	setup_all_filenames(t_data *data, int *i, char *cmd, int flag)
 	if (!flag)
 	{
 		data->file_name = ft_substr(cmd, start, *i - start);
-		if ((strdiff(data->file_name, data->file_name2)) && access((data->file_name), F_OK) == -1)
+		if (access((data->file_name), F_OK) == -1)
 			return (builtin_error(data, 8, data->file_name, 1), \
 			(*i) = next_cmd(i, cmd), data->flags->prompt_exec = false, true);
 	}

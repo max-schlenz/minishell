@@ -30,6 +30,8 @@ static void	show_prompt(t_data *data)
 	prompt = ft_strjoin(prompt_cwd, PROMPT_SUFFIX);
 	free_null (2, &prompt_cwd, &cwd);
 	data->cmd = readline(prompt);
+	if (data->flags->debug)
+		open(".debug", O_CREAT | O_TRUNC, 0644);
 	free (prompt);
 }
 
@@ -51,11 +53,14 @@ static bool	prompt_prep(t_data *data, char **tmp_cmd)
 //	evaluates if execution should take place and calls executor
 static void	prompt_exec(t_data *data)
 {
-	if ((data->flags->prompt_exec)
-		|| (!data->flags->and && !data->flags->or)
-		|| (data->flags->and && !data->exit_status)
-		|| (data->flags->or && data->exit_status))
+	if (data->flags->prompt_exec
+		|| (!data->flags->prompt_exec
+			&& ((!data->flags->and && !data->flags->or)
+				|| (data->flags->and && !data->exit_status)
+				|| (data->flags->or && data->exit_status))))
 	{
+		if (data->flags->debug)
+			dbg(data);
 		if (!builtin(data))
 			exec_program(data);
 	}

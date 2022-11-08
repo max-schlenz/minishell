@@ -65,7 +65,7 @@ bool	setup_argv_parse_pipe(t_data *data, int *i)
 
 bool	setup_argv_set_redir_flags(t_data *data, char *cmd, int *i)
 {
-	if (!data->flags->f_dquote && !data->flags->f_squote)
+	if (!data->flags->f_dquote && !data->flags->f_squote && !data->flags->f_esc)
 	{
 		if (!ft_strncmp(cmd + (*i), ">>", 2))
 		{

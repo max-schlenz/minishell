@@ -45,8 +45,8 @@ int	exec_redirs_pipes_fopen(t_data *data, char **filename, int flags)
 		fd = open((*filename), O_CREAT | O_WRONLY | O_APPEND, 0644);
 	else if (flags == 2)
 		fd = open((*filename), O_RDONLY);
-	if (fd == -1 || access((*filename), F_OK))
-		cleanup(data, E_RW);
+	// if (fd == -1) // || access((*filename), F_OK))
+	// 	cleanup(data, E_RW);
 	free_null (1, filename);
 	return (fd);
 }
@@ -60,21 +60,20 @@ void	exec_redirs_pipes(t_data *data)
 	if (data->flags->redir_out)
 	{
 		fd = exec_redirs_pipes_fopen(data, &data->file_name2, 0);
-		data->file_name2 = NULL;
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
 	if (data->flags->redir_append)
 	{
 		fd = exec_redirs_pipes_fopen(data, &data->file_name_append, 1);
-		data->file_name_append = NULL;
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
 	if (data->flags->redir_in)
 	{
 		fd = exec_redirs_pipes_fopen(data, &data->file_name, 2);
-		data->file_name = NULL;
+		if (fd == -1)
+			exit(1);
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}

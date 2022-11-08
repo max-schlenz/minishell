@@ -95,11 +95,7 @@ bool	exec_check_path(char *cmd)
 void	exec_builtin_fork(t_data *data, bool flag)
 {
 	if (!flag)
-	{
-		if (data->flags->pipe)
-			pipe(data->pipes->pipefd[data->fd_i]);
 		exec_create_fork(data, NULL);
-	}
 	else if (flag)
 	{
 		exec_close_pipes(data);

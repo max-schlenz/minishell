@@ -35,6 +35,7 @@ void	init_vars(t_data *data)
 	data->cfg = NULL;
 	data->exit.max = 922337203685477580;
 	heredoc_init(data);
+	data->flags->debug = 0;
 }
 
 //	allocates memory for data struct

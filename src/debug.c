@@ -17,7 +17,7 @@ void	dbg(t_data *data)
 	int	i;
 
 	i = 0;
-	data->debug = fopen(DBG, "a+");
+	data->debug = fopen(".debug", "a+");
 	fprintf(data->debug, "\n------------------\n");
 	while (data->argv[i])
 	{

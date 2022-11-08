@@ -19,6 +19,7 @@
 # include <stddef.h>
 # include <stdbool.h>
 # include <stdint.h>
+# include <errno.h>
 
 typedef struct s_list
 {

@@ -286,5 +286,6 @@ bool			builtin(t_data *data);
 char			*strmv(char *new);
 int				isidentifier(int c);
 int				isnumeric(int c);
+void			dbg(t_data *data);
 
 #endif

@@ -47,7 +47,8 @@ bool	setup_alloc_argv(t_data *data, char *cmd)
 	if (alloc_argv(data, mem))
 		return (true);
 	else
-		return (printf(E_NC_QUOTE), false);
+		printf(E_NC_QUOTE);
+	return (false);
 }
 
 //	write command to argv
@@ -66,21 +67,21 @@ static bool	setup_argv_parse(t_data *data, char *cmd, int *i, int start_args)
 {
 	while (cmd[*i])
 	{
+		escape(data, cmd, i);
 		if (andor(data, cmd, i, start_args))
 			return (true);
 		if (redir(data, cmd, i))
 			return (true);
 		if (pipe_(data, cmd, i))
 			return (true);
-		escape(data, cmd, i);
 		quote_flags(data, cmd, i);
 		if (col(data, cmd, i))
 			return (true);
 		setup_def(data, cmd, i);
-		data->flags->f_esc = false;
-		if (cmd[*i] && ((cmd[*i] != '<' && cmd[*i] != '>')
+		if (cmd[*i] && ((cmd[*i] != '<' && cmd[*i] != '>') || data->flags->f_esc
 				|| data->flags->f_dquote || data->flags->f_squote))
 			(*i)++;
+		data->flags->f_esc = false;
 	}
 	return (false);
 }
