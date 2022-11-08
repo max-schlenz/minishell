@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:32:27 by tdehne            #+#    #+#             */
-/*   Updated: 2022/11/03 13:58:30 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/08 16:37:37 by tdehne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ char	*pre_parse(t_data *data, char *cmd)
 	i = 0;
 	ops = "|&><";
 	cmd = pre_parse_skip_d(data, cmd, ' ');
+	cmd = strrmstr(cmd, "\"\"");
+	cmd = strrmstr(cmd, "\'\'");
 	data->cmd = NULL;
 	while (*ops)
 	{
