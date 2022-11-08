@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/08 16:38:43 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/08 18:09:38 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static void	show_prompt(t_data *data)
 	prompt = ft_strjoin(prompt_cwd, PROMPT_SUFFIX);
 	free_null (2, &prompt_cwd, &cwd);
 	data->cmd = readline(prompt);
-	open(DBG, O_CREAT | O_TRUNC);
 	free (prompt);
 }
 
@@ -57,8 +56,6 @@ static void	prompt_exec(t_data *data)
 		|| (data->flags->and && !data->exit_status)
 		|| (data->flags->or && data->exit_status))
 	{
-		if (data->flags->debug)
-			dbg(data);
 		if (!builtin(data))
 			exec_program(data);
 	}

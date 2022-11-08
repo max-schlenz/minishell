@@ -59,7 +59,6 @@ EXOT\
 \|
 \| ls
 a
-asdasfj && cat 
 asf | lol
 asgf | grep e
 cat  out3
@@ -353,7 +352,6 @@ ls & ls
 ls && & ls
 ls && &ls
 ls && 
-ls && cat 
 ls && ls
 ls && lw
 ls &&& ls
@@ -364,8 +362,8 @@ ls ; ls
 ls > out
 ls > out && cat < out
 ls > out && cat < out | grep m > out2 && echo "" && cat out2
-ls > out && cat < out | grep m > out2 && echo "" && cat out2 && export VAR=endhere && cat 
-ls > out && cat < out | grep m > out2 && echo "-------" && cat out2 && rm out* && export VAR=endhere && cat 
+ls > out && cat < out | grep m > out2 && echo "" && cat out2 && export VAR=endhere
+ls > out && cat < out | grep m > out2 && echo "-------" && cat out2 && rm out* && export VAR=endhere 
 ls > out && x.txt < out
 ls > out && |
 ls > out > out2
@@ -407,8 +405,8 @@ ls || ls && ls
 ls || ls || ls && echo lol | grep l
 ls; lul |  ls
 lsof -a -p 21431
-out && cat < out | grep m > out2 && echo "" && cat out2 && export VAR=endhere && cat 
-out && cat < out | grep m > out2 && echo "-------" && cat out2 && rm out* && export VAR=endhere && cat 
+out && cat < out | grep m > out2 && echo "" && cat out2 && export VAR=endhere
+out && cat < out | grep m > out2 && echo "-------" && cat out2 && rm out* && export VAR=endhere
 ppppp
 ps
 sdfg
@@ -475,13 +473,10 @@ $?
 /usr/bin/find . -name *.c -exec grep g_ {}+
 /usr/bin/find . -name *.c -exec grep g_ {};
 << test | wc -l
-cat
 cat < Makefile > out
 cat < Makefile >> out
 cat Makefile | sed "s/\\t/ /g" > out
 cat Makefile | sed "s/\t/ /g" > out
-cat | cat | ls
-cclea
 cd -
 cd ..
 cd ../inc/

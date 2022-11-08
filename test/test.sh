@@ -15,11 +15,10 @@ BCYAN='\033[1;36m'
 GRAY='\033[0m\033[38;5;239m'
 
 i=0
-make -s -C ../
-cp ../minishell ./
-rm diffs.txt 2>/dev/null
 # mkdir -p tmp
-rm -rf out* 2>/dev/null
+make -s -C ../
+rm diffs.txt 2>/dev/null
+rm -rf ./tmp/out* 2>/dev/null
 while read -r line;
 	do
 		let i++

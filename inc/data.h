@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/08 12:55:44 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/08 18:09:20 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,6 @@ typedef struct s_data
 	int			mscfg;
 	int			heredoc_index;
 	char		*cfg;
-	FILE		*debug;
 	pid_t		pid;
 	t_heredoc	hdoc;
 	t_export	export;

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   setup_quote_escape.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:22:50 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 14:07:58 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/08 18:04:53 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char	*remove_quotes_start(t_data *data, int *i, int i_arg, char *tmp)
+static char	*remove_quotes_start(t_data *data, int *i, int i_arg, char *tmp)
 {
 	char	*str_before_q;
 	char	*str_wo_q;
@@ -56,7 +56,7 @@ void	remove_quotes_write_argv(t_data *data, int i_arg, char *tmp)
 	free (argv);
 }
 
-char	*remove_quotes_mid(t_data *data, int *i, int i_arg, char *argv)
+static char	*remove_quotes_mid(t_data *data, int *i, int i_arg, char *argv)
 {
 	char	*str_between;
 	char	*ret;

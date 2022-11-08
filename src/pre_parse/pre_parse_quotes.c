@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_parse_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 17:20:39 by tdehne            #+#    #+#             */
-/*   Updated: 2022/11/08 17:20:50 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/08 18:21:26 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static char	*realloc_str(size_t len_s, size_t len_n, char *needle, char *str)
 		}
 		check_for_quotes(&dquote, &squote, str[i]);
 		ret[j++] = str[i];
-		if (!str[i] && !str[i + 1])
+		if (!str[i] || !str[i + 1])
 			break ;
 		i++;
 	}

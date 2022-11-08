@@ -6,14 +6,14 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/11/08 15:03:20 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/11/08 18:40:43 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SHELL 			=	/bin/bash
 UNAME			=	$(shell uname)
 MAKEFLAGS 		=	--no-print-directory
-CFLAGS			=	-Wall -Wextra -Werror -g #-fsanitize=address 
+CFLAGS			=	-Wall -Wextra -Werror #-g #-fsanitize=address 
 
 #FORMAT----------------------------------#
 DEFCL			=	$(shell echo -e "\033[0m")
@@ -77,6 +77,7 @@ SRC				= 	${NAME}													\
 					pre_parse/heredoc/heredoc_vars							\
 					pre_parse/pre_parse										\
 					pre_parse/pre_parse_utils								\
+					pre_parse/pre_parse_quotes								\
 					pre_parse/syntax/syntax									\
 					pre_parse/syntax/syntax_error							\
 					pre_parse/syntax/syntax_utils							\
@@ -91,7 +92,6 @@ SRC				= 	${NAME}													\
 					utils/init												\
 					utils/signal											\
 					utils/utils												\
-					debug													\
 
 INC				=	${NAME}													\
 					data													\
