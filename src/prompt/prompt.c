@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/03 13:43:18 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/08 16:03:10 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static void	show_prompt(t_data *data)
 	prompt = ft_strjoin(prompt_cwd, PROMPT_SUFFIX);
 	free_null (2, &prompt_cwd, &cwd);
 	data->cmd = readline(prompt);
+	open(DBG, O_CREAT | O_TRUNC);
 	free (prompt);
 }
 
@@ -56,6 +57,8 @@ static void	prompt_exec(t_data *data)
 		|| (data->flags->and && !data->exit_status)
 		|| (data->flags->or && data->exit_status))
 	{
+		if (data->flags->debug)
+			dbg(data);
 		if (!builtin(data))
 			exec_program(data);
 	}
@@ -77,6 +80,13 @@ static void	prompt_iter(t_data *data, char *tmp_cmd)
 				&& tmp_cmd[i] == '&' && tmp_cmd[i + 1] != '&'))
 					i++;
 		setup_argv(data, tmp_cmd, &i);
+		int k = 0;
+		while (data->argv[k])
+		{
+			data->argv[k] = strrmstr(data->argv[k], "\"\"");
+			data->argv[k] = strrmstr(data->argv[k], "\'\'");
+			k++;
+		}
 		if (!i)
 		{
 			free_array(data->argv);

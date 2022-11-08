@@ -107,11 +107,79 @@ static void	switches(t_data *data, int argc, char **argv)
 	}
 }
 
+char *strrmstr(char *str, char *needle)
+{
+	size_t		i;
+	size_t		j;
+	size_t		len_str;
+	size_t		len_needle;
+	char		*ret;
+	bool		dquote = false;
+	bool		squote = false;
+
+	if (!*str || !*needle)
+		return (ft_strdup(str));
+	i = 0;
+	len_str = ft_strlen(str);
+	len_needle = ft_strlen(needle);
+	if (len_str == len_needle)
+	{
+		if (!ft_strncmp(str, needle, len_needle))
+		{
+			free_null(1, &str);
+			return (ft_strdup(""));
+		}
+		else
+			return (str);
+	}
+	while (ft_strlen(str + i) > len_needle)
+	{
+		if (!dquote && !squote && !ft_strncmp(str + i, needle, len_needle))
+			len_str -= len_needle;
+		if (str[i] == '\"')
+			dquote = !dquote;
+		else if (str[i] == '\'')
+			squote = !squote;
+		i++;
+	}
+	if (len_str == ft_strlen(str))
+		return (str);
+	ret = ft_calloc(len_str, sizeof(char));
+	i = 0;
+	j = 0;
+	while (j < len_str)
+	{
+		if (!dquote && !squote && !ft_strncmp(str + i, needle, len_needle))
+		{
+			i += len_needle;
+			continue ;
+		}
+		if (str[i] == '\"')
+			dquote = !dquote;
+		else if (str[i] == '\'')
+			squote = !squote;
+		ret[j] = str[i];
+		j++;
+		if (str[i] && str[i + 1])
+			i++;
+		else
+			break ;
+	}
+	ret[j] = '\0';
+	free_null(1, &str);
+	return (ret);
+}
+
 //	minishell project by Talea & Max
 int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
+	// char		*a;
+	// // char		*b;
 
+	// printf("%s\n", a);
+	// free_null(1, &a);
+	// exit(0);
 	data = allocate_mem();
 	signals(false);
 	init_vars(data);

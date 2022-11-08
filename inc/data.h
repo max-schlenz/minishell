@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/03 13:38:08 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/08 12:55:44 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ typedef struct s_flags {
 	bool	f_dquote;
 	bool	f_squote;
 	bool	f_esc;
+	bool	debug;
 }	t_flags;
 
 typedef struct s_data
@@ -183,6 +184,7 @@ typedef struct s_data
 	int			mscfg;
 	int			heredoc_index;
 	char		*cfg;
+	FILE		*debug;
 	pid_t		pid;
 	t_heredoc	hdoc;
 	t_export	export;

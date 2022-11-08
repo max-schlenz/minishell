@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:19:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 16:45:36 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/08 13:07:16 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,11 @@ bool	setup_argv_write_arg(t_data *data, char *cmd, int i, bool end)
 	i_array = &data->parser.array_index;
 	start = &data->parser.arg_start;
 	free_null(1, &data->argv[(*i_array)]);
-	data->argv[(*i_array)] = ft_substr(cmd, (*start), i - (*start));
-	data->argc = (*i_array)++;
+	if (i > (*start))
+	{
+		data->argv[(*i_array)] = ft_substr(cmd, (*start), i - (*start));
+		data->argc = (*i_array)++;
+	}
 	if (!end)
 		data->parser.arg_start = i + 1;
 	return (true);

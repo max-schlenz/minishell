@@ -34,6 +34,7 @@
 # include <data.h>
 
 # define CFG ".mscfg"
+# define DBG ".debug"
 
 //exec/builtins/builtin_error.c
 void		builtin_error(t_data *data, int err, char *info, int exit);
@@ -350,5 +351,7 @@ t_data		*allocate_mem(void);
 
 void		setup_reset_flags(t_data *data);
 void		setup_def(t_data *data, char *cmd, int *i);
+void		dbg(t_data *data);
+char		*strrmstr(char *str, char *needle);
 
 #endif
