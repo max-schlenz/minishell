@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:23:56 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/02 16:51:58 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/08 19:05:28 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ bool	setup_all_filenames(t_data *data, int *i, char *cmd, int flag)
 	if (!flag)
 	{
 		data->file_name = ft_substr(cmd, start, *i - start);
-		if (access((data->file_name), F_OK) == -1)
+		if ((strdiff(data->file_name, data->file_name2)) && access((data->file_name), F_OK) == -1)
 			return (builtin_error(data, 8, data->file_name, 1), \
 			(*i) = next_cmd(i, cmd), data->flags->prompt_exec = false, true);
 	}

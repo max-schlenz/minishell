@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:19:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/08 18:33:56 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/08 18:59:57 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,12 @@ bool	setup_argv_set_redir_flags(t_data *data, char *cmd, int *i)
 			(*i) += 2;
 			data->flags->redir_out = true;
 			return (setup_all_filenames(data, i, cmd, 1));
+		}
+		else if (cmd[*i] == '<')
+		{
+			(*i) += 2;
+			data->flags->redir_in = true;
+			return (setup_all_filenames(data, i, cmd, 0));
 		}
 	}
 	return (false);
