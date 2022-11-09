@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/08 18:09:10 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:40:19 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,5 +287,6 @@ char			*strmv(char *new);
 int				isidentifier(int c);
 int				isnumeric(int c);
 void			dbg(t_data *data);
+char			*realloc_arg(t_data *data, char *cmd, int index);
 
 #endif

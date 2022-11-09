@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:32:27 by tdehne            #+#    #+#             */
-/*   Updated: 2022/11/08 18:04:22 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:48:04 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ char	*pre_parse_skip_d(t_data *data, char *cmd, char delim)
 {
 	char	*ret;
 
+	ret = NULL;
 	data->pparse.i = 0;
 	data->pparse.j = 0;
 	data->pparse.f_dquote = false;
@@ -98,7 +99,7 @@ char	*pre_parse_skip_d(t_data *data, char *cmd, char delim)
 		}
 		data->pparse.i++;
 	}
-	ret = strmv(cmd);
+	ret = realloc_ptr(ret, cmd, __bool_true_false_are_defined);
 	return (ret);
 }
 

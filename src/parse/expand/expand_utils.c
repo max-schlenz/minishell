@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:01:41 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/03 13:46:15 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:34:58 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,6 @@ bool	expand_check_var_exists_util(t_data *data)
 		return (true);
 	}
 	return (false);
-}
-
-void	expand_vars_rm_mod(t_data *data)
-{
-	remove_quotes(data, data->var.i_arg);
-	remove_backslashes(data, data->var.i_arg);
 }
 
 void	expand_vars_reset_flags(t_data *data)

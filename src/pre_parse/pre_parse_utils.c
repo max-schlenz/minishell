@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_parse_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 21:57:17 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/08 17:23:31 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/09 16:38:48 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	*remove_quotes_spaces(t_data *data, char *cmd)
 	cmd = pre_parse_skip_d(data, cmd, ' ');
 	cmd = strrmstr(cmd, "\"\"");
 	cmd = strrmstr(cmd, "\'\'");
+	if (data->flags->f_dquote || data->flags->f_squote)
+		printf("lol\n");
 	data->cmd = NULL;
 	return (cmd);
 }

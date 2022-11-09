@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:22:50 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/08 18:04:53 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:49:34 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,17 @@ static char	*remove_quotes_mid(t_data *data, int *i, int i_arg, char *argv)
 	return (ret);
 }
 
+static bool	remove_quotes_escape(t_data *data, int i_arg, int *i)
+{
+	if (data->argv[i_arg][(*i)] == '\\')
+	{
+		data->argv[i_arg] = realloc_arg(data, data->argv[i_arg], (*i));
+		(*i)++;
+		return (true);
+	}
+	return (false);
+}
+
 void	remove_quotes(t_data *data, int i_arg)
 {
 	char	*argv;
@@ -81,8 +92,8 @@ void	remove_quotes(t_data *data, int i_arg)
 	i = 0;
 	while (data->argv[i_arg][i] && data->argv[i_arg][i + 1])
 	{
-		if (data->argv[i_arg][i] == '\\')
-			i++;
+		if (remove_quotes_escape(data, i_arg, &i))
+			continue ;
 		else if (!data->rmq.start
 			&& (data->argv[i_arg][i] == '\"' || data->argv[i_arg][i] == '\''))
 		{
@@ -97,26 +108,4 @@ void	remove_quotes(t_data *data, int i_arg)
 	}
 	if (argv)
 		remove_quotes_write_argv(data, i_arg, argv);
-}
-
-void	remove_backslashes(t_data *data, int i_arg)
-{
-	int		i;
-
-	i = 0;
-	while (data->argv[i_arg][i])
-	{
-		if (data->argv[i_arg][i] == '\\' && data->argv[i_arg][i + 1] == ' ')
-			data->argv[i_arg][i] = ' ';
-		else if (data->argv[i_arg][i] == '\\')
-		{
-			while (data->argv[i_arg][i] && data->argv[i_arg][i + 1])
-			{
-				data->argv[i_arg][i] = data->argv[i_arg][i + 1];
-				i++;
-			}
-			data->argv[i_arg][i] = '\0';
-		}
-		i++;
-	}
 }

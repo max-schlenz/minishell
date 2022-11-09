@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:26 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/04 11:52:46 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/09 15:34:42 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,8 @@ static bool	echo_print(t_data *data, int i)
 	j = 0;
 	while (data->argv[i] && data->argv[i][j])
 	{
-		if (data->argv[i][j] != '\\')
-		{
-			printf("%c", data->argv[i][j]);
-			data->echo.f_fc = true;
-		}
+		printf("%c", data->argv[i][j]);
+		data->echo.f_fc = true;
 		j++;
 	}
 	return (true);

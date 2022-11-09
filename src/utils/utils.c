@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 11:23:55 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/07 15:19:45 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:42:34 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,31 @@ bool	builtin(t_data *data)
 	return (true);
 }
 
-char	*strmv(char *new)
+char	*realloc_arg(t_data *data, char *cmd, int index)
 {
 	char	*ret;
+	int		len;
+	int		i;
+	int		j;
 
-	ret = ft_strdup(new);
-	free_null(1, &new);
+	len = ft_strlen(cmd);
+	ret = (char *)ft_calloc(sizeof(char), len);
+	if (!ret)
+		cleanup(data, E_MEM);
+	i = 0;
+	j = 0;
+	while (cmd[i])
+	{
+		if (i == index)
+			i++;
+		ret[j++] = cmd[i];
+		if (cmd[i] && cmd[i + 1])
+			i++;
+		else
+			break ;
+	}
+	ret[j] = '\0';
+	free(cmd);
+	data->cmd = NULL;
 	return (ret);
 }

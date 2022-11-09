@@ -98,11 +98,15 @@ void	exec_create_fork(t_data *data, char *abs_path)
 bool	exec_program(t_data *data)
 {
 	char		*abs_path;
+	int			err;
 	DIR			*dir;
 
 	data->pid = 1;
 	dir = opendir(data->argv[0]);
-	if (errno == 0)
+	err = errno;
+	if (dir)
+		closedir(dir);
+	if (err == 0)
 		return (exec_error_fork(data, ft_strdup(data->argv[0]), true));
 	abs_path = exec_get_path(data, data->argv[0]);
 	if (!abs_path)

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 09:46:57 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/03 13:46:22 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:35:04 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ bool	expand_vars(t_data *data)
 		}
 		if (!data->argv[data->var.i_arg])
 			break ;
-		expand_vars_rm_mod(data);
+		remove_quotes(data, data->var.i_arg);
 		expand_vars_init(data, false);
 	}
 	return (true);
