@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 13:49:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/11 13:26:10 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/11 13:56:22 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	prio(t_data *data, char *cmd, int *i)
 	{
 		while (data->argv[j])
 		{
-			// if (last_char(data->argv[j]) == ')')
 			data->flags->bracket = false;
 			tmp = ft_strtrim(data->argv[j], "()");
 			if (data->argv[j])
