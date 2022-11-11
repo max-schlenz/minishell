@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/11 12:13:39 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/11 14:52:14 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,13 @@ void	rm_tmp_files(t_data *data)
 	}
 }
 
+static void	handle_heredoc_save_delim(t_data *data, char *cmd, int i, int j)
+{
+	data->hdoc.delim = ft_substr(cmd, i + 3, j - (i + 3));
+	data->hdoc.delim = realloc_ptr(data->hdoc.delim,
+			ft_strjoin(data->hdoc.delim, "\n"), true);
+}
+
 //	resolves heredoc
 char	*handle_heredoc(t_data *data, char *cmd)
 {
@@ -57,7 +64,7 @@ char	*handle_heredoc(t_data *data, char *cmd)
 			cmd_before = ft_substr(cmd, 0, i);
 			while (cmd[j] && cmd[j] != ' ')
 				j++;
-			data->hdoc.delim = ft_substr(cmd, i + 3, j - (i + 3));
+			handle_heredoc_save_delim(data, cmd, i, j);
 			cmd_after = ft_strdup(cmd + j);
 			heredoc_wr_tmp_file(data);
 			cmd = realloc_ptr(cmd,

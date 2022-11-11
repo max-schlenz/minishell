@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:12:40 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/03 13:53:28 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/11 14:50:31 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	heredoc_prompt_output(t_data *data)
 {
 	write(2, "heredoc \x01\033[0m\x02\x01\033[38;5;239m\x02[", 29);
-	write(2, data->hdoc.delim, ft_strlen(data->hdoc.delim));
+	write(2, data->hdoc.delim, ft_strlen(data->hdoc.delim) - 1);
 	write(2, "] \x01\033[0;1m\x02>\x01\033[0m\x02 ", 19);
 }
 
