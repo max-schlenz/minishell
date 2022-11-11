@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 13:49:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/03 13:58:30 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/11 13:26:10 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,9 @@ static void	prio_free_argv(t_data *data)
 {
 	free_array(data->argv);
 	data->argv = ft_calloc(1, sizeof(char **));
-	if (!data->argv)
-		cleanup(data, E_MEM);
 	data->argv[0] = NULL;
 }
 
-//	evaluates if execution should take place
 void	prio(t_data *data, char *cmd, int *i)
 {
 	int		j;
@@ -39,8 +36,8 @@ void	prio(t_data *data, char *cmd, int *i)
 
 	j = 0;
 	data->flags->bracket = true;
-	if ((data->flags->and && data->exit_status) \
-	|| (data->flags->or && !data->exit_status))
+	if ((data->flags->and && data->exit_status)
+		|| (data->flags->or && !data->exit_status))
 	{
 		data->flags->prio = true;
 		prio_free_argv(data);
@@ -51,8 +48,8 @@ void	prio(t_data *data, char *cmd, int *i)
 	{
 		while (data->argv[j])
 		{
-			if (last_char(data->argv[j]) == ')')
-				data->flags->bracket = false;
+			// if (last_char(data->argv[j]) == ')')
+			data->flags->bracket = false;
 			tmp = ft_strtrim(data->argv[j], "()");
 			if (data->argv[j])
 				free (data->argv[j]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 13:15:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 14:10:17 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/11 13:35:46 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,17 @@
 //	check if prio is necessary
 void	priorities(t_data *data, char **tmp_cmd, int *i)
 {
+	int	j;
+
+	j = 0;
 	if (data->argv[0] && (data->argv[0][0] == '(' || data->flags->bracket))
 		prio(data, *tmp_cmd, i);
+	while (data->argv[j])
+	{
+		data->argv[j] 
+			= realloc_ptr(data->argv[j], ft_strtrim(data->argv[j], "()"), true);
+		j++;
+	}
 }
 
 //	check syntax of the command

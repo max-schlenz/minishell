@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/11 12:47:50 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/11 13:34:03 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	dbg(t_data *data)
 //	evaluates if execution should take place and calls executor
 static void	prompt_exec(t_data *data)
 {
-	dbg(data);
 	if (data->flags->prompt_exec
 		|| (!data->flags->prompt_exec
 			&& ((!data->flags->and && !data->flags->or)
