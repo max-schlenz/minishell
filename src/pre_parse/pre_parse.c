@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:32:27 by tdehne            #+#    #+#             */
-/*   Updated: 2022/11/09 17:48:04 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/11 11:20:54 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,7 @@ char	*pre_parse_skip_d(t_data *data, char *cmd, char delim)
 		}
 		data->pparse.i++;
 	}
-	ret = realloc_ptr(ret, cmd, __bool_true_false_are_defined);
-	return (ret);
+	return (ret = realloc_ptr(ret, cmd, true), ret);
 }
 
 //	rewrite cmd into a better syntax for the parser

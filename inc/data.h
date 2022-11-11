@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/08 18:09:20 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/11 12:46:07 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,6 @@ typedef struct s_flags {
 	bool	f_dquote;
 	bool	f_squote;
 	bool	f_esc;
-	bool	debug;
 }	t_flags;
 
 typedef struct s_data
@@ -185,7 +184,7 @@ typedef struct s_data
 	int			heredoc_index;
 	char		*cfg;
 	pid_t		pid;
-	FILE		*debug;
+	FILE*		debug;
 	t_heredoc	hdoc;
 	t_export	export;
 	t_parser	parser;

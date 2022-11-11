@@ -6,14 +6,14 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/11/09 17:43:36 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/11/11 11:23:17 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SHELL 			=	/bin/bash
 UNAME			=	$(shell uname)
 MAKEFLAGS 		=	--no-print-directory
-CFLAGS			=	-Wall -Wextra -Werror #-g #-fsanitize=address 
+CFLAGS			=	-Wall -Wextra -Werror -g #-fsanitize=address 
 
 #FORMAT----------------------------------#
 DEFCL			=	$(shell echo -e "\033[0m")
@@ -92,7 +92,6 @@ SRC				= 	${NAME}													\
 					utils/init												\
 					utils/signal											\
 					utils/utils												\
-					debug													\
 
 INC				=	${NAME}													\
 					data													\
@@ -208,9 +207,6 @@ fclean: clean ${HEADER}
 
 header_c:
 	@rm -f .header
-
-# test:
-# 	@cd tests && bash tester.sh a
 
 re: fclean all
 

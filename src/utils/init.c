@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:23:18 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/08 18:09:33 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/11 11:13:40 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	init_vars(t_data *data)
 	data->cfg = NULL;
 	data->exit.max = 922337203685477580;
 	heredoc_init(data);
-	data->flags->debug = 0;
 }
 
 //	allocates memory for data struct

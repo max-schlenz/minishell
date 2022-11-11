@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:10:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/09 17:39:52 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/11 12:13:39 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	rm_tmp_files(t_data *data)
 		tmp_index = ft_itoa(i);
 		tmp_name = ft_strjoin(".heredoc_tmp", tmp_index);
 		tmp_home = expand_get_var_content(data, "~");
-		tmp_path = realloc_ptr(tmp_path, ft_strjoin(tmp_home, "/"), true);
+		tmp_path = ft_strjoin(tmp_home, "/");
 		tmp_path
 			= realloc_ptr(tmp_path, ft_strjoin(tmp_path, ".heredoc_tmp"), true);
 		tmp_path = realloc_ptr(tmp_path, ft_strjoin(tmp_path, tmp_index), true);

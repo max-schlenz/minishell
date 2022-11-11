@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 09:47:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/08 18:09:38 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/11 12:47:50 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ static void	show_prompt(t_data *data)
 	prompt = ft_strjoin(prompt_cwd, PROMPT_SUFFIX);
 	free_null (2, &prompt_cwd, &cwd);
 	data->cmd = readline(prompt);
-	if (data->flags->debug)
-		open(".debug", O_CREAT | O_TRUNC, 0644);
 	free (prompt);
 }
 
@@ -50,17 +48,45 @@ static bool	prompt_prep(t_data *data, char **tmp_cmd)
 	return (false);
 }
 
+void	dbg(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	data->debug = fopen(".debug", "a+");
+	fprintf(data->debug, "\n------------------\n");
+	while (data->argv[i])
+	{
+		fprintf(data->debug, "argv[%d] = %s\n", i, data->argv[i]);
+		i++;
+	}
+	fprintf(data->debug, "\nFLAGS:\n");
+	fprintf(data->debug, "redir_out    : %d\n", data->flags->redir_out);
+	fprintf(data->debug, "redir_in     : %d\n", data->flags->redir_in);
+	fprintf(data->debug, "heredoc      : %d\n", data->flags->heredoc);
+	fprintf(data->debug, "redir_append : %d\n", data->flags->redir_append);
+	fprintf(data->debug, "pipe         : %d\n\n", data->flags->pipe);
+	fprintf(data->debug, "and          : %d\n", data->flags->and);
+	fprintf(data->debug, "or           : %d\n", data->flags->or);
+	fprintf(data->debug, "data->fd_i            : %d\n", data->fd_i);
+	fprintf(data->debug, "data->counter_pipes   : %d\n", data->counter_pipes);
+	fprintf(data->debug, "data->file_name       : %s\n", data->file_name);
+	fprintf(data->debug, "data->file_name2      : %s\n", data->file_name2);
+	fprintf(data->debug, "data->file_name_append: %s\n", data->file_name_append);
+	fprintf(data->debug, "data->exit_status (p) : %lld\n", data->exit_status);
+	fclose(data->debug);
+}
+
 //	evaluates if execution should take place and calls executor
 static void	prompt_exec(t_data *data)
 {
+	dbg(data);
 	if (data->flags->prompt_exec
 		|| (!data->flags->prompt_exec
 			&& ((!data->flags->and && !data->flags->or)
 				|| (data->flags->and && !data->exit_status)
 				|| (data->flags->or && data->exit_status))))
 	{
-		if (data->flags->debug)
-			dbg(data);
 		if (!builtin(data))
 			exec_program(data);
 	}

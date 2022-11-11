@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdehne <tdehne@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/03 13:31:50 by tdehne           ###   ########.fr       */
+/*   Updated: 2022/11/11 12:05:52 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ static void	export_set_var_nval(t_data *data, char *setv)
 	{
 		if (!ft_strncmp(data->envp[data->export.index_envp], \
 						setv, data->export.len))
+		{
 			export_set_existing(data, setv);
+			return ;
+		}
 		data->export.index_envp++;
 	}
 	if (!data->export.set && !data->envp[data->export.index_envp])
