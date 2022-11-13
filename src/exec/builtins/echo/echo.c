@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:39:26 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/09 15:34:42 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/13 09:42:33 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static bool	echo_print(t_data *data, int i)
 	j = 0;
 	while (data->argv[i] && data->argv[i][j])
 	{
-		printf("%c", data->argv[i][j]);
+		write(1, &data->argv[i][j], 1);
 		data->echo.f_fc = true;
 		j++;
 	}
@@ -66,12 +66,12 @@ bool	builtin_echo(t_data *data)
 		if (!echo_print(data, i))
 			break ;
 		if (i < data->argc)
-			printf(" ");
+			write(1, " ", 1);
 		if (data->argv[i])
 			i++;
 	}
 	if (!echo_n)
-		printf("\n");
+		write(1, "\n", 1);
 	data->exit_status = 0;
 	return (true);
 }

@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/11/11 11:23:17 by mschlenz         ###   ########.fr        #
+#    Updated: 2022/11/13 09:57:04 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -114,11 +114,9 @@ MAC_READLINE	=	~/.brew/opt/readline
 MAC_INCLUDES	=	-I $(MAC_READLINE)/include
 MAC_LINKER		=	-L $(MAC_READLINE)/lib
 
-HEADER			=	./.header
-
 all: $(NAME)
 
-$(LIB_FILES):
+$(LIB_FILES): header 
 	@echo -n "compile..."
 	@touch .tmp
 	@$(MAKE) MAKEFLAGS+=-j8 CFLAGS+="$(CFLAGS)" -C src/libft
@@ -136,12 +134,12 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c header_c
 	@$(CC) $(CFLAGS) $(INCLUDES) $(MAC_INCLUDES) -c $< -o $@
 	
 ifeq ($(UNAME), Darwin)
-$(NAME): $(MAC_BREW) $(MAC_READLINE) $(HEADER) $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
+$(NAME): $(MAC_BREW) $(MAC_READLINE) $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
 	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}        ✔  ${BGREEN}./$(NAME)${DEFCL}${DEL_R}\n"
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(MAC_INCLUDES) $(LINKER) $(MAC_LINKER)
 	@rm -f .tmp
 else	
-$(NAME): $(HEADER) $(READLINE) $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
+$(NAME): $(READLINE) $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
 	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}        ✔  ${BGREEN}./$(NAME)${DEFCL}${DEL_R}\n"
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(LINKER)
 	@rm -f .tmp
@@ -168,7 +166,7 @@ $(MAC_READLINE):
 	@brew install readline
 	@echo ""
 
-${HEADER}:
+header:
 	@if [ ! -f ".header" ]; then												\
 		echo 	"$(BLUE) __  __ _       _     _          _ _ ";					\
 		echo 	"|  \/  (_)_ __ (_)___| |__   ___| | $(CYAN)|";					\
@@ -180,7 +178,7 @@ ${HEADER}:
 		touch .header;															\
 	fi
 
-clean: ${HEADER}
+clean: header
 	@rm -f .header
 	@echo -en "clean objs";
 	@$(MAKE) clean -C src/libft
@@ -192,7 +190,7 @@ clean: ${HEADER}
 		:;																		\
 	fi
 
-fclean: clean ${HEADER}
+fclean: clean header
 	@echo -en "clean bins"
 	@$(MAKE) fclean -C src/libft
 	@if find $(LIB_DIR) -type d -empty -delete > /dev/null 2>&1; then			\
@@ -210,6 +208,6 @@ header_c:
 
 re: fclean all
 
-.INTERMEDIATE: header_c
+.INTERMEDIATE: header header_c
 
 .PHONY: all clean fclean re bonus

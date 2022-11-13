@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 09:37:54 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/30 14:15:13 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/13 09:58:34 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ void	free_cd(t_data *data)
 	int	tmp;
 
 	if (data->cd.path)
-		free (data->cd.path);
+		free_null(1, &data->cd.path);
 	if (data->cd.path_tmp_bs)
-		free (data->cd.path_tmp_bs);
+		free_null(1, &data->cd.path_tmp_bs);
 	if (data->cd.path_tmp)
-		free (data->cd.path_tmp);
+		free_null(1, &data->cd.path_tmp);
 	if (data->cd.path_tmp2)
-		free (data->cd.path_tmp2);
+		free_null(1, &data->cd.path_tmp2);
 	init_cd(data, &tmp);
 }
 
@@ -55,9 +55,9 @@ bool	cd_success(t_data *data, int i)
 {
 	if (data->cd.new_pwd_tmp)
 	{
-		free (data->envp[i]);
+		free_null(1, &data->envp[i]);
 		data->envp[i] = ft_strdup(data->cd.new_pwd_tmp);
-		free (data->cd.new_pwd_tmp);
+		free_null(1, &data->cd.new_pwd_tmp);
 	}
 	data->exit_status = 0;
 	if (!data->pid)
