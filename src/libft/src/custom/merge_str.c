@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 08:01:45 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/03 13:54:08 by mschlenz         ###   ########.fr       */
+/*   Updated: 2022/11/13 10:17:11 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,30 +69,3 @@ char	*merge_str(int index, ...)
 	free (strings);
 	return (ret);
 }
-
-// char *fu(char *a, char **b)
-// {
-// 	*b = ft_strdup("new");
-// 	return (a);
-// }
-
-// int main (void)
-// {
-// 	char *a = NULL;
-// 	char *b = NULL;
-// 	char *c = NULL;
-// 	char *d = NULL;
-// 	char *ret;
-
-// 	a = ft_strdup("hello");
-// 	// a = ft_strdup("test");
-// 	b = ft_strdup("test");
-// 	c = fu(a, &b);
-// 	// free_null(1, &a);
-// 	printf("%s\n", b);
-// 	// d = merge_str(3, a, b, c);
-// 	// free (a);
-// 	// free (b);
-// 	// free (c);
-// 	// free (ret);
-// }
