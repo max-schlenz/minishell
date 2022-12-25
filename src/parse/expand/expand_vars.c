@@ -109,7 +109,7 @@ bool	expand_vars(t_data *data)
 	while (data->argv[data->var.i_arg])
 	{
 		expand_vars_reset_flags(data);
-		while (data->argv[data->var.i_arg][data->var.i_char])
+		while (data->argv[data->var.i_arg] && data->argv[data->var.i_arg][data->var.i_char])
 		{
 			if (expand_vars_handle_arg(data))
 				continue ;

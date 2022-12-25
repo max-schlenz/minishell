@@ -44,14 +44,20 @@ static char	**expand_realloc_argv(t_data *data, int i)
 	ret = (char **)ft_calloc(data->argc + 1, sizeof(char *));
 	if (!ret)
 		cleanup(data, E_MEM);
-	data->argc--;
-	data->var.i_arg--;
+	if (data->argc > 0)
+		data->argc--;
+	if (data->var.i_arg > 0)
+		data->var.i_arg--;
 	data->var.i_char = 0;
 	while (data->argv[j])
 	{
+		if (j == 0 && i == 0)
+			free_null(1, &data->argv[j++]);
 		if (i != j)
 			ret[k++] = ft_strdup(data->argv[j]);
-		free(data->argv[j++]);
+		if (data->argv[j])
+			free_null(1, &data->argv[j]);
+		j++;
 	}
 	ret[k] = NULL;
 	free_null(1, &data->argv);
