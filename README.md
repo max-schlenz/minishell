@@ -14,7 +14,7 @@ Minishell is a comprehensive shell program, part of the 42 curriculum, designed 
 - **Command Separation**: Supports semicolon (`;`) for command separation.
 - **Wildcard Expansion**: Implements `*` wildcard expansion.
 - **Exit Status**: Correctly returns the exit status of commands.
-- **Bonus Features**: Advanced features like heredoc (`<<`), file descriptor aggregation, and additional built-ins.
+- **Bonus Features**: Parenthesis and Wildcard matching
 
 ## Installation and Usage
 1. Clone the repository
